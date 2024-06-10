@@ -10,7 +10,8 @@ Description:
     feel free to contact Michael at michaelbrockus@gmail.com.
 ==============================================================================
 */
-#include <fossil/module.h> // library under test
+#include "fossil/string/bstring.h" // lib source code
+#include "fossil/string/cstring.h" // for the cstring types
 
 #include <fossil/xtest.h>   // basic test tools
 #include <fossil/xassume.h> // extra asserts
@@ -32,20 +33,36 @@ Description:
 // as samples for library usage.
 // * * * * * * * * * * * * * * * * * * * * * * * *
 
-XTEST(lib_subtract_case) {
-    ASSUME_ITS_TRUE(subtract(4, 2) == 2);
-    ASSUME_ITS_FALSE(subtract(2, 55) == 2);
+XTEST(test_fossil_bstr_create) {
+    const_bstring test_str = (const_bstring)"Hello, World!";
+    bstring result = fossil_bstr_create(test_str);
+
+    TEST_ASSUME_NOT_CNULLPTR(result);
+    TEST_ASSUME_EQUAL_CSTRING((const_cstring)test_str, (const_cstring)result);
+
+    fossil_bstr_erase(result);
 }
 
-XTEST(lib_add_case) {
-    ASSUME_ITS_TRUE(add(2, 2) == 4);
-    ASSUME_ITS_FALSE(add(2, 3) == 42);
+XTEST(test_fossil_bstr_erase) {
+    const_bstring test_str = (const_bstring)"Hello, World!";
+    bstring str = fossil_bstr_create(test_str);
+    fossil_bstr_erase(str);
+
+    TEST_ASSUME_CNULLPTR(str);
+}
+
+XTEST(test_fossil_bstr_length) {
+    const_bstring test_str = (const_bstring)"Hello, World!";
+    size_t len = fossil_bstr_length(test_str);
+
+    TEST_ASSUME_EQUAL_INT(fossil_bstr_length(test_str), len);
 }
 
 // * * * * * * * * * * * * * * * * * * * * * * * *
 // * Fossil Logic Test Pool
 // * * * * * * * * * * * * * * * * * * * * * * * *
-XTEST_DEFINE_POOL(basic_group) {
-    ADD_TEST(lib_subtract_case);
-    ADD_TEST(lib_add_case);
-} // end of fixture
+XTEST_DEFINE_POOL(fossil_bstring_group) {
+    XTEST_RUN_UNIT(test_fossil_bstr_create);
+    XTEST_RUN_UNIT(test_fossil_bstr_erase);
+    XTEST_RUN_UNIT(test_fossil_bstr_length);
+} // end of function main
