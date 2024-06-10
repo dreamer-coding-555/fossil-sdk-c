@@ -25,7 +25,7 @@ Before getting started, make sure you have the following installed:
    # ======================
    [wrap-git]
    url = https://github.com/dreamer-coding-555/fossil-sdk-c.git
-   revision = v1.0.2
+   revision = v1.0.0
 
    [provide]
    fossil-sdk-c = fossil_sdk_c_dep
