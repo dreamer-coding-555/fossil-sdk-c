@@ -51,7 +51,7 @@ FOSSIL_TEST(test_fossil_random_uint64) {
     fossil_random_t rng;
     fossil_random_seed(&rng, 12345);
     uint64_t value = fossil_random_uint64(&rng);
-    ASSUME_ITS_LESS_THAN_U3264(65536, value);
+    ASSUME_ITS_LESS_THAN_U32(65536, value);
 }
 
 FOSSIL_TEST(test_fossil_random_int_range) {

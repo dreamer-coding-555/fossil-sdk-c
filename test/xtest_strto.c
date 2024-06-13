@@ -69,9 +69,9 @@ FOSSIL_TEST(test_fossil_cstr_to_double) {
     double result2 = fossil_cstr_to_double(str2);
     double result3 = fossil_cstr_to_double(str3);
 
-    ASSUME_ITS_EQUAL_F64(123.45, result1);
-    ASSUME_ITS_EQUAL_F64(-67.89, result2);
-    ASSUME_ITS_EQUAL_F64(123.0, result3);  // atof stops at first non-numeric character
+    ASSUME_ITS_EQUAL_F64(123.45, result1, FOSSIL_TEST_DOUBLE_EPSILON);
+    ASSUME_ITS_EQUAL_F64(-67.89, result2, FOSSIL_TEST_DOUBLE_EPSILON);
+    ASSUME_ITS_EQUAL_F64(123.0, result3, FOSSIL_TEST_DOUBLE_EPSILON);  // atof stops at first non-numeric character
 }
 
 FOSSIL_TEST(test_fossil_bstr_to_double) {
@@ -83,9 +83,9 @@ FOSSIL_TEST(test_fossil_bstr_to_double) {
     double result2 = fossil_bstr_to_double(str2);
     double result3 = fossil_bstr_to_double(str3);
 
-    ASSUME_ITS_EQUAL_F64(123.45, result1);
-    ASSUME_ITS_EQUAL_F64(-67.89, result2);
-    ASSUME_ITS_EQUAL_F64(123.0, result3);  // atof stops at first non-numeric character
+    ASSUME_ITS_EQUAL_F64(123.45, result1, FOSSIL_TEST_DOUBLE_EPSILON);
+    ASSUME_ITS_EQUAL_F64(-67.89, result2, FOSSIL_TEST_DOUBLE_EPSILON);
+    ASSUME_ITS_EQUAL_F64(123.0, result3, FOSSIL_TEST_DOUBLE_EPSILON);  // atof stops at first non-numeric character
 }
 
 FOSSIL_TEST(test_fossil_cstr_to_long) {
@@ -175,9 +175,9 @@ FOSSIL_TEST(test_fossil_cstr_to_ullong) {
     unsigned long long result2 = fossil_cstr_to_ullong(str2);
     unsigned long long result3 = fossil_cstr_to_ullong(str3);
 
-    ASSUME_ITS_EQUAL_U3264(12345678901234567890ULL, result1);
-    ASSUME_ITS_EQUAL_U3264(18446744073709551615ULL, result2);
-    ASSUME_ITS_EQUAL_U3264(123, result3);  // strtoull stops at first non-numeric character
+    ASSUME_ITS_EQUAL_U32(12345678901234567890ULL, result1);
+    ASSUME_ITS_EQUAL_U32(18446744073709551615ULL, result2);
+    ASSUME_ITS_EQUAL_U32(123, result3);  // strtoull stops at first non-numeric character
 }
 
 FOSSIL_TEST(test_fossil_bstr_to_ullong) {
@@ -189,9 +189,9 @@ FOSSIL_TEST(test_fossil_bstr_to_ullong) {
     unsigned long long result2 = fossil_bstr_to_ullong(str2);
     unsigned long long result3 = fossil_bstr_to_ullong(str3);
 
-    ASSUME_ITS_EQUAL_U3264(12345678901234567890ULL, result1);
-    ASSUME_ITS_EQUAL_U3264(18446744073709551615ULL, result2);
-    ASSUME_ITS_EQUAL_U3264(123, result3);  // strtoull stops at first non-numeric character
+    ASSUME_ITS_EQUAL_U32(12345678901234567890ULL, result1);
+    ASSUME_ITS_EQUAL_U32(18446744073709551615ULL, result2);
+    ASSUME_ITS_EQUAL_U32(123, result3);  // strtoull stops at first non-numeric character
 }
 
 FOSSIL_TEST(test_fossil_wstr_to_int) {
@@ -217,9 +217,9 @@ FOSSIL_TEST(test_fossil_wstr_to_double) {
     double result2 = fossil_wstr_to_double(str2);
     double result3 = fossil_wstr_to_double(str3);
 
-    ASSUME_ITS_EQUAL_F64(123.45, result1);
-    ASSUME_ITS_EQUAL_F64(-67.89, result2);
-    ASSUME_ITS_EQUAL_F64(123.0, result3);  // atof stops at first non-numeric character
+    ASSUME_ITS_EQUAL_F64(123.45, result1, FOSSIL_TEST_DOUBLE_EPSILON);
+    ASSUME_ITS_EQUAL_F64(-67.89, result2, FOSSIL_TEST_DOUBLE_EPSILON);
+    ASSUME_ITS_EQUAL_F64(123.0, result3, FOSSIL_TEST_DOUBLE_EPSILON);  // atof stops at first non-numeric character
 }
 
 FOSSIL_TEST(test_fossil_wstr_to_long) {
@@ -270,9 +270,9 @@ FOSSIL_TEST(test_fossil_wstr_to_ullong) {
     unsigned long long result2 = fossil_wstr_to_ullong(str2);
     unsigned long long result3 = fossil_wstr_to_ullong(str3);
 
-    ASSUME_ITS_EQUAL_U3264(12345678901234567890ULL, result1);
-    ASSUME_ITS_EQUAL_U3264(18446744073709551615ULL, result2);
-    ASSUME_ITS_EQUAL_U3264(123, result3);  // strtoull stops at first non-numeric character
+    ASSUME_ITS_EQUAL_U32(12345678901234567890ULL, result1);
+    ASSUME_ITS_EQUAL_U32(18446744073709551615ULL, result2);
+    ASSUME_ITS_EQUAL_U32(123, result3);  // strtoull stops at first non-numeric character
 }
 
 // * * * * * * * * * * * * * * * * * * * * * * * *
