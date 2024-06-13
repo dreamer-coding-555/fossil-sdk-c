@@ -10,10 +10,10 @@ Description:
     feel free to contact Michael at michaelbrockus@gmail.com.
 ==============================================================================
 */
-#include "fossil/xstdio/fstream.h"
-#include <fossil/common.h>
-#include <fossil/status.h>
-#include <fossil/limits.h>
+#include "fossil/stdio/fstream.h"
+#include <fossil/common/common.h>
+#include <fossil/common/status.h>
+#include <fossil/common/limits.h>
 #include <errno.h>
 
 // Open a stream for file operations
