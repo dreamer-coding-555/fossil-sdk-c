@@ -10,11 +10,11 @@ Description:
     feel free to contact Michael at michaelbrockus@gmail.com.
 ==============================================================================
 */
-#include "fossil/xstdio/istream.h"
-#include "fossil/xstdio/ostream.h"
-#include "fossil/xstdio/soap.h"
-#include <fossil/common.h>
-#include <fossil/limits.h>
+#include "fossil/stdio/istream.h"
+#include "fossil/stdio/ostream.h"
+#include "fossil/stdio/soap.h"
+#include <fossil/common/common.h>
+#include <fossil/common/limits.h>
 
 #ifdef _WIN32
 #include <windows.h>
