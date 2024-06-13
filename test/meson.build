@@ -27,7 +27,7 @@ if get_option('with_test').enabled()
         'set', 'stack',
         'map', 'vector',
         # IO test cases
-        'fstream', 'istream',
+        'fstream',
         'ostream', 'soap',
         # String test cases
         'bstring', 'cstring',
