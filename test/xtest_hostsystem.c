@@ -37,9 +37,9 @@ Description:
 FOSSIL_TEST(test_fossil_hostsys_get) {
     fossil_hostsystem_t info;
     ASSUME_ITS_TRUE(fossil_hostsys_get(&info));
-    ASSUME_NOT_EQUAL_CSTRING("", info.os_name);
-    ASSUME_NOT_EQUAL_CSTRING("", info.os_version);
-    ASSUME_NOT_EQUAL_CSTRING("", info.cpu_model);
+    ASSUME_NOT_EQUAL_CSTR("", info.os_name);
+    ASSUME_NOT_EQUAL_CSTR("", info.os_version);
+    ASSUME_NOT_EQUAL_CSTR("", info.cpu_model);
     ASSUME_ITS_MORE_OR_EQUAL_I32(0, info.cpu_cores);
     ASSUME_ITS_MORE_OR_EQUAL_I32(0, info.total_memory);
     ASSUME_ITS_MORE_OR_EQUAL_I32(0, info.free_memory);
