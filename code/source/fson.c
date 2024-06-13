@@ -54,24 +54,24 @@ fson_token* fossil_fson_tokenize(const char* restrict input) {
             const char* start = ptr;
             while (isalnum(*ptr) || *ptr == '_') ptr++;
             int length = ptr - start;
-            char* value = _custom_fossil_core_strndup(start, length);
+            char* value = _custom_fossil_strndup(start, length);
             tokens[token_count++] = (fson_token){FSON_TOKEN_IDENTIFIER, value};
         } else if (isdigit(*ptr) || *ptr == '-' || *ptr == '+') {
             const char* start = ptr;
             while (isdigit(*ptr) || *ptr == '.' || *ptr == 'e' || *ptr == 'E' || *ptr == '-' || *ptr == '+') ptr++;
             int length = ptr - start;
-            char* value = _custom_fossil_core_strndup(start, length);
+            char* value = _custom_fossil_strndup(start, length);
             tokens[token_count++] = (fson_token){FSON_TOKEN_NUMBER, value};
         } else if (*ptr == '"' || *ptr == '\'') {
             char quote = *ptr++;
             const char* start = ptr;
             while (*ptr != quote) ptr++;
             int length = ptr - start;
-            char* value = _custom_fossil_core_strndup(start, length);
+            char* value = _custom_fossil_strndup(start, length);
             tokens[token_count++] = (fson_token){FSON_TOKEN_STRING, value};
             ptr++;
         } else if (ispunct(*ptr)) {
-            char* value = _custom_fossil_core_strndup(ptr, 1);
+            char* value = _custom_fossil_strndup(ptr, 1);
             tokens[token_count++] = (fson_token){FSON_TOKEN_SYMBOL, value};
             ptr++;
         } else {
@@ -121,7 +121,7 @@ fson_namespace* fossil_fson_namespace_parse(fson_token** tokens) {
         printf("Error: Expected an identifier for namespace name\n");
         return cnullptr;
     }
-    ns->name = _custom_fossil_core_strdup((*tokens)->value);
+    ns->name = _custom_fossil_strdup((*tokens)->value);
     (*tokens)++;
 
     // Expect a symbol '{'
@@ -144,7 +144,7 @@ fson_namespace* fossil_fson_namespace_parse(fson_token** tokens) {
             printf("Error: Expected an identifier for key\n");
             return cnullptr;
         }
-        char* key = _custom_fossil_core_strdup((*tokens)->value);
+        char* key = _custom_fossil_strdup((*tokens)->value);
         (*tokens)++;
 
         // Expect a symbol ':'
@@ -158,11 +158,11 @@ fson_namespace* fossil_fson_namespace_parse(fson_token** tokens) {
         char* value = cnullptr;
         char* type = cnullptr;
         if ((*tokens)->type == FSON_TOKEN_STRING || (*tokens)->type == FSON_TOKEN_NUMBER) {
-            value = _custom_fossil_core_strdup((*tokens)->value);
-            type = _custom_fossil_core_strdup("str");  // Default type is string
+            value = _custom_fossil_strdup((*tokens)->value);
+            type = _custom_fossil_strdup("str");  // Default type is string
             (*tokens)++;
         } else if ((*tokens)->type == FSON_TOKEN_IDENTIFIER) {
-            type = _custom_fossil_core_strdup((*tokens)->value);
+            type = _custom_fossil_strdup((*tokens)->value);
             (*tokens)++;
             if ((*tokens)->type != FSON_TOKEN_STRING && (*tokens)->type != FSON_TOKEN_NUMBER && strcmp((*tokens)->value, "cnull") != 0) {
                 printf("Error: Expected a value after type\n");
@@ -171,7 +171,7 @@ fson_namespace* fossil_fson_namespace_parse(fson_token** tokens) {
             if (strcmp((*tokens)->value, "cnull") == 0) {
                 value = cnullptr;
             } else {
-                value = _custom_fossil_core_strdup((*tokens)->value);
+                value = _custom_fossil_strdup((*tokens)->value);
             }
             (*tokens)++;
         } else {
@@ -241,8 +241,8 @@ int32_t fossil_fson_insert_data(fson_namespace* namespaces, const char* restrict
     namespaces->values = new_values;
 
     // Insert the new value
-    namespaces->values[i].key = _custom_fossil_core_strndup(key, strlen(key));
-    namespaces->values[i].value = _custom_fossil_core_strndup(value, strlen(value));
+    namespaces->values[i].key = _custom_fossil_strndup(key, strlen(key));
+    namespaces->values[i].value = _custom_fossil_strndup(value, strlen(value));
     namespaces->values[i].type = type;
     namespaces->values[i + 1].key = cnullptr; // NULL terminator
 
@@ -263,7 +263,7 @@ int32_t fossil_fson_update_data(fson_namespace* namespaces, const char* restrict
 
     // Update the value
     free(existing_value->value);
-    existing_value->value = _custom_fossil_core_strdup(value);
+    existing_value->value = _custom_fossil_strdup(value);
 
     return 1; // Update successful
 }

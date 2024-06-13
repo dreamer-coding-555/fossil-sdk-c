@@ -28,7 +28,7 @@ static fson_namespace* find_namespace(fossil_crabdb_t* db, const char* name) {
 fossil_crabdb_t* fossil_crabdb_create(const char* name) {
     fossil_crabdb_t* db = (fossil_crabdb_t*)malloc(sizeof(fossil_crabdb_t));
     if (db) {
-        db->name = _custom_fossil_core_strdup(name);
+        db->name = _custom_fossil_strdup(name);
         if (db->name == cnullptr) {
             free(db);
             return cnullptr;
@@ -60,7 +60,7 @@ int32_t fossil_crabdb_create_namespace(fossil_crabdb_t* db, const char* name) {
         return -1; // Memory allocation failed
     }
     db->namespaces = new_namespaces;
-    db->namespaces[db->count].name = _custom_fossil_core_strdup(name);
+    db->namespaces[db->count].name = _custom_fossil_strdup(name);
     if (db->namespaces[db->count].name == cnullptr) {
         return -1; // Memory allocation failed
     }
@@ -88,11 +88,11 @@ int32_t fossil_crabdb_insert_data(fossil_crabdb_t* db, const char* namespace_nam
 
     // Allocate memory for the new value
     fson_value new_value;
-    new_value.key = _custom_fossil_core_strdup(key);
+    new_value.key = _custom_fossil_strdup(key);
     if (new_value.key == cnullptr) {
         return -1; // Memory allocation failed
     }
-    new_value.value = _custom_fossil_core_strdup(value);
+    new_value.value = _custom_fossil_strdup(value);
     if (new_value.value == cnullptr) {
         free(new_value.key);
         return -1; // Memory allocation failed
@@ -189,7 +189,7 @@ int32_t fossil_crabdb_update_data(fossil_crabdb_t* db, const char* namespace_nam
     }
 
     // Update the value
-    char* new_value = _custom_fossil_core_strdup(value);
+    char* new_value = _custom_fossil_strdup(value);
     if (new_value == cnullptr) {
         return -1; // Memory allocation failed
     }

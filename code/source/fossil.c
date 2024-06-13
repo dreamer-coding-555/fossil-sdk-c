@@ -200,7 +200,7 @@ fossil_dsl_tokens* fossil_dsl_tokenize(const char * restrict script, fossil_dsl_
     }
 
     const char *delimiters = " \t\n{}";
-    char *script_copy = _custom_fossil_core_strdup(script);
+    char *script_copy = _custom_fossil_strdup(script);
     if (!script_copy) {
         fossil_dsl_set_error(parser, FOSSIL_DSL_STATUS_MEMORY_ERROR, "Failed to allocate memory for script copy.");
         fossil_dsl_tokens_erase(token_list);
