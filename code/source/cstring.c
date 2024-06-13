@@ -19,7 +19,7 @@ cstring fossil_cstr_create(const_cstring str) {
     if (!str) {
         return cnullptr; // Validate input to prevent NULL pointer dereference
     }
-    return _custom_fossil_str_strdup(str); // Allocate memory and copy string using strdup
+    return _custom_fossil_strdup(str); // Allocate memory and copy string using strdup
 }
 
 void fossil_cstr_erase(cstring str) {
