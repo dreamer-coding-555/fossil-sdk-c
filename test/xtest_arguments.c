@@ -33,7 +33,7 @@ Description:
 // as samples for library usage.
 // * * * * * * * * * * * * * * * * * * * * * * * *
 
-XTEST(test_fossil_arg_parse_has) {
+FOSSIL_TEST(test_fossil_arg_parse_has) {
     // Test fossil_arg_parse_has function
     fossil_option_t options[] = {
         {"option1", COPTION_TYPE_BOOL, {.bool_val = 0}, NULL, 0, 0},
@@ -45,7 +45,7 @@ XTEST(test_fossil_arg_parse_has) {
     ASSUME_ITS_EQUAL_I32(1, fossil_arg_parse_has(options, num_options, "option1"));
 }
 
-XTEST(test_fossil_arg_parse) {
+FOSSIL_TEST(test_fossil_arg_parse) {
     // Test fossil_arg_parse function
     const char* argv[] = {"program", "-number", "42", "-name", "John", "-flag", "-choice", "choice2", "-feature", "enable"};
     const int argc = sizeof(argv) / sizeof(argv[0]);
@@ -68,7 +68,7 @@ XTEST(test_fossil_arg_parse) {
 // * * * * * * * * * * * * * * * * * * * * * * * *
 // * Fossil Logic Test Pool
 // * * * * * * * * * * * * * * * * * * * * * * * *
-XTEST_DEFINE_POOL(test_parser_group) {
+FOSSIL_TEST_GROUP(test_parser_group) {
     ADD_TEST(test_fossil_arg_parse_has);
     ADD_TEST(test_fossil_arg_parse);
 } // end of function main

@@ -33,7 +33,7 @@ Description:
 // as samples for library usage.
 // * * * * * * * * * * * * * * * * * * * * * * * *
 
-XTEST(test_fossil_binary_and) {
+FOSSIL_TEST(test_fossil_binary_and) {
     // 8-bit AND
     ASSUME_ITS_EQUAL_U8(0x01, fossil_binary_and8(0x0F, 0x01));
     
@@ -47,7 +47,7 @@ XTEST(test_fossil_binary_and) {
     ASSUME_ITS_EQUAL_U64(0x0000000000000001, fossil_binary_and64(0x00000000000000FF, 0x0000000000000001));
 }
 
-XTEST(test_fossil_binary_or) {
+FOSSIL_TEST(test_fossil_binary_or) {
     // 8-bit OR
     ASSUME_ITS_EQUAL_U8(0x0F, fossil_binary_or8(0x0F, 0x01));
     
@@ -61,7 +61,7 @@ XTEST(test_fossil_binary_or) {
     ASSUME_ITS_EQUAL_U64(0x00000000000000FF, fossil_binary_or64(0x00000000000000FF, 0x0000000000000001));
 }
 
-XTEST(test_fossil_binary_xor) {
+FOSSIL_TEST(test_fossil_binary_xor) {
     // 8-bit XOR
     ASSUME_ITS_EQUAL_U8(0x0E, fossil_binary_xor8(0x0F, 0x01));
     
@@ -75,7 +75,7 @@ XTEST(test_fossil_binary_xor) {
     ASSUME_ITS_EQUAL_U64(0x00000000000000FE, fossil_binary_xor64(0x00000000000000FF, 0x0000000000000001));
 }
 
-XTEST(test_fossil_binary_left_shift) {
+FOSSIL_TEST(test_fossil_binary_left_shift) {
     // 8-bit Left Shift
     ASSUME_ITS_EQUAL_U8(0x1E, fossil_binary_left_shift8(0x0F, 1));
     
@@ -89,7 +89,7 @@ XTEST(test_fossil_binary_left_shift) {
     ASSUME_ITS_EQUAL_U64(0x00000000000000FE, fossil_binary_left_shift64(0x000000000000007F, 1));
 }
 
-XTEST(test_fossil_binary_right_shift) {
+FOSSIL_TEST(test_fossil_binary_right_shift) {
     // 8-bit Right Shift
     ASSUME_ITS_EQUAL_U8(0x07, fossil_binary_right_shift8(0x0F, 1));
     
@@ -103,7 +103,7 @@ XTEST(test_fossil_binary_right_shift) {
     ASSUME_ITS_EQUAL_U64(0x000000000000003F, fossil_binary_right_shift64(0x000000000000007F, 1));
 }
 
-XTEST(test_fossil_binary_count_set_bits) {
+FOSSIL_TEST(test_fossil_binary_count_set_bits) {
     // 8-bit Count Set Bits
     ASSUME_ITS_EQUAL_I32(4, fossil_binary_count_set_bits8(0x0F));
     
@@ -117,7 +117,7 @@ XTEST(test_fossil_binary_count_set_bits) {
     ASSUME_ITS_EQUAL_I32(32, fossil_binary_count_set_bits64(0xFFFFFFFFFFFFFFFF));
 }
 
-XTEST(test_fossil_binary_toggle_bits) {
+FOSSIL_TEST(test_fossil_binary_toggle_bits) {
     // 8-bit Toggle Bits
     ASSUME_ITS_EQUAL_U8(0xF0, fossil_binary_toggle_bits8(0x0F));
     
@@ -131,7 +131,7 @@ XTEST(test_fossil_binary_toggle_bits) {
     ASSUME_ITS_EQUAL_U64(0xFFFFFFFFFFFFFFF0, fossil_binary_toggle_bits64(0x000000000000000F));
 }
 
-XTEST(test_fossil_binary_rotate_left) {
+FOSSIL_TEST(test_fossil_binary_rotate_left) {
     // 8-bit Rotate Left
     ASSUME_ITS_EQUAL_U8(0xF0, fossil_binary_rotate_left8(0x0F, 4));
     
@@ -145,7 +145,7 @@ XTEST(test_fossil_binary_rotate_left) {
     ASSUME_ITS_EQUAL_U64(0xF00000000000000F, fossil_binary_rotate_left64(0x000000000000000F, 4));
 }
 
-XTEST(test_fossil_binary_rotate_right) {
+FOSSIL_TEST(test_fossil_binary_rotate_right) {
     // 8-bit Rotate Right
     ASSUME_ITS_EQUAL_U8(0xF0, fossil_binary_rotate_right8(0x0F, 4));
     
@@ -162,7 +162,7 @@ XTEST(test_fossil_binary_rotate_right) {
 // * * * * * * * * * * * * * * * * * * * * * * * *
 // * Fossil Logic Test Pool
 // * * * * * * * * * * * * * * * * * * * * * * * *
-XTEST_DEFINE_POOL(test_bitwise_group) {
+FOSSIL_TEST_GROUP(test_bitwise_group) {
     ADD_TEST(test_fossil_binary_and);
     ADD_TEST(test_fossil_binary_or);
     ADD_TEST(test_fossil_binary_xor);

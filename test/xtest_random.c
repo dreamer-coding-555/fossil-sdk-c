@@ -33,69 +33,69 @@ Description:
 // as samples for library usage.
 // * * * * * * * * * * * * * * * * * * * * * * * *
 
-XTEST(test_fossil_random_seed) {
+FOSSIL_TEST(test_fossil_random_seed) {
     fossil_random_t rng;
     uint32_t seed = 12345;
     fossil_random_seed(&rng, seed);
     ASSUME_ITS_EQUAL_U32(seed, rng.current_seed);
 }
 
-XTEST(test_fossil_random_uint32) {
+FOSSIL_TEST(test_fossil_random_uint32) {
     fossil_random_t rng;
     fossil_random_seed(&rng, 12345);
     uint32_t value = fossil_random_uint32(&rng);
     ASSUME_ITS_LESS_THAN_U32(65536, value);
 }
 
-XTEST(test_fossil_random_uint64) {
+FOSSIL_TEST(test_fossil_random_uint64) {
     fossil_random_t rng;
     fossil_random_seed(&rng, 12345);
     uint64_t value = fossil_random_uint64(&rng);
     ASSUME_ITS_LESS_THAN_U3264(65536, value);
 }
 
-XTEST(test_fossil_random_int_range) {
+FOSSIL_TEST(test_fossil_random_int_range) {
     fossil_random_t rng;
     fossil_random_seed(&rng, 12345);
     fossil_random_int_range(&rng, 0, 10);
 }
 
-XTEST(test_fossil_random_float) {
+FOSSIL_TEST(test_fossil_random_float) {
     fossil_random_t rng;
     fossil_random_seed(&rng, 12345);
     float value = fossil_random_float(&rng);
     ASSUME_ITS_TRUE(value >= 0.0f && value < 1.0f); // Check if value is between 0 and 1
 }
 
-XTEST(test_fossil_random_double) {
+FOSSIL_TEST(test_fossil_random_double) {
     fossil_random_t rng;
     fossil_random_seed(&rng, 12345);
     double value = fossil_random_double(&rng);
     ASSUME_ITS_TRUE(value >= 0.0 && value < 1.0); // Check if value is between 0 and 1
 }
 
-XTEST(test_fossil_random_hex) {
+FOSSIL_TEST(test_fossil_random_hex) {
     fossil_random_t rng;
     fossil_random_seed(&rng, 12345);
     uint32_t value = fossil_random_hex(&rng, 16); // 16-bit hexadecimal
     ASSUME_ITS_LESS_THAN_U32(0x10000, value); // Check if value is within range 0-0xFFFF
 }
 
-XTEST(test_fossil_random_oct) {
+FOSSIL_TEST(test_fossil_random_oct) {
     fossil_random_t rng;
     fossil_random_seed(&rng, 12345);
     uint32_t value = fossil_random_oct(&rng, 9); // 9-bit octal
     ASSUME_ITS_LESS_THAN_U32(0x200, value); // Check if value is within range 0-0x1FF
 }
 
-XTEST(test_fossil_random_binary) {
+FOSSIL_TEST(test_fossil_random_binary) {
     fossil_random_t rng;
     fossil_random_seed(&rng, 12345);
     uint32_t value = fossil_random_binary(&rng, 8); // 8-bit binary
     ASSUME_ITS_LESS_THAN_U32(0x100, value); // Check if value is within range 0-0xFF
 }
 
-XTEST(test_fossil_random_yield_seed) {
+FOSSIL_TEST(test_fossil_random_yield_seed) {
     uint32_t seed = fossil_random_yield_seed();
     // Since seed is based on time and other factors, just check if it's non-zero
     ASSUME_NOT_EQUAL_I32(0, seed);
@@ -104,7 +104,7 @@ XTEST(test_fossil_random_yield_seed) {
 // * * * * * * * * * * * * * * * * * * * * * * * *
 // * Fossil Logic Test Pool
 // * * * * * * * * * * * * * * * * * * * * * * * *
-XTEST_DEFINE_POOL(test_spawn_group) {
+FOSSIL_TEST_GROUP(test_spawn_group) {
     ADD_TEST(test_fossil_random_seed);
     ADD_TEST(test_fossil_random_uint32);
     ADD_TEST(test_fossil_random_uint64);

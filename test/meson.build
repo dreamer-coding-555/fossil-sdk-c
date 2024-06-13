@@ -1,4 +1,7 @@
+fs = import('fs')
+
 if get_option('with_test').enabled()
+    fs.copyfile('sample-data.fson', 'sample-data.fson')
     run_command(['python3', 'generate-runner.py'], check: true)
 
     test_src = ['xunit_runner.c']
@@ -38,7 +41,11 @@ if get_option('with_test').enabled()
         'filesystem', 'hostsystem',
         'arguments', 'money',
         'memory', 'bitwise',
-        'smartptr'
+        'smartptr',
+        # Addintal Fossil Platform test cases
+        'fossil', 'datetime',
+        'fson', 'regex',
+        'stream', 'bluecrab'
     ]
 
     foreach cube : test_cubes

@@ -33,14 +33,14 @@ Description:
 // as samples for library usage.
 // * * * * * * * * * * * * * * * * * * * * * * * *
 
-XTEST(test_memory_alloc) {
+FOSSIL_TEST(test_memory_alloc) {
     size_t size = 10;
     fossil_memory_t ptr = fossil_memory_alloc(size);
     ASSUME_NOT_CNULL(ptr);
     fossil_memory_free(ptr); // Cleanup
 }
 
-XTEST(test_memory_realloc) {
+FOSSIL_TEST(test_memory_realloc) {
     size_t size = 10;
     fossil_memory_t ptr = fossil_memory_alloc(size);
     ASSUME_NOT_CNULL(ptr);
@@ -52,7 +52,7 @@ XTEST(test_memory_realloc) {
     fossil_memory_free(ptr); // Cleanup
 }
 
-XTEST(test_memory_copy) {
+FOSSIL_TEST(test_memory_copy) {
     size_t size = 10;
     int* src = (int*)fossil_memory_alloc(size * sizeof(int));
     ASSUME_NOT_CNULL(src);
@@ -71,7 +71,7 @@ XTEST(test_memory_copy) {
     fossil_memory_free(dest); // Cleanup
 }
 
-XTEST(test_memory_set) {
+FOSSIL_TEST(test_memory_set) {
     size_t size = 10;
     int* ptr = (int*)fossil_memory_alloc(size * sizeof(int));
     ASSUME_NOT_CNULL(ptr);
@@ -88,7 +88,7 @@ XTEST(test_memory_set) {
 // * * * * * * * * * * * * * * * * * * * * * * * *
 // * Fossil Logic Test Pool
 // * * * * * * * * * * * * * * * * * * * * * * * *
-XTEST_DEFINE_POOL(test_memory_group) {
+FOSSIL_TEST_GROUP(test_memory_group) {
     ADD_TEST(test_memory_alloc);
     ADD_TEST(test_memory_realloc);
     ADD_TEST(test_memory_copy);

@@ -35,15 +35,15 @@ fossil_command_t ninja_build_cmd = "ninja -C build";
 // as samples for library usage.
 // * * * * * * * * * * * * * * * * * * * * * * * *
 
-XTEST(test_meson_configure) {
+FOSSIL_TEST(test_meson_configure) {
     ASSUME_ITS_EQUAL_I32(0, fossil_command_success(meson_configure_cmd));
 }
 
-XTEST(test_ninja_build) {
+FOSSIL_TEST(test_ninja_build) {
     ASSUME_ITS_EQUAL_I32(0, fossil_command_success(ninja_build_cmd));
 }
 
-XTEST(test_command_exists) {
+FOSSIL_TEST(test_command_exists) {
     // Assuming that 'ls' is a valid command
     ASSUME_ITS_EQUAL_I32(1, fossil_command_exists("ls"));
 
@@ -51,7 +51,7 @@ XTEST(test_command_exists) {
     ASSUME_ITS_EQUAL_I32(0, fossil_command_exists("nonexistentcommand"));
 }
 
-XTEST(test_command_strcat_safe) {
+FOSSIL_TEST(test_command_strcat_safe) {
     char result[100] = "start";
     fossil_command_strcat_safe(result, " && ", sizeof(result));
     fossil_command_strcat_safe(result, "echo Hello", sizeof(result));
@@ -59,7 +59,7 @@ XTEST(test_command_strcat_safe) {
     ASSUME_ITS_EQUAL_CSTR("start && echo Hello", result);
 }
 
-XTEST(test_fossil_filesys_exists) {
+FOSSIL_TEST(test_fossil_filesys_exists) {
     // Assuming that the directory 'build' does not exist initially
     ASSUME_ITS_EQUAL_I32(0, fossil_command_erase_exists("build"));
 
@@ -75,7 +75,7 @@ XTEST(test_fossil_filesys_exists) {
 // * * * * * * * * * * * * * * * * * * * * * * * *
 // * Fossil Logic Test Pool
 // * * * * * * * * * * * * * * * * * * * * * * * *
-XTEST_DEFINE_POOL(test_command_group) {
+FOSSIL_TEST_GROUP(test_command_group) {
     ADD_TEST(test_meson_configure);
     ADD_TEST(test_ninja_build);
     ADD_TEST(test_command_exists);

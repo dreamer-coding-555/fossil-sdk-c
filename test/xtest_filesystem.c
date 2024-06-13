@@ -34,14 +34,14 @@ Description:
 // * * * * * * * * * * * * * * * * * * * * * * * *
 
 // Test case for initializing error with a message
-XTEST(test_fossil_filesys_create) {
+FOSSIL_TEST(test_fossil_filesys_create) {
     fossil_filesystem_t dir = fossil_filesys_create("path\\to\\directory");
     ASSUME_NOT_CNULL(dir.path);
     ASSUME_ITS_TRUE(fossil_filesys_exists(&dir));
     fossil_filesys_erase(&dir);
 }
 
-XTEST(test_fossil_filesys_list_files) {
+FOSSIL_TEST(test_fossil_filesys_list_files) {
     fossil_filesystem_t dir = fossil_filesys_create("path\\to\\directory");
     // You may want to redirect stdout to capture the printed output for testing
     // Redirecting output in C is platform-dependent, so it's not included here.
@@ -50,7 +50,7 @@ XTEST(test_fossil_filesys_list_files) {
     fossil_filesys_erase(&dir);
 }
 
-XTEST(test_fossil_filesys_create_subdirectory) {
+FOSSIL_TEST(test_fossil_filesys_create_subdirectory) {
     fossil_filesystem_t parentDirectory = fossil_filesys_create("path\\to\\parent");
     fossil_filesys_create_subdirectory(&parentDirectory, "new_subdirectory");
     ASSUME_ITS_TRUE(fossil_filesys_exists(&parentDirectory));
@@ -63,7 +63,7 @@ XTEST(test_fossil_filesys_create_subdirectory) {
 // * * * * * * * * * * * * * * * * * * * * * * * *
 // * Fossil Logic Test Pool
 // * * * * * * * * * * * * * * * * * * * * * * * *
-XTEST_DEFINE_POOL(test_filesystem_group) {
+FOSSIL_TEST_GROUP(test_filesystem_group) {
     ADD_TEST(test_fossil_filesys_create);
     ADD_TEST(test_fossil_filesys_list_files);
     ADD_TEST(test_fossil_filesys_create_subdirectory);

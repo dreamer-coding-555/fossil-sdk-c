@@ -27,7 +27,7 @@ Description:
 static mockup_input_t *mock_input = xnull;
 
 // Validation function for testing
-XMOCK_FUNC_DEF(bool, validate_input, const char* input) {
+FOSSIL_MOCK_FUNC(bool, validate_input, const char* input) {
     int32_t num;
     if (sscanf(input, "%d", &num) == 1 && num >= 1 && num <= 100) {
         return true;
@@ -35,14 +35,14 @@ XMOCK_FUNC_DEF(bool, validate_input, const char* input) {
     return false;
 }
 
-XFIXTURE(input_fixture);
-XSETUP(input_fixture) {
+FOSSIL_FIXTURE(input_fixture);
+FOSSIL_SETUP(input_fixture) {
     // Create mock input object for fossil_console_in_get_input
     mock_input = mockup_input_create("fossil_console_in_get_input");
     mockup_input_set_inputs(mock_input, 8, "42", "150", "yes", "no", "1 3", "1 4", "exit", "not_exit");
 }
 
-XTEARDOWN(input_fixture) {
+FOSSIL_TEARDOWN(input_fixture) {
     mockup_input_erase(mock_input);
 }
 

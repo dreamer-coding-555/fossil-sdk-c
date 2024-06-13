@@ -34,7 +34,7 @@ Description:
 // * * * * * * * * * * * * * * * * * * * * * * * *
 
 
-XTEST(test_fossil_hostsys_get) {
+FOSSIL_TEST(test_fossil_hostsys_get) {
     fossil_hostsystem_t info;
     ASSUME_ITS_TRUE(fossil_hostsys_get(&info));
     ASSUME_NOT_EQUAL_CSTRING("", info.os_name);
@@ -45,7 +45,7 @@ XTEST(test_fossil_hostsys_get) {
     ASSUME_ITS_MORE_OR_EQUAL_I32(0, info.free_memory);
 }
 
-XTEST(test_fossil_hostsys_endian) {
+FOSSIL_TEST(test_fossil_hostsys_endian) {
     fossil_hostsystem_t info;
     fossil_hostsys_get(&info);
     ASSUME_ITS_TRUE(fossil_hostsys_endian(&info) != NULL);
@@ -54,7 +54,7 @@ XTEST(test_fossil_hostsys_endian) {
 // * * * * * * * * * * * * * * * * * * * * * * * *
 // * Fossil Logic Test Pool
 // * * * * * * * * * * * * * * * * * * * * * * * *
-XTEST_DEFINE_POOL(test_hostsystem_group) {
+FOSSIL_TEST_GROUP(test_hostsystem_group) {
     ADD_TEST(test_fossil_hostsys_get);
     ADD_TEST(test_fossil_hostsys_endian);
 } // end of function main

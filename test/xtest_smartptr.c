@@ -38,7 +38,7 @@ static void custom_deleter(void *ptr) {
 // as samples for library usage.
 // * * * * * * * * * * * * * * * * * * * * * * * *
 
-XTEST(test_fossil_smartptr_create_and_get) {
+FOSSIL_TEST(test_fossil_smartptr_create_and_get) {
     fossil_smartptr_t sp;
     int *data = malloc(sizeof(int));
     *data = 42;
@@ -48,7 +48,7 @@ XTEST(test_fossil_smartptr_create_and_get) {
     fossil_smartptr_erase(&sp);
 }
 
-XTEST(test_fossil_smartptr_acquire_and_erase) {
+FOSSIL_TEST(test_fossil_smartptr_acquire_and_erase) {
     fossil_smartptr_t sp;
     int *data = malloc(sizeof(int));
     *data = 42;
@@ -62,12 +62,12 @@ XTEST(test_fossil_smartptr_acquire_and_erase) {
     ASSUME_ITS_TRUE(fossil_smartptr_erase(&sp));
 }
 
-XTEST(test_fossil_smartptr_null_pointer) {
+FOSSIL_TEST(test_fossil_smartptr_null_pointer) {
     fossil_smartptr_t sp;
     ASSUME_ITS_FALSE(fossil_smartptr_create(&sp, NULL, free));
 }
 
-XTEST(test_fossil_smartptr_custom_deleter) {
+FOSSIL_TEST(test_fossil_smartptr_custom_deleter) {
     fossil_smartptr_t sp;
     int *data = malloc(sizeof(int));
     *data = 42;
@@ -82,7 +82,7 @@ XTEST(test_fossil_smartptr_custom_deleter) {
 // * * * * * * * * * * * * * * * * * * * * * * * *
 // * Fossil Logic Test Pool
 // * * * * * * * * * * * * * * * * * * * * * * * *
-XTEST_DEFINE_POOL(test_smartptr_group) {
+FOSSIL_TEST_GROUP(test_smartptr_group) {
     ADD_TEST(test_fossil_smartptr_create_and_get);
     ADD_TEST(test_fossil_smartptr_acquire_and_erase);
     ADD_TEST(test_fossil_smartptr_null_pointer);

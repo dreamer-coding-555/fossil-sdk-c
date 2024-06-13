@@ -33,14 +33,14 @@ Description:
 // as samples for library usage.
 // * * * * * * * * * * * * * * * * * * * * * * * *
 
-XTEST(test_money_create) {
+FOSSIL_TEST(test_money_create) {
     fossil_money_t m = fossil_money_create(10, 50, USD);
     ASSUME_ITS_EQUAL_I32(10, m.dollars);
     ASSUME_ITS_EQUAL_I32(50, m.cents);
     ASSUME_ITS_EQUAL_I32(USD, m.currency);
 }
 
-XTEST(test_money_add) {
+FOSSIL_TEST(test_money_add) {
     fossil_money_t m1 = fossil_money_create(10, 50, USD);
     fossil_money_t m2 = fossil_money_create(5, 25, USD);
     fossil_money_t result = fossil_money_add(m1, m2);
@@ -49,7 +49,7 @@ XTEST(test_money_add) {
     ASSUME_ITS_EQUAL_I32(USD, result.currency);
 }
 
-XTEST(test_money_convert) {
+FOSSIL_TEST(test_money_convert) {
     fossil_money_t source = fossil_money_create(10, 50, USD);
     fossil_money_t result = fossil_money_convert(source, CAD);
     ASSUME_ITS_EQUAL_I32(10, result.dollars);
@@ -57,23 +57,23 @@ XTEST(test_money_convert) {
     ASSUME_ITS_EQUAL_I32(CAD, result.currency);
 }
 
-XTEST(test_money_display) {
+FOSSIL_TEST(test_money_display) {
     fossil_money_t m = fossil_money_create(10, 50, USD);
     fossil_money_display(m); // Just check if it doesn't crash
 }
 
-XTEST(test_money_is_valid) {
+FOSSIL_TEST(test_money_is_valid) {
     fossil_money_t m = fossil_money_create(10, 50, USD);
     ASSUME_ITS_TRUE(fossil_money_is_valid(m));
 }
 
-XTEST(test_money_compare) {
+FOSSIL_TEST(test_money_compare) {
     fossil_money_t m1 = fossil_money_create(10, 50, USD);
     fossil_money_t m2 = fossil_money_create(5, 25, USD);
     ASSUME_ITS_EQUAL_I32(1, fossil_money_compare(m1, m2));
 }
 
-XTEST(test_money_subtract) {
+FOSSIL_TEST(test_money_subtract) {
     fossil_money_t m1 = fossil_money_create(10, 50, USD);
     fossil_money_t m2 = fossil_money_create(5, 25, USD);
     fossil_money_t result = fossil_money_subtract(m1, m2);
@@ -82,7 +82,7 @@ XTEST(test_money_subtract) {
     ASSUME_ITS_EQUAL_I32(USD, result.currency);
 }
 
-XTEST(test_money_multiply_scalar) {
+FOSSIL_TEST(test_money_multiply_scalar) {
     fossil_money_t m = fossil_money_create(10, 50, USD);
     fossil_money_t result = fossil_money_multiply_scalar(m, 2);
     ASSUME_ITS_EQUAL_I32(21, result.dollars);
@@ -90,7 +90,7 @@ XTEST(test_money_multiply_scalar) {
     ASSUME_ITS_EQUAL_I32(USD, result.currency);
 }
 
-XTEST(test_money_divide_scalar) {
+FOSSIL_TEST(test_money_divide_scalar) {
     fossil_money_t m = fossil_money_create(10, 50, USD);
     fossil_money_t result = fossil_money_divide_scalar(m, 2);
     ASSUME_ITS_EQUAL_I32(5, result.dollars);
@@ -98,7 +98,7 @@ XTEST(test_money_divide_scalar) {
     ASSUME_ITS_EQUAL_I32(USD, result.currency);
 }
 
-XTEST(test_money_round) {
+FOSSIL_TEST(test_money_round) {
     fossil_money_t m = fossil_money_create(10, 55, USD);
     fossil_money_t result = fossil_money_round(m);
     ASSUME_ITS_EQUAL_I32(10, result.dollars);
@@ -106,17 +106,17 @@ XTEST(test_money_round) {
     ASSUME_ITS_EQUAL_I32(USD, result.currency);
 }
 
-XTEST(test_money_is_positive) {
+FOSSIL_TEST(test_money_is_positive) {
     fossil_money_t m = fossil_money_create(10, 50, USD);
     ASSUME_ITS_TRUE(fossil_money_is_positive(m));
 }
 
-XTEST(test_money_is_negative) {
+FOSSIL_TEST(test_money_is_negative) {
     fossil_money_t m = fossil_money_create(-10, -50, USD);
     ASSUME_ITS_TRUE(fossil_money_is_negative(m));
 }
 
-XTEST(test_money_is_zero) {
+FOSSIL_TEST(test_money_is_zero) {
     fossil_money_t m = fossil_money_create(0, 0, USD);
     ASSUME_ITS_TRUE(fossil_money_is_zero(m));
 }
@@ -124,7 +124,7 @@ XTEST(test_money_is_zero) {
 // * * * * * * * * * * * * * * * * * * * * * * * *
 // * Fossil Logic Test Pool
 // * * * * * * * * * * * * * * * * * * * * * * * *
-XTEST_DEFINE_POOL(test_money_group) {
+FOSSIL_TEST_GROUP(test_money_group) {
     ADD_TEST(test_money_create);
     ADD_TEST(test_money_add);
     ADD_TEST(test_money_convert);
