@@ -10,8 +10,8 @@ Description:
     feel free to contact Michael at michaelbrockus@gmail.com.
 ==============================================================================
 */
-#include "fossil/xalgorithms/dynamic.h"
-#include "fossil/xalgorithms/common.h"
+#include "fossil/algorithms/dynamic.h"
+#include "fossil/common/common.h"
 
 fossil_tofu_t* fossil_dynamic_concat_arrays(fossil_tofu_t* array1, fossil_tofu_t* array2) {
     // Check if either array is NULL
