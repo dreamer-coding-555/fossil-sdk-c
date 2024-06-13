@@ -13,7 +13,7 @@ Description:
 #include "fossil/stdio/ostream.h"
 #include "fossil/stdio/soap.h"
 #include <fossil/common/common.h>
-#include <fossil/limits.h>
+#include <fossil/common/limits.h>
 
 #ifdef _WIN32
 #include <windows.h>
