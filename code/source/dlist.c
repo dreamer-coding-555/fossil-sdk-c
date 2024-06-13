@@ -10,8 +10,8 @@ Description:
     feel free to contact Michael at michaelbrockus@gmail.com.
 ==============================================================================
 */
-#include "fossil/xstructures/dlist.h"
-#include "fossil/xstructures/common.h"
+#include "fossil/structures/dlist.h"
+#include "fossil/common/common.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
