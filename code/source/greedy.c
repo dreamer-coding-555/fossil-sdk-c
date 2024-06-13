@@ -10,8 +10,8 @@ Description:
     feel free to contact Michael at michaelbrockus@gmail.com.
 ==============================================================================
 */
-#include "fossil/xalgorithms/greedy.h"
-#include "fossil/xalgorithms/common.h"
+#include "fossil/algorithms/greedy.h"
+#include "fossil/common/common.h"
 #include <limits.h>
 
 // Coin Change Problem
