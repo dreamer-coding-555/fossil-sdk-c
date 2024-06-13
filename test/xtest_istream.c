@@ -38,12 +38,12 @@ FOSSIL_MOCK_FUNC(bool, validate_input, const char* input) {
 FOSSIL_FIXTURE(input_fixture);
 FOSSIL_SETUP(input_fixture) {
     // Create mock input object for fossil_console_in_get_input
-    mock_input = mockup_input_create("fossil_console_in_get_input");
-    mockup_input_set_inputs(mock_input, 8, "42", "150", "yes", "no", "1 3", "1 4", "exit", "not_exit");
+    mock_input = fossil_mockup_input_create("fossil_console_in_get_input");
+    fossil_mockup_input_set_inputs(mock_input, 8, "42", "150", "yes", "no", "1 3", "1 4", "exit", "not_exit");
 }
 
 FOSSIL_TEARDOWN(input_fixture) {
-    mockup_input_erase(mock_input);
+    fossil_mockup_input_erase(mock_input);
 }
 
 // * * * * * * * * * * * * * * * * * * * * * * * *
@@ -57,19 +57,19 @@ FOSSIL_TEARDOWN(input_fixture) {
 FOSSIL_TEST(reader_let_reader_valid_input_valid) {
     // Test valid input validation
     ASSUME_ITS_TRUE(fossil_console_in_valid_input("Enter a valid number (1-100)", fossil_mockup_validate_input));
-    ASSUME_ITS_TRUE(mockup_input_verify_call_count(mock_input, 1));
+    ASSUME_ITS_TRUE(fossil_mockup_input_verify_call_count(mock_input, 1));
 }
 
 FOSSIL_TEST(reader_let_reader_valid_input_invalid) {
     // Test invalid input validation
     ASSUME_ITS_FALSE(fossil_console_in_valid_input("Enter a valid number (1-100)", fossil_mockup_validate_input));
-    ASSUME_ITS_TRUE(mockup_input_verify_call_count(mock_input, 1));
+    ASSUME_ITS_TRUE(fossil_mockup_input_verify_call_count(mock_input, 1));
 }
 
 FOSSIL_TEST(reader_let_reader_confirm_yes_no_yes) {
     // Test confirming "yes"
     ASSUME_ITS_TRUE(fossil_console_in_confirm_yes_no("Do you like programming?"));
-    ASSUME_ITS_TRUE(mockup_input_verify_call_count(mock_input, 1));
+    ASSUME_ITS_TRUE(fossil_mockup_input_verify_call_count(mock_input, 1));
 }
 
 FOSSIL_TEST(reader_let_reader_confirm_yes_no_no) {
