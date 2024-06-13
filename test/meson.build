@@ -42,7 +42,7 @@ if get_option('with_test').enabled()
     ]
 
     foreach cube : test_cubes
-        test_src += ['unittest_' + cube + '.c']
+        test_src += ['xtest_' + cube + '.c']
     endforeach
 
     pizza = executable('runner', test_src,
