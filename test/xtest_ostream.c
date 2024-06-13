@@ -36,7 +36,7 @@ Description:
 
 // Test case for fstr feature in fossil_console_out function
 FOSSIL_TEST(fossil_console_out_fstr_test) {
-    mockup_output_t *mock_output = mockup_output_create("fossil_console_out");
+    fossil_mockup_output_t *mock_output = mockup_output_create("fossil_console_out");
 
     // Capture console output
     mockup_output_capture(mock_output, "This is an fstr test");
@@ -56,7 +56,7 @@ FOSSIL_TEST(fossil_console_out_fstr_test) {
 
 // Test case for fstr feature with different types in fossil_console_out function
 FOSSIL_TEST(fossil_console_out_fstr_types_test) {
-    mockup_output_t *mock_output = mockup_output_create("fossil_console_out");
+    fossil_mockup_output_t *mock_output = mockup_output_create("fossil_console_out");
 
     // Capture console output
     mockup_output_capture(mock_output, "10 20 30 40 50 60 70 80 123 83 a hello 0x12345678 3.14 3.14159");
@@ -90,7 +90,7 @@ FOSSIL_TEST(fossil_console_out_fstr_types_test) {
 
 // Test case for mixing classic and fstr formatting in fossil_console_out function
 FOSSIL_TEST(fossil_console_out_mix_classic_fstring_test) {
-    mockup_output_t *mock_output = mockup_output_create("fossil_console_out");
+    fossil_mockup_output_t *mock_output = mockup_output_create("fossil_console_out");
 
     // Capture console output
     mockup_output_capture(mock_output, "This is a classic string with a formatted number: 42 and here's an fstr string: \033[1mbold text\033[0m");
@@ -110,7 +110,7 @@ FOSSIL_TEST(fossil_console_out_mix_classic_fstring_test) {
 
 // Test case for various fstring features in fossil_console_out function
 FOSSIL_TEST(fossil_console_out_fstring_features_test) {
-    mockup_output_t *mock_output = mockup_output_create("fossil_console_out");
+    fossil_mockup_output_t *mock_output = mockup_output_create("fossil_console_out");
 
     // Capture console output
     mockup_output_capture(mock_output, "This is a bold string");
@@ -145,7 +145,7 @@ FOSSIL_TEST(fossil_console_out_fstring_features_test) {
 
 // Additional test cases for mixing fstring and classic formatting
 FOSSIL_TEST(fossil_console_out_mix_fstring_classic_test) {
-    mockup_output_t *mock_output = mockup_output_create("fossil_console_out");
+    fossil_mockup_output_t *mock_output = mockup_output_create("fossil_console_out");
 
     // Capture console output
     mockup_output_capture(mock_output, "This is a bold string and this is a classic string");
@@ -165,7 +165,7 @@ FOSSIL_TEST(fossil_console_out_mix_fstring_classic_test) {
 
 // Test case for classic formatting with different types in fossil_console_out function
 FOSSIL_TEST(fossil_console_out_classic_format_types_test) {
-    mockup_output_t *mock_output = mockup_output_create("fossil_console_out");
+    fossil_mockup_output_t *mock_output = mockup_output_create("fossil_console_out");
 
     // Capture console output
     mockup_output_capture(mock_output, "10 20 30 40 50 60 70 80 123 83 a hello 0x12345678 3.14 3.14159");
