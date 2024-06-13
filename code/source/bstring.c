@@ -11,7 +11,7 @@ Description:
 ==============================================================================
 */
 #include "fossil/string/bstring.h"
-#include "fossil/string/common.h"
+#include "fossil/common/common.h"
 #include <stdlib.h>
 #include <string.h>
 
