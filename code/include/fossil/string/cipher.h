@@ -28,7 +28,7 @@ Description:
  * @endcode
  */
 
-#include "string/cstring.h"
+#include "cstring.h"
 
 #ifdef __cplusplus
 extern "C"
