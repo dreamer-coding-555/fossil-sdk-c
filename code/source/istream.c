@@ -148,7 +148,7 @@ void disable_echo(void) {
     struct termios term;
     tcgetattr(0, &term);  // Use file descriptor directly
     term.c_lflag &= ~ECHO;
-    tfossil_set_tattr(0, TCSANOW, &term);
+    tcsetattr(0, TCSANOW, &term);
 #endif
 }
 
@@ -160,7 +160,7 @@ void enable_echo(void) {
     struct termios term;
     tcgetattr(0, &term);  // Use file descriptor directly
     term.c_lflag |= ECHO;
-    tfossil_set_tattr(0, TCSANOW, &term);
+    tcsetattr(0, TCSANOW, &term);
 #endif
 }
 

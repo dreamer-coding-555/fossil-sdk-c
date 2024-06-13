@@ -31,9 +31,15 @@ code = files(
     'strfrom.c', 'strto.c',
     'wstring.c', 'strstream.c',
     # Standard low-level components
-    'command.c', 'random.c', 'filesystem.c',
-    'arguments.c', 'bitwise.c', 'money.c',
-    'memory.c', 'hostsystem.c', 'smartptr.c'
+    'command.c', 'random.c',
+    'filesystem.c', 'arguments.c',
+    'bitwise.c', 'money.c',
+    'memory.c', 'hostsystem.c',
+    'smartptr.c',
+    # Core components
+    'fossil.c', 'datetime.c',
+    'fson.c', 'regex.c',
+    'bluecrab.c'
     )
 
 fossil_sdk_lib = library('fossil-sdk',
