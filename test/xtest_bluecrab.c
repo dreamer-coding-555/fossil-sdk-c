@@ -14,7 +14,7 @@ Description:
 #include "fossil/common/common.h" // for cnull
 
 #include <fossil/unittest.h>   // basic test tools
-#include <fossil/xmock.h>   // basic mock tools
+#include <fossil/mockup.h>   // basic mock tools
 #include <fossil/xassume.h> // extra asserts
 
 // * * * * * * * * * * * * * * * * * * * * * * * *
