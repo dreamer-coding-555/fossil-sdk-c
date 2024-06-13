@@ -55,8 +55,8 @@ void normalize_word(char* word) {
 }
 
 // Create a matrix with the specified number of rows and columns
-jellyfish_matrix* fossil_jellyfish_create_matrix(int rows, int cols) {
-    jellyfish_matrix* mat = (jellyfish_matrix*)malloc(sizeof(jellyfish_matrix));
+jellyfish_matrix_t* fossil_jellyfish_create_matrix(int rows, int cols) {
+    jellyfish_matrix_t* mat = (jellyfish_matrix_t*)malloc(sizeof(jellyfish_matrix_t));
     mat->rows = rows;
     mat->cols = cols;
     mat->data = (double**)malloc(rows * sizeof(double*));
@@ -70,7 +70,7 @@ jellyfish_matrix* fossil_jellyfish_create_matrix(int rows, int cols) {
 }
 
 // Free memory allocated for a matrix
-void fossil_jellyfish_erase_matrix(jellyfish_matrix* mat) {
+void fossil_jellyfish_erase_matrix(jellyfish_matrix_t* mat) {
     for (int i = 0; i < mat->rows; i++) {
         free(mat->data[i]);
     }
@@ -79,7 +79,7 @@ void fossil_jellyfish_erase_matrix(jellyfish_matrix* mat) {
 }
 
 // Print the contents of a matrix
-void fossil_jellyfish_print_matrix(jellyfish_matrix* mat) {
+void fossil_jellyfish_print_matrix(jellyfish_matrix_t* mat) {
     for (int i = 0; i < mat->rows; i++) {
         for (int j = 0; j < mat->cols; j++) {
             printf("%f ", mat->data[i][j]);
@@ -89,12 +89,12 @@ void fossil_jellyfish_print_matrix(jellyfish_matrix* mat) {
 }
 
 // Multiply two matrices and return the result
-jellyfish_matrix* fossil_jellyfish_multiply(jellyfish_matrix* a, jellyfish_matrix* b) {
+jellyfish_matrix_t* fossil_jellyfish_multiply(jellyfish_matrix_t* a, jellyfish_matrix_t* b) {
     if (a->cols != b->rows) {
         fprintf(stderr, "Matrix dimensions are incompatible for multiplication.\n");
         return cnullptr;
     }
-    jellyfish_matrix* result = fossil_jellyfish_create_matrix(a->rows, b->cols);
+    jellyfish_matrix_t* result = fossil_jellyfish_create_matrix(a->rows, b->cols);
     for (int i = 0; i < a->rows; i++) {
         for (int j = 0; j < b->cols; j++) {
             double sum = 0.0;
@@ -108,12 +108,12 @@ jellyfish_matrix* fossil_jellyfish_multiply(jellyfish_matrix* a, jellyfish_matri
 }
 
 // Add two matrices and return the result
-jellyfish_matrix* fossil_jellyfish_add(jellyfish_matrix* a, jellyfish_matrix* b) {
+jellyfish_matrix_t* fossil_jellyfish_add(jellyfish_matrix_t* a, jellyfish_matrix_t* b) {
     if (a->rows != b->rows || a->cols != b->cols) {
         fprintf(stderr, "Matrix dimensions are incompatible for addition.\n");
         return cnullptr;
     }
-    jellyfish_matrix* result = fossil_jellyfish_create_matrix(a->rows, a->cols);
+    jellyfish_matrix_t* result = fossil_jellyfish_create_matrix(a->rows, a->cols);
     for (int i = 0; i < a->rows; i++) {
         for (int j = 0; j < a->cols; j++) {
             result->data[i][j] = a->data[i][j] + b->data[i][j];
@@ -123,12 +123,12 @@ jellyfish_matrix* fossil_jellyfish_add(jellyfish_matrix* a, jellyfish_matrix* b)
 }
 
 // Subtract one matrix from another and return the result
-jellyfish_matrix* fossil_jellyfish_subtract(jellyfish_matrix* a, jellyfish_matrix* b) {
+jellyfish_matrix_t* fossil_jellyfish_subtract(jellyfish_matrix_t* a, jellyfish_matrix_t* b) {
     if (a->rows != b->rows || a->cols != b->cols) {
         fprintf(stderr, "Matrix dimensions are incompatible for subtraction.\n");
         return cnullptr;
     }
-    jellyfish_matrix* result = fossil_jellyfish_create_matrix(a->rows, a->cols);
+    jellyfish_matrix_t* result = fossil_jellyfish_create_matrix(a->rows, a->cols);
     for (int i = 0; i < a->rows; i++) {
         for (int j = 0; j < a->cols; j++) {
             result->data[i][j] = a->data[i][j] - b->data[i][j];
@@ -138,8 +138,8 @@ jellyfish_matrix* fossil_jellyfish_subtract(jellyfish_matrix* a, jellyfish_matri
 }
 
 // Transpose a matrix and return the result
-jellyfish_matrix* fossil_jellyfish_transpose(jellyfish_matrix* mat) {
-    jellyfish_matrix* result = fossil_jellyfish_create_matrix(mat->cols, mat->rows);
+jellyfish_matrix_t* fossil_jellyfish_transpose(jellyfish_matrix_t* mat) {
+    jellyfish_matrix_t* result = fossil_jellyfish_create_matrix(mat->cols, mat->rows);
     for (int i = 0; i < mat->rows; i++) {
         for (int j = 0; j < mat->cols; j++) {
             result->data[j][i] = mat->data[i][j];
@@ -149,7 +149,7 @@ jellyfish_matrix* fossil_jellyfish_transpose(jellyfish_matrix* mat) {
 }
 
 // Apply the sigmoid activation function element-wise to a matrix
-void fossil_jellyfish_sigmoid(jellyfish_matrix* mat) {
+void fossil_jellyfish_sigmoid(jellyfish_matrix_t* mat) {
     for (int i = 0; i < mat->rows; i++) {
         for (int j = 0; j < mat->cols; j++) {
             mat->data[i][j] = 1.0 / (1.0 + exp(-mat->data[i][j]));
@@ -158,7 +158,7 @@ void fossil_jellyfish_sigmoid(jellyfish_matrix* mat) {
 }
 
 // Apply the ReLU activation function element-wise to a matrix
-void fossil_jellyfish_relu(jellyfish_matrix* mat) {
+void fossil_jellyfish_relu(jellyfish_matrix_t* mat) {
     for (int i = 0; i < mat->rows; i++) {
         for (int j = 0; j < mat->cols; j++) {
             mat->data[i][j] = fmax(0.0, mat->data[i][j]);
@@ -167,7 +167,7 @@ void fossil_jellyfish_relu(jellyfish_matrix* mat) {
 }
 
 // Apply the hyperbolic tangent (tanh) activation function element-wise to a matrix
-void fossil_jellyfish_tanh(jellyfish_matrix* mat) {
+void fossil_jellyfish_tanh(jellyfish_matrix_t* mat) {
     for (int i = 0; i < mat->rows; i++) {
         for (int j = 0; j < mat->cols; j++) {
             mat->data[i][j] = tanh(mat->data[i][j]);
@@ -176,8 +176,8 @@ void fossil_jellyfish_tanh(jellyfish_matrix* mat) {
 }
 
 // Perform forward propagation for a single layer of a neural network
-jellyfish_matrix* fossil_jellyfish_forward(jellyfish_matrix* input, jellyfish_layer* layer) {
-    jellyfish_matrix* z = fossil_jellyfish_multiply(input, layer->weights);
+jellyfish_matrix_t* fossil_jellyfish_forward(jellyfish_matrix_t* input, jellyfish_layer_t* layer) {
+    jellyfish_matrix_t* z = fossil_jellyfish_multiply(input, layer->weights);
     for (int i = 0; i < z->rows; i++) {
         for (int j = 0; j < z->cols; j++) {
             z->data[i][j] += layer->bias->data[0][j];
@@ -189,8 +189,8 @@ jellyfish_matrix* fossil_jellyfish_forward(jellyfish_matrix* input, jellyfish_la
 }
 
 // Create a neural network layer with the specified input and output sizes and activation function
-jellyfish_layer* fossil_jellyfish_create_layer(int input_size, int output_size, void (*activation)(jellyfish_matrix*)) {
-    jellyfish_layer* layer = (jellyfish_layer*)malloc(sizeof(jellyfish_layer));
+jellyfish_layer_t* fossil_jellyfish_create_layer(int input_size, int output_size, void (*activation)(jellyfish_matrix_t*)) {
+    jellyfish_layer_t* layer = (jellyfish_layer_t*)malloc(sizeof(jellyfish_layer_t));
     layer->weights = fossil_jellyfish_create_matrix(input_size, output_size);
     layer->bias = fossil_jellyfish_create_matrix(1, output_size);
     layer->output = cnullptr;
@@ -208,7 +208,7 @@ jellyfish_layer* fossil_jellyfish_create_layer(int input_size, int output_size, 
 }
 
 // Free memory allocated for a neural network layer
-void fossil_jellyfish_erase_layer(jellyfish_layer* layer) {
+void fossil_jellyfish_erase_layer(jellyfish_layer_t* layer) {
     fossil_jellyfish_erase_matrix(layer->weights);
     fossil_jellyfish_erase_matrix(layer->bias);
     if (layer->output != cnullptr) {
@@ -218,7 +218,7 @@ void fossil_jellyfish_erase_layer(jellyfish_layer* layer) {
 }
 
 // Calculate the mean squared error (MSE) loss between predicted and actual matrices
-double fossil_jellyfish_mse(jellyfish_matrix* predicted, jellyfish_matrix* actual) {
+double fossil_jellyfish_mse(jellyfish_matrix_t* predicted, jellyfish_matrix_t* actual) {
     double sum_squared_error = 0.0;
     for (int i = 0; i < predicted->rows; i++) {
         for (int j = 0; j < predicted->cols; j++) {
@@ -230,7 +230,7 @@ double fossil_jellyfish_mse(jellyfish_matrix* predicted, jellyfish_matrix* actua
 }
 
 // Calculate the cross-entropy loss between predicted and actual matrices
-double fossil_jellyfish_cross_entropy(jellyfish_matrix* predicted, jellyfish_matrix* actual) {
+double fossil_jellyfish_cross_entropy(jellyfish_matrix_t* predicted, jellyfish_matrix_t* actual) {
     double loss = 0.0;
     for (int i = 0; i < predicted->rows; i++) {
         for (int j = 0; j < predicted->cols; j++) {
@@ -241,10 +241,10 @@ double fossil_jellyfish_cross_entropy(jellyfish_matrix* predicted, jellyfish_mat
 }
 
 // Sum the rows of a matrix
-jellyfish_matrix* fossil_jellyfish_sum_rows(jellyfish_matrix* matrix) {
+jellyfish_matrix_t* fossil_jellyfish_sum_rows(jellyfish_matrix_t* matrix) {
     int rows = matrix->rows;
     int cols = matrix->cols;
-    jellyfish_matrix* result = fossil_jellyfish_create_matrix(1, cols);
+    jellyfish_matrix_t* result = fossil_jellyfish_create_matrix(1, cols);
     
     for (int j = 0; j < cols; j++) {
         double sum = 0.0;
@@ -258,13 +258,13 @@ jellyfish_matrix* fossil_jellyfish_sum_rows(jellyfish_matrix* matrix) {
 }
 
 // Perform backpropagation for a single layer of a neural network and update weights and biases
-void fossil_jellyfish_backward(jellyfish_layer* layer, jellyfish_matrix* input, jellyfish_matrix* target, jellyfish_matrix* d_output, double learning_rate) {
+void fossil_jellyfish_backward(jellyfish_layer_t* layer, jellyfish_matrix_t* input, jellyfish_matrix_t* target, jellyfish_matrix_t* d_output, double learning_rate) {
     // Compute error signal
-    jellyfish_matrix* error = fossil_jellyfish_subtract(target, d_output);
+    jellyfish_matrix_t* error = fossil_jellyfish_subtract(target, d_output);
 
     // Compute gradients
-    jellyfish_matrix* d_weights = fossil_jellyfish_multiply(fossil_jellyfish_transpose(input), error);
-    jellyfish_matrix* d_bias = fossil_jellyfish_sum_rows(error);
+    jellyfish_matrix_t* d_weights = fossil_jellyfish_multiply(fossil_jellyfish_transpose(input), error);
+    jellyfish_matrix_t* d_bias = fossil_jellyfish_sum_rows(error);
 
     // Update weights and biases
     fossil_jellyfish_update_weights(layer, d_weights, d_bias, learning_rate);
@@ -289,7 +289,7 @@ double fossil_jellyfish_find_in_vocab(char *word) {
 }
 
 // Update weights and biases of a layer based on the calculated gradients
-void fossil_jellyfish_update_weights(jellyfish_layer* layer, jellyfish_matrix* d_weights, jellyfish_matrix* d_bias, double learning_rate) {
+void fossil_jellyfish_update_weights(jellyfish_layer_t* layer, jellyfish_matrix_t* d_weights, jellyfish_matrix_t* d_bias, double learning_rate) {
     for (int i = 0; i < layer->weights->rows; i++) {
         for (int j = 0; j < layer->weights->cols; j++) {
             layer->weights->data[i][j] -= learning_rate * d_weights->data[i][j];
@@ -301,9 +301,9 @@ void fossil_jellyfish_update_weights(jellyfish_layer* layer, jellyfish_matrix* d
 }
 
 // Tokenize a text input into a matrix of tokens based on a given vocabulary size and language
-jellyfish_matrix* fossil_jellyfish_tokenize(char* text, int vocab_size, char* language) {
+jellyfish_matrix_t* fossil_jellyfish_tokenize(char* text, int vocab_size, char* language) {
     // Initialize a matrix to store the tokens
-    jellyfish_matrix* tokens = fossil_jellyfish_create_matrix(1, vocab_size);
+    jellyfish_matrix_t* tokens = fossil_jellyfish_create_matrix(1, vocab_size);
     
     // Determine stopwords for the specified language
     char** stopwords;
@@ -361,10 +361,10 @@ jellyfish_matrix* fossil_jellyfish_tokenize(char* text, int vocab_size, char* la
 }
 
 // Embed tokens into a matrix of word embeddings using an embedding matrix
-jellyfish_matrix* fossil_jellyfish_embed(jellyfish_matrix* tokens, jellyfish_matrix* embedding_matrix) {
+jellyfish_matrix_t* fossil_jellyfish_embed(jellyfish_matrix_t* tokens, jellyfish_matrix_t* embedding_matrix) {
     // Initialize a matrix to store the embeddings
     int max_token_length = tokens->cols;
-    jellyfish_matrix* embeddings = fossil_jellyfish_create_matrix(max_token_length, embedding_matrix->cols);
+    jellyfish_matrix_t* embeddings = fossil_jellyfish_create_matrix(max_token_length, embedding_matrix->cols);
     
     // Lookup embeddings for each token
     for (int i = 0; i < tokens->cols; i++) {
@@ -386,11 +386,11 @@ jellyfish_matrix* fossil_jellyfish_embed(jellyfish_matrix* tokens, jellyfish_mat
     return embeddings;
 }
 
-jellyfish_matrix* fossil_jellyfish_inverse(jellyfish_matrix* covariance) {
+jellyfish_matrix_t* fossil_jellyfish_inverse(jellyfish_matrix_t* covariance) {
     // Compute the inverse of a matrix using the Gauss-Jordan elimination method
     int n = covariance->rows;
-    jellyfish_matrix* inverse = fossil_jellyfish_create_matrix(n, n);
-    jellyfish_matrix* augmented = fossil_jellyfish_create_matrix(n, 2 * n);
+    jellyfish_matrix_t* inverse = fossil_jellyfish_create_matrix(n, n);
+    jellyfish_matrix_t* augmented = fossil_jellyfish_create_matrix(n, 2 * n);
     
     // Initialize the augmented matrix with the identity matrix
     for (int i = 0; i < n; i++) {
@@ -430,23 +430,23 @@ jellyfish_matrix* fossil_jellyfish_inverse(jellyfish_matrix* covariance) {
 }
 
 // Encode input data using the encoder layer of an autoencoder
-jellyfish_matrix* fossil_jellyfish_autoencoder_encode(jellyfish_matrix* input, jellyfish_layer* encoder) {
+jellyfish_matrix_t* fossil_jellyfish_autoencoder_encode(jellyfish_matrix_t* input, jellyfish_layer_t* encoder) {
     return fossil_jellyfish_forward(input, encoder);
 }
 
 // Decode encoded data using the decoder layer of an autoencoder
-jellyfish_matrix* fossil_jellyfish_autoencoder_decode(jellyfish_matrix* encoded, jellyfish_layer* decoder) {
+jellyfish_matrix_t* fossil_jellyfish_autoencoder_decode(jellyfish_matrix_t* encoded, jellyfish_layer_t* decoder) {
     return fossil_jellyfish_forward(encoded, decoder);
 }
 
 // Calculate the reconstruction error between the input and the reconstructed output
-double fossil_jellyfish_reconstruction_error(jellyfish_matrix* input, jellyfish_matrix* reconstructed) {
+double fossil_jellyfish_reconstruction_error(jellyfish_matrix_t* input, jellyfish_matrix_t* reconstructed) {
     // Compute mean squared error between input and reconstructed output
     return fossil_jellyfish_mse(input, reconstructed);
 }
 
 // Save a matrix to a .fish file
-int fossil_jellyfish_save_matrix(const char* filename, jellyfish_matrix* mat) {
+int fossil_jellyfish_save_matrix(const char* filename, jellyfish_matrix_t* mat) {
     // Check if the filename has the .fish extension
     const char* extension = ".fish";
     if (strstr(filename, extension) == cnullptr) {
@@ -473,7 +473,7 @@ int fossil_jellyfish_save_matrix(const char* filename, jellyfish_matrix* mat) {
 }
 
 // Load a matrix from a .fish file
-jellyfish_matrix* fossil_jellyfish_load_matrix(const char* filename) {
+jellyfish_matrix_t* fossil_jellyfish_load_matrix(const char* filename) {
     // Check if the filename has the .fish extension
     const char* extension = ".fish";
     if (strstr(filename, extension) == cnullptr) {
@@ -497,7 +497,7 @@ jellyfish_matrix* fossil_jellyfish_load_matrix(const char* filename) {
         return cnullptr;
     }
     // Allocate memory for the matrix
-    jellyfish_matrix* mat = fossil_jellyfish_create_matrix(rows, cols);
+    jellyfish_matrix_t* mat = fossil_jellyfish_create_matrix(rows, cols);
     // Read matrix data
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < cols; j++) {
@@ -514,7 +514,7 @@ jellyfish_matrix* fossil_jellyfish_load_matrix(const char* filename) {
 }
 
 // Save a layer to a .fish file
-int fossil_jellyfish_save_layer(const char* filename, jellyfish_layer* layer) {
+int fossil_jellyfish_save_layer(const char* filename, jellyfish_layer_t* layer) {
     // Check if the filename has the .fish extension
     const char* extension = ".fish";
     if (strstr(filename, extension) == cnullptr) {
@@ -551,7 +551,7 @@ int fossil_jellyfish_save_layer(const char* filename, jellyfish_layer* layer) {
 }
 
 // Load a layer from a .fish file
-jellyfish_layer* fossil_jellyfish_load_layer(const char* filename) {
+jellyfish_layer_t* fossil_jellyfish_load_layer(const char* filename) {
     // Check if the filename has the .fish extension
     const char* extension = ".fish";
     if (strstr(filename, extension) == cnullptr) {
@@ -575,7 +575,7 @@ jellyfish_layer* fossil_jellyfish_load_layer(const char* filename) {
         return cnullptr;
     }
     // Allocate memory for weights
-    jellyfish_matrix* weights = fossil_jellyfish_create_matrix(w_rows, w_cols);
+    jellyfish_matrix_t* weights = fossil_jellyfish_create_matrix(w_rows, w_cols);
     // Read weights data
     for (int i = 0; i < w_rows; i++) {
         for (int j = 0; j < w_cols; j++) {
@@ -596,7 +596,7 @@ jellyfish_layer* fossil_jellyfish_load_layer(const char* filename) {
         return cnullptr;
     }
     // Allocate memory for bias
-    jellyfish_matrix* bias = fossil_jellyfish_create_matrix(b_rows, b_cols);
+    jellyfish_matrix_t* bias = fossil_jellyfish_create_matrix(b_rows, b_cols);
     // Read bias data
     for (int i = 0; i < b_rows; i++) {
         for (int j = 0; j < b_cols; j++) {
@@ -611,7 +611,7 @@ jellyfish_layer* fossil_jellyfish_load_layer(const char* filename) {
     }
     fclose(file);
     // Create layer and set weights and bias
-    jellyfish_layer* layer = fossil_jellyfish_create_layer(w_rows, w_cols, cnullptr); // Assuming no activation function for simplicity
+    jellyfish_layer_t* layer = fossil_jellyfish_create_layer(w_rows, w_cols, cnullptr); // Assuming no activation function for simplicity
     layer->weights = weights;
     layer->bias = bias;
     return layer;

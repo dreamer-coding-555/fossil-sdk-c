@@ -16,17 +16,17 @@ Description:
 // Define the task function type
 #ifdef _WIN32
 #include <windows.h>
-typedef LPVOID xtask_arg_t;
-typedef void (*xtask_func_t)(LPVOID arg);
+typedef LPVOID fossil_xtask_arg_t;
+typedef void (*fossil_xtask_func_t)(LPVOID arg);
 #else
-typedef void *xtask_arg_t;
-typedef void (*xtask_func_t)(void* arg);
+typedef void *fossil_xtask_arg_t;
+typedef void (*fossil_xtask_func_t)(void* arg);
 #endif
 
 typedef struct {
-    xtask_func_t task_func;
-    xtask_arg_t arg;
-} xtask_t;
+    fossil_xtask_func_t task_func;
+    fossil_xtask_arg_t arg;
+} fossil_xtask_t;
 
 #ifdef _WIN32
 #include <windows.h>
@@ -43,7 +43,7 @@ typedef struct {
  * @param arg_name The name of the argument for the task function.
  */
 #define XTASK(task_name, arg_name) \
-    void task_name(xtask_arg_t arg_name)
+    void task_name(fossil_xtask_arg_t arg_name)
 
 /**
  * @brief Inline function to provide platform-independent task delay by seconds.

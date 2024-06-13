@@ -15,16 +15,16 @@ Description:
 #include <stdio.h>
 #include <stdlib.h>
 
-jellyfish_matrix* fossil_jellyfish_dolphin_tokenize(char* text, int vocab_size, char* language) {
+jellyfish_matrix_t* fossil_jellyfish_dolphin_tokenize(char* text, int vocab_size, char* language) {
     return fossil_jellyfish_tokenize(text, vocab_size, language);
 }
 
-jellyfish_matrix* fossil_jellyfish_dolphin_embed(jellyfish_matrix* tokens, jellyfish_matrix* embedding_matrix) {
+jellyfish_matrix_t* fossil_jellyfish_dolphin_embed(jellyfish_matrix_t* tokens, jellyfish_matrix_t* embedding_matrix) {
     return fossil_jellyfish_embed(tokens, embedding_matrix);
 }
 
 // NLU wrapper functions
-void fossil_jellyfish_dolphin_analyze_sentiment(jellyfish_matrix* tokens, jellyfish_matrix* sentiment_labels) {
+void fossil_jellyfish_dolphin_analyze_sentiment(jellyfish_matrix_t* tokens, jellyfish_matrix_t* sentiment_labels) {
     if (tokens->cols != sentiment_labels->cols) {
         printf("Error: Number of tokens does not match number of labels.\n");
         return;
@@ -45,7 +45,7 @@ void fossil_jellyfish_dolphin_analyze_sentiment(jellyfish_matrix* tokens, jellyf
 }
 
 // NER wrapper functions
-void fossil_jellyfish_dolphin_recognize_entities(jellyfish_matrix* tokens, jellyfish_matrix* ner_labels) {
+void fossil_jellyfish_dolphin_recognize_entities(jellyfish_matrix_t* tokens, jellyfish_matrix_t* ner_labels) {
     if (tokens->cols != ner_labels->cols) {
         printf("Error: Number of tokens does not match number of labels.\n");
         return;

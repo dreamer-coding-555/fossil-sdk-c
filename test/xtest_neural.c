@@ -13,7 +13,7 @@ Description:
 #include <fossil/unittest.h>   // basic test tools
 #include <fossil/xassume.h> // extra asserts
 
-#include <fossil/xjellyfish/neural.h> // library under test
+#include <fossil/jellyfish/neural.h> // library under test
 
 // * * * * * * * * * * * * * * * * * * * * * * * *
 // * Fossil Logic Test Utilites
@@ -35,7 +35,7 @@ Description:
 FOSSIL_TEST(test_fossil_jellyfish_neural_create_layer) {
     int input_size = 3;
     int output_size = 2;
-    jellyfish_layer* layer = fossil_jellyfish_neural_create_layer(input_size, output_size, fossil_jellyfish_sigmoid);
+    jellyfish_layer_t* layer = fossil_jellyfish_neural_create_layer(input_size, output_size, fossil_jellyfish_sigmoid);
 
     // Check if layer is not NULL and has correct dimensions
     ASSUME_NOT_CNULL(layer);
@@ -53,15 +53,15 @@ FOSSIL_TEST(test_fossil_jellyfish_neural_create_layer) {
 FOSSIL_TEST(test_fossil_jellyfish_neural_forward) {
     int input_size = 3;
     int output_size = 2;
-    jellyfish_layer* layer = fossil_jellyfish_neural_create_layer(input_size, output_size, fossil_jellyfish_sigmoid);
-    jellyfish_matrix* input = fossil_jellyfish_create_matrix(1, input_size);
+    jellyfish_layer_t* layer = fossil_jellyfish_neural_create_layer(input_size, output_size, fossil_jellyfish_sigmoid);
+    jellyfish_matrix_t* input = fossil_jellyfish_create_matrix(1, input_size);
 
     // Initialize input with some dummy values
     input->data[0][0] = 1.0;
     input->data[0][1] = 2.0;
     input->data[0][2] = 3.0;
 
-    jellyfish_matrix* output = fossil_jellyfish_neural_forward(input, layer);
+    jellyfish_matrix_t* output = fossil_jellyfish_neural_forward(input, layer);
 
     // Check if output is not NULL and has correct dimensions
     ASSUME_NOT_CNULL(output);
@@ -76,10 +76,10 @@ FOSSIL_TEST(test_fossil_jellyfish_neural_forward) {
 FOSSIL_TEST(test_fossil_jellyfish_neural_backward) {
     int input_size = 3;
     int output_size = 2;
-    jellyfish_layer* layer = fossil_jellyfish_neural_create_layer(input_size, output_size, fossil_jellyfish_sigmoid);
-    jellyfish_matrix* input = fossil_jellyfish_create_matrix(1, input_size);
-    jellyfish_matrix* target = fossil_jellyfish_create_matrix(1, output_size);
-    jellyfish_matrix* d_output = fossil_jellyfish_create_matrix(1, output_size);
+    jellyfish_layer_t* layer = fossil_jellyfish_neural_create_layer(input_size, output_size, fossil_jellyfish_sigmoid);
+    jellyfish_matrix_t* input = fossil_jellyfish_create_matrix(1, input_size);
+    jellyfish_matrix_t* target = fossil_jellyfish_create_matrix(1, output_size);
+    jellyfish_matrix_t* d_output = fossil_jellyfish_create_matrix(1, output_size);
 
     // Initialize input, target, and d_output with some dummy values
     input->data[0][0] = 1.0;
@@ -97,12 +97,12 @@ FOSSIL_TEST(test_fossil_jellyfish_neural_backward) {
     // Check if weights and biases are updated (this is a basic check for non-zero values)
     for (int i = 0; i < layer->weights->rows; i++) {
         for (int j = 0; j < layer->weights->cols; j++) {
-            TEST_ASSUME_NOT_EQUAL(0.0, layer->weights->data[i][j]);
+            ASSUME_NOT_EQUAL_I32(0.0, layer->weights->data[i][j]);
         }
     }
 
     for (int i = 0; i < layer->bias->rows; i++) {
-        TEST_ASSUME_NOT_EQUAL(0.0, layer->bias->data[i][0]);
+        ASSUME_NOT_EQUAL_I32(0.0, layer->bias->data[i][0]);
     }
 
     fossil_jellyfish_erase_matrix(input);
@@ -114,9 +114,9 @@ FOSSIL_TEST(test_fossil_jellyfish_neural_backward) {
 FOSSIL_TEST(test_fossil_jellyfish_neural_update_weights) {
     int input_size = 3;
     int output_size = 2;
-    jellyfish_layer* layer = fossil_jellyfish_neural_create_layer(input_size, output_size, fossil_jellyfish_sigmoid);
-    jellyfish_matrix* d_weights = fossil_jellyfish_create_matrix(output_size, input_size);
-    jellyfish_matrix* d_bias = fossil_jellyfish_create_matrix(output_size, 1);
+    jellyfish_layer_t* layer = fossil_jellyfish_neural_create_layer(input_size, output_size, fossil_jellyfish_sigmoid);
+    jellyfish_matrix_t* d_weights = fossil_jellyfish_create_matrix(output_size, input_size);
+    jellyfish_matrix_t* d_bias = fossil_jellyfish_create_matrix(output_size, 1);
 
     // Initialize d_weights and d_bias with some dummy values
     d_weights->data[0][0] = 0.1; d_weights->data[0][1] = 0.1; d_weights->data[0][2] = 0.1;
@@ -130,12 +130,12 @@ FOSSIL_TEST(test_fossil_jellyfish_neural_update_weights) {
     // Check if weights and biases are updated
     for (int i = 0; i < layer->weights->rows; i++) {
         for (int j = 0; j < layer->weights->cols; j++) {
-            TEST_ASSUME_NOT_EQUAL(0.0, layer->weights->data[i][j]);
+            ASSUME_NOT_EQUAL_I32(0.0, layer->weights->data[i][j]);
         }
     }
 
     for (int i = 0; i < layer->bias->rows; i++) {
-        TEST_ASSUME_NOT_EQUAL(0.0, layer->bias->data[i][0]);
+        ASSUME_NOT_EQUAL_I32(0.0, layer->bias->data[i][0]);
     }
 
     fossil_jellyfish_erase_matrix(d_weights);

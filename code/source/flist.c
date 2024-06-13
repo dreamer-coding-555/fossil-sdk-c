@@ -20,8 +20,8 @@ Description:
 // CREATE and DELETE
 // =======================
 
-cflist* fossil_flist_create(fossil_tofu_type list_type) {
-    cflist* new_flist = (cflist*)malloc(sizeof(cflist));
+fossil_flist_t* fossil_flist_create(fossil_tofu_type list_type) {
+    fossil_flist_t* new_flist = (fossil_flist_t*)malloc(sizeof(fossil_flist_t));
     if (new_flist == cnullptr) {
         // Handle memory allocation failure
         return cnullptr;
@@ -33,7 +33,7 @@ cflist* fossil_flist_create(fossil_tofu_type list_type) {
     return new_flist;
 }
 
-void fossil_flist_erase(cflist* flist) {
+void fossil_flist_erase(fossil_flist_t* flist) {
     if (flist == cnullptr) {
         return;
     }
@@ -50,12 +50,12 @@ void fossil_flist_erase(cflist* flist) {
 // ALGORITHM FUNCTIONS
 // =======================
 
-fossil_tofu_error_t fossil_flist_insert(cflist* flist, fossil_tofu_t data) {
+fossil_tofu_error_t fossil_flist_insert(fossil_flist_t* flist, fossil_tofu_t data) {
     if (flist == cnullptr) {
         return fossil_tofu_error(FOSSIL_TOFU_ERROR_NULL_POINTER);
     }
 
-    cflist_node* new_node = (cflist_node*)malloc(sizeof(cflist_node));
+    fossil_flist_node_t* new_node = (fossil_flist_node_t*)malloc(sizeof(fossil_flist_node_t));
     if (new_node == cnullptr) {
         // Handle memory allocation failure
         return fossil_tofu_error(FOSSIL_TOFU_ERROR_MEMORY_CORRUPTION);
@@ -68,7 +68,7 @@ fossil_tofu_error_t fossil_flist_insert(cflist* flist, fossil_tofu_t data) {
     return fossil_tofu_error(FOSSIL_TOFU_ERROR_OK);
 }
 
-fossil_tofu_error_t fossil_flist_remove(cflist* flist, fossil_tofu_t* data) {
+fossil_tofu_error_t fossil_flist_remove(fossil_flist_t* flist, fossil_tofu_t* data) {
     if (flist == cnullptr || data == cnullptr) {
         return fossil_tofu_error(FOSSIL_TOFU_ERROR_NULL_POINTER);
     }
@@ -77,7 +77,7 @@ fossil_tofu_error_t fossil_flist_remove(cflist* flist, fossil_tofu_t* data) {
         return fossil_tofu_error(FOSSIL_TOFU_ERROR_INDEX_OUT_OF_BOUNDS); // List is empty
     }
 
-    cflist_node* temp = flist->head;
+    fossil_flist_node_t* temp = flist->head;
     flist->head = flist->head->next;
 
     *data = temp->data;
@@ -86,12 +86,12 @@ fossil_tofu_error_t fossil_flist_remove(cflist* flist, fossil_tofu_t* data) {
     return fossil_tofu_error(FOSSIL_TOFU_ERROR_OK);
 }
 
-fossil_tofu_error_t fossil_flist_search(const cflist* flist, fossil_tofu_t data) {
+fossil_tofu_error_t fossil_flist_search(const fossil_flist_t* flist, fossil_tofu_t data) {
     if (flist == cnullptr) {
         return fossil_tofu_error(FOSSIL_TOFU_ERROR_NULL_POINTER);
     }
 
-    cflist_node* current = flist->head;
+    fossil_flist_node_t* current = flist->head;
 
     while (current != cnullptr) {
         if (fossil_tofu_compare(&current->data, &data) == 0) {
@@ -104,14 +104,14 @@ fossil_tofu_error_t fossil_flist_search(const cflist* flist, fossil_tofu_t data)
     return fossil_tofu_error(FOSSIL_TOFU_ERROR_INDEX_OUT_OF_BOUNDS); // Not found
 }
 
-void fossil_flist_reverse_forward(cflist* flist) {
+void fossil_flist_reverse_forward(fossil_flist_t* flist) {
     if (flist == cnullptr || flist->head == cnullptr) {
         return;
     }
 
-    cflist_node* prev = cnullptr;
-    cflist_node* current = flist->head;
-    cflist_node* next = cnullptr;
+    fossil_flist_node_t* prev = cnullptr;
+    fossil_flist_node_t* current = flist->head;
+    fossil_flist_node_t* next = cnullptr;
 
     while (current != cnullptr) {
         next = current->next;
@@ -123,14 +123,14 @@ void fossil_flist_reverse_forward(cflist* flist) {
     flist->head = prev;
 }
 
-void fossil_flist_reverse_backward(cflist* flist) {
+void fossil_flist_reverse_backward(fossil_flist_t* flist) {
     if (flist == cnullptr || flist->head == cnullptr) {
         return;
     }
 
-    cflist_node* prev = cnullptr;
-    cflist_node* current = flist->head;
-    cflist_node* next = cnullptr;
+    fossil_flist_node_t* prev = cnullptr;
+    fossil_flist_node_t* current = flist->head;
+    fossil_flist_node_t* next = cnullptr;
 
     while (current != cnullptr) {
         next = current->next;
@@ -145,13 +145,13 @@ void fossil_flist_reverse_backward(cflist* flist) {
 // =======================
 // UTILITY FUNCTIONS
 // =======================
-size_t fossil_flist_size(const cflist* flist) {
+size_t fossil_flist_size(const fossil_flist_t* flist) {
     if (flist == cnullptr) {
         return 0;
     }
 
     size_t size = 0;
-    cflist_node* current = flist->head;
+    fossil_flist_node_t* current = flist->head;
 
     while (current != cnullptr) {
         ++size;
@@ -161,12 +161,12 @@ size_t fossil_flist_size(const cflist* flist) {
     return size;
 }
 
-fossil_tofu_t* fossil_flist_getter(cflist* flist, fossil_tofu_t data) {
+fossil_tofu_t* fossil_flist_getter(fossil_flist_t* flist, fossil_tofu_t data) {
     if (flist == cnullptr) {
         return cnullptr;
     }
 
-    cflist_node* current = flist->head;
+    fossil_flist_node_t* current = flist->head;
 
     while (current != cnullptr) {
         if (fossil_tofu_compare(&current->data, &data) == 0) {
@@ -179,12 +179,12 @@ fossil_tofu_t* fossil_flist_getter(cflist* flist, fossil_tofu_t data) {
     return cnullptr; // Not found
 }
 
-fossil_tofu_error_t fossil_flist_setter(cflist* flist, fossil_tofu_t data) {
+fossil_tofu_error_t fossil_flist_setter(fossil_flist_t* flist, fossil_tofu_t data) {
     if (flist == cnullptr) {
         return fossil_tofu_error(FOSSIL_TOFU_ERROR_NULL_POINTER);
     }
 
-    cflist_node* current = flist->head;
+    fossil_flist_node_t* current = flist->head;
 
     while (current != cnullptr) {
         if (fossil_tofu_compare(&current->data, &data) == 0) {
@@ -199,18 +199,18 @@ fossil_tofu_error_t fossil_flist_setter(cflist* flist, fossil_tofu_t data) {
     return fossil_tofu_error(FOSSIL_TOFU_ERROR_INDEX_OUT_OF_BOUNDS); // Not found
 }
 
-bool fossil_flist_not_empty(const cflist* flist) {
+bool fossil_flist_not_empty(const fossil_flist_t* flist) {
     return flist != cnullptr && flist->head != cnullptr;
 }
 
-bool fossil_flist_not_cnullptr(const cflist* flist) {
+bool fossil_flist_not_cnullptr(const fossil_flist_t* flist) {
     return flist != cnullptr;
 }
 
-bool fossil_flist_is_empty(const cflist* flist) {
+bool fossil_flist_is_empty(const fossil_flist_t* flist) {
     return flist == cnullptr || flist->head == cnullptr;
 }
 
-bool fossil_flist_is_cnullptr(const cflist* flist) {
+bool fossil_flist_is_cnullptr(const fossil_flist_t* flist) {
     return flist == cnullptr;
 }

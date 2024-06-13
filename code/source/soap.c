@@ -58,7 +58,7 @@ static const char *offensive_words[] = {
 };
 
 // Fallback implementation for platforms that don't support strcasestr
-static char *custom_strcasestr(const char * restrict haystack, const char * restrict needle) {
+static char *custom_strcasestr(const char *haystack, const char *needle) {
     while (*haystack) {
         size_t i = 0;
         while (tolower((unsigned char)haystack[i]) == tolower((unsigned char)needle[i]) && needle[i] != cterm) {
@@ -73,7 +73,7 @@ static char *custom_strcasestr(const char * restrict haystack, const char * rest
 }
 
 // Function to replace a substring in a string (case-insensitive)
-static void replace_substring_case_insensitive(char *str, const char * restrict old_substr, const char * restrict new_substr) {
+static void replace_substring_case_insensitive(char *str, const char *old_substr, const char *new_substr) {
     char *position = custom_strcasestr(str, old_substr);
     if (position != cnullptr) {
         size_t old_len = strlen(old_substr);
@@ -90,7 +90,7 @@ static void replace_substring_case_insensitive(char *str, const char * restrict 
     }
 }
 
-void fossil_soap_sanitize(char * restrict input) {
+void fossil_soap_sanitize(char *input) {
     if (input == cnullptr) return;
 
     // Perform single-threaded sanitization
@@ -102,7 +102,7 @@ void fossil_soap_sanitize(char * restrict input) {
 }
 
 // Function to check if a word is an offensive word or phrase
-int32_t fossil_soap_is_offensive(const char * restrict word) {
+int32_t fossil_soap_is_offensive(const char *word) {
     if (word == cnullptr) return FOSSIL_SUCCESS;
 
     for (size_t i = 0; i < sizeof(offensive_words) / sizeof(offensive_words[0]); ++i) {
@@ -114,7 +114,7 @@ int32_t fossil_soap_is_offensive(const char * restrict word) {
 }
 
 // Function to get the number of offensive words found in a string
-int32_t fossil_soap_count_offensive(const char * restrict input) {
+int32_t fossil_soap_count_offensive(const char *input) {
     if (input == cnullptr) return 0;
 
     int count = 0;

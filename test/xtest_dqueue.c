@@ -10,7 +10,7 @@ Description:
     feel free to contact Michael at michaelbrockus@gmail.com.
 ==============================================================================
 */
-#include "fossil/xstructures/dqueue.h" // lib source code
+#include "fossil/structures/dqueue.h" // lib source code
 
 #include <fossil/unittest.h>   // basic test tools
 #include <fossil/xassume.h> // extra asserts
@@ -33,13 +33,13 @@ Description:
 // * * * * * * * * * * * * * * * * * * * * * * * *
 
 FOSSIL_TEST(test_dqueue_create_and_erase) {
-    cdqueue* dqueue = fossil_dqueue_create(TOFU_INT_TYPE);
+    fossil_dqueue_t* dqueue = fossil_dqueue_create(TOFU_INT_TYPE);
 
     // Check if the deque is created with the expected values
     ASSUME_NOT_CNULL(dqueue);
     ASSUME_ITS_CNULL(dqueue->front);
     ASSUME_ITS_CNULL(dqueue->rear);
-    TEST_ASSUME_EQUAL(TOFU_INT_TYPE, dqueue->list_type);
+    ASSUME_ITS_EQUAL_I32(TOFU_INT_TYPE, dqueue->list_type);
 
     fossil_dqueue_erase(dqueue);
 
@@ -50,25 +50,25 @@ FOSSIL_TEST(test_dqueue_create_and_erase) {
 }
 
 FOSSIL_TEST(test_dqueue_insert_and_size) {
-    cdqueue* dqueue = fossil_dqueue_create(TOFU_INT_TYPE);
+    fossil_dqueue_t* dqueue = fossil_dqueue_create(TOFU_INT_TYPE);
 
     // Insert some elements
     fossil_tofu_t element1 = { TOFU_INT_TYPE, { .int_type = 42 } };
     fossil_tofu_t element2 = { TOFU_INT_TYPE, { .int_type = 10 } };
     fossil_tofu_t element3 = { TOFU_INT_TYPE, { .int_type = 5 } };
 
-    TEST_ASSUME_EQUAL(FOSSIL_TOFU_ERROR_OK, fossil_dqueue_insert(dqueue, element1));
-    TEST_ASSUME_EQUAL(FOSSIL_TOFU_ERROR_OK, fossil_dqueue_insert(dqueue, element2));
-    TEST_ASSUME_EQUAL(FOSSIL_TOFU_ERROR_OK, fossil_dqueue_insert(dqueue, element3));
+    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_dqueue_insert(dqueue, element1));
+    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_dqueue_insert(dqueue, element2));
+    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_dqueue_insert(dqueue, element3));
 
     // Check if the size is correct
-    TEST_ASSUME_EQUAL_UINT(3, fossil_dqueue_size(dqueue));
+    ASSUME_ITS_EQUAL_U32(3, fossil_dqueue_size(dqueue));
 
     fossil_dqueue_erase(dqueue);
 }
 
 FOSSIL_TEST(test_dqueue_remove) {
-    cdqueue* dqueue = fossil_dqueue_create(TOFU_INT_TYPE);
+    fossil_dqueue_t* dqueue = fossil_dqueue_create(TOFU_INT_TYPE);
 
     // Insert some elements
     fossil_tofu_t element1 = { TOFU_INT_TYPE, { .int_type = 42 } };
@@ -81,23 +81,23 @@ FOSSIL_TEST(test_dqueue_remove) {
 
     // Remove an element
     fossil_tofu_t removedElement;
-    TEST_ASSUME_EQUAL(FOSSIL_TOFU_ERROR_OK, fossil_dqueue_remove(dqueue, &removedElement));
+    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_dqueue_remove(dqueue, &removedElement));
 
     // Check if the removed element is correct
     ASSUME_ITS_EQUAL_I32(42, removedElement.data.int_type);
 
     // Check if the size is correct
-    TEST_ASSUME_EQUAL_UINT(2, fossil_dqueue_size(dqueue));
+    ASSUME_ITS_EQUAL_U32(2, fossil_dqueue_size(dqueue));
 
     fossil_dqueue_erase(dqueue);
 }
 
 FOSSIL_TEST(test_dqueue_getter_and_setter) {
-    cdqueue* dqueue = fossil_dqueue_create(TOFU_INT_TYPE);
+    fossil_dqueue_t* dqueue = fossil_dqueue_create(TOFU_INT_TYPE);
 
     // Insert an element
     fossil_tofu_t element = { TOFU_INT_TYPE, { .int_type = 42 } };
-    TEST_ASSUME_EQUAL(FOSSIL_TOFU_ERROR_OK, fossil_dqueue_insert(dqueue, element));
+    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_dqueue_insert(dqueue, element));
 
     // Get the value for an element
     fossil_tofu_t* retrievedElement = fossil_dqueue_getter(dqueue, element);
@@ -106,7 +106,7 @@ FOSSIL_TEST(test_dqueue_getter_and_setter) {
 
     // Update the value for an element
     fossil_tofu_t updatedElement = { TOFU_INT_TYPE, { .int_type = 50 } };
-    TEST_ASSUME_EQUAL(FOSSIL_TOFU_ERROR_OK, fossil_dqueue_setter(dqueue, updatedElement));
+    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_dqueue_setter(dqueue, updatedElement));
 
     // Get the updated value for the element
     retrievedElement = fossil_dqueue_getter(dqueue, updatedElement);
@@ -117,27 +117,27 @@ FOSSIL_TEST(test_dqueue_getter_and_setter) {
 }
 
 FOSSIL_TEST(test_dqueue_not_empty_and_is_empty) {
-    cdqueue* dqueue = fossil_dqueue_create(TOFU_INT_TYPE);
+    fossil_dqueue_t* dqueue = fossil_dqueue_create(TOFU_INT_TYPE);
 
     // Check initially not empty
-    TEST_ASSUME_FALSE(fossil_dqueue_not_empty(dqueue));
-    TEST_ASSUME_TRUE(fossil_dqueue_is_empty(dqueue));
+    ASSUME_ITS_FALSE(fossil_dqueue_not_empty(dqueue));
+    ASSUME_ITS_TRUE(fossil_dqueue_is_empty(dqueue));
 
     // Insert an element
     fossil_tofu_t element = { TOFU_INT_TYPE, { .int_type = 42 } };
-    TEST_ASSUME_EQUAL(FOSSIL_TOFU_ERROR_OK, fossil_dqueue_insert(dqueue, element));
+    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_dqueue_insert(dqueue, element));
 
     // Check not empty after insertion
-    TEST_ASSUME_TRUE(fossil_dqueue_not_empty(dqueue));
-    TEST_ASSUME_FALSE(fossil_dqueue_is_empty(dqueue));
+    ASSUME_ITS_TRUE(fossil_dqueue_not_empty(dqueue));
+    ASSUME_ITS_FALSE(fossil_dqueue_is_empty(dqueue));
 
     // Remove the element
     fossil_tofu_t removedElement;
-    TEST_ASSUME_EQUAL(FOSSIL_TOFU_ERROR_OK, fossil_dqueue_remove(dqueue, &removedElement));
+    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_dqueue_remove(dqueue, &removedElement));
 
     // Check empty after removal
-    TEST_ASSUME_FALSE(fossil_dqueue_not_empty(dqueue));
-    TEST_ASSUME_TRUE(fossil_dqueue_is_empty(dqueue));
+    ASSUME_ITS_FALSE(fossil_dqueue_not_empty(dqueue));
+    ASSUME_ITS_TRUE(fossil_dqueue_is_empty(dqueue));
 
     fossil_dqueue_erase(dqueue);
 }

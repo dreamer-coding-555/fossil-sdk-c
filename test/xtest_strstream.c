@@ -39,8 +39,8 @@ FOSSIL_TEST(test_fossil_cstrstream_read) {
 
     cstring result = fossil_cstrstream_read(str, &pos, len);
 
-    TEST_ASSUME_EQUAL_CSTRING("Hello", result);
-    TEST_ASSUME_EQUAL_UINT(5, pos);
+    ASSUME_ITS_EQUAL_CSTR("Hello", result);
+    ASSUME_ITS_EQUAL_U32(5, pos);
 }
 
 FOSSIL_TEST(test_fossil_cstrstream_read_line) {
@@ -49,16 +49,16 @@ FOSSIL_TEST(test_fossil_cstrstream_read_line) {
     size_t end_pos;
 
     cstring result1 = fossil_cstrstream_read_line(str, &pos, &end_pos);
-    TEST_ASSUME_EQUAL_CSTRING("Line 1", result1);
-    TEST_ASSUME_EQUAL_UINT(7, end_pos);
+    ASSUME_ITS_EQUAL_CSTR("Line 1", result1);
+    ASSUME_ITS_EQUAL_U32(7, end_pos);
 
     cstring result2 = fossil_cstrstream_read_line(str, &pos, &end_pos);
-    TEST_ASSUME_EQUAL_CSTRING("Line 2", result2);
-    TEST_ASSUME_EQUAL_UINT(14, end_pos);
+    ASSUME_ITS_EQUAL_CSTR("Line 2", result2);
+    ASSUME_ITS_EQUAL_U32(14, end_pos);
 
     cstring result3 = fossil_cstrstream_read_line(str, &pos, &end_pos);
-    TEST_ASSUME_EQUAL_CSTRING("Line 3", result3);
-    TEST_ASSUME_EQUAL_UINT(21, end_pos);
+    ASSUME_ITS_EQUAL_CSTR("Line 3", result3);
+    ASSUME_ITS_EQUAL_U32(21, end_pos);
 }
 
 FOSSIL_TEST(test_fossil_cstrstream_write) {
@@ -67,8 +67,8 @@ FOSSIL_TEST(test_fossil_cstrstream_write) {
     size_t pos = 7;
 
     fossil_cstrstream_write(dest, &pos, src);
-    TEST_ASSUME_EQUAL_CSTRING("Hello, world!", dest);
-    TEST_ASSUME_EQUAL_UINT(13, pos);
+    ASSUME_ITS_EQUAL_CSTR("Hello, world!", dest);
+    ASSUME_ITS_EQUAL_U32(13, pos);
 }
 
 FOSSIL_TEST(test_fossil_cstrstream_append) {
@@ -77,8 +77,8 @@ FOSSIL_TEST(test_fossil_cstrstream_append) {
     size_t pos = 7;
 
     fossil_cstrstream_append(dest, &pos, src);
-    TEST_ASSUME_EQUAL_CSTRING("Hello, world!", dest);
-    TEST_ASSUME_EQUAL_UINT(13, pos);
+    ASSUME_ITS_EQUAL_CSTR("Hello, world!", dest);
+    ASSUME_ITS_EQUAL_U32(13, pos);
 }
 
 FOSSIL_TEST(test_fossil_cstrstream_seek) {
@@ -86,7 +86,7 @@ FOSSIL_TEST(test_fossil_cstrstream_seek) {
     size_t offset = 5;
 
     fossil_cstrstream_seek(&pos, offset);
-    TEST_ASSUME_EQUAL_UINT(5, pos);
+    ASSUME_ITS_EQUAL_U32(5, pos);
 }
 
 FOSSIL_TEST(test_fossil_cstrstream_tell) {
@@ -94,7 +94,7 @@ FOSSIL_TEST(test_fossil_cstrstream_tell) {
     size_t pos = 7;
 
     size_t result = fossil_cstrstream_tell(str, pos);
-    TEST_ASSUME_EQUAL_UINT(7, result);
+    ASSUME_ITS_EQUAL_U32(7, result);
 }
 
 FOSSIL_TEST(test_fossil_bstrstream_read) {
@@ -104,8 +104,8 @@ FOSSIL_TEST(test_fossil_bstrstream_read) {
 
     bstring result = fossil_bstrstream_read(str, &pos, len);
 
-    TEST_ASSUME_EQUAL_CSTRING("Hello", (cstring)result);
-    TEST_ASSUME_EQUAL_UINT(5, pos);
+    ASSUME_ITS_EQUAL_CSTR("Hello", (cstring)result);
+    ASSUME_ITS_EQUAL_U32(5, pos);
 }
 
 FOSSIL_TEST(test_fossil_bstrstream_read_line) {
@@ -114,16 +114,16 @@ FOSSIL_TEST(test_fossil_bstrstream_read_line) {
     size_t end_pos;
 
     bstring result1 = fossil_bstrstream_read_line(str, &pos, &end_pos);
-    TEST_ASSUME_EQUAL_CSTRING("Line 1", (cstring)result1);
-    TEST_ASSUME_EQUAL_UINT(7, end_pos);
+    ASSUME_ITS_EQUAL_CSTR("Line 1", (cstring)result1);
+    ASSUME_ITS_EQUAL_U32(7, end_pos);
 
     bstring result2 = fossil_bstrstream_read_line(str, &pos, &end_pos);
-    TEST_ASSUME_EQUAL_CSTRING("Line 2", (cstring)result2);
-    TEST_ASSUME_EQUAL_UINT(14, end_pos);
+    ASSUME_ITS_EQUAL_CSTR("Line 2", (cstring)result2);
+    ASSUME_ITS_EQUAL_U32(14, end_pos);
 
     bstring result3 = fossil_bstrstream_read_line(str, &pos, &end_pos);
-    TEST_ASSUME_EQUAL_CSTRING("Line 3", (cstring)result3);
-    TEST_ASSUME_EQUAL_UINT(21, end_pos);
+    ASSUME_ITS_EQUAL_CSTR("Line 3", (cstring)result3);
+    ASSUME_ITS_EQUAL_U32(21, end_pos);
 }
 
 FOSSIL_TEST(test_fossil_bstrstream_write) {
@@ -132,8 +132,8 @@ FOSSIL_TEST(test_fossil_bstrstream_write) {
     size_t pos = 7;
 
     fossil_bstrstream_write(dest, &pos, src);
-    TEST_ASSUME_EQUAL_CSTRING("Hello, world!", (cstring)dest);
-    TEST_ASSUME_EQUAL_UINT(13, pos);
+    ASSUME_ITS_EQUAL_CSTR("Hello, world!", (cstring)dest);
+    ASSUME_ITS_EQUAL_U32(13, pos);
 }
 
 FOSSIL_TEST(test_fossil_bstrstream_append) {
@@ -142,8 +142,8 @@ FOSSIL_TEST(test_fossil_bstrstream_append) {
     size_t pos = 7;
 
     fossil_bstrstream_append(dest, &pos, src);
-    TEST_ASSUME_EQUAL_CSTRING("Hello, world!", (cstring)dest);
-    TEST_ASSUME_EQUAL_UINT(13, pos);
+    ASSUME_ITS_EQUAL_CSTR("Hello, world!", (cstring)dest);
+    ASSUME_ITS_EQUAL_U32(13, pos);
 }
 
 FOSSIL_TEST(test_fossil_bstrstream_seek) {
@@ -151,7 +151,7 @@ FOSSIL_TEST(test_fossil_bstrstream_seek) {
     size_t offset = 5;
 
     fossil_bstrstream_seek(&pos, offset);
-    TEST_ASSUME_EQUAL_UINT(5, pos);
+    ASSUME_ITS_EQUAL_U32(5, pos);
 }
 
 FOSSIL_TEST(test_fossil_bstrstream_tell) {
@@ -159,7 +159,7 @@ FOSSIL_TEST(test_fossil_bstrstream_tell) {
     size_t pos = 7;
 
     size_t result = fossil_bstrstream_tell(str, pos);
-    TEST_ASSUME_EQUAL_UINT(7, result);
+    ASSUME_ITS_EQUAL_U32(7, result);
 }
 
 FOSSIL_TEST(test_fossil_wstrstream_read) {
@@ -169,8 +169,8 @@ FOSSIL_TEST(test_fossil_wstrstream_read) {
 
     wstring result = fossil_wstrstream_read(str, &pos, len);
 
-    TEST_ASSUME_EQUAL_WSTRING(L"Hello", result);
-    TEST_ASSUME_EQUAL_UINT(5, pos);
+    ASSUME_ITS_EQUAL_WSTR(L"Hello", result);
+    ASSUME_ITS_EQUAL_U32(5, pos);
 }
 
 FOSSIL_TEST(test_fossil_wstrstream_read_line) {
@@ -179,16 +179,16 @@ FOSSIL_TEST(test_fossil_wstrstream_read_line) {
     size_t end_pos;
 
     wstring result1 = fossil_wstrstream_read_line(str, &pos, &end_pos);
-    TEST_ASSUME_EQUAL_WSTRING(L"Line 1", result1);
-    TEST_ASSUME_EQUAL_UINT(7, end_pos);
+    ASSUME_ITS_EQUAL_WSTR(L"Line 1", result1);
+    ASSUME_ITS_EQUAL_U32(7, end_pos);
 
     wstring result2 = fossil_wstrstream_read_line(str, &pos, &end_pos);
-    TEST_ASSUME_EQUAL_WSTRING(L"Line 2", result2);
-    TEST_ASSUME_EQUAL_UINT(14, end_pos);
+    ASSUME_ITS_EQUAL_WSTR(L"Line 2", result2);
+    ASSUME_ITS_EQUAL_U32(14, end_pos);
 
     wstring result3 = fossil_wstrstream_read_line(str, &pos, &end_pos);
-    TEST_ASSUME_EQUAL_WSTRING(L"Line 3", result3);
-    TEST_ASSUME_EQUAL_UINT(21, end_pos);
+    ASSUME_ITS_EQUAL_WSTR(L"Line 3", result3);
+    ASSUME_ITS_EQUAL_U32(21, end_pos);
 }
 
 FOSSIL_TEST(test_fossil_wstrstream_write) {
@@ -197,8 +197,8 @@ FOSSIL_TEST(test_fossil_wstrstream_write) {
     size_t pos = 7;
 
     fossil_wstrstream_write(dest, &pos, src);
-    TEST_ASSUME_EQUAL_WSTRING(L"Hello, world!", dest);
-    TEST_ASSUME_EQUAL_UINT(13, pos);
+    ASSUME_ITS_EQUAL_WSTR(L"Hello, world!", dest);
+    ASSUME_ITS_EQUAL_U32(13, pos);
 }
 
 FOSSIL_TEST(test_fossil_wstrstream_append) {
@@ -207,8 +207,8 @@ FOSSIL_TEST(test_fossil_wstrstream_append) {
     size_t pos = 7;
 
     fossil_wstrstream_append(dest, &pos, src);
-    TEST_ASSUME_EQUAL_WSTRING(L"Hello, world!", dest);
-    TEST_ASSUME_EQUAL_UINT(13, pos);
+    ASSUME_ITS_EQUAL_WSTR(L"Hello, world!", dest);
+    ASSUME_ITS_EQUAL_U32(13, pos);
 }
 
 FOSSIL_TEST(test_fossil_wstrstream_seek) {
@@ -216,7 +216,7 @@ FOSSIL_TEST(test_fossil_wstrstream_seek) {
     size_t offset = 5;
 
     fossil_wstrstream_seek(&pos, offset);
-    TEST_ASSUME_EQUAL_UINT(5, pos);
+    ASSUME_ITS_EQUAL_U32(5, pos);
 }
 
 FOSSIL_TEST(test_fossil_wstrstream_tell) {
@@ -224,7 +224,7 @@ FOSSIL_TEST(test_fossil_wstrstream_tell) {
     size_t pos = 7;
 
     size_t result = fossil_wstrstream_tell(str, pos);
-    TEST_ASSUME_EQUAL_UINT(7, result);
+    ASSUME_ITS_EQUAL_U32(7, result);
 }
 
 // * * * * * * * * * * * * * * * * * * * * * * * *

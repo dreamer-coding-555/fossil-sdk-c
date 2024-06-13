@@ -10,7 +10,7 @@ Description:
     feel free to contact Michael at michaelbrockus@gmail.com.
 ==============================================================================
 */
-#include "fossil/xstructures/tree.h" // lib source code
+#include "fossil/structures/tree.h" // lib source code
 
 #include <fossil/unittest.h>   // basic test tools
 #include <fossil/xassume.h> // extra asserts
@@ -33,12 +33,12 @@ Description:
 // * * * * * * * * * * * * * * * * * * * * * * * *
 
 FOSSIL_TEST(test_tree_create_and_erase) {
-    ctree* tree = fossil_tree_create(TOFU_INT_TYPE);
+    fossil_tree_t* tree = fossil_tree_create(TOFU_INT_TYPE);
     
     // Check if the tree is created with the expected values
     ASSUME_NOT_CNULL(tree);
     ASSUME_ITS_CNULL(tree->root);
-    TEST_ASSUME_EQUAL(TOFU_INT_TYPE, tree->tree);
+    ASSUME_ITS_EQUAL_I32(TOFU_INT_TYPE, tree->tree);
 
     fossil_tree_erase(tree);
 
@@ -48,31 +48,31 @@ FOSSIL_TEST(test_tree_create_and_erase) {
 }
 
 FOSSIL_TEST(test_tree_insert_and_search) {
-    ctree* tree = fossil_tree_create(TOFU_INT_TYPE);
+    fossil_tree_t* tree = fossil_tree_create(TOFU_INT_TYPE);
 
     // Insert some elements
     fossil_tofu_t element1 = { TOFU_INT_TYPE, { .int_type = 42 } };
     fossil_tofu_t element2 = { TOFU_INT_TYPE, { .int_type = 10 } };
     fossil_tofu_t element3 = { TOFU_INT_TYPE, { .int_type = 5 } };
 
-    TEST_ASSUME_EQUAL(FOSSIL_TOFU_ERROR_OK, fossil_tree_insert(tree, element1));
-    TEST_ASSUME_EQUAL(FOSSIL_TOFU_ERROR_OK, fossil_tree_insert(tree, element2));
-    TEST_ASSUME_EQUAL(FOSSIL_TOFU_ERROR_OK, fossil_tree_insert(tree, element3));
+    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_tree_insert(tree, element1));
+    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_tree_insert(tree, element2));
+    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_tree_insert(tree, element3));
 
     // Search for elements
-    TEST_ASSUME_EQUAL(FOSSIL_TOFU_ERROR_OK, fossil_tree_search(tree, element1));
-    TEST_ASSUME_EQUAL(FOSSIL_TOFU_ERROR_OK, fossil_tree_search(tree, element2));
-    TEST_ASSUME_EQUAL(FOSSIL_TOFU_ERROR_OK, fossil_tree_search(tree, element3));
+    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_tree_search(tree, element1));
+    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_tree_search(tree, element2));
+    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_tree_search(tree, element3));
 
     // Search for non-existing element
     fossil_tofu_t nonExistingElement = { TOFU_INT_TYPE, { .int_type = 100 } };
-    TEST_ASSUME_EQUAL(FOSSIL_TOFU_ERROR_INDEX_OUT_OF_BOUNDS, fossil_tree_search(tree, nonExistingElement));
+    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_INDEX_OUT_OF_BOUNDS, fossil_tree_search(tree, nonExistingElement));
 
     fossil_tree_erase(tree);
 }
 
 FOSSIL_TEST(test_tree_remove) {
-    ctree* tree = fossil_tree_create(TOFU_INT_TYPE);
+    fossil_tree_t* tree = fossil_tree_create(TOFU_INT_TYPE);
 
     // Insert some elements
     fossil_tofu_t element1 = { TOFU_INT_TYPE, { .int_type = 42 } };
@@ -84,12 +84,12 @@ FOSSIL_TEST(test_tree_remove) {
     fossil_tree_insert(tree, element3);
 
     // Remove an element
-    TEST_ASSUME_EQUAL(FOSSIL_TOFU_ERROR_OK, fossil_tree_remove(tree, element2));
+    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_tree_remove(tree, element2));
 
     // Search for removed and remaining elements
-    TEST_ASSUME_EQUAL(FOSSIL_TOFU_ERROR_INDEX_OUT_OF_BOUNDS, fossil_tree_search(tree, element2));
-    TEST_ASSUME_EQUAL(FOSSIL_TOFU_ERROR_OK, fossil_tree_search(tree, element1));
-    TEST_ASSUME_EQUAL(FOSSIL_TOFU_ERROR_OK, fossil_tree_search(tree, element3));
+    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_INDEX_OUT_OF_BOUNDS, fossil_tree_search(tree, element2));
+    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_tree_search(tree, element1));
+    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_tree_search(tree, element3));
 
     fossil_tree_erase(tree);
 }

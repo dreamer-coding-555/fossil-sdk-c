@@ -28,7 +28,7 @@ Description:
  * @endcode
  */
 
-#include "fossil/string/cstring.h"
+#include "string/cstring.h"
 
 #ifdef __cplusplus
 extern "C"

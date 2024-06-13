@@ -31,7 +31,7 @@ extern "C"
  * @param layer The layer of the neural network.
  * @return The output matrix after forward propagation.
  */
-jellyfish_matrix* fossil_jellyfish_neural_forward(jellyfish_matrix* input, jellyfish_layer* layer);
+jellyfish_matrix_t* fossil_jellyfish_neural_forward(jellyfish_matrix_t* input, jellyfish_layer_t* layer);
 
 /**
  * Create a new layer in the neural network.
@@ -41,14 +41,14 @@ jellyfish_matrix* fossil_jellyfish_neural_forward(jellyfish_matrix* input, jelly
  * @param activation The activation function for the layer.
  * @return The created layer.
  */
-jellyfish_layer* fossil_jellyfish_neural_create_layer(int input_size, int output_size, void (*activation)(jellyfish_matrix*));
+jellyfish_layer_t* fossil_jellyfish_neural_create_layer(int input_size, int output_size, void (*activation)(jellyfish_matrix_t*));
 
 /**
  * Erase a layer from the neural network.
  *
  * @param layer The layer to erase.
  */
-void fossil_jellyfish_neural_erase_layer(jellyfish_layer* layer);
+void fossil_jellyfish_neural_erase_layer(jellyfish_layer_t* layer);
 
 /**
  * Perform backward propagation in the neural network.
@@ -59,7 +59,7 @@ void fossil_jellyfish_neural_erase_layer(jellyfish_layer* layer);
  * @param d_output The derivative of the output matrix.
  * @param learning_rate The learning rate for the network.
  */
-void fossil_jellyfish_neural_backward(jellyfish_layer* layer, jellyfish_matrix* input, jellyfish_matrix* target, jellyfish_matrix* d_output, double learning_rate);
+void fossil_jellyfish_neural_backward(jellyfish_layer_t* layer, jellyfish_matrix_t* input, jellyfish_matrix_t* target, jellyfish_matrix_t* d_output, double learning_rate);
 
 /**
  * Update the weights of a layer in the neural network.
@@ -69,7 +69,7 @@ void fossil_jellyfish_neural_backward(jellyfish_layer* layer, jellyfish_matrix* 
  * @param d_bias The derivative of the bias matrix.
  * @param learning_rate The learning rate for the network.
  */
-void fossil_jellyfish_neural_update_weights(jellyfish_layer* layer, jellyfish_matrix* d_weights, jellyfish_matrix* d_bias, double learning_rate);
+void fossil_jellyfish_neural_update_weights(jellyfish_layer_t* layer, jellyfish_matrix_t* d_weights, jellyfish_matrix_t* d_bias, double learning_rate);
 
 #ifdef __cplusplus
 }

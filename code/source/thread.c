@@ -17,9 +17,9 @@ Description:
 // Platform-specific thread start routine function
 #ifdef _WIN32
 DWORD WINAPI thread_start_routine(LPVOID arg) {
-    xtask_t task = *(xtask_t*)arg;
-    xtask_func_t task_func = task.task_func;
-    xtask_arg_t task_arg = task.arg;
+    fossil_xtask_t task = *(fossil_xtask_t*)arg;
+    fossil_xtask_func_t task_func = task.task_func;
+    fossil_xtask_arg_t task_arg = task.arg;
     if (task_func) {
         task_func(task_arg);
     }
@@ -27,9 +27,9 @@ DWORD WINAPI thread_start_routine(LPVOID arg) {
 }
 #else
 void* thread_start_routine(void *arg) {
-    xtask_t task = *(xtask_t*)arg;
-    xtask_func_t task_func = task.task_func;
-    xtask_arg_t task_arg = task.arg;
+    fossil_xtask_t task = *(fossil_xtask_t*)arg;
+    fossil_xtask_func_t task_func = task.task_func;
+    fossil_xtask_arg_t task_arg = task.arg;
     if (task_func) {
         task_func(task_arg);
     }
@@ -37,11 +37,11 @@ void* thread_start_routine(void *arg) {
 }
 #endif
 
-int32_t fossil_thread_create(xthread_t *thread, xthread_attr_t *attr, xtask_t task) {
+int32_t fossil_thread_create(fossil_xthread_t *thread, fossil_xthread_attr_t *attr, fossil_xtask_t task) {
     if (!thread || !task.task_func) return FOSSIL_ERROR;
 
     // Create a new thread attribute if not provided
-    xthread_attr_t default_attr;
+    fossil_xthread_attr_t default_attr;
     if (!attr) {
         if (fossil_thread_attr_create(&default_attr) != 0) {
             return FOSSIL_ERROR;
@@ -68,7 +68,7 @@ int32_t fossil_thread_create(xthread_t *thread, xthread_attr_t *attr, xtask_t ta
     #endif
 }
 
-int32_t fossil_thread_join(xthread_t thread, void **retval) {
+int32_t fossil_thread_join(fossil_xthread_t thread, void **retval) {
     if (!thread) return FOSSIL_ERROR;
 
 #ifdef _WIN32
@@ -88,7 +88,7 @@ int32_t fossil_thread_join(xthread_t thread, void **retval) {
 #endif
 }
 
-int32_t fossil_thread_detach(xthread_t thread) {
+int32_t fossil_thread_detach(fossil_xthread_t thread) {
     if (!thread) return FOSSIL_ERROR;
 
 #ifdef _WIN32
@@ -98,7 +98,7 @@ int32_t fossil_thread_detach(xthread_t thread) {
 #endif
 }
 
-int32_t fossil_thread_attr_create(xthread_attr_t *attr) {
+int32_t fossil_thread_attr_create(fossil_xthread_attr_t *attr) {
     if (!attr) return FOSSIL_ERROR;
 
 #ifdef _WIN32
@@ -110,7 +110,7 @@ int32_t fossil_thread_attr_create(xthread_attr_t *attr) {
 #endif
 }
 
-int32_t fossil_thread_attr_erase(xthread_attr_t *attr) {
+int32_t fossil_thread_attr_erase(fossil_xthread_attr_t *attr) {
     if (!attr) return FOSSIL_ERROR;
 
 #ifdef _WIN32

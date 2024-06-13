@@ -65,7 +65,7 @@ extern "C"
  *
  * @param input The input string to be sanitized in-place.
  */
-void fossil_soap_sanitize(char * restrict input);
+void fossil_soap_sanitize(char *input);
 
 /**
  * Check if a word is a curse word or racist phrase.
@@ -76,7 +76,7 @@ void fossil_soap_sanitize(char * restrict input);
  * @param word The word to be checked for offensiveness.
  * @return     True if the word is offensive, false otherwise.
  */
-int32_t fossil_soap_is_offensive(const char * restrict word);
+int32_t fossil_soap_is_offensive(const char *word);
 
 /**
  * Get the number of offensive words found in a string.
@@ -87,7 +87,7 @@ int32_t fossil_soap_is_offensive(const char * restrict word);
  * @param input The input string to be checked for offensive words.
  * @return      The number of offensive words found.
  */
-int32_t fossil_soap_count_offensive(const char * restrict input);
+int32_t fossil_soap_count_offensive(const char *input);
 
 #ifdef __cplusplus
 }

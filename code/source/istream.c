@@ -41,13 +41,13 @@ char* fossil_console_in_get_line(void) {
 }
 
 // Function to read a line of text from the user.
-char* fossil_console_in_read_line(const char * restrict prompt) {
+char* fossil_console_in_read_line(const char *prompt) {
     printf("%s: ", prompt);
     return fossil_console_in_get_line();
 }
 
 // Function to validate user input with a specific condition.
-int32_t fossil_console_in_valid_input(const char * restrict prompt, bool (*validator)(const char*)) {
+int32_t fossil_console_in_valid_input(const char *prompt, bool (*validator)(const char*)) {
     while (true) {
         char* input = fossil_console_in_read_line(prompt);
         if (input && validator(input)) {
@@ -58,7 +58,7 @@ int32_t fossil_console_in_valid_input(const char * restrict prompt, bool (*valid
 }
 
 // Function to confirm a yes/no question.
-int32_t fossil_console_in_confirm_yes_no(const char * restrict question) {
+int32_t fossil_console_in_confirm_yes_no(const char *question) {
     while (true) {
         char* response = fossil_console_in_read_line(question);
         if (response) {
@@ -74,7 +74,7 @@ int32_t fossil_console_in_confirm_yes_no(const char * restrict question) {
 }
 
 // Function to confirm a selection from a menu.
-int32_t fossil_console_in_confirm_menu(const char * restrict question, const char** menu, int num_options) {
+int32_t fossil_console_in_confirm_menu(const char *question, const char** menu, int num_options) {
     fossil_console_out("%s:\n", question);
     for (int i = 0; i < num_options; i++) {
         fossil_console_out("%d. %s\n", i + 1, menu[i]);
@@ -91,7 +91,7 @@ int32_t fossil_console_in_confirm_menu(const char * restrict question, const cha
 }
 
 // Function to confirm multiple selections from a menu.
-void fossil_console_in_confirm_multi_menu(const char * restrict question, const char** menu, int32_t* selections, int32_t num_options) {
+void fossil_console_in_confirm_multi_menu(const char *question, const char** menu, int32_t* selections, int32_t num_options) {
     fossil_console_out("%s (Choose options by entering their numbers, separated by spaces):\n", question);
     for (int i = 0; i < num_options; i++) {
         fossil_console_out("%d. %s\n", i + 1, menu[i]);
@@ -117,7 +117,7 @@ int32_t fossil_console_in_confirm_exit(void) {
 }
 
 // Function to read a date from the user.
-int32_t fossil_console_in_read_date(const char * restrict prompt, int32_t* year, int32_t* month, int32_t* day) {
+int32_t fossil_console_in_read_date(const char *prompt, int32_t* year, int32_t* month, int32_t* day) {
     fossil_console_out("%s", prompt);
     if (scanf("%d-%d-%d", year, month, day) == 3) {
         return true;
@@ -129,7 +129,7 @@ int32_t fossil_console_in_read_date(const char * restrict prompt, int32_t* year,
 }
 
 // Function to read a time from the user.
-int32_t fossil_console_in_read_time(const char * restrict prompt, int32_t* hour, int32_t* minute, int32_t* second) {
+int32_t fossil_console_in_read_time(const char *prompt, int32_t* hour, int32_t* minute, int32_t* second) {
     fossil_console_out("%s", prompt);
     if (scanf("%d:%d:%d", hour, minute, second) == 3) {
         return true;
@@ -148,7 +148,7 @@ void disable_echo(void) {
     struct termios term;
     tcgetattr(0, &term);  // Use file descriptor directly
     term.c_lflag &= ~ECHO;
-    tcsetattr(0, TCSANOW, &term);
+    tfossil_set_tattr(0, TCSANOW, &term);
 #endif
 }
 
@@ -160,12 +160,12 @@ void enable_echo(void) {
     struct termios term;
     tcgetattr(0, &term);  // Use file descriptor directly
     term.c_lflag |= ECHO;
-    tcsetattr(0, TCSANOW, &term);
+    tfossil_set_tattr(0, TCSANOW, &term);
 #endif
 }
 
 // Function to read a password without displaying it
-char* fossil_console_in_read_password(const char * restrict prompt) {
+char* fossil_console_in_read_password(const char *prompt) {
     fossil_console_out("%s", prompt);
 
     disable_echo();

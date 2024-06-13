@@ -10,7 +10,7 @@ Description:
     feel free to contact Michael at michaelbrockus@gmail.com.
 ==============================================================================
 */
-#include <fossil/xstdio/soap.h> // library under test
+#include <fossil/stdio/soap.h> // library under test
 
 #include <fossil/unittest.h>   // basic test tools
 #include <fossil/xassume.h> // extra asserts

@@ -13,7 +13,7 @@ Description:
 #include "fossil/threads/mutexs.h"
 #include "fossil/common/common.h"
 
-int32_t fossil_mutex_create(xmutex_t *mutex) {
+int32_t fossil_mutex_create(fossil_xmutex_t *mutex) {
     if (!mutex) return FOSSIL_ERROR;
 
 #ifdef _WIN32
@@ -25,7 +25,7 @@ int32_t fossil_mutex_create(xmutex_t *mutex) {
 #endif
 }
 
-int32_t fossil_mutex_erase(xmutex_t *mutex) {
+int32_t fossil_mutex_erase(fossil_xmutex_t *mutex) {
     if (!mutex) return FOSSIL_ERROR;
 
 #ifdef _WIN32
@@ -36,7 +36,7 @@ int32_t fossil_mutex_erase(xmutex_t *mutex) {
 #endif
 }
 
-int32_t fossil_mutex_lock(xmutex_t *mutex) {
+int32_t fossil_mutex_lock(fossil_xmutex_t *mutex) {
     if (!mutex) return FOSSIL_ERROR;
 
 #ifdef _WIN32
@@ -51,7 +51,7 @@ int32_t fossil_mutex_lock(xmutex_t *mutex) {
 #endif
 }
 
-int32_t fossil_mutex_unlock(xmutex_t *mutex) {
+int32_t fossil_mutex_unlock(fossil_xmutex_t *mutex) {
     if (!mutex) return FOSSIL_ERROR;
 
 #ifdef _WIN32
@@ -61,7 +61,7 @@ int32_t fossil_mutex_unlock(xmutex_t *mutex) {
 #endif
 }
 
-int32_t fossil_mutex_trylock(xmutex_t *mutex) {
+int32_t fossil_mutex_trylock(fossil_xmutex_t *mutex) {
     if (!mutex) return FOSSIL_ERROR;
 
 #ifdef _WIN32

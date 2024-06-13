@@ -30,7 +30,7 @@ Description:
  * @endcode
  */
 
-#include "fossil/string/letter.h"
+#include "string/letter.h"
 
 // classic C string types
 typedef cletter * cstring;             // cstring type

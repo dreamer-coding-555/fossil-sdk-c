@@ -14,7 +14,7 @@ Description:
 #include "fossil/common/common.h"
 
 // Implement barrier functions
-int32_t fossil_barrier_create(xbarrier_t *barrier, uint32_t count) {
+int32_t fossil_barrier_create(fossil_xbarrier_t *barrier, uint32_t count) {
     if (!barrier) return FOSSIL_ERROR;
 
 #ifdef _WIN32
@@ -38,7 +38,7 @@ int32_t fossil_barrier_create(xbarrier_t *barrier, uint32_t count) {
     return FOSSIL_SUCCESS;
 }
 
-int32_t fossil_barrier_erase(xbarrier_t *barrier) {
+int32_t fossil_barrier_erase(fossil_xbarrier_t *barrier) {
     if (!barrier) return FOSSIL_ERROR;
 
 #ifdef _WIN32
@@ -54,7 +54,7 @@ int32_t fossil_barrier_erase(xbarrier_t *barrier) {
     return FOSSIL_SUCCESS;
 }
 
-int32_t fossil_barrier_wait(xbarrier_t *barrier) {
+int32_t fossil_barrier_wait(fossil_xbarrier_t *barrier) {
     if (!barrier) return FOSSIL_ERROR;
 
 #ifdef _WIN32

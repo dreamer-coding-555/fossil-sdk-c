@@ -37,11 +37,11 @@ FOSSIL_TEST(test_fossil_cipher_caesar_encrypt) {
     int shift = 3;
     fossil_cipher_caesar_encrypt(message, shift);
 
-    TEST_ASSUME_EQUAL_CSTRING("Khoor, Zruog!", message);
+    ASSUME_ITS_EQUAL_CSTR("Khoor, Zruog!", message);
 
     // Decrypt to original message
     fossil_cipher_caesar_decrypt(message, shift);
-    TEST_ASSUME_EQUAL_CSTRING("Hello, World!", message);
+    ASSUME_ITS_EQUAL_CSTR("Hello, World!", message);
 }
 
 FOSSIL_TEST(test_fossil_cipher_caesar_decrypt) {
@@ -49,25 +49,25 @@ FOSSIL_TEST(test_fossil_cipher_caesar_decrypt) {
     int shift = 3;
     fossil_cipher_caesar_decrypt(message, shift);
 
-    TEST_ASSUME_EQUAL_CSTRING("Hello, World!", message);
+    ASSUME_ITS_EQUAL_CSTR("Hello, World!", message);
 }
 
 FOSSIL_TEST(test_fossil_cipher_atbash_encrypt) {
     cstring message = "Hello, World!";
     fossil_cipher_atbash_encrypt(message);
 
-    TEST_ASSUME_EQUAL_CSTRING("Svool, Dliow!", message);
+    ASSUME_ITS_EQUAL_CSTR("Svool, Dliow!", message);
 
     // Decrypt to original message
     fossil_cipher_atbash_decrypt(message);
-    TEST_ASSUME_EQUAL_CSTRING("Hello, World!", message);
+    ASSUME_ITS_EQUAL_CSTR("Hello, World!", message);
 }
 
 FOSSIL_TEST(test_fossil_cipher_atbash_decrypt) {
     cstring message = "Svool, Dliow!";
     fossil_cipher_atbash_decrypt(message);
 
-    TEST_ASSUME_EQUAL_CSTRING("Hello, World!", message);
+    ASSUME_ITS_EQUAL_CSTR("Hello, World!", message);
 }
 
 FOSSIL_TEST(test_fossil_cipher_substitution_encrypt) {
@@ -75,11 +75,11 @@ FOSSIL_TEST(test_fossil_cipher_substitution_encrypt) {
     const_cstring key = "zyxwvutsrqponmlkjihgfedcba";
     fossil_cipher_substitution_encrypt(message, key);
 
-    TEST_ASSUME_EQUAL_CSTRING("Svool, Dliow!", message);
+    ASSUME_ITS_EQUAL_CSTR("Svool, Dliow!", message);
 
     // Decrypt to original message
     fossil_cipher_substitution_decrypt(message, key);
-    TEST_ASSUME_EQUAL_CSTRING("Hello, World!", message);
+    ASSUME_ITS_EQUAL_CSTR("Hello, World!", message);
 }
 
 FOSSIL_TEST(test_fossil_cipher_substitution_decrypt) {
@@ -87,61 +87,61 @@ FOSSIL_TEST(test_fossil_cipher_substitution_decrypt) {
     const_cstring key = "zyxwvutsrqponmlkjihgfedcba";
     fossil_cipher_substitution_decrypt(message, key);
 
-    TEST_ASSUME_EQUAL_CSTRING("Hello, World!", message);
+    ASSUME_ITS_EQUAL_CSTR("Hello, World!", message);
 }
 
 FOSSIL_TEST(test_fossil_cipher_haxor_encrypt) {
     cstring message = "Hello, World!";
     fossil_cipher_haxor_encrypt(message);
 
-    TEST_ASSUME_EQUAL_CSTRING("H3ll0, W0rld!", message);
+    ASSUME_ITS_EQUAL_CSTR("H3ll0, W0rld!", message);
 
     // Decrypt to original message
     fossil_cipher_haxor_decrypt(message);
-    TEST_ASSUME_EQUAL_CSTRING("Hello, World!", message);
+    ASSUME_ITS_EQUAL_CSTR("Hello, World!", message);
 }
 
 FOSSIL_TEST(test_fossil_cipher_haxor_decrypt) {
     cstring message = "H3ll0, W0rld!";
     fossil_cipher_haxor_decrypt(message);
 
-    TEST_ASSUME_EQUAL_CSTRING("Hello, World!", message);
+    ASSUME_ITS_EQUAL_CSTR("Hello, World!", message);
 }
 
 FOSSIL_TEST(test_fossil_cipher_morse_encrypt) {
     cstring message = "Hello, World!";
     fossil_cipher_morse_encrypt(message);
 
-    TEST_ASSUME_EQUAL_CSTRING(".... . .-.. .-.. --- --..-- / .-- --- .-. .-.. -.. -.-.--", message);
+    ASSUME_ITS_EQUAL_CSTR(".... . .-.. .-.. --- --..-- / .-- --- .-. .-.. -.. -.-.--", message);
 
     // Decrypt to original message
     fossil_cipher_morse_decrypt(message);
-    TEST_ASSUME_EQUAL_CSTRING("Hello, World!", message);
+    ASSUME_ITS_EQUAL_CSTR("Hello, World!", message);
 }
 
 FOSSIL_TEST(test_fossil_cipher_morse_decrypt) {
     cstring message = ".... . .-.. .-.. --- --..-- / .-- --- .-. .-.. -.. -.-.--";
     fossil_cipher_morse_decrypt(message);
 
-    TEST_ASSUME_EQUAL_CSTRING("Hello, World!", message);
+    ASSUME_ITS_EQUAL_CSTR("Hello, World!", message);
 }
 
 FOSSIL_TEST(test_fossil_cipher_rot13_encrypt) {
     cstring message = "Hello, World!";
     fossil_cipher_rot13_encrypt(message);
 
-    TEST_ASSUME_EQUAL_CSTRING("Uryyb, Jbeyq!", message);
+    ASSUME_ITS_EQUAL_CSTR("Uryyb, Jbeyq!", message);
 
     // Decrypt to original message
     fossil_cipher_rot13_decrypt(message);
-    TEST_ASSUME_EQUAL_CSTRING("Hello, World!", message);
+    ASSUME_ITS_EQUAL_CSTR("Hello, World!", message);
 }
 
 FOSSIL_TEST(test_fossil_cipher_rot13_decrypt) {
     cstring message = "Uryyb, Jbeyq!";
     fossil_cipher_rot13_decrypt(message);
 
-    TEST_ASSUME_EQUAL_CSTRING("Hello, World!", message);
+    ASSUME_ITS_EQUAL_CSTR("Hello, World!", message);
 }
 
 // * * * * * * * * * * * * * * * * * * * * * * * *

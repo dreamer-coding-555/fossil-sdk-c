@@ -10,7 +10,7 @@ Description:
     feel free to contact Michael at michaelbrockus@gmail.com.
 ==============================================================================
 */
-#include "fossil/xstructures/set.h" // lib source code
+#include "fossil/structures/set.h" // lib source code
 
 #include <fossil/unittest.h>   // basic test tools
 #include <fossil/xassume.h> // extra asserts
@@ -33,12 +33,12 @@ Description:
 // * * * * * * * * * * * * * * * * * * * * * * * *
 
 FOSSIL_TEST(test_set_create_and_erase) {
-    cset* set = fossil_set_create(TOFU_INT_TYPE);
+    fossil_set_t* set = fossil_set_create(TOFU_INT_TYPE);
 
     // Check if the set is created with the expected values
     ASSUME_NOT_CNULL(set);
     ASSUME_ITS_CNULL(set->head);
-    TEST_ASSUME_EQUAL(TOFU_INT_TYPE, set->set_type);
+    ASSUME_ITS_EQUAL_I32(TOFU_INT_TYPE, set->set_type);
 
     fossil_set_erase(set);
 
@@ -48,25 +48,25 @@ FOSSIL_TEST(test_set_create_and_erase) {
 }
 
 FOSSIL_TEST(test_set_insert_and_size) {
-    cset* set = fossil_set_create(TOFU_INT_TYPE);
+    fossil_set_t* set = fossil_set_create(TOFU_INT_TYPE);
 
     // Insert some elements
     fossil_tofu_t element1 = { TOFU_INT_TYPE, { .int_type = 42 } };
     fossil_tofu_t element2 = { TOFU_INT_TYPE, { .int_type = 10 } };
     fossil_tofu_t element3 = { TOFU_INT_TYPE, { .int_type = 5 } };
 
-    TEST_ASSUME_EQUAL(FOSSIL_TOFU_ERROR_OK, fossil_set_insert(set, element1));
-    TEST_ASSUME_EQUAL(FOSSIL_TOFU_ERROR_OK, fossil_set_insert(set, element2));
-    TEST_ASSUME_EQUAL(FOSSIL_TOFU_ERROR_OK, fossil_set_insert(set, element3));
+    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_set_insert(set, element1));
+    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_set_insert(set, element2));
+    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_set_insert(set, element3));
 
     // Check if the size is correct
-    TEST_ASSUME_EQUAL_UINT(3, fossil_set_size(set));
+    ASSUME_ITS_EQUAL_U32(3, fossil_set_size(set));
 
     fossil_set_erase(set);
 }
 
 FOSSIL_TEST(test_set_remove) {
-    cset* set = fossil_set_create(TOFU_INT_TYPE);
+    fossil_set_t* set = fossil_set_create(TOFU_INT_TYPE);
 
     // Insert some elements
     fossil_tofu_t element1 = { TOFU_INT_TYPE, { .int_type = 42 } };
@@ -78,16 +78,16 @@ FOSSIL_TEST(test_set_remove) {
     fossil_set_insert(set, element3);
 
     // Remove an element
-    TEST_ASSUME_EQUAL(FOSSIL_TOFU_ERROR_OK, fossil_set_remove(set, element2));
+    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_set_remove(set, element2));
 
     // Check if the size is correct
-    TEST_ASSUME_EQUAL_UINT(2, fossil_set_size(set));
+    ASSUME_ITS_EQUAL_U32(2, fossil_set_size(set));
 
     fossil_set_erase(set);
 }
 
 FOSSIL_TEST(test_set_contains) {
-    cset* set = fossil_set_create(TOFU_INT_TYPE);
+    fossil_set_t* set = fossil_set_create(TOFU_INT_TYPE);
 
     // Insert some elements
     fossil_tofu_t element1 = { TOFU_INT_TYPE, { .int_type = 42 } };
@@ -99,12 +99,12 @@ FOSSIL_TEST(test_set_contains) {
     fossil_set_insert(set, element3);
 
     // Check if elements are contained in the set
-    TEST_ASSUME_TRUE(fossil_set_contains(set, element1));
-    TEST_ASSUME_TRUE(fossil_set_contains(set, element3));
+    ASSUME_ITS_TRUE(fossil_set_contains(set, element1));
+    ASSUME_ITS_TRUE(fossil_set_contains(set, element3));
 
     // Check for non-existing element
     fossil_tofu_t nonExistingElement = { TOFU_INT_TYPE, { .int_type = 100 } };
-    TEST_ASSUME_FALSE(fossil_set_contains(set, nonExistingElement));
+    ASSUME_ITS_FALSE(fossil_set_contains(set, nonExistingElement));
 
     fossil_set_erase(set);
 }

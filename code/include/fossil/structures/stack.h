@@ -29,15 +29,15 @@ Description:
 #include "fossil/tofu/tofu.h"
 
 // Stack structure
-typedef struct cstack_node {
+typedef struct fossil_stack_node_t {
     fossil_tofu_t data; // Data stored in the stack node
-    struct cstack_node* next; // Pointer to the next node
-} cstack_node;
+    struct fossil_stack_node_t* next; // Pointer to the next node
+} fossil_stack_node_t;
 
-typedef struct cstack {
+typedef struct fossil_stack_t {
     fossil_tofu_type stack_type; // Type of the stack
-    cstack_node* top; // Pointer to the top node of the stack
-} cstack;
+    fossil_stack_node_t* top; // Pointer to the top node of the stack
+} fossil_stack_t;
 
 #ifdef __cplusplus
 extern "C"
@@ -53,14 +53,14 @@ extern "C"
  * @param list_type The type of data the stack will store.
  * @return          The created stack.
  */
-cstack* fossil_stack_create(fossil_tofu_type list_type);
+fossil_stack_t* fossil_stack_create(fossil_tofu_type list_type);
 
 /**
  * Erase the contents of the stack and free allocated memory.
  *
  * @param stack The stack to erase.
  */
-void fossil_stack_erase(cstack* stack);
+void fossil_stack_erase(fossil_stack_t* stack);
 
 // =======================
 // ALGORITHM FUNCTIONS
@@ -72,7 +72,7 @@ void fossil_stack_erase(cstack* stack);
  * @param data  The data to insert.
  * @return      The error code indicating the success or failure of the operation.
  */
-fossil_tofu_error_t fossil_stack_insert(cstack* stack, fossil_tofu_t data);
+fossil_tofu_error_t fossil_stack_insert(fossil_stack_t* stack, fossil_tofu_t data);
 
 /**
  * Remove data from the stack.
@@ -81,7 +81,7 @@ fossil_tofu_error_t fossil_stack_insert(cstack* stack, fossil_tofu_t data);
  * @param[out] data   A pointer to store the removed data.
  * @return            The error code indicating the success or failure of the operation.
  */
-fossil_tofu_error_t fossil_stack_remove(cstack* stack, fossil_tofu_t* data);
+fossil_tofu_error_t fossil_stack_remove(fossil_stack_t* stack, fossil_tofu_t* data);
 
 /**
  * Search for data in the stack.
@@ -90,7 +90,7 @@ fossil_tofu_error_t fossil_stack_remove(cstack* stack, fossil_tofu_t* data);
  * @param data  The data to search for.
  * @return      The error code indicating the success or failure of the operation.
  */
-fossil_tofu_error_t fossil_stack_search(const cstack* stack, fossil_tofu_t data);
+fossil_tofu_error_t fossil_stack_search(const fossil_stack_t* stack, fossil_tofu_t data);
 
 // =======================
 // UTILITY FUNCTIONS
@@ -101,7 +101,7 @@ fossil_tofu_error_t fossil_stack_search(const cstack* stack, fossil_tofu_t data)
  * @param stack The stack for which to get the size.
  * @return      The size of the stack.
  */
-size_t fossil_stack_size(const cstack* stack);
+size_t fossil_stack_size(const fossil_stack_t* stack);
 
 /**
  * Get the data from the stack matching the specified data.
@@ -110,7 +110,7 @@ size_t fossil_stack_size(const cstack* stack);
  * @param data  The data to search for.
  * @return      A pointer to the matching data, or NULL if not found.
  */
-fossil_tofu_t* fossil_stack_getter(cstack* stack, fossil_tofu_t data);
+fossil_tofu_t* fossil_stack_getter(fossil_stack_t* stack, fossil_tofu_t data);
 
 /**
  * Set data in the stack.
@@ -119,7 +119,7 @@ fossil_tofu_t* fossil_stack_getter(cstack* stack, fossil_tofu_t data);
  * @param data  The data to set.
  * @return      The error code indicating the success or failure of the operation.
  */
-fossil_tofu_error_t fossil_stack_setter(cstack* stack, fossil_tofu_t data);
+fossil_tofu_error_t fossil_stack_setter(fossil_stack_t* stack, fossil_tofu_t data);
 
 /**
  * Check if the stack is not empty.
@@ -127,7 +127,7 @@ fossil_tofu_error_t fossil_stack_setter(cstack* stack, fossil_tofu_t data);
  * @param stack The stack to check.
  * @return      True if the stack is not empty, false otherwise.
  */
-bool fossil_stack_not_empty(const cstack* stack);
+bool fossil_stack_not_empty(const fossil_stack_t* stack);
 
 /**
  * Check if the stack is not a null pointer.
@@ -135,7 +135,7 @@ bool fossil_stack_not_empty(const cstack* stack);
  * @param stack The stack to check.
  * @return      True if the stack is not a null pointer, false otherwise.
  */
-bool fossil_stack_not_cnullptr(const cstack* stack);
+bool fossil_stack_not_cnullptr(const fossil_stack_t* stack);
 
 /**
  * Check if the stack is empty.
@@ -143,7 +143,7 @@ bool fossil_stack_not_cnullptr(const cstack* stack);
  * @param stack The stack to check.
  * @return      True if the stack is empty, false otherwise.
  */
-bool fossil_stack_is_empty(const cstack* stack);
+bool fossil_stack_is_empty(const fossil_stack_t* stack);
 
 /**
  * Check if the stack is a null pointer.
@@ -151,7 +151,7 @@ bool fossil_stack_is_empty(const cstack* stack);
  * @param stack The stack to check.
  * @return      True if the stack is a null pointer, false otherwise.
  */
-bool fossil_stack_is_cnullptr(const cstack* stack);
+bool fossil_stack_is_cnullptr(const fossil_stack_t* stack);
 
 /**
  * Get the top element of the stack.
@@ -160,7 +160,7 @@ bool fossil_stack_is_cnullptr(const cstack* stack);
  * @param default_value The default value to return if the stack is empty.
  * @return              The top element of the stack or the default value if the stack is empty.
  */
-fossil_tofu_t fossil_stack_top(cstack* stack, fossil_tofu_t default_value);
+fossil_tofu_t fossil_stack_top(fossil_stack_t* stack, fossil_tofu_t default_value);
 
 #ifdef __cplusplus
 }

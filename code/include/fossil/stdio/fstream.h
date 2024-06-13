@@ -40,7 +40,7 @@ typedef struct {
  * @param mode     The mode in which to open the file (e.g., "r" for read, "w" for write).
  * @return         0 on success, non-zero on failure.
  */
-int32_t fossil_fstream_open(fossil_fstream_t *stream, const char * restrict filename, const char * restrict mode);
+int32_t fossil_fstream_open(fossil_fstream_t *stream, const char *filename, const char *mode);
 
 /**
  * Close an open stream.
@@ -111,7 +111,7 @@ int32_t fossil_fstream_seek(fossil_fstream_t *stream, int64_t offset, int32_t or
  * @param new_filename The name of the new file to save to.
  * @return             0 on success, non-zero on failure.
  */
-int32_t fossil_fstream_save(fossil_fstream_t *stream, const char * restrict new_filename);
+int32_t fossil_fstream_save(fossil_fstream_t *stream, const char *new_filename);
 
 /**
  * Copy a file from the source to the destination.
@@ -122,7 +122,7 @@ int32_t fossil_fstream_save(fossil_fstream_t *stream, const char * restrict new_
  * @param destination_filename The name of the destination file.
  * @return                     0 on success, non-zero on failure.
  */
-int32_t fossil_fstream_copy(const char *source_filename, const char * restrict destination_filename);
+int32_t fossil_fstream_copy(const char *source_filename, const char *destination_filename);
 
 /**
  * Create a backup of a file with a specified backup suffix.
@@ -133,7 +133,7 @@ int32_t fossil_fstream_copy(const char *source_filename, const char * restrict d
  * @param backup_suffix The suffix to be appended to the backup file.
  * @return              0 on success, non-zero on failure.
  */
-int32_t fossil_fstream_backup(const char *filename, const char * restrict backup_suffix);
+int32_t fossil_fstream_backup(const char *filename, const char *backup_suffix);
 
 /**
  * Check if a file exists.
@@ -143,7 +143,7 @@ int32_t fossil_fstream_backup(const char *filename, const char * restrict backup
  * @param filename The name of the file to check for existence.
  * @return         1 if the file exists, 0 if not.
  */
-int32_t fossil_fstream_file_exists(const char * restrict filename);
+int32_t fossil_fstream_file_exists(const char *filename);
 
 /**
  * Get the size of an open stream.
@@ -163,7 +163,7 @@ int32_t fossil_fstream_get_size(fossil_fstream_t *stream);
  * @param filename The name of the file to be deleted.
  * @return         0 on success, non-zero on failure.
  */
-int32_t fossil_fstream_delete(const char * restrict filename);
+int32_t fossil_fstream_delete(const char *filename);
 
 /**
  * Rename a file or directory.
@@ -174,7 +174,7 @@ int32_t fossil_fstream_delete(const char * restrict filename);
  * @param new_filename The new name to assign to the file or directory.
  * @return             0 on success, non-zero on failure.
  */
-int32_t fossil_fstream_rename(const char * restrict old_filename, const char * restrict new_filename);
+int32_t fossil_fstream_rename(const char *old_filename, const char *new_filename);
 
 #ifdef __cplusplus
 }

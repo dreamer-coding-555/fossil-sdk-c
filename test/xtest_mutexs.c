@@ -34,37 +34,37 @@ Description:
 
 // Test case 1: Test fossil_mutex_create
 FOSSIL_TEST(test_fossil_mutex_create) {
-    xmutex_t mutex;
-    ASSUME_ITS_EQUAL_I3232(0, fossil_mutex_create(&mutex));
+    fossil_xmutex_t mutex;
+    ASSUME_ITS_EQUAL_I32(0, fossil_mutex_create(&mutex));
 }
 
 // Test case 2: Test fossil_mutex_erase
 FOSSIL_TEST(test_fossil_mutex_erase) {
-    xmutex_t mutex;
+    fossil_xmutex_t mutex;
     fossil_mutex_create(&mutex); // Initialize the mutex before erasing it
-    ASSUME_ITS_EQUAL_I3232(0, fossil_mutex_erase(&mutex));
+    ASSUME_ITS_EQUAL_I32(0, fossil_mutex_erase(&mutex));
 }
 
 // Test case 3: Test fossil_mutex_lock with valid parameters
 FOSSIL_TEST(test_fossil_mutex_lock_valid_params) {
-    xmutex_t mutex;
+    fossil_xmutex_t mutex;
     fossil_mutex_create(&mutex);
-    ASSUME_ITS_EQUAL_I3232(0, fossil_mutex_lock(&mutex));
+    ASSUME_ITS_EQUAL_I32(0, fossil_mutex_lock(&mutex));
 }
 
 // Test case 4: Test fossil_mutex_unlock with valid parameters
 FOSSIL_TEST(test_fossil_mutex_unlock_valid_params) {
-    xmutex_t mutex;
+    fossil_xmutex_t mutex;
     fossil_mutex_create(&mutex);
     fossil_mutex_lock(&mutex); // Lock the mutex before unlocking it
-    ASSUME_ITS_EQUAL_I3232(0, fossil_mutex_unlock(&mutex));
+    ASSUME_ITS_EQUAL_I32(0, fossil_mutex_unlock(&mutex));
 }
 
 // Test case 5: Test fossil_mutex_trylock with valid parameters
 FOSSIL_TEST(test_fossil_mutex_trylock_valid_params) {
-    xmutex_t mutex;
+    fossil_xmutex_t mutex;
     fossil_mutex_create(&mutex);
-    ASSUME_ITS_EQUAL_I3232(0, fossil_mutex_trylock(&mutex));
+    ASSUME_ITS_EQUAL_I32(0, fossil_mutex_trylock(&mutex));
 }
 
 // * * * * * * * * * * * * * * * * * * * * * * * *

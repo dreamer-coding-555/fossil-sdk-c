@@ -355,7 +355,7 @@ FOSSIL_TEST(test_type_mismatch) {
     // Try to apply an operation with a different type
     fossil_tofu_t* wrong_type = fossil_tofu_create(TOFU_FLOAT_TYPE, NULL);
     fossil_tofu_error_t result = fossil_tofu_compare(tofu, wrong_type);
-    TEST_ASSUME_EQUAL(FOSSIL_TOFU_ERROR_INVALID_OPERATION, result);
+    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_INVALID_OPERATION, result);
 
     // Clean up
     fossil_tofu_erase(tofu);
@@ -368,7 +368,7 @@ FOSSIL_TEST(test_accumulate) {
 
     // Test accumulate
     fossil_tofu_error_t accumulate_result = fossil_tofu_accumulate(array);
-    TEST_ASSUME_EQUAL(FOSSIL_TOFU_ERROR_OK, accumulate_result);
+    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, accumulate_result);
 
     // Clean up
     fossil_tofu_erase_array(array);
@@ -380,7 +380,7 @@ FOSSIL_TEST(test_transform) {
 
     // Test transform
     fossil_tofu_error_t transform_result = fossil_tofu_transform(array, square_transform_function);
-    TEST_ASSUME_EQUAL(FOSSIL_TOFU_ERROR_OK, transform_result);
+    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, transform_result);
 
     // Clean up
     fossil_tofu_erase_array(array);
@@ -392,7 +392,7 @@ FOSSIL_TEST(test_sort) {
 
     // Test sort
     fossil_tofu_error_t sort_result = fossil_tofu_sort(array);
-    TEST_ASSUME_EQUAL(FOSSIL_TOFU_ERROR_OK, sort_result);
+    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, sort_result);
 
     // Clean up
     fossil_tofu_erase_array(array);
@@ -405,7 +405,7 @@ FOSSIL_TEST(test_search) {
     // Test search
     fossil_tofu_t* key = fossil_tofu_create(TOFU_INT_TYPE, &(fossil_tofu_data){.int_type = 8});
     fossil_tofu_error_t search_result = fossil_tofu_search(array, key);
-    TEST_ASSUME_EQUAL(FOSSIL_TOFU_ERROR_OK, search_result);
+    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, search_result);
     fossil_tofu_erase(key);
 
     // Clean up
@@ -418,7 +418,7 @@ FOSSIL_TEST(test_filter) {
 
     // Test filter
     fossil_tofu_error_t filter_result = fossil_tofu_filter(array, even_filter_function);
-    TEST_ASSUME_EQUAL(FOSSIL_TOFU_ERROR_OK, filter_result);
+    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, filter_result);
 
     // Clean up
     fossil_tofu_erase_array(array);
@@ -430,7 +430,7 @@ FOSSIL_TEST(test_reverse) {
 
     // Test reverse
     fossil_tofu_error_t reverse_result = fossil_tofu_reverse(array);
-    TEST_ASSUME_EQUAL(FOSSIL_TOFU_ERROR_OK, reverse_result);
+    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, reverse_result);
 
     // Clean up
     fossil_tofu_erase_array(array);
@@ -443,7 +443,7 @@ FOSSIL_TEST(test_swap) {
 
     // Test swap
     fossil_tofu_error_t swap_result = fossil_tofu_swap(tofu1, tofu2);
-    TEST_ASSUME_EQUAL(FOSSIL_TOFU_ERROR_OK, swap_result);
+    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, swap_result);
 
     // Clean up
     fossil_tofu_erase(tofu1);
@@ -457,7 +457,7 @@ FOSSIL_TEST(test_compare) {
 
     // Test compare
     fossil_tofu_error_t compare_result = fossil_tofu_compare(tofu1, tofu2);
-    TEST_ASSUME_EQUAL(FOSSIL_TOFU_ERROR_OK, compare_result);
+    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, compare_result);
 
     // Clean up
     fossil_tofu_erase(tofu1);
@@ -470,7 +470,7 @@ FOSSIL_TEST(test_reduce) {
 
     // Test reduce
     fossil_tofu_error_t reduce_result = fossil_tofu_reduce(array, sum_reduce_function);
-    TEST_ASSUME_EQUAL(FOSSIL_TOFU_ERROR_OK, reduce_result);
+    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, reduce_result);
 
     // Clean up
     fossil_tofu_erase_array(array);
@@ -482,7 +482,7 @@ FOSSIL_TEST(test_shuffle) {
 
     // Test shuffle
     fossil_tofu_error_t shuffle_result = fossil_tofu_shuffle(array);
-    TEST_ASSUME_EQUAL(FOSSIL_TOFU_ERROR_OK, shuffle_result);
+    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, shuffle_result);
 
     // Clean up
     fossil_tofu_erase_array(array);
@@ -494,7 +494,7 @@ FOSSIL_TEST(test_for_each) {
 
     // Test for_each
     fossil_tofu_error_t for_each_result = fossil_tofu_for_each(array, out_element_function);
-    TEST_ASSUME_EQUAL(FOSSIL_TOFU_ERROR_OK, for_each_result);
+    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, for_each_result);
 
     // Clean up
     fossil_tofu_erase_array(array);
@@ -507,7 +507,7 @@ FOSSIL_TEST(test_partition) {
     // Test partition
     fossil_tofu_t* partitionedResults[2];
     fossil_tofu_error_t partition_result = fossil_tofu_partition(array, even_partition_function, partitionedResults);
-    TEST_ASSUME_EQUAL(FOSSIL_TOFU_ERROR_OK, partition_result);
+    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, partition_result);
 
     // Clean up
     fossil_tofu_erase_array(array);

@@ -29,16 +29,16 @@ Description:
 #include "fossil/tofu/tofu.h"
 
 // Node structure for the set
-typedef struct cset_node {
+typedef struct fossil_set_node_t {
     fossil_tofu_t data;
-    struct cset_node* next;
-} cset_node;
+    struct fossil_set_node_t* next;
+} fossil_set_node_t;
 
 // Set structure
-typedef struct cset {
-    cset_node* head;
+typedef struct fossil_set_t {
+    fossil_set_node_t* head;
     fossil_tofu_type set_type;  // Type of the set
-} cset;
+} fossil_set_t;
 
 #ifdef __cplusplus
 extern "C"
@@ -54,14 +54,14 @@ extern "C"
  * @param list_type The type of data the set will store.
  * @return          The created set.
  */
-cset* fossil_set_create(fossil_tofu_type list_type);
+fossil_set_t* fossil_set_create(fossil_tofu_type list_type);
 
 /**
  * Erase the contents of the set and free allocated memory.
  *
  * @param set The set to erase.
  */
-void fossil_set_erase(cset* set);
+void fossil_set_erase(fossil_set_t* set);
 
 // =======================
 // ALGORITHM FUNCTIONS
@@ -73,7 +73,7 @@ void fossil_set_erase(cset* set);
  * @param data The data to insert.
  * @return     The error code indicating the success or failure of the operation.
  */
-fossil_tofu_error_t fossil_set_insert(cset* set, fossil_tofu_t data);
+fossil_tofu_error_t fossil_set_insert(fossil_set_t* set, fossil_tofu_t data);
 
 /**
  * Remove data from the set.
@@ -82,7 +82,7 @@ fossil_tofu_error_t fossil_set_insert(cset* set, fossil_tofu_t data);
  * @param data The data to remove.
  * @return     The error code indicating the success or failure of the operation.
  */
-fossil_tofu_error_t fossil_set_remove(cset* set, fossil_tofu_t data);
+fossil_tofu_error_t fossil_set_remove(fossil_set_t* set, fossil_tofu_t data);
 
 /**
  * Search for data in the set.
@@ -91,7 +91,7 @@ fossil_tofu_error_t fossil_set_remove(cset* set, fossil_tofu_t data);
  * @param data The data to search for.
  * @return     The error code indicating the success or failure of the operation.
  */
-fossil_tofu_error_t fossil_set_search(const cset* set, fossil_tofu_t data);
+fossil_tofu_error_t fossil_set_search(const fossil_set_t* set, fossil_tofu_t data);
 
 // =======================
 // UTILITY FUNCTIONS
@@ -102,7 +102,7 @@ fossil_tofu_error_t fossil_set_search(const cset* set, fossil_tofu_t data);
  * @param set The set for which to get the size.
  * @return    The size of the set.
  */
-size_t fossil_set_size(const cset* set);
+size_t fossil_set_size(const fossil_set_t* set);
 
 /**
  * Get the data from the set matching the specified data.
@@ -111,7 +111,7 @@ size_t fossil_set_size(const cset* set);
  * @param data The data to search for.
  * @return     A pointer to the matching data, or NULL if not found.
  */
-fossil_tofu_t* fossil_set_getter(cset* set, fossil_tofu_t data);
+fossil_tofu_t* fossil_set_getter(fossil_set_t* set, fossil_tofu_t data);
 
 /**
  * Set data in the set.
@@ -120,7 +120,7 @@ fossil_tofu_t* fossil_set_getter(cset* set, fossil_tofu_t data);
  * @param data The data to set.
  * @return     The error code indicating the success or failure of the operation.
  */
-fossil_tofu_error_t fossil_set_setter(cset* set, fossil_tofu_t data);
+fossil_tofu_error_t fossil_set_setter(fossil_set_t* set, fossil_tofu_t data);
 
 /**
  * Check if the set is not empty.
@@ -128,7 +128,7 @@ fossil_tofu_error_t fossil_set_setter(cset* set, fossil_tofu_t data);
  * @param set The set to check.
  * @return    True if the set is not empty, false otherwise.
  */
-bool fossil_set_not_empty(const cset* set);
+bool fossil_set_not_empty(const fossil_set_t* set);
 
 /**
  * Check if the set is not a null pointer.
@@ -136,7 +136,7 @@ bool fossil_set_not_empty(const cset* set);
  * @param set The set to check.
  * @return    True if the set is not a null pointer, false otherwise.
  */
-bool fossil_set_not_cnullptr(const cset* set);
+bool fossil_set_not_cnullptr(const fossil_set_t* set);
 
 /**
  * Check if the set is empty.
@@ -144,7 +144,7 @@ bool fossil_set_not_cnullptr(const cset* set);
  * @param set The set to check.
  * @return    True if the set is empty, false otherwise.
  */
-bool fossil_set_is_empty(const cset* set);
+bool fossil_set_is_empty(const fossil_set_t* set);
 
 /**
  * Check if the set is a null pointer.
@@ -152,7 +152,7 @@ bool fossil_set_is_empty(const cset* set);
  * @param set The set to check.
  * @return    True if the set is a null pointer, false otherwise.
  */
-bool fossil_set_is_cnullptr(const cset* set);
+bool fossil_set_is_cnullptr(const fossil_set_t* set);
 
 /**
  * Check if the set contains a specific element.
@@ -161,7 +161,7 @@ bool fossil_set_is_cnullptr(const cset* set);
  * @param data The data to search for.
  * @return     True if the set contains the element, false otherwise.
  */
-bool fossil_set_contains(const cset* set, fossil_tofu_t data);
+bool fossil_set_contains(const fossil_set_t* set, fossil_tofu_t data);
 
 // =======================
 // ITERATOR FUNCTIONS
@@ -172,7 +172,7 @@ bool fossil_set_contains(const cset* set, fossil_tofu_t data);
  * @param set The set for which to get the iterator.
  * @return    The iterator pointing to the start of the set.
  */
-fossil_tofu_iterator fossil_set_iterator_start(cset* set);
+fossil_tofu_iterator fossil_set_iterator_start(fossil_set_t* set);
 
 /**
  * Get the iterator pointing to the end of the set.

@@ -31,7 +31,7 @@ extern "C"
  * @param vocab_size The size of the vocabulary.
  * @return A pointer to the tokenized matrix.
  */
-jellyfish_matrix* fossil_jellyfish_dolphin_tokenize(char* text, int vocab_size, char* language);
+jellyfish_matrix_t* fossil_jellyfish_dolphin_tokenize(char* text, int vocab_size, char* language);
 
 /**
  * Embeds the given tokens using the Dolphin algorithm.
@@ -40,7 +40,7 @@ jellyfish_matrix* fossil_jellyfish_dolphin_tokenize(char* text, int vocab_size, 
  * @param embedding_matrix The embedding matrix.
  * @return A pointer to the embedded matrix.
  */
-jellyfish_matrix* fossil_jellyfish_dolphin_embed(jellyfish_matrix* tokens, jellyfish_matrix* embedding_matrix);
+jellyfish_matrix_t* fossil_jellyfish_dolphin_embed(jellyfish_matrix_t* tokens, jellyfish_matrix_t* embedding_matrix);
 
 /**
  * Analyzes the sentiment of the given tokens using the Dolphin algorithm.
@@ -48,7 +48,7 @@ jellyfish_matrix* fossil_jellyfish_dolphin_embed(jellyfish_matrix* tokens, jelly
  * @param tokens The tokenized matrix.
  * @param sentiment_labels The sentiment labels matrix.
  */
-void fossil_jellyfish_dolphin_analyze_sentiment(jellyfish_matrix* tokens, jellyfish_matrix* sentiment_labels);
+void fossil_jellyfish_dolphin_analyze_sentiment(jellyfish_matrix_t* tokens, jellyfish_matrix_t* sentiment_labels);
 
 /**
  * Recognizes entities in the given tokens using the Dolphin algorithm.
@@ -56,7 +56,7 @@ void fossil_jellyfish_dolphin_analyze_sentiment(jellyfish_matrix* tokens, jellyf
  * @param tokens The tokenized matrix.
  * @param ner_labels The named entity recognition labels matrix.
  */
-void fossil_jellyfish_dolphin_recognize_entities(jellyfish_matrix* tokens, jellyfish_matrix* ner_labels);
+void fossil_jellyfish_dolphin_recognize_entities(jellyfish_matrix_t* tokens, jellyfish_matrix_t* ner_labels);
 
 #ifdef __cplusplus
 }

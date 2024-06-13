@@ -19,8 +19,8 @@ Description:
 // =======================
 // CREATE and DELETE
 // =======================
-ctree* fossil_tree_create(fossil_tofu_type tree) {
-    ctree* new_tree = (ctree*)malloc(sizeof(ctree));
+fossil_tree_t* fossil_tree_create(fossil_tofu_type tree) {
+    fossil_tree_t* new_tree = (fossil_tree_t*)malloc(sizeof(fossil_tree_t));
     if (new_tree == cnullptr) {
         // Handle memory allocation failure
         return cnullptr;
@@ -33,7 +33,7 @@ ctree* fossil_tree_create(fossil_tofu_type tree) {
 }
 
 // Helper function to recursively erase nodes
-void fossil_tree_erase_recursive(ctree_node* node) {
+void fossil_tree_erase_recursive(fossil_tree_node_t* node) {
     if (node == cnullptr) {
         return;
     }
@@ -44,7 +44,7 @@ void fossil_tree_erase_recursive(ctree_node* node) {
     free(node);
 }
 
-void fossil_tree_erase(ctree* tree) {
+void fossil_tree_erase(fossil_tree_t* tree) {
     if (tree == cnullptr) {
         return;
     }
@@ -60,7 +60,7 @@ void fossil_tree_erase(ctree* tree) {
 // =======================
 
 // Helper function to find the minimum node in a subtree
-ctree_node* fossil_tree_find_min(ctree_node* node) {
+fossil_tree_node_t* fossil_tree_find_min(fossil_tree_node_t* node) {
     while (node->left != cnullptr) {
         node = node->left;
     }
@@ -68,7 +68,7 @@ ctree_node* fossil_tree_find_min(ctree_node* node) {
 }
 
 // Helper function to recursively remove a node
-fossil_tofu_error_t fossil_tree_remove_recursive(ctree_node** root, fossil_tofu_t data) {
+fossil_tofu_error_t fossil_tree_remove_recursive(fossil_tree_node_t** root, fossil_tofu_t data) {
     if (*root == cnullptr) {
         return fossil_tofu_error(FOSSIL_TOFU_ERROR_INDEX_OUT_OF_BOUNDS); // Element not found
     }
@@ -87,16 +87,16 @@ fossil_tofu_error_t fossil_tree_remove_recursive(ctree_node** root, fossil_tofu_
 
         // Case 1: Node with only one child or no child
         if ((*root)->left == cnullptr) {
-            ctree_node* temp = *root;
+            fossil_tree_node_t* temp = *root;
             *root = (*root)->right;
             free(temp);
         } else if ((*root)->right == cnullptr) {
-            ctree_node* temp = *root;
+            fossil_tree_node_t* temp = *root;
             *root = (*root)->left;
             free(temp);
         } else {
             // Case 3: Node with two children
-            ctree_node* temp = fossil_tree_find_min((*root)->right);
+            fossil_tree_node_t* temp = fossil_tree_find_min((*root)->right);
             (*root)->data = temp->data;
             return fossil_tree_remove_recursive(&(*root)->right, temp->data);
         }
@@ -106,13 +106,13 @@ fossil_tofu_error_t fossil_tree_remove_recursive(ctree_node** root, fossil_tofu_
 }
 
 // Helper function to recursively insert a node
-fossil_tofu_error_t fossil_tree_insert_recursive(ctree_node** root, fossil_tofu_t* data) {
+fossil_tofu_error_t fossil_tree_insert_recursive(fossil_tree_node_t** root, fossil_tofu_t* data) {
     if (root == cnullptr || data == cnullptr) {
         return fossil_tofu_error(FOSSIL_TOFU_ERROR_NULL_POINTER);
     }
 
     if (*root == cnullptr) {
-        *root = (ctree_node*)malloc(sizeof(ctree_node));
+        *root = (fossil_tree_node_t*)malloc(sizeof(fossil_tree_node_t));
         if (*root == cnullptr) {
             return fossil_tofu_error(FOSSIL_TOFU_ERROR_MEMORY_CORRUPTION);  // Handle memory allocation failure
         }
@@ -138,7 +138,7 @@ fossil_tofu_error_t fossil_tree_insert_recursive(ctree_node** root, fossil_tofu_
     }
 }
 
-fossil_tofu_error_t fossil_tree_insert(ctree* tree, fossil_tofu_t data) {
+fossil_tofu_error_t fossil_tree_insert(fossil_tree_t* tree, fossil_tofu_t data) {
     if (tree == cnullptr) {
         return fossil_tofu_error(FOSSIL_TOFU_ERROR_NULL_POINTER);
     }
@@ -146,7 +146,7 @@ fossil_tofu_error_t fossil_tree_insert(ctree* tree, fossil_tofu_t data) {
     return fossil_tree_insert_recursive(&tree->root, &data);
 }
 
-fossil_tofu_error_t fossil_tree_remove(ctree* tree, fossil_tofu_t data) {
+fossil_tofu_error_t fossil_tree_remove(fossil_tree_t* tree, fossil_tofu_t data) {
     if (tree == cnullptr) {
         return fossil_tofu_error(FOSSIL_TOFU_ERROR_NULL_POINTER);
     }
@@ -155,7 +155,7 @@ fossil_tofu_error_t fossil_tree_remove(ctree* tree, fossil_tofu_t data) {
 }
 
 // Helper function to recursively search for a node
-fossil_tofu_error_t fossil_tree_search_recursive(ctree_node* root, fossil_tofu_t data) {
+fossil_tofu_error_t fossil_tree_search_recursive(fossil_tree_node_t* root, fossil_tofu_t data) {
     if (root == cnullptr) {
         return fossil_tofu_error(FOSSIL_TOFU_ERROR_INDEX_OUT_OF_BOUNDS); // Element not found
     }
@@ -171,7 +171,7 @@ fossil_tofu_error_t fossil_tree_search_recursive(ctree_node* root, fossil_tofu_t
     }
 }
 
-fossil_tofu_error_t fossil_tree_search(const ctree* tree, fossil_tofu_t data) {
+fossil_tofu_error_t fossil_tree_search(const fossil_tree_t* tree, fossil_tofu_t data) {
     if (tree == cnullptr) {
         return fossil_tofu_error(FOSSIL_TOFU_ERROR_NULL_POINTER);
     }
@@ -183,7 +183,7 @@ fossil_tofu_error_t fossil_tree_search(const ctree* tree, fossil_tofu_t data) {
 // UTILITY FUNCTIONS
 // =======================
 
-size_t fossil_tree_size_recursive(ctree_node* root) {
+size_t fossil_tree_size_recursive(fossil_tree_node_t* root) {
     if (root == cnullptr) {
         return 0;
     }
@@ -191,7 +191,7 @@ size_t fossil_tree_size_recursive(ctree_node* root) {
     return 1 + fossil_tree_size_recursive(root->left) + fossil_tree_size_recursive(root->right);
 }
 
-size_t fossil_tree_size(const ctree* tree) {
+size_t fossil_tree_size(const fossil_tree_t* tree) {
     if (tree == cnullptr) {
         return 0;
     }
@@ -200,7 +200,7 @@ size_t fossil_tree_size(const ctree* tree) {
 }
 
 // Helper function to recursively get a pointer to a node's data
-fossil_tofu_t* fossil_tree_getter_recursive(ctree_node* root, fossil_tofu_t data) {
+fossil_tofu_t* fossil_tree_getter_recursive(fossil_tree_node_t* root, fossil_tofu_t data) {
     if (root == cnullptr) {
         return cnullptr;
     }
@@ -216,7 +216,7 @@ fossil_tofu_t* fossil_tree_getter_recursive(ctree_node* root, fossil_tofu_t data
     }
 }
 
-fossil_tofu_t* fossil_tree_getter(const ctree* tree, fossil_tofu_t data) {
+fossil_tofu_t* fossil_tree_getter(const fossil_tree_t* tree, fossil_tofu_t data) {
     if (tree == cnullptr) {
         return cnullptr;
     }
@@ -225,7 +225,7 @@ fossil_tofu_t* fossil_tree_getter(const ctree* tree, fossil_tofu_t data) {
 }
 
 // Helper function to recursively set the data of a node
-fossil_tofu_error_t fossil_tree_setter_recursive(ctree_node* root, fossil_tofu_t data) {
+fossil_tofu_error_t fossil_tree_setter_recursive(fossil_tree_node_t* root, fossil_tofu_t data) {
     if (root == cnullptr) {
         return fossil_tofu_error(FOSSIL_TOFU_ERROR_INDEX_OUT_OF_BOUNDS); // Element not found
     }
@@ -242,7 +242,7 @@ fossil_tofu_error_t fossil_tree_setter_recursive(ctree_node* root, fossil_tofu_t
     }
 }
 
-fossil_tofu_error_t fossil_tree_setter(ctree* tree, fossil_tofu_t data) {
+fossil_tofu_error_t fossil_tree_setter(fossil_tree_t* tree, fossil_tofu_t data) {
     if (tree == cnullptr) {
         return fossil_tofu_error(FOSSIL_TOFU_ERROR_NULL_POINTER);
     }
@@ -250,24 +250,24 @@ fossil_tofu_error_t fossil_tree_setter(ctree* tree, fossil_tofu_t data) {
     return fossil_tree_setter_recursive(tree->root, data);
 }
 
-bool fossil_tree_not_empty(const ctree* tree) {
+bool fossil_tree_not_empty(const fossil_tree_t* tree) {
     return tree != cnullptr && tree->root != cnullptr;
 }
 
-bool fossil_tree_not_cnullptr(const ctree* tree) {
+bool fossil_tree_not_cnullptr(const fossil_tree_t* tree) {
     return tree != cnullptr;
 }
 
-bool fossil_tree_is_empty(const ctree* tree) {
+bool fossil_tree_is_empty(const fossil_tree_t* tree) {
     return tree == cnullptr || tree->root == cnullptr;
 }
 
-bool fossil_tree_is_cnullptr(const ctree* tree) {
+bool fossil_tree_is_cnullptr(const fossil_tree_t* tree) {
     return tree == cnullptr;
 }
 
 // Helper function to recursively check if the tree contains an element
-bool fossil_tree_contains_recursive(ctree_node* root, fossil_tofu_t data) {
+bool fossil_tree_contains_recursive(fossil_tree_node_t* root, fossil_tofu_t data) {
     if (root == cnullptr) {
         return false;
     }
@@ -283,7 +283,7 @@ bool fossil_tree_contains_recursive(ctree_node* root, fossil_tofu_t data) {
     }
 }
 
-bool fossil_tree_contains(const ctree* tree, fossil_tofu_t data) {
+bool fossil_tree_contains(const fossil_tree_t* tree, fossil_tofu_t data) {
     if (tree == cnullptr) {
         return false;
     }

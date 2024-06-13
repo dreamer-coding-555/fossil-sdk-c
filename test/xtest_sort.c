@@ -10,7 +10,7 @@ Description:
     feel free to contact Michael at michaelbrockus@gmail.com.
 ==============================================================================
 */
-#include <fossil/xalgorithms/sort.h> // library under test
+#include <fossil/algorithms/sort.h> // library under test
 
 #include <fossil/unittest.h>   // basic test tools
 #include <fossil/xassume.h> // extra asserts
@@ -35,13 +35,13 @@ Description:
 // Test cases for Bubble Sort
 FOSSIL_TEST(test_sort_bubble_empty_array) {
     fossil_tofu_t* empty_array = fossil_tofu_create_array(TOFU_INT_TYPE, 0);
-    TEST_ASSUME_EQUAL(FOSSIL_TOFU_ERROR_OK, fossil_sort_bubble(empty_array));
+    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_sort_bubble(empty_array));
     fossil_tofu_erase(empty_array);
 }
 
 FOSSIL_TEST(test_sort_bubble_single_element) {
     fossil_tofu_t* single_array = fossil_tofu_create_array(TOFU_INT_TYPE, 1, 42);
-    TEST_ASSUME_EQUAL(FOSSIL_TOFU_ERROR_OK, fossil_sort_bubble(single_array));
+    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_sort_bubble(single_array));
     ASSUME_ITS_EQUAL_I32(42, single_array->data.array_type.elements[0].data.int_type);
     fossil_tofu_erase(single_array);
 }
@@ -50,7 +50,7 @@ FOSSIL_TEST(test_sort_bubble_multiple_elements) {
     int unsorted_values[] = {5, 3, 7, 2, 8, 1};
     int sorted_values[] = {1, 2, 3, 5, 7, 8};
     fossil_tofu_t* array_to_sort = fossil_tofu_create_array(TOFU_INT_TYPE, sizeof(unsorted_values) / sizeof(int), unsorted_values);
-    TEST_ASSUME_EQUAL(FOSSIL_TOFU_ERROR_OK, fossil_sort_bubble(array_to_sort));
+    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_sort_bubble(array_to_sort));
     for (size_t i = 0; i < array_to_sort->data.array_type.size; i++) {
         ASSUME_ITS_EQUAL_I32(sorted_values[i], array_to_sort->data.array_type.elements[i].data.int_type);
     }
@@ -60,13 +60,13 @@ FOSSIL_TEST(test_sort_bubble_multiple_elements) {
 // Test cases for Quick Sort
 FOSSIL_TEST(test_sort_quick_empty_array) {
     fossil_tofu_t* empty_array = fossil_tofu_create_array(TOFU_INT_TYPE, 0);
-    TEST_ASSUME_EQUAL(FOSSIL_TOFU_ERROR_OK, fossil_sort_quick(empty_array));
+    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_sort_quick(empty_array));
     fossil_tofu_erase(empty_array);
 }
 
 FOSSIL_TEST(test_sort_quick_single_element) {
     fossil_tofu_t* single_array = fossil_tofu_create_array(TOFU_INT_TYPE, 1, 42);
-    TEST_ASSUME_EQUAL(FOSSIL_TOFU_ERROR_OK, fossil_sort_quick(single_array));
+    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_sort_quick(single_array));
     ASSUME_ITS_EQUAL_I32(42, single_array->data.array_type.elements[0].data.int_type);
     fossil_tofu_erase(single_array);
 }
@@ -75,7 +75,7 @@ FOSSIL_TEST(test_sort_quick_multiple_elements) {
     int unsorted_values[] = {5, 3, 7, 2, 8, 1};
     int sorted_values[] = {1, 2, 3, 5, 7, 8};
     fossil_tofu_t* array_to_sort = fossil_tofu_create_array(TOFU_INT_TYPE, sizeof(unsorted_values) / sizeof(int), unsorted_values);
-    TEST_ASSUME_EQUAL(FOSSIL_TOFU_ERROR_OK, fossil_sort_quick(array_to_sort));
+    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_sort_quick(array_to_sort));
     for (size_t i = 0; i < array_to_sort->data.array_type.size; i++) {
         ASSUME_ITS_EQUAL_I32(sorted_values[i], array_to_sort->data.array_type.elements[i].data.int_type);
     }
@@ -85,13 +85,13 @@ FOSSIL_TEST(test_sort_quick_multiple_elements) {
 // Test cases for Merge Sort
 FOSSIL_TEST(test_sort_merge_empty_array) {
     fossil_tofu_t* empty_array = fossil_tofu_create_array(TOFU_INT_TYPE, 0);
-    TEST_ASSUME_EQUAL(FOSSIL_TOFU_ERROR_OK, fossil_sort_merge(empty_array));
+    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_sort_merge(empty_array));
     fossil_tofu_erase(empty_array);
 }
 
 FOSSIL_TEST(test_sort_merge_single_element) {
     fossil_tofu_t* single_array = fossil_tofu_create_array(TOFU_INT_TYPE, 1, 42);
-    TEST_ASSUME_EQUAL(FOSSIL_TOFU_ERROR_OK, fossil_sort_merge(single_array));
+    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_sort_merge(single_array));
     ASSUME_ITS_EQUAL_I32(42, single_array->data.array_type.elements[0].data.int_type);
     fossil_tofu_erase(single_array);
 }
@@ -100,7 +100,7 @@ FOSSIL_TEST(test_sort_merge_multiple_elements) {
     int unsorted_values[] = {5, 3, 7, 2, 8, 1};
     int sorted_values[] = {1, 2, 3, 5, 7, 8};
     fossil_tofu_t* array_to_sort = fossil_tofu_create_array(TOFU_INT_TYPE, sizeof(unsorted_values) / sizeof(int), unsorted_values);
-    TEST_ASSUME_EQUAL(FOSSIL_TOFU_ERROR_OK, fossil_sort_merge(array_to_sort));
+    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_sort_merge(array_to_sort));
     for (size_t i = 0; i < array_to_sort->data.array_type.size; i++) {
         ASSUME_ITS_EQUAL_I32(sorted_values[i], array_to_sort->data.array_type.elements[i].data.int_type);
     }
@@ -112,9 +112,9 @@ FOSSIL_TEST(test_sort_strings) {
     char* unsorted_strings[] = {"banana", "apple", "cherry", "date"};
     char* sorted_strings[] = {"apple", "banana", "cherry", "date"};
     fossil_tofu_t* array_to_sort = fossil_tofu_create_array(TOFU_STRING_TYPE, sizeof(unsorted_strings) / sizeof(char*), unsorted_strings);
-    TEST_ASSUME_EQUAL(FOSSIL_TOFU_ERROR_OK, fossil_sort_quick(array_to_sort));
+    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_sort_quick(array_to_sort));
     for (size_t i = 0; i < array_to_sort->data.array_type.size; i++) {
-        TEST_ASSUME_EQUAL_CSTRING(sorted_strings[i], array_to_sort->data.array_type.elements[i].data.string_type);
+        ASSUME_ITS_EQUAL_CSTR(sorted_strings[i], array_to_sort->data.array_type.elements[i].data.string_type);
     }
     fossil_tofu_erase(array_to_sort);
 }

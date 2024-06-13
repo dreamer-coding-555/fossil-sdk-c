@@ -10,7 +10,7 @@ Description:
     feel free to contact Michael at michaelbrockus@gmail.com.
 ==============================================================================
 */
-#include "fossil/xstructures/stack.h" // lib source code
+#include "fossil/structures/stack.h" // lib source code
 
 #include <fossil/unittest.h>   // basic test tools
 #include <fossil/xassume.h> // extra asserts
@@ -33,12 +33,12 @@ Description:
 // * * * * * * * * * * * * * * * * * * * * * * * *
 
 FOSSIL_TEST(test_stack_create_and_erase) {
-    cstack* stack = fossil_stack_create(TOFU_INT_TYPE);
+    fossil_stack_t* stack = fossil_stack_create(TOFU_INT_TYPE);
 
     // Check if the stack is created with the expected values
     ASSUME_NOT_CNULL(stack);
     ASSUME_ITS_CNULL(stack->top);
-    TEST_ASSUME_EQUAL(TOFU_INT_TYPE, stack->stack_type);
+    ASSUME_ITS_EQUAL_I32(TOFU_INT_TYPE, stack->stack_type);
 
     fossil_stack_erase(stack);
 
@@ -48,25 +48,25 @@ FOSSIL_TEST(test_stack_create_and_erase) {
 }
 
 FOSSIL_TEST(test_stack_insert_and_size) {
-    cstack* stack = fossil_stack_create(TOFU_INT_TYPE);
+    fossil_stack_t* stack = fossil_stack_create(TOFU_INT_TYPE);
 
     // Insert some elements
     fossil_tofu_t element1 = { TOFU_INT_TYPE, { .int_type = 42 } };
     fossil_tofu_t element2 = { TOFU_INT_TYPE, { .int_type = 10 } };
     fossil_tofu_t element3 = { TOFU_INT_TYPE, { .int_type = 5 } };
 
-    TEST_ASSUME_EQUAL(FOSSIL_TOFU_ERROR_OK, fossil_stack_insert(stack, element1));
-    TEST_ASSUME_EQUAL(FOSSIL_TOFU_ERROR_OK, fossil_stack_insert(stack, element2));
-    TEST_ASSUME_EQUAL(FOSSIL_TOFU_ERROR_OK, fossil_stack_insert(stack, element3));
+    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_stack_insert(stack, element1));
+    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_stack_insert(stack, element2));
+    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_stack_insert(stack, element3));
 
     // Check if the size is correct
-    TEST_ASSUME_EQUAL_UINT(3, fossil_stack_size(stack));
+    ASSUME_ITS_EQUAL_U32(3, fossil_stack_size(stack));
 
     fossil_stack_erase(stack);
 }
 
 FOSSIL_TEST(test_stack_remove) {
-    cstack* stack = fossil_stack_create(TOFU_INT_TYPE);
+    fossil_stack_t* stack = fossil_stack_create(TOFU_INT_TYPE);
 
     // Insert some elements
     fossil_tofu_t element1 = { TOFU_INT_TYPE, { .int_type = 42 } };
@@ -79,19 +79,19 @@ FOSSIL_TEST(test_stack_remove) {
 
     // Remove an element
     fossil_tofu_t removedElement;
-    TEST_ASSUME_EQUAL(FOSSIL_TOFU_ERROR_OK, fossil_stack_remove(stack, &removedElement));
+    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_stack_remove(stack, &removedElement));
 
     // Check if the removed element is correct
     ASSUME_ITS_EQUAL_I32(5, removedElement.data.int_type);
 
     // Check if the size is correct
-    TEST_ASSUME_EQUAL_UINT(2, fossil_stack_size(stack));
+    ASSUME_ITS_EQUAL_U32(2, fossil_stack_size(stack));
 
     fossil_stack_erase(stack);
 }
 
 FOSSIL_TEST(test_stack_top) {
-    cstack* stack = fossil_stack_create(TOFU_INT_TYPE);
+    fossil_stack_t* stack = fossil_stack_create(TOFU_INT_TYPE);
 
     // Insert some elements
     fossil_tofu_t element1 = { TOFU_INT_TYPE, { .int_type = 42 } };

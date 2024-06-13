@@ -34,38 +34,38 @@ Description:
 
 // Test case 1: Test fossil_thread_create with valid parameters
 FOSSIL_TEST(test_fossil_thread_create_valid_params) {
-    xthread_t thread;
-    xthread_attr_t attr;
-    xtask_t task = { .task_func = xnullptr, .arg = xnullptr };
-    ASSUME_ITS_EQUAL_I3232(0, fossil_thread_create(&thread, &attr, task));
+    fossil_xthread_t thread;
+    fossil_xthread_attr_t attr;
+    fossil_xtask_t task = { .task_func = xnullptr, .arg = xnullptr };
+    ASSUME_ITS_EQUAL_I32(0, fossil_thread_create(&thread, &attr, task));
 }
 
 // Test case 2: Test fossil_thread_join with valid parameters
 FOSSIL_TEST(test_fossil_thread_join_valid_params) {
-    xthread_t thread;
+    fossil_xthread_t thread;
     void *retval;
-    fossil_thread_create(&thread, xnullptr, (xtask_t){ .task_func = xnullptr, .arg = xnullptr }); // Create a thread before joining it
-    ASSUME_ITS_EQUAL_I3232(0, fossil_thread_join(thread, &retval));
+    fossil_thread_create(&thread, xnullptr, (fossil_xtask_t){ .task_func = xnullptr, .arg = xnullptr }); // Create a thread before joining it
+    ASSUME_ITS_EQUAL_I32(0, fossil_thread_join(thread, &retval));
 }
 
 // Test case 3: Test fossil_thread_detach with valid parameters
 FOSSIL_TEST(test_fossil_thread_detach_valid_params) {
-    xthread_t thread;
-    fossil_thread_create(&thread, xnullptr, (xtask_t){ .task_func = xnullptr, .arg = xnullptr }); // Create a thread before detaching it
-    ASSUME_ITS_EQUAL_I3232(0, fossil_thread_detach(thread));
+    fossil_xthread_t thread;
+    fossil_thread_create(&thread, xnullptr, (fossil_xtask_t){ .task_func = xnullptr, .arg = xnullptr }); // Create a thread before detaching it
+    ASSUME_ITS_EQUAL_I32(0, fossil_thread_detach(thread));
 }
 
 // Test case 4: Test fossil_thread_attr_create
 FOSSIL_TEST(test_fossil_thread_attr_create) {
-    xthread_attr_t attr;
-    ASSUME_ITS_EQUAL_I3232(0, fossil_thread_attr_create(&attr));
+    fossil_xthread_attr_t attr;
+    ASSUME_ITS_EQUAL_I32(0, fossil_thread_attr_create(&attr));
 }
 
 // Test case 5: Test fossil_thread_attr_erase with valid parameters
 FOSSIL_TEST(test_fossil_thread_attr_erase_valid_params) {
-    xthread_attr_t attr;
+    fossil_xthread_attr_t attr;
     fossil_thread_attr_create(&attr); // Create thread attributes before erasing them
-    ASSUME_ITS_EQUAL_I3232(0, fossil_thread_attr_erase(&attr));
+    ASSUME_ITS_EQUAL_I32(0, fossil_thread_attr_erase(&attr));
 }
 
 // * * * * * * * * * * * * * * * * * * * * * * * *

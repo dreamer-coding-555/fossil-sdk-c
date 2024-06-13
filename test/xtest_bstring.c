@@ -38,7 +38,7 @@ FOSSIL_TEST(test_fossil_bstr_create) {
     bstring result = fossil_bstr_create(test_str);
 
     ASSUME_NOT_CNULL(result);
-    TEST_ASSUME_EQUAL_CSTRING((const_cstring)test_str, (const_cstring)result);
+    ASSUME_ITS_EQUAL_CSTR((const_cstring)test_str, (const_cstring)result);
 
     fossil_bstr_erase(result);
 }

@@ -13,7 +13,7 @@ Description:
 #include "fossil/threads/semaphores.h"
 #include "fossil/common/common.h"
 
-int32_t fossil_sem_create(xsem_t *sem, uint32_t value) {
+int32_t fossil_sem_create(fossil_xsem_t *sem, uint32_t value) {
     if (!sem) return FOSSIL_ERROR;
 
     atomic_init(&sem->value, value);
@@ -25,7 +25,7 @@ int32_t fossil_sem_create(xsem_t *sem, uint32_t value) {
     return FOSSIL_SUCCESS;
 }
 
-int32_t fossil_sem_erase(xsem_t *sem) {
+int32_t fossil_sem_erase(fossil_xsem_t *sem) {
     if (!sem) return FOSSIL_ERROR;
 
     fossil_cond_erase(&sem->cond);
@@ -33,7 +33,7 @@ int32_t fossil_sem_erase(xsem_t *sem) {
     return FOSSIL_SUCCESS;
 }
 
-int32_t fossil_sem_wait(xsem_t *sem) {
+int32_t fossil_sem_wait(fossil_xsem_t *sem) {
     if (!sem) return FOSSIL_ERROR;
 
     fossil_mutex_lock(&sem->mutex);
@@ -49,7 +49,7 @@ int32_t fossil_sem_wait(xsem_t *sem) {
     return FOSSIL_SUCCESS;
 }
 
-int32_t fossil_sem_post(xsem_t *sem) {
+int32_t fossil_sem_post(fossil_xsem_t *sem) {
     if (!sem) return FOSSIL_ERROR;
 
     fossil_mutex_lock(&sem->mutex);
@@ -62,7 +62,7 @@ int32_t fossil_sem_post(xsem_t *sem) {
     return FOSSIL_SUCCESS;
 }
 
-int32_t fossil_sem_trywait(xsem_t *sem) {
+int32_t fossil_sem_trywait(fossil_xsem_t *sem) {
     if (!sem) return FOSSIL_ERROR;
 
     fossil_mutex_lock(&sem->mutex);

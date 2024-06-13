@@ -32,7 +32,7 @@ extern "C"
  * @param belief The belief matrix to update.
  * @param observation The observation matrix.
  */
-void fossil_jellyfish_braincoral_tom_update_belief(jellyfish_matrix* belief, jellyfish_matrix* observation);
+void fossil_jellyfish_braincoral_tom_update_belief(jellyfish_matrix_t* belief, jellyfish_matrix_t* observation);
 
 /**
  * Combine two belief matrices into a single belief matrix.
@@ -41,7 +41,7 @@ void fossil_jellyfish_braincoral_tom_update_belief(jellyfish_matrix* belief, jel
  * @param belief2 The second belief matrix.
  * @return The combined belief matrix.
  */
-jellyfish_matrix* fossil_jellyfish_braincoral_tom_combine_beliefs(jellyfish_matrix* belief1, jellyfish_matrix* belief2);
+jellyfish_matrix_t* fossil_jellyfish_braincoral_tom_combine_beliefs(jellyfish_matrix_t* belief1, jellyfish_matrix_t* belief2);
 
 /**
  * Infer the desire matrix based on the given behavior matrix.
@@ -49,7 +49,7 @@ jellyfish_matrix* fossil_jellyfish_braincoral_tom_combine_beliefs(jellyfish_matr
  * @param behavior The behavior matrix.
  * @return The inferred desire matrix.
  */
-jellyfish_matrix* fossil_jellyfish_braincoral_tom_infer_desire(jellyfish_matrix* behavior);
+jellyfish_matrix_t* fossil_jellyfish_braincoral_tom_infer_desire(jellyfish_matrix_t* behavior);
 
 /**
  * Infer the intention matrix based on the given behavior matrix and context matrix.
@@ -58,7 +58,7 @@ jellyfish_matrix* fossil_jellyfish_braincoral_tom_infer_desire(jellyfish_matrix*
  * @param context The context matrix.
  * @return The inferred intention matrix.
  */
-jellyfish_matrix* fossil_jellyfish_braincoral_tom_infer_intention(jellyfish_matrix* behavior, jellyfish_matrix* context);
+jellyfish_matrix_t* fossil_jellyfish_braincoral_tom_infer_intention(jellyfish_matrix_t* behavior, jellyfish_matrix_t* context);
 
 /**
  * Recognize the emotion matrix based on the given text data matrix.
@@ -66,7 +66,7 @@ jellyfish_matrix* fossil_jellyfish_braincoral_tom_infer_intention(jellyfish_matr
  * @param text_data The text data matrix.
  * @return The recognized emotion matrix.
  */
-jellyfish_matrix* fossil_jellyfish_braincoral_tom_recognize_emotion(jellyfish_matrix* text_data);
+jellyfish_matrix_t* fossil_jellyfish_braincoral_tom_recognize_emotion(jellyfish_matrix_t* text_data);
 
 /**
  * Simulate the perspective matrix based on the given own belief matrix and other belief matrix.
@@ -75,7 +75,7 @@ jellyfish_matrix* fossil_jellyfish_braincoral_tom_recognize_emotion(jellyfish_ma
  * @param other_belief The other belief matrix.
  * @return The simulated perspective matrix.
  */
-jellyfish_matrix* fossil_jellyfish_braincoral_tom_simulate_perspective(jellyfish_matrix* own_belief, jellyfish_matrix* other_belief);
+jellyfish_matrix_t* fossil_jellyfish_braincoral_tom_simulate_perspective(jellyfish_matrix_t* own_belief, jellyfish_matrix_t* other_belief);
 
 /**
  * Model the joint attention matrix based on the given own belief matrix and other belief matrix.
@@ -84,7 +84,7 @@ jellyfish_matrix* fossil_jellyfish_braincoral_tom_simulate_perspective(jellyfish
  * @param other_belief The other belief matrix.
  * @return The modeled joint attention matrix.
  */
-jellyfish_matrix* fossil_jellyfish_braincoral_tom_model_joint_attention(jellyfish_matrix* own_belief, jellyfish_matrix* other_belief);
+jellyfish_matrix_t* fossil_jellyfish_braincoral_tom_model_joint_attention(jellyfish_matrix_t* own_belief, jellyfish_matrix_t* other_belief);
 
 /**
  * Infer the mind state matrix based on the given own belief matrix, other belief matrix, observed behavior matrix, and context matrix.
@@ -95,7 +95,7 @@ jellyfish_matrix* fossil_jellyfish_braincoral_tom_model_joint_attention(jellyfis
  * @param context The context matrix.
  * @return The inferred mind state matrix.
  */
-jellyfish_matrix* fossil_jellyfish_braincoral_tom_infer_mind_state(jellyfish_matrix* own_belief, jellyfish_matrix* other_belief, jellyfish_matrix* observed_behavior, jellyfish_matrix* context);
+jellyfish_matrix_t* fossil_jellyfish_braincoral_tom_infer_mind_state(jellyfish_matrix_t* own_belief, jellyfish_matrix_t* other_belief, jellyfish_matrix_t* observed_behavior, jellyfish_matrix_t* context);
 
 #ifdef __cplusplus
 }

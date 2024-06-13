@@ -29,18 +29,18 @@ Description:
 #include "fossil/tofu/tofu.h"
 
 // Node structure for the double-ended queue
-typedef struct cdqueue_node {
+typedef struct fossil_dqueue_node_t {
     fossil_tofu_t data;
-    struct cdqueue_node* prev;
-    struct cdqueue_node* next;
-} cdqueue_node;
+    struct fossil_dqueue_node_t* prev;
+    struct fossil_dqueue_node_t* next;
+} fossil_dqueue_node_t;
 
 // Double-ended queue structure
-typedef struct cdqueue {
-    cdqueue_node* front;
-    cdqueue_node* rear;
+typedef struct fossil_dqueue_t {
+    fossil_dqueue_node_t* front;
+    fossil_dqueue_node_t* rear;
     fossil_tofu_type list_type;  // Type of the deque
-} cdqueue;
+} fossil_dqueue_t;
 
 #ifdef __cplusplus
 extern "C"
@@ -56,14 +56,14 @@ extern "C"
  * @param list_type The type of data the dynamic queue will store.
  * @return          The created dynamic queue.
  */
-cdqueue* fossil_dqueue_create(fossil_tofu_type list_type);
+fossil_dqueue_t* fossil_dqueue_create(fossil_tofu_type list_type);
 
 /**
  * Erase the contents of the dynamic queue and free allocated memory.
  *
  * @param dqueue The dynamic queue to erase.
  */
-void fossil_dqueue_erase(cdqueue* dqueue);
+void fossil_dqueue_erase(fossil_dqueue_t* dqueue);
 
 // =======================
 // ALGORITHM FUNCTIONS
@@ -75,7 +75,7 @@ void fossil_dqueue_erase(cdqueue* dqueue);
  * @param data   The data to insert.
  * @return       The error code indicating the success or failure of the operation.
  */
-fossil_tofu_error_t fossil_dqueue_insert(cdqueue* dqueue, fossil_tofu_t data);
+fossil_tofu_error_t fossil_dqueue_insert(fossil_dqueue_t* dqueue, fossil_tofu_t data);
 
 /**
  * Remove data from the dynamic queue.
@@ -84,7 +84,7 @@ fossil_tofu_error_t fossil_dqueue_insert(cdqueue* dqueue, fossil_tofu_t data);
  * @param data   A pointer to store the removed data.
  * @return       The error code indicating the success or failure of the operation.
  */
-fossil_tofu_error_t fossil_dqueue_remove(cdqueue* dqueue, fossil_tofu_t* data);
+fossil_tofu_error_t fossil_dqueue_remove(fossil_dqueue_t* dqueue, fossil_tofu_t* data);
 
 /**
  * Search for data in the dynamic queue.
@@ -93,7 +93,7 @@ fossil_tofu_error_t fossil_dqueue_remove(cdqueue* dqueue, fossil_tofu_t* data);
  * @param data   The data to search for.
  * @return       The error code indicating the success or failure of the operation.
  */
-fossil_tofu_error_t fossil_dqueue_search(const cdqueue* dqueue, fossil_tofu_t data);
+fossil_tofu_error_t fossil_dqueue_search(const fossil_dqueue_t* dqueue, fossil_tofu_t data);
 
 // =======================
 // UTILITY FUNCTIONS
@@ -104,7 +104,7 @@ fossil_tofu_error_t fossil_dqueue_search(const cdqueue* dqueue, fossil_tofu_t da
  * @param dqueue The dynamic queue for which to get the size.
  * @return       The size of the dynamic queue.
  */
-size_t fossil_dqueue_size(const cdqueue* dqueue);
+size_t fossil_dqueue_size(const fossil_dqueue_t* dqueue);
 
 /**
  * Get the data from the dynamic queue matching the specified data.
@@ -113,7 +113,7 @@ size_t fossil_dqueue_size(const cdqueue* dqueue);
  * @param data   The data to search for.
  * @return       A pointer to the matching data.
  */
-fossil_tofu_t* fossil_dqueue_getter(cdqueue* dqueue, fossil_tofu_t data);
+fossil_tofu_t* fossil_dqueue_getter(fossil_dqueue_t* dqueue, fossil_tofu_t data);
 
 /**
  * Set data in the dynamic queue.
@@ -122,7 +122,7 @@ fossil_tofu_t* fossil_dqueue_getter(cdqueue* dqueue, fossil_tofu_t data);
  * @param data   The data to set.
  * @return       The error code indicating the success or failure of the operation.
  */
-fossil_tofu_error_t fossil_dqueue_setter(cdqueue* dqueue, fossil_tofu_t data);
+fossil_tofu_error_t fossil_dqueue_setter(fossil_dqueue_t* dqueue, fossil_tofu_t data);
 
 /**
  * Check if the dynamic queue is not empty.
@@ -130,7 +130,7 @@ fossil_tofu_error_t fossil_dqueue_setter(cdqueue* dqueue, fossil_tofu_t data);
  * @param dqueue The dynamic queue to check.
  * @return       True if the dynamic queue is not empty, false otherwise.
  */
-bool fossil_dqueue_not_empty(const cdqueue* dqueue);
+bool fossil_dqueue_not_empty(const fossil_dqueue_t* dqueue);
 
 /**
  * Check if the dynamic queue is not a null pointer.
@@ -138,7 +138,7 @@ bool fossil_dqueue_not_empty(const cdqueue* dqueue);
  * @param dqueue The dynamic queue to check.
  * @return       True if the dynamic queue is not a null pointer, false otherwise.
  */
-bool fossil_dqueue_not_cnullptr(const cdqueue* dqueue);
+bool fossil_dqueue_not_cnullptr(const fossil_dqueue_t* dqueue);
 
 /**
  * Check if the dynamic queue is empty.
@@ -146,7 +146,7 @@ bool fossil_dqueue_not_cnullptr(const cdqueue* dqueue);
  * @param dqueue The dynamic queue to check.
  * @return       True if the dynamic queue is empty, false otherwise.
  */
-bool fossil_dqueue_is_empty(const cdqueue* dqueue);
+bool fossil_dqueue_is_empty(const fossil_dqueue_t* dqueue);
 
 /**
  * Check if the dynamic queue is a null pointer.
@@ -154,7 +154,7 @@ bool fossil_dqueue_is_empty(const cdqueue* dqueue);
  * @param dqueue The dynamic queue to check.
  * @return       True if the dynamic queue is a null pointer, false otherwise.
  */
-bool fossil_dqueue_is_cnullptr(const cdqueue* dqueue);
+bool fossil_dqueue_is_cnullptr(const fossil_dqueue_t* dqueue);
 
 #ifdef __cplusplus
 }

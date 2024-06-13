@@ -18,8 +18,8 @@ Description:
 // Define a structure for a neural network
 typedef struct {
     int num_layers;
-    jellyfish_layer** layers;
-} Jellyfish_Network;
+    jellyfish_layer_t** layers;
+} jellyfish_network_t;
 
 #ifdef __cplusplus
 extern "C"
@@ -36,7 +36,7 @@ extern "C"
  * @param num_layers The number of layers in the network.
  * @return A pointer to the created Jellyfish network.
  */
-Jellyfish_Network* fossil_jellyfish_deepsea_create_network(int num_layers);
+jellyfish_network_t* fossil_jellyfish_deepsea_create_network(int num_layers);
 
 /**
  * Adds a layer to the Jellyfish network.
@@ -44,7 +44,7 @@ Jellyfish_Network* fossil_jellyfish_deepsea_create_network(int num_layers);
  * @param network The Jellyfish network to add the layer to.
  * @param layer The layer to add to the network.
  */
-void fossil_jellyfish_deepsea_add_layer(Jellyfish_Network* network, jellyfish_layer* layer);
+void fossil_jellyfish_deepsea_add_layer(jellyfish_network_t* network, jellyfish_layer_t* layer);
 
 /**
  * Performs a forward pass through the Jellyfish network.
@@ -53,7 +53,7 @@ void fossil_jellyfish_deepsea_add_layer(Jellyfish_Network* network, jellyfish_la
  * @param input The input matrix to the network.
  * @return The output matrix after the forward pass.
  */
-jellyfish_matrix* fossil_jellyfish_deepsea_forward(Jellyfish_Network* network, jellyfish_matrix* input);
+jellyfish_matrix_t* fossil_jellyfish_deepsea_forward(jellyfish_network_t* network, jellyfish_matrix_t* input);
 
 /**
  * Performs a backward pass through the Jellyfish network and updates the weights.
@@ -63,7 +63,7 @@ jellyfish_matrix* fossil_jellyfish_deepsea_forward(Jellyfish_Network* network, j
  * @param target The target matrix for the network.
  * @param learning_rate The learning rate for weight updates.
  */
-void fossil_jellyfish_deepsea_backward(Jellyfish_Network* network, jellyfish_matrix* input, jellyfish_matrix* target, double learning_rate);
+void fossil_jellyfish_deepsea_backward(jellyfish_network_t* network, jellyfish_matrix_t* input, jellyfish_matrix_t* target, double learning_rate);
 
 /**
  * Trains the Jellyfish network on the given inputs and targets for the specified number of epochs.
@@ -74,14 +74,14 @@ void fossil_jellyfish_deepsea_backward(Jellyfish_Network* network, jellyfish_mat
  * @param epochs The number of epochs to train for.
  * @param learning_rate The learning rate for weight updates.
  */
-void fossil_jellyfish_deepsea_train(Jellyfish_Network* network, jellyfish_matrix* inputs, jellyfish_matrix* targets, int epochs, double learning_rate);
+void fossil_jellyfish_deepsea_train(jellyfish_network_t* network, jellyfish_matrix_t* inputs, jellyfish_matrix_t* targets, int epochs, double learning_rate);
 
 /**
  * Erases the Jellyfish network and frees the allocated memory.
  *
  * @param network The Jellyfish network to erase.
  */
-void fossil_jellyfish_deepsea_erase_network(Jellyfish_Network* network);
+void fossil_jellyfish_deepsea_erase_network(jellyfish_network_t* network);
 
 #ifdef __cplusplus
 }

@@ -13,7 +13,7 @@ Description:
 #include "fossil/threads/spinlocks.h"
 #include "fossil/common/common.h"
 
-int32_t fossil_spinlock_create(xspinlock_t *lock) {
+int32_t fossil_spinlock_create(fossil_xspinlock_t *lock) {
     if (!lock) return FOSSIL_ERROR;
 
 #ifdef _WIN32
@@ -25,7 +25,7 @@ int32_t fossil_spinlock_create(xspinlock_t *lock) {
 #endif
 }
 
-int32_t fossil_spinlock_erase(xspinlock_t *lock) {
+int32_t fossil_spinlock_erase(fossil_xspinlock_t *lock) {
     if (!lock) return FOSSIL_ERROR;
 
 #ifdef _WIN32
@@ -37,7 +37,7 @@ int32_t fossil_spinlock_erase(xspinlock_t *lock) {
 #endif
 }
 
-int32_t fossil_spinlock_lock(xspinlock_t *lock) {
+int32_t fossil_spinlock_lock(fossil_xspinlock_t *lock) {
     if (!lock) return FOSSIL_ERROR;
 
 #ifdef _WIN32
@@ -51,7 +51,7 @@ int32_t fossil_spinlock_lock(xspinlock_t *lock) {
 #endif
 }
 
-int32_t fossil_spinlock_unlock(xspinlock_t *lock) {
+int32_t fossil_spinlock_unlock(fossil_xspinlock_t *lock) {
     if (!lock) return FOSSIL_ERROR;
 
 #ifdef _WIN32
@@ -63,7 +63,7 @@ int32_t fossil_spinlock_unlock(xspinlock_t *lock) {
 #endif
 }
 
-int32_t fossil_spinlock_trylock(xspinlock_t *lock) {
+int32_t fossil_spinlock_trylock(fossil_xspinlock_t *lock) {
     if (!lock) return FOSSIL_ERROR;
 
 #ifdef _WIN32

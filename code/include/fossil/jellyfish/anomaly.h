@@ -31,7 +31,7 @@ extern "C"
  * Returns:
  * - The Euclidean distance between the two matrices.
  */
-double fossil_jellyfish_anomaly_euclidean_distance(jellyfish_matrix* a, jellyfish_matrix* b);
+double fossil_jellyfish_anomaly_euclidean_distance(jellyfish_matrix_t* a, jellyfish_matrix_t* b);
 
 /** Calculate the Mahalanobis distance between a vector and a distribution.
  * Parameters:
@@ -41,7 +41,7 @@ double fossil_jellyfish_anomaly_euclidean_distance(jellyfish_matrix* a, jellyfis
  * Returns:
  * - The Mahalanobis distance between the vector and the distribution.
  */
-double fossil_jellyfish_anomaly_mahalanobis_distance(jellyfish_matrix* vec, jellyfish_matrix* mean, jellyfish_matrix* covariance);
+double fossil_jellyfish_anomaly_mahalanobis_distance(jellyfish_matrix_t* vec, jellyfish_matrix_t* mean, jellyfish_matrix_t* covariance);
 
 /** Perform k-means clustering on the given data.
  * Parameters:
@@ -51,7 +51,7 @@ double fossil_jellyfish_anomaly_mahalanobis_distance(jellyfish_matrix* vec, jell
  * - centroids: The matrix to store the resulting centroids.
  * - labels: The array to store the resulting labels.
  */
-void fossil_jellyfish_anomaly_kmeans(jellyfish_matrix* data, int k, int max_iterations, jellyfish_matrix* centroids, int* labels);
+void fossil_jellyfish_anomaly_kmeans(jellyfish_matrix_t* data, int k, int max_iterations, jellyfish_matrix_t* centroids, int* labels);
 
 /** Identify outliers based on the distance to cluster centroids.
  * Parameters:
@@ -61,7 +61,7 @@ void fossil_jellyfish_anomaly_kmeans(jellyfish_matrix* data, int k, int max_iter
  * Returns:
  * - A matrix containing the identified outliers.
  */
-jellyfish_matrix* fossil_jellyfish_anomaly_identify_outliers(jellyfish_matrix* data, jellyfish_matrix* centroids, double threshold);
+jellyfish_matrix_t* fossil_jellyfish_anomaly_identify_outliers(jellyfish_matrix_t* data, jellyfish_matrix_t* centroids, double threshold);
 
 /** Train an autoencoder for anomaly detection.
  * Parameters:
@@ -71,7 +71,7 @@ jellyfish_matrix* fossil_jellyfish_anomaly_identify_outliers(jellyfish_matrix* d
  * - epochs: The number of training epochs.
  * - learning_rate: The learning rate for training.
  */
-void fossil_jellyfish_anomaly_train_autoencoder(jellyfish_matrix* data, jellyfish_layer* encoder, jellyfish_layer* decoder, int epochs, double learning_rate);
+void fossil_jellyfish_anomaly_train_autoencoder(jellyfish_matrix_t* data, jellyfish_layer_t* encoder, jellyfish_layer_t* decoder, int epochs, double learning_rate);
 
 /** Detect anomalies using an autoencoder.
  * Parameters:
@@ -82,7 +82,7 @@ void fossil_jellyfish_anomaly_train_autoencoder(jellyfish_matrix* data, jellyfis
  * Returns:
  * - A matrix containing the detected anomalies.
  */
-jellyfish_matrix* fossil_jellyfish_anomaly_detect_with_autoencoder(jellyfish_matrix* data, jellyfish_layer* encoder, jellyfish_layer* decoder, double threshold);
+jellyfish_matrix_t* fossil_jellyfish_anomaly_detect_with_autoencoder(jellyfish_matrix_t* data, jellyfish_layer_t* encoder, jellyfish_layer_t* decoder, double threshold);
 
 /** Calculate the reconstruction error between the input and the reconstructed matrix.
  * Parameters:
@@ -91,7 +91,7 @@ jellyfish_matrix* fossil_jellyfish_anomaly_detect_with_autoencoder(jellyfish_mat
  * Returns:
  * - The reconstruction error.
  */
-double fossil_jellyfish_anomaly_reconstruction_error(jellyfish_matrix* input, jellyfish_matrix* reconstructed);
+double fossil_jellyfish_anomaly_reconstruction_error(jellyfish_matrix_t* input, jellyfish_matrix_t* reconstructed);
 
 #ifdef __cplusplus
 }

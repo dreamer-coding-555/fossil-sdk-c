@@ -30,17 +30,17 @@ Description:
 #include "fossil/tofu/tofu.h"
 
 // Node structure for the binary search tree
-typedef struct ctree_node {
+typedef struct fossil_tree_node_t {
     fossil_tofu_t data;
-    struct ctree_node* left;
-    struct ctree_node* right;
-} ctree_node;
+    struct fossil_tree_node_t* left;
+    struct fossil_tree_node_t* right;
+} fossil_tree_node_t;
 
 // Tree structure
 typedef struct {
-    ctree_node* root;
+    fossil_tree_node_t* root;
     fossil_tofu_type tree; // Type of the tree
-} ctree;
+} fossil_tree_t;
 
 #ifdef __cplusplus
 extern "C"
@@ -56,14 +56,14 @@ extern "C"
  * @param tree The type of data the tree will store.
  * @return     The created tree.
  */
-ctree* fossil_tree_create(fossil_tofu_type tree);
+fossil_tree_t* fossil_tree_create(fossil_tofu_type tree);
 
 /**
  * Erase the contents of the tree and free allocated memory.
  *
  * @param tree The tree to erase.
  */
-void fossil_tree_erase(ctree* tree);
+void fossil_tree_erase(fossil_tree_t* tree);
 
 // =======================
 // ALGORITHM FUNCTIONS
@@ -75,7 +75,7 @@ void fossil_tree_erase(ctree* tree);
  * @param data The data to insert.
  * @return     The error code indicating the success or failure of the operation.
  */
-fossil_tofu_error_t fossil_tree_insert(ctree* tree, fossil_tofu_t data);
+fossil_tofu_error_t fossil_tree_insert(fossil_tree_t* tree, fossil_tofu_t data);
 
 /**
  * Remove data from the tree.
@@ -84,7 +84,7 @@ fossil_tofu_error_t fossil_tree_insert(ctree* tree, fossil_tofu_t data);
  * @param data The data to remove.
  * @return     The error code indicating the success or failure of the operation.
  */
-fossil_tofu_error_t fossil_tree_remove(ctree* tree, fossil_tofu_t data);
+fossil_tofu_error_t fossil_tree_remove(fossil_tree_t* tree, fossil_tofu_t data);
 
 /**
  * Search for data in the tree.
@@ -93,7 +93,7 @@ fossil_tofu_error_t fossil_tree_remove(ctree* tree, fossil_tofu_t data);
  * @param data The data to search for.
  * @return     The error code indicating the success or failure of the operation.
  */
-fossil_tofu_error_t fossil_tree_search(const ctree* tree, fossil_tofu_t data);
+fossil_tofu_error_t fossil_tree_search(const fossil_tree_t* tree, fossil_tofu_t data);
 
 // =======================
 // UTILITY FUNCTIONS
@@ -104,7 +104,7 @@ fossil_tofu_error_t fossil_tree_search(const ctree* tree, fossil_tofu_t data);
  * @param tree The tree for which to get the size.
  * @return     The size of the tree.
  */
-size_t fossil_tree_size(const ctree* tree);
+size_t fossil_tree_size(const fossil_tree_t* tree);
 
 /**
  * Get the data from the tree matching the specified data.
@@ -113,7 +113,7 @@ size_t fossil_tree_size(const ctree* tree);
  * @param data The data to search for.
  * @return     A pointer to the matching data, or NULL if not found.
  */
-fossil_tofu_t* fossil_tree_getter(const ctree* tree, fossil_tofu_t data);
+fossil_tofu_t* fossil_tree_getter(const fossil_tree_t* tree, fossil_tofu_t data);
 
 /**
  * Set data in the tree.
@@ -122,7 +122,7 @@ fossil_tofu_t* fossil_tree_getter(const ctree* tree, fossil_tofu_t data);
  * @param data The data to set.
  * @return     The error code indicating the success or failure of the operation.
  */
-fossil_tofu_error_t fossil_tree_setter(ctree* tree, fossil_tofu_t data);
+fossil_tofu_error_t fossil_tree_setter(fossil_tree_t* tree, fossil_tofu_t data);
 
 /**
  * Check if the tree is not empty.
@@ -130,7 +130,7 @@ fossil_tofu_error_t fossil_tree_setter(ctree* tree, fossil_tofu_t data);
  * @param tree The tree to check.
  * @return     True if the tree is not empty, false otherwise.
  */
-bool fossil_tree_not_empty(const ctree* tree);
+bool fossil_tree_not_empty(const fossil_tree_t* tree);
 
 /**
  * Check if the tree is not a null pointer.
@@ -138,7 +138,7 @@ bool fossil_tree_not_empty(const ctree* tree);
  * @param tree The tree to check.
  * @return     True if the tree is not a null pointer, false otherwise.
  */
-bool fossil_tree_not_cnullptr(const ctree* tree);
+bool fossil_tree_not_cnullptr(const fossil_tree_t* tree);
 
 /**
  * Check if the tree is empty.
@@ -146,7 +146,7 @@ bool fossil_tree_not_cnullptr(const ctree* tree);
  * @param tree The tree to check.
  * @return     True if the tree is empty, false otherwise.
  */
-bool fossil_tree_is_empty(const ctree* tree);
+bool fossil_tree_is_empty(const fossil_tree_t* tree);
 
 /**
  * Check if the tree is a null pointer.
@@ -154,7 +154,7 @@ bool fossil_tree_is_empty(const ctree* tree);
  * @param tree The tree to check.
  * @return     True if the tree is a null pointer, false otherwise.
  */
-bool fossil_tree_is_cnullptr(const ctree* tree);
+bool fossil_tree_is_cnullptr(const fossil_tree_t* tree);
 
 /**
  * Check if the tree contains the specified data.
@@ -163,7 +163,7 @@ bool fossil_tree_is_cnullptr(const ctree* tree);
  * @param data The data to check for.
  * @return     True if the tree contains the data, false otherwise.
  */
-bool fossil_tree_contains(const ctree* tree, fossil_tofu_t data);
+bool fossil_tree_contains(const fossil_tree_t* tree, fossil_tofu_t data);
 
 #ifdef __cplusplus
 }

@@ -13,7 +13,7 @@ Description:
 #include <fossil/unittest.h>   // basic test tools
 #include <fossil/xassume.h> // extra asserts
 
-#include <fossil/xjellyfish/anomaly.h> // library under test
+#include <fossil/jellyfish/anomaly.h> // library under test
 
 // * * * * * * * * * * * * * * * * * * * * * * * *
 // * Fossil Logic Test Utilites
@@ -33,8 +33,8 @@ Description:
 // * * * * * * * * * * * * * * * * * * * * * * * *
 
 FOSSIL_TEST(test_fossil_jellyfish_anomaly_euclidean_distance) {
-    jellyfish_matrix* a = fossil_jellyfish_create_matrix(1, 3);
-    jellyfish_matrix* b = fossil_jellyfish_create_matrix(1, 3);
+    jellyfish_matrix_t* a = fossil_jellyfish_create_matrix(1, 3);
+    jellyfish_matrix_t* b = fossil_jellyfish_create_matrix(1, 3);
 
     // Initialize vectors a and b with some dummy values
     a->data[0][0] = 1.0; a->data[0][1] = 2.0; a->data[0][2] = 3.0;
@@ -44,16 +44,16 @@ FOSSIL_TEST(test_fossil_jellyfish_anomaly_euclidean_distance) {
 
     // Expected distance calculation
     double expected_distance = sqrt(pow(4.0 - 1.0, 2) + pow(5.0 - 2.0, 2) + pow(6.0 - 3.0, 2));
-    TEST_ASSUME_DOUBLE_WITHIN(1e-6, expected_distance, distance);
+    ASSUME_ITS_WITHIN_RANGE_F64(1e-6, expected_distance, distance);
 
     fossil_jellyfish_erase_matrix(a);
     fossil_jellyfish_erase_matrix(b);
 }
 
 FOSSIL_TEST(test_fossil_jellyfish_anomaly_mahalanobis_distance) {
-    jellyfish_matrix* vec = fossil_jellyfish_create_matrix(1, 2);
-    jellyfish_matrix* mean = fossil_jellyfish_create_matrix(1, 2);
-    jellyfish_matrix* covariance = fossil_jellyfish_create_matrix(2, 2);
+    jellyfish_matrix_t* vec = fossil_jellyfish_create_matrix(1, 2);
+    jellyfish_matrix_t* mean = fossil_jellyfish_create_matrix(1, 2);
+    jellyfish_matrix_t* covariance = fossil_jellyfish_create_matrix(2, 2);
 
     // Initialize vec, mean, and covariance with dummy values
     vec->data[0][0] = 1.0; vec->data[0][1] = 2.0;
@@ -65,7 +65,7 @@ FOSSIL_TEST(test_fossil_jellyfish_anomaly_mahalanobis_distance) {
 
     // Expected distance (since covariance is identity, should be same as Euclidean distance)
     double expected_distance = sqrt(pow(1.0, 2) + pow(2.0, 2));
-    TEST_ASSUME_DOUBLE_WITHIN(1e-6, expected_distance, distance);
+    ASSUME_ITS_WITHIN_RANGE_F64(1e-6, expected_distance, distance);
 
     fossil_jellyfish_erase_matrix(vec);
     fossil_jellyfish_erase_matrix(mean);
@@ -73,10 +73,10 @@ FOSSIL_TEST(test_fossil_jellyfish_anomaly_mahalanobis_distance) {
 }
 
 FOSSIL_TEST(test_fossil_jellyfish_anomaly_kmeans) {
-    jellyfish_matrix* data = fossil_jellyfish_create_matrix(4, 2);
+    jellyfish_matrix_t* data = fossil_jellyfish_create_matrix(4, 2);
     int k = 2;
     int max_iterations = 100;
-    jellyfish_matrix* centroids = fossil_jellyfish_create_matrix(k, 2);
+    jellyfish_matrix_t* centroids = fossil_jellyfish_create_matrix(k, 2);
     int labels[4];
 
     // Initialize data with some dummy values
@@ -97,8 +97,8 @@ FOSSIL_TEST(test_fossil_jellyfish_anomaly_kmeans) {
 }
 
 FOSSIL_TEST(test_fossil_jellyfish_anomaly_identify_outliers) {
-    jellyfish_matrix* data = fossil_jellyfish_create_matrix(4, 2);
-    jellyfish_matrix* centroids = fossil_jellyfish_create_matrix(2, 2);
+    jellyfish_matrix_t* data = fossil_jellyfish_create_matrix(4, 2);
+    jellyfish_matrix_t* centroids = fossil_jellyfish_create_matrix(2, 2);
     double threshold = 3.0;
 
     // Initialize data and centroids with some dummy values
@@ -110,7 +110,7 @@ FOSSIL_TEST(test_fossil_jellyfish_anomaly_identify_outliers) {
     centroids->data[0][0] = 1.0; centroids->data[0][1] = 1.5;
     centroids->data[1][0] = 4.0; centroids->data[1][1] = 5.5;
 
-    jellyfish_matrix* outliers = fossil_jellyfish_anomaly_identify_outliers(data, centroids, threshold);
+    jellyfish_matrix_t* outliers = fossil_jellyfish_anomaly_identify_outliers(data, centroids, threshold);
 
     // Check if outliers matrix is not NULL
     ASSUME_NOT_CNULL(outliers);
@@ -121,8 +121,8 @@ FOSSIL_TEST(test_fossil_jellyfish_anomaly_identify_outliers) {
 }
 
 FOSSIL_TEST(test_fossil_jellyfish_anomaly_reconstruction_error) {
-    jellyfish_matrix* input = fossil_jellyfish_create_matrix(1, 3);
-    jellyfish_matrix* reconstructed = fossil_jellyfish_create_matrix(1, 3);
+    jellyfish_matrix_t* input = fossil_jellyfish_create_matrix(1, 3);
+    jellyfish_matrix_t* reconstructed = fossil_jellyfish_create_matrix(1, 3);
 
     // Initialize input and reconstructed with some dummy values
     input->data[0][0] = 1.0; input->data[0][1] = 2.0; input->data[0][2] = 3.0;
@@ -132,7 +132,7 @@ FOSSIL_TEST(test_fossil_jellyfish_anomaly_reconstruction_error) {
 
     // Expected error calculation
     double expected_error = (pow(1.0 - 1.1, 2) + pow(2.0 - 1.9, 2) + pow(3.0 - 3.05, 2)) / 3;
-    TEST_ASSUME_DOUBLE_WITHIN(1e-6, expected_error, error);
+    ASSUME_ITS_WITHIN_RANGE_F64(1e-6, expected_error, error);
 
     fossil_jellyfish_erase_matrix(input);
     fossil_jellyfish_erase_matrix(reconstructed);

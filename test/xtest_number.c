@@ -55,7 +55,7 @@ FOSSIL_TEST(test_fossil_cstr_expression_to_numeric) {
 FOSSIL_TEST(test_fossil_cstr_from_numeric) {
     long long number = 12345;
     cstring result = fossil_cstr_from_numeric(number);
-    TEST_ASSUME_EQUAL_CSTRING("12345", (cstring)result);
+    ASSUME_ITS_EQUAL_CSTR("12345", (cstring)result);
     free(result);
 }
 
@@ -84,7 +84,7 @@ FOSSIL_TEST(test_fossil_bstr_expression_to_numeric) {
 FOSSIL_TEST(test_fossil_bstr_from_numeric) {
     long long number = 12345;
     bstring result = fossil_bstr_from_numeric(number);
-    TEST_ASSUME_EQUAL_BSTRING("12345", result);
+    ASSUME_ITS_EQUAL_BSTR("12345", result);
     fossil_bstr_erase(result);
 }
 
@@ -113,7 +113,7 @@ FOSSIL_TEST(test_fossil_wstr_expression_to_numeric) {
 FOSSIL_TEST(test_fossil_wstr_from_numeric) {
     long long number = 12345;
     wstring result = fossil_wstr_from_numeric(number);
-    TEST_ASSUME_EQUAL_WSTRING(L"12345", (const_wstring)result);
+    ASSUME_ITS_EQUAL_WSTR(L"12345", (const_wstring)result);
     free(result);
 }
 

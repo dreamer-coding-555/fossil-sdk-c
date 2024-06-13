@@ -19,8 +19,8 @@ Description:
 // CREATE and DELETE
 // =======================
 
-cvector fossil_vector_create(fossil_tofu_type expected_type) {
-    cvector new_vector;
+fossil_vector_t fossil_vector_create(fossil_tofu_type expected_type) {
+    fossil_vector_t new_vector;
     new_vector.data = (fossil_tofu_t*)malloc(INITIAL_CAPACITY * sizeof(fossil_tofu_t));
     if (new_vector.data == cnullptr) {
         // Handle memory allocation failure
@@ -34,7 +34,7 @@ cvector fossil_vector_create(fossil_tofu_type expected_type) {
     return new_vector;
 }
 
-void fossil_vector_erase(cvector* vector) {
+void fossil_vector_erase(fossil_vector_t* vector) {
     if (vector == cnullptr) {
         return;
     }
@@ -49,7 +49,7 @@ void fossil_vector_erase(cvector* vector) {
 // ALGORITHM FUNCTIONS
 // =======================
 
-void fossil_vector_push_back(cvector* vector, fossil_tofu_t element) {
+void fossil_vector_push_back(fossil_vector_t* vector, fossil_tofu_t element) {
     if (vector == cnullptr) {
         return;
     }
@@ -74,7 +74,7 @@ void fossil_vector_push_back(cvector* vector, fossil_tofu_t element) {
     vector->data[vector->size++] = element;
 }
 
-int fossil_vector_search(const cvector* vector, fossil_tofu_t target) {
+int fossil_vector_search(const fossil_vector_t* vector, fossil_tofu_t target) {
     if (vector == cnullptr) {
         return -1;
     }
@@ -88,7 +88,7 @@ int fossil_vector_search(const cvector* vector, fossil_tofu_t target) {
     return -1; // Element not found
 }
 
-void fossil_vector_reverse(cvector* vector) {
+void fossil_vector_reverse(fossil_vector_t* vector) {
     if (vector == cnullptr) {
         return;
     }
@@ -105,23 +105,23 @@ void fossil_vector_reverse(cvector* vector) {
 // UTILITY FUNCTIONS
 // =======================
 
-bool fossil_vector_is_cnullptr(const cvector* vector) {
+bool fossil_vector_is_cnullptr(const fossil_vector_t* vector) {
     return vector == cnullptr;
 }
 
-bool fossil_vector_not_cnullptr(const cvector* vector) {
+bool fossil_vector_not_cnullptr(const fossil_vector_t* vector) {
     return vector != cnullptr;
 }
 
-bool fossil_vector_is_empty(const cvector* vector) {
+bool fossil_vector_is_empty(const fossil_vector_t* vector) {
     return vector == cnullptr || vector->size == 0;
 }
 
-bool fossil_vector_not_empty(const cvector* vector) {
+bool fossil_vector_not_empty(const fossil_vector_t* vector) {
     return vector != cnullptr && vector->size != 0;
 }
 
-void fossil_vector_setter(cvector* vector, size_t index, fossil_tofu_t element) {
+void fossil_vector_setter(fossil_vector_t* vector, size_t index, fossil_tofu_t element) {
     if (vector == cnullptr || index >= vector->size) {
         return;
     }
@@ -135,7 +135,7 @@ void fossil_vector_setter(cvector* vector, size_t index, fossil_tofu_t element) 
     vector->data[index] = element;
 }
 
-fossil_tofu_t fossil_vector_getter(const cvector* vector, size_t index) {
+fossil_tofu_t fossil_vector_getter(const fossil_vector_t* vector, size_t index) {
     if (vector == cnullptr || index >= vector->size) {
         return (fossil_tofu_t){.type = TOFU_INVALID_TYPE}; // Invalid or out-of-bounds access
     }
@@ -143,11 +143,11 @@ fossil_tofu_t fossil_vector_getter(const cvector* vector, size_t index) {
     return vector->data[index];
 }
 
-size_t fossil_vector_size(const cvector* vector) {
+size_t fossil_vector_size(const fossil_vector_t* vector) {
     return vector != cnullptr ? vector->size : 0;
 }
 
-void fossil_vector_peek(const cvector* vector) {
+void fossil_vector_peek(const fossil_vector_t* vector) {
     if (vector == cnullptr) {
         return;
     }
@@ -166,7 +166,7 @@ void fossil_vector_peek(const cvector* vector) {
 // ITERATOR FUNCTIONS
 // =======================
 
-fossil_tofu_iterator fossil_vector_iterator_start(const cvector* vector) {
+fossil_tofu_iterator fossil_vector_iterator_start(const fossil_vector_t* vector) {
     if (vector == cnullptr || vector->size == 0) {
         return (fossil_tofu_iterator){.current_value = cnullptr, .index = 0};
     }
@@ -174,7 +174,7 @@ fossil_tofu_iterator fossil_vector_iterator_start(const cvector* vector) {
     return (fossil_tofu_iterator){.current_value = &vector->data[0], .index = 0};
 }
 
-fossil_tofu_iterator fossil_vector_iterator_end(const cvector* vector) {
+fossil_tofu_iterator fossil_vector_iterator_end(const fossil_vector_t* vector) {
     if (vector == cnullptr || vector->size == 0) {
         return (fossil_tofu_iterator){.current_value = cnullptr, .index = vector->size};
     }
@@ -182,7 +182,7 @@ fossil_tofu_iterator fossil_vector_iterator_end(const cvector* vector) {
     return (fossil_tofu_iterator){.current_value = &vector->data[vector->size - 1], .index = vector->size - 1};
 }
 
-fossil_tofu_iterator fossil_vector_iterator_next(const cvector* vector, fossil_tofu_iterator iterator) {
+fossil_tofu_iterator fossil_vector_iterator_next(const fossil_vector_t* vector, fossil_tofu_iterator iterator) {
     if (vector == cnullptr || iterator.index >= vector->size - 1) {
         return (fossil_tofu_iterator){.current_value = cnullptr, .index = iterator.index + 1};
     }
@@ -190,6 +190,6 @@ fossil_tofu_iterator fossil_vector_iterator_next(const cvector* vector, fossil_t
     return (fossil_tofu_iterator){.current_value = &vector->data[iterator.index + 1], .index = iterator.index + 1};
 }
 
-bool fossil_vector_iterator_has_next(const cvector* vector, fossil_tofu_iterator iterator) {
+bool fossil_vector_iterator_has_next(const fossil_vector_t* vector, fossil_tofu_iterator iterator) {
     return vector != cnullptr && iterator.index < vector->size - 1;
 }

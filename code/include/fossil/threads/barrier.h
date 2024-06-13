@@ -37,7 +37,7 @@ typedef struct {
     atomic_int count;       /**< Count of threads that have reached the barrier. */
     atomic_int total;       /**< Total number of threads expected to reach the barrier. */
 #endif
-} xbarrier_t;
+} fossil_xbarrier_t;
 
 #ifdef __cplusplus
 extern "C"
@@ -51,7 +51,7 @@ extern "C"
  * @param count The count of threads required to reach the barrier.
  * @return int32_t 0 if the barrier is successfully initialized, -1 otherwise.
  */
-int32_t fossil_barrier_create(xbarrier_t *barrier, uint32_t count);
+int32_t fossil_barrier_create(fossil_xbarrier_t *barrier, uint32_t count);
 
 /**
  * @brief Destroys a barrier.
@@ -59,7 +59,7 @@ int32_t fossil_barrier_create(xbarrier_t *barrier, uint32_t count);
  * @param barrier Pointer to the barrier to destroy.
  * @return int32_t 0 if the barrier is successfully destroyed, -1 otherwise.
  */
-int32_t fossil_barrier_erase(xbarrier_t *barrier);
+int32_t fossil_barrier_erase(fossil_xbarrier_t *barrier);
 
 /**
  * @brief Waits for all threads to reach the barrier.
@@ -67,7 +67,7 @@ int32_t fossil_barrier_erase(xbarrier_t *barrier);
  * @param barrier Pointer to the barrier to wait on.
  * @return int32_t 0 if all threads successfully reach the barrier, -1 otherwise.
  */
-int32_t fossil_barrier_wait(xbarrier_t *barrier);
+int32_t fossil_barrier_wait(fossil_xbarrier_t *barrier);
 
 #ifdef __cplusplus
 }

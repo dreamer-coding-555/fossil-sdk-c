@@ -35,14 +35,14 @@ Description:
 FOSSIL_TEST(test_fossil_cstr_from_int) {
     int num = 12345;
     cstring result = fossil_cstr_from_int(num);
-    TEST_ASSUME_EQUAL_CSTRING("12345", result);
+    ASSUME_ITS_EQUAL_CSTR("12345", result);
     free(result);
 }
 
 FOSSIL_TEST(test_fossil_bstr_from_int) {
     int num = 12345;
     bstring result = fossil_bstr_from_int(num);
-    TEST_ASSUME_EQUAL_CSTRING("12345", (cstring)result);
+    ASSUME_ITS_EQUAL_CSTR("12345", (cstring)result);
     fossil_bstr_erase(result);
 }
 
@@ -51,14 +51,14 @@ FOSSIL_TEST(test_fossil_bstr_from_int) {
 FOSSIL_TEST(test_fossil_cstr_from_double) {
     double num = 123.456;
     cstring result = fossil_cstr_from_double(num);
-    TEST_ASSUME_EQUAL_CSTRING("123.456000", result);  // Due to precision issues, we check up to 6 decimal places
+    ASSUME_ITS_EQUAL_CSTR("123.456000", result);  // Due to precision issues, we check up to 6 decimal places
     free(result);
 }
 
 FOSSIL_TEST(test_fossil_bstr_from_double) {
     double num = 123.456;
     bstring result = fossil_bstr_from_double(num);
-    TEST_ASSUME_EQUAL_CSTRING("123.456000", (cstring)result);  // Due to precision issues, we check up to 6 decimal places
+    ASSUME_ITS_EQUAL_CSTR("123.456000", (cstring)result);  // Due to precision issues, we check up to 6 decimal places
     fossil_bstr_erase(result);
 }
 
@@ -67,14 +67,14 @@ FOSSIL_TEST(test_fossil_bstr_from_double) {
 FOSSIL_TEST(test_fossil_cstr_from_long) {
     long num = 1234567890;
     cstring result = fossil_cstr_from_long(num);
-    TEST_ASSUME_EQUAL_CSTRING("1234567890", result);
+    ASSUME_ITS_EQUAL_CSTR("1234567890", result);
     free(result);
 }
 
 FOSSIL_TEST(test_fossil_bstr_from_long) {
     long num = 1234567890;
     bstring result = fossil_bstr_from_long(num);
-    TEST_ASSUME_EQUAL_CSTRING("1234567890", (cstring)result);
+    ASSUME_ITS_EQUAL_CSTR("1234567890", (cstring)result);
     fossil_bstr_erase(result);
 }
 
@@ -83,14 +83,14 @@ FOSSIL_TEST(test_fossil_bstr_from_long) {
 FOSSIL_TEST(test_fossil_cstr_from_ulong) {
     unsigned long num = 1234567890;
     cstring result = fossil_cstr_from_ulong(num);
-    TEST_ASSUME_EQUAL_CSTRING("1234567890", result);
+    ASSUME_ITS_EQUAL_CSTR("1234567890", result);
     free(result);
 }
 
 FOSSIL_TEST(test_fossil_bstr_from_ulong) {
     unsigned long num = 1234567890;
     bstring result = fossil_bstr_from_ulong(num);
-    TEST_ASSUME_EQUAL_CSTRING("1234567890", (cstring)result);
+    ASSUME_ITS_EQUAL_CSTR("1234567890", (cstring)result);
     fossil_bstr_erase(result);
 }
 
@@ -99,14 +99,14 @@ FOSSIL_TEST(test_fossil_bstr_from_ulong) {
 FOSSIL_TEST(test_fossil_cstr_from_llong) {
     long long num = 1234567890123456789LL;
     cstring result = fossil_cstr_from_llong(num);
-    TEST_ASSUME_EQUAL_CSTRING("1234567890123456789", result);
+    ASSUME_ITS_EQUAL_CSTR("1234567890123456789", result);
     free(result);
 }
 
 FOSSIL_TEST(test_fossil_bstr_from_llong) {
     long long num = 1234567890123456789LL;
     bstring result = fossil_bstr_from_llong(num);
-    TEST_ASSUME_EQUAL_CSTRING("1234567890123456789", (cstring)result);
+    ASSUME_ITS_EQUAL_CSTR("1234567890123456789", (cstring)result);
     fossil_bstr_erase(result);
 }
 
@@ -115,14 +115,14 @@ FOSSIL_TEST(test_fossil_bstr_from_llong) {
 FOSSIL_TEST(test_fossil_cstr_from_ullong) {
     unsigned long long num = 1234567890123456789ULL;
     cstring result = fossil_cstr_from_ullong(num);
-    TEST_ASSUME_EQUAL_CSTRING("1234567890123456789", result);
+    ASSUME_ITS_EQUAL_CSTR("1234567890123456789", result);
     free(result);
 }
 
 FOSSIL_TEST(test_fossil_bstr_from_ullong) {
     unsigned long long num = 1234567890123456789ULL;
     bstring result = fossil_bstr_from_ullong(num);
-    TEST_ASSUME_EQUAL_CSTRING("1234567890123456789", (cstring)result);
+    ASSUME_ITS_EQUAL_CSTR("1234567890123456789", (cstring)result);
     fossil_bstr_erase(result);
 }
 
@@ -131,7 +131,7 @@ FOSSIL_TEST(test_fossil_bstr_from_ullong) {
 FOSSIL_TEST(test_fossil_wstr_from_int) {
     int num = 12345;
     wstring result = fossil_wstr_from_int(num);
-    TEST_ASSUME_EQUAL_WSTRING(L"12345", result);
+    ASSUME_ITS_EQUAL_WSTR(L"12345", result);
     free(result);
 }
 
@@ -140,7 +140,7 @@ FOSSIL_TEST(test_fossil_wstr_from_int) {
 FOSSIL_TEST(test_fossil_wstr_from_double) {
     double num = 123.456;
     wstring result = fossil_wstr_from_double(num);
-    TEST_ASSUME_EQUAL_WSTRING(L"123.456000", result);  // Due to precision issues, we check up to 6 decimal places
+    ASSUME_ITS_EQUAL_WSTR(L"123.456000", result);  // Due to precision issues, we check up to 6 decimal places
     free(result);
 }
 
@@ -149,7 +149,7 @@ FOSSIL_TEST(test_fossil_wstr_from_double) {
 FOSSIL_TEST(test_fossil_wstr_from_long) {
     long num = 1234567890;
     wstring result = fossil_wstr_from_long(num);
-    TEST_ASSUME_EQUAL_WSTRING(L"1234567890", result);
+    ASSUME_ITS_EQUAL_WSTR(L"1234567890", result);
     free(result);
 }
 
@@ -158,7 +158,7 @@ FOSSIL_TEST(test_fossil_wstr_from_long) {
 FOSSIL_TEST(test_fossil_wstr_from_ulong) {
     unsigned long num = 1234567890;
     wstring result = fossil_wstr_from_ulong(num);
-    TEST_ASSUME_EQUAL_WSTRING(L"1234567890", result);
+    ASSUME_ITS_EQUAL_WSTR(L"1234567890", result);
     free(result);
 }
 
@@ -167,7 +167,7 @@ FOSSIL_TEST(test_fossil_wstr_from_ulong) {
 FOSSIL_TEST(test_fossil_wstr_from_llong) {
     long long num = 1234567890123456789LL;
     wstring result = fossil_wstr_from_llong(num);
-    TEST_ASSUME_EQUAL_WSTRING(L"1234567890123456789", result);
+    ASSUME_ITS_EQUAL_WSTR(L"1234567890123456789", result);
     free(result);
 }
 
@@ -176,7 +176,7 @@ FOSSIL_TEST(test_fossil_wstr_from_llong) {
 FOSSIL_TEST(test_fossil_wstr_from_ullong) {
     unsigned long long num = 1234567890123456789ULL;
     wstring result = fossil_wstr_from_ullong(num);
-    TEST_ASSUME_EQUAL_WSTRING(L"1234567890123456789", result);
+    ASSUME_ITS_EQUAL_WSTR(L"1234567890123456789", result);
     free(result);
 }
 

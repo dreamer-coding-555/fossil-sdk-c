@@ -52,7 +52,7 @@ int32_t fossil_command_success(fossil_command_t process) {
 } // end of func
 
 // Function to get the output of a command
-int32_t fossil_command_output(fossil_command_t process, char * restrict output, size_t output_size) {
+int32_t fossil_command_output(fossil_command_t process, char *output, size_t output_size) {
 #ifdef _WIN32
     FILE *pipe = _popen(process, "r");
     if (!pipe) {

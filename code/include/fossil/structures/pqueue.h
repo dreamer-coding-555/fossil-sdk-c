@@ -28,16 +28,16 @@ Description:
 
 #include "fossil/tofu/tofu.h"
 
-typedef struct cpqueue_node {
+typedef struct fossil_pqueue_node_t {
     fossil_tofu_t data;
     int priority;
-    struct cpqueue_node* next;
-} cpqueue_node;
+    struct fossil_pqueue_node_t* next;
+} fossil_pqueue_node_t;
 
-typedef struct cpqueue {
-    cpqueue_node* front;
+typedef struct fossil_pqueue_t {
+    fossil_pqueue_node_t* front;
     fossil_tofu_type queue_type;
-} cpqueue;
+} fossil_pqueue_t;
 
 #ifdef __cplusplus
 extern "C"
@@ -53,14 +53,14 @@ extern "C"
  * @param queue_type The type of data the priority queue will store.
  * @return           The created priority queue.
  */
-cpqueue* fossil_pqueue_create(fossil_tofu_type queue_type);
+fossil_pqueue_t* fossil_pqueue_create(fossil_tofu_type queue_type);
 
 /**
  * Erase the contents of the priority queue and free allocated memory.
  *
  * @param pqueue The priority queue to erase.
  */
-void fossil_pqueue_erase(cpqueue* pqueue);
+void fossil_pqueue_erase(fossil_pqueue_t* pqueue);
 
 // =======================
 // ALGORITHM FUNCTIONS
@@ -73,7 +73,7 @@ void fossil_pqueue_erase(cpqueue* pqueue);
  * @param priority The priority of the data.
  * @return         The error code indicating the success or failure of the operation.
  */
-fossil_tofu_error_t fossil_pqueue_insert(cpqueue* pqueue, fossil_tofu_t data, int priority);
+fossil_tofu_error_t fossil_pqueue_insert(fossil_pqueue_t* pqueue, fossil_tofu_t data, int priority);
 
 /**
  * Remove data from the priority queue.
@@ -83,7 +83,7 @@ fossil_tofu_error_t fossil_pqueue_insert(cpqueue* pqueue, fossil_tofu_t data, in
  * @param priority The priority of the data.
  * @return         The error code indicating the success or failure of the operation.
  */
-fossil_tofu_error_t fossil_pqueue_remove(cpqueue* pqueue, fossil_tofu_t* data, int* priority);
+fossil_tofu_error_t fossil_pqueue_remove(fossil_pqueue_t* pqueue, fossil_tofu_t* data, int* priority);
 
 /**
  * Search for data in the priority queue.
@@ -93,7 +93,7 @@ fossil_tofu_error_t fossil_pqueue_remove(cpqueue* pqueue, fossil_tofu_t* data, i
  * @param priority The priority of the data.
  * @return         The error code indicating the success or failure of the operation.
  */
-fossil_tofu_error_t fossil_pqueue_search(const cpqueue* pqueue, fossil_tofu_t data, int priority);
+fossil_tofu_error_t fossil_pqueue_search(const fossil_pqueue_t* pqueue, fossil_tofu_t data, int priority);
 
 // =======================
 // UTILITY FUNCTIONS
@@ -104,7 +104,7 @@ fossil_tofu_error_t fossil_pqueue_search(const cpqueue* pqueue, fossil_tofu_t da
  * @param pqueue The priority queue for which to get the size.
  * @return       The size of the priority queue.
  */
-size_t fossil_pqueue_size(const cpqueue* pqueue);
+size_t fossil_pqueue_size(const fossil_pqueue_t* pqueue);
 
 /**
  * Get the data from the priority queue matching the specified data and priority.
@@ -114,7 +114,7 @@ size_t fossil_pqueue_size(const cpqueue* pqueue);
  * @param priority The priority of the data.
  * @return         A pointer to the matching data, or NULL if not found.
  */
-fossil_tofu_t* fossil_pqueue_getter(cpqueue* pqueue, fossil_tofu_t data, int priority);
+fossil_tofu_t* fossil_pqueue_getter(fossil_pqueue_t* pqueue, fossil_tofu_t data, int priority);
 
 /**
  * Set data in the priority queue with the specified priority.
@@ -124,7 +124,7 @@ fossil_tofu_t* fossil_pqueue_getter(cpqueue* pqueue, fossil_tofu_t data, int pri
  * @param priority The priority of the data.
  * @return         The error code indicating the success or failure of the operation.
  */
-fossil_tofu_error_t fossil_pqueue_setter(cpqueue* pqueue, fossil_tofu_t data, int priority);
+fossil_tofu_error_t fossil_pqueue_setter(fossil_pqueue_t* pqueue, fossil_tofu_t data, int priority);
 
 /**
  * Check if the priority queue is not empty.
@@ -132,7 +132,7 @@ fossil_tofu_error_t fossil_pqueue_setter(cpqueue* pqueue, fossil_tofu_t data, in
  * @param pqueue The priority queue to check.
  * @return       True if the priority queue is not empty, false otherwise.
  */
-bool fossil_pqueue_not_empty(const cpqueue* pqueue);
+bool fossil_pqueue_not_empty(const fossil_pqueue_t* pqueue);
 
 /**
  * Check if the priority queue is not a null pointer.
@@ -140,7 +140,7 @@ bool fossil_pqueue_not_empty(const cpqueue* pqueue);
  * @param pqueue The priority queue to check.
  * @return       True if the priority queue is not a null pointer, false otherwise.
  */
-bool fossil_pqueue_not_cnullptr(const cpqueue* pqueue);
+bool fossil_pqueue_not_cnullptr(const fossil_pqueue_t* pqueue);
 
 /**
  * Check if the priority queue is empty.
@@ -148,7 +148,7 @@ bool fossil_pqueue_not_cnullptr(const cpqueue* pqueue);
  * @param pqueue The priority queue to check.
  * @return       True if the priority queue is empty, false otherwise.
  */
-bool fossil_pqueue_is_empty(const cpqueue* pqueue);
+bool fossil_pqueue_is_empty(const fossil_pqueue_t* pqueue);
 
 /**
  * Check if the priority queue is a null pointer.
@@ -156,7 +156,7 @@ bool fossil_pqueue_is_empty(const cpqueue* pqueue);
  * @param pqueue The priority queue to check.
  * @return       True if the priority queue is a null pointer, false otherwise.
  */
-bool fossil_pqueue_is_cnullptr(const cpqueue* pqueue);
+bool fossil_pqueue_is_cnullptr(const fossil_pqueue_t* pqueue);
 
 #ifdef __cplusplus
 }

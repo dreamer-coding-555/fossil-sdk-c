@@ -15,10 +15,10 @@ Description:
 
 #ifdef _WIN32
 #include <windows.h>
-typedef DWORD xthread_local_t;
+typedef DWORD fossil_xthread_local_t;
 #else
 #include <pthread.h>
-typedef pthread_key_t xthread_local_t;
+typedef pthread_key_t fossil_xthread_local_t;
 #endif
 #include <stdint.h>
 
@@ -34,7 +34,7 @@ extern "C"
  * @param destructor Pointer to the destructor function called when a thread exits, or NULL if no destructor is needed.
  * @return int32_t 0 if successful, -1 otherwise.
  */
-int32_t fossil_thread_local_create(xthread_local_t *key, void (*destructor)(void*));
+int32_t fossil_thread_local_create(fossil_xthread_local_t *key, void (*destructor)(void*));
 
 /**
  * @brief Erases a thread-local storage key.
@@ -42,7 +42,7 @@ int32_t fossil_thread_local_create(xthread_local_t *key, void (*destructor)(void
  * @param key The thread-local storage key to erase.
  * @return int32_t 0 if successful, -1 otherwise.
  */
-int32_t fossil_thread_local_erase(xthread_local_t key);
+int32_t fossil_thread_local_erase(fossil_xthread_local_t key);
 
 /**
  * @brief Retrieves the value associated with a thread-local storage key for the current thread.
@@ -50,7 +50,7 @@ int32_t fossil_thread_local_erase(xthread_local_t key);
  * @param key The thread-local storage key.
  * @return void* The value associated with the key for the current thread, or NULL if no value is set.
  */
-void* fossil_thread_local_get(xthread_local_t key);
+void* fossil_thread_local_get(fossil_xthread_local_t key);
 
 /**
  * @brief Sets the value associated with a thread-local storage key for the current thread.
@@ -59,7 +59,7 @@ void* fossil_thread_local_get(xthread_local_t key);
  * @param value Pointer to the value to associate with the key for the current thread.
  * @return int32_t 0 if successful, -1 otherwise.
  */
-int32_t fossil_thread_local_set(xthread_local_t key, const void *value);
+int32_t fossil_thread_local_set(fossil_xthread_local_t key, const void *value);
 
 #ifdef __cplusplus
 }

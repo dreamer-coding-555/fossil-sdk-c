@@ -15,10 +15,10 @@ Description:
 
 #ifdef _WIN32
 #include <windows.h>
-typedef CRITICAL_SECTION *xmutex_t;
+typedef CRITICAL_SECTION *fossil_xmutex_t;
 #else
 #include <pthread.h>
-typedef pthread_mutex_t xmutex_t;
+typedef pthread_mutex_t fossil_xmutex_t;
 #endif
 #include <stdint.h>
 
@@ -33,7 +33,7 @@ extern "C"
  * @param mutex Pointer to the mutex to initialize.
  * @return int32_t 0 if the mutex is successfully initialized, -1 otherwise.
  */
-int32_t fossil_mutex_create(xmutex_t *mutex);
+int32_t fossil_mutex_create(fossil_xmutex_t *mutex);
 
 /**
  * @brief Destroys a mutex.
@@ -41,7 +41,7 @@ int32_t fossil_mutex_create(xmutex_t *mutex);
  * @param mutex Pointer to the mutex to destroy.
  * @return int32_t 0 if the mutex is successfully destroyed, -1 otherwise.
  */
-int32_t fossil_mutex_erase(xmutex_t *mutex);
+int32_t fossil_mutex_erase(fossil_xmutex_t *mutex);
 
 /**
  * @brief Locks a mutex, blocking if necessary until the mutex is available.
@@ -49,7 +49,7 @@ int32_t fossil_mutex_erase(xmutex_t *mutex);
  * @param mutex Pointer to the mutex to lock.
  * @return int32_t 0 if the mutex is successfully locked, -1 otherwise.
  */
-int32_t fossil_mutex_lock(xmutex_t *mutex);
+int32_t fossil_mutex_lock(fossil_xmutex_t *mutex);
 
 /**
  * @brief Unlocks a mutex.
@@ -57,7 +57,7 @@ int32_t fossil_mutex_lock(xmutex_t *mutex);
  * @param mutex Pointer to the mutex to unlock.
  * @return int32_t 0 if the mutex is successfully unlocked, -1 otherwise.
  */
-int32_t fossil_mutex_unlock(xmutex_t *mutex);
+int32_t fossil_mutex_unlock(fossil_xmutex_t *mutex);
 
 /**
  * @brief Attempts to lock a mutex without blocking.
@@ -65,7 +65,7 @@ int32_t fossil_mutex_unlock(xmutex_t *mutex);
  * @param mutex Pointer to the mutex to attempt to lock.
  * @return int32_t 0 if the mutex is successfully locked, -1 otherwise.
  */
-int32_t fossil_mutex_trylock(xmutex_t *mutex);
+int32_t fossil_mutex_trylock(fossil_xmutex_t *mutex);
 
 #ifdef __cplusplus
 }

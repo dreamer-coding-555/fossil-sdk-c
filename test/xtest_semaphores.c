@@ -34,36 +34,36 @@ Description:
 
 // Test case 1: Test fossil_sem_create with a valid initial value
 FOSSIL_TEST(test_fossil_sem_create_valid_value) {
-    xsem_t sem;
-    ASSUME_ITS_EQUAL_I3232(0, fossil_sem_create(&sem, 5));
+    fossil_xsem_t sem;
+    ASSUME_ITS_EQUAL_I32(0, fossil_sem_create(&sem, 5));
 }
 
 // Test case 2: Test fossil_sem_erase after creation
 FOSSIL_TEST(test_fossil_sem_erase_after_create) {
-    xsem_t sem;
+    fossil_xsem_t sem;
     fossil_sem_create(&sem, 5); // Initialize the semaphore before erasing it
-    ASSUME_ITS_EQUAL_I3232(0, fossil_sem_erase(&sem));
+    ASSUME_ITS_EQUAL_I32(0, fossil_sem_erase(&sem));
 }
 
 // Test case 3: Test fossil_sem_wait with valid parameters
 FOSSIL_TEST(test_fossil_sem_wait_valid_params) {
-    xsem_t sem;
+    fossil_xsem_t sem;
     fossil_sem_create(&sem, 1);
-    ASSUME_ITS_EQUAL_I3232(0, fossil_sem_wait(&sem));
+    ASSUME_ITS_EQUAL_I32(0, fossil_sem_wait(&sem));
 }
 
 // Test case 4: Test fossil_sem_post with valid parameters
 FOSSIL_TEST(test_fossil_sem_post_valid_params) {
-    xsem_t sem;
+    fossil_xsem_t sem;
     fossil_sem_create(&sem, 0);
-    ASSUME_ITS_EQUAL_I3232(0, fossil_sem_post(&sem));
+    ASSUME_ITS_EQUAL_I32(0, fossil_sem_post(&sem));
 }
 
 // Test case 5: Test fossil_sem_trywait with valid parameters
 FOSSIL_TEST(test_fossil_sem_trywait_valid_params) {
-    xsem_t sem;
+    fossil_xsem_t sem;
     fossil_sem_create(&sem, 1);
-    ASSUME_ITS_EQUAL_I3232(0, fossil_sem_trywait(&sem));
+    ASSUME_ITS_EQUAL_I32(0, fossil_sem_trywait(&sem));
 }
 
 // * * * * * * * * * * * * * * * * * * * * * * * *

@@ -17,7 +17,7 @@ Description:
 #include <errno.h>
 
 // Open a stream for file operations
-int32_t fossil_fstream_open(fossil_fstream_t *stream, const char * restrict filename, const char * restrict mode) {
+int32_t fossil_fstream_open(fossil_fstream_t *stream, const char *filename, const char *mode) {
     if (stream == cnullptr || filename == cnullptr || mode == cnullptr) {
         fprintf(stderr, "%s\n", fossil_common_error_message(FOSSIL_ERROR_NULL_POINTER));
         return FOSSIL_ERROR_NULL_POINTER;
@@ -119,7 +119,7 @@ int32_t fossil_fstream_seek(fossil_fstream_t *stream, int64_t offset, int32_t or
 }
 
 // Save an open stream to a new file
-int32_t fossil_fstream_save(fossil_fstream_t *stream, const char * restrict new_filename) {
+int32_t fossil_fstream_save(fossil_fstream_t *stream, const char *new_filename) {
     if (stream == cnullptr || stream->file == cnullptr || new_filename == cnullptr) {
         fprintf(stderr, "%s\n", fossil_common_error_message(FOSSIL_ERROR_NULL_POINTER));
         return FOSSIL_ERROR_NULL_POINTER;
@@ -148,7 +148,7 @@ int32_t fossil_fstream_save(fossil_fstream_t *stream, const char * restrict new_
 }
 
 // Copy a file from the source to the destination
-int32_t fossil_fstream_copy(const char *source_filename, const char * restrict destination_filename) {
+int32_t fossil_fstream_copy(const char *source_filename, const char *destination_filename) {
     if (source_filename == cnullptr || destination_filename == cnullptr) {
         fprintf(stderr, "%s\n", fossil_common_error_message(FOSSIL_ERROR_NULL_POINTER));
         return FOSSIL_ERROR_NULL_POINTER;
@@ -187,7 +187,7 @@ int32_t fossil_fstream_copy(const char *source_filename, const char * restrict d
 }
 
 // Create a backup of a file with a specified backup suffix
-int32_t fossil_fstream_backup(const char * restrict filename, const char * restrict backup_suffix) {
+int32_t fossil_fstream_backup(const char *filename, const char *backup_suffix) {
     if (filename == cnullptr || backup_suffix == cnullptr) {
         fprintf(stderr, "%s\n", fossil_common_error_message(FOSSIL_ERROR_NULL_POINTER));
         return FOSSIL_ERROR_NULL_POINTER;
@@ -205,7 +205,7 @@ int32_t fossil_fstream_backup(const char * restrict filename, const char * restr
 }
 
 // Check if a file exists
-int32_t fossil_fstream_file_exists(const char * restrict filename) {
+int32_t fossil_fstream_file_exists(const char *filename) {
     if (filename == cnullptr) {
         fprintf(stderr, "%s\n", fossil_common_error_message(FOSSIL_ERROR_NULL_POINTER));
         return FOSSIL_ERROR_NULL_POINTER;
@@ -239,7 +239,7 @@ int32_t fossil_fstream_get_size(fossil_fstream_t *stream) {
 }
 
 // Delete a file
-int32_t fossil_fstream_delete(const char * restrict filename) {
+int32_t fossil_fstream_delete(const char *filename) {
     if (filename == cnullptr) {
         fprintf(stderr, "%s\n", fossil_common_error_message(FOSSIL_ERROR_NULL_POINTER));
         return FOSSIL_ERROR_NULL_POINTER;
@@ -254,7 +254,7 @@ int32_t fossil_fstream_delete(const char * restrict filename) {
 }
 
 // Rename a file or directory
-int32_t fossil_fstream_rename(const char * restrict old_filename, const char * restrict new_filename) {
+int32_t fossil_fstream_rename(const char *old_filename, const char *new_filename) {
     if (old_filename == cnullptr || new_filename == cnullptr) {
         fprintf(stderr, "%s\n", fossil_common_error_message(FOSSIL_ERROR_NULL_POINTER));
         return FOSSIL_ERROR_NULL_POINTER;

@@ -26,7 +26,7 @@ Description:
 #endif
 
 
-int32_t fossil_cond_create(xcond_t *cond) {
+int32_t fossil_cond_create(fossil_xcond_t *cond) {
     if (!cond) return FOSSIL_ERROR;
 
 #ifdef _WIN32
@@ -37,7 +37,7 @@ int32_t fossil_cond_create(xcond_t *cond) {
 #endif
 }
 
-int32_t fossil_cond_erase(xcond_t *cond) {
+int32_t fossil_cond_erase(fossil_xcond_t *cond) {
     if (!cond) return FOSSIL_ERROR;
 
 #ifdef _WIN32
@@ -48,7 +48,7 @@ int32_t fossil_cond_erase(xcond_t *cond) {
 #endif
 }
 
-int32_t fossil_cond_wait(xcond_t *cond, xmutex_t *mutex) {
+int32_t fossil_cond_wait(fossil_xcond_t *cond, fossil_xmutex_t *mutex) {
     if (!cond || !mutex) return FOSSIL_ERROR;
 
 #ifdef _WIN32
@@ -60,7 +60,7 @@ int32_t fossil_cond_wait(xcond_t *cond, xmutex_t *mutex) {
 #endif
 }
 
-int32_t fossil_cond_signal(xcond_t *cond) {
+int32_t fossil_cond_signal(fossil_xcond_t *cond) {
     if (!cond) return FOSSIL_ERROR;
 
 #ifdef _WIN32
@@ -71,7 +71,7 @@ int32_t fossil_cond_signal(xcond_t *cond) {
 #endif
 }
 
-int32_t fossil_cond_broadcast(xcond_t *cond) {
+int32_t fossil_cond_broadcast(fossil_xcond_t *cond) {
     if (!cond) return FOSSIL_ERROR;
 
 #ifdef _WIN32

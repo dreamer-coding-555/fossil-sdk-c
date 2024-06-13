@@ -20,8 +20,8 @@ Description:
  * @param arg Pointer to the thread pool structure.
  * @return void
  */
-static inline void thread_pool_worker(xtask_arg_t arg) {
-    xthread_pool_t* pool = (xthread_pool_t*)arg;
+static inline void thread_pool_worker(fossil_xtask_arg_t arg) {
+    fossil_xthread_pool_t* pool = (fossil_xthread_pool_t*)arg;
     while (1) {
         fossil_mutex_lock(&pool->queue_mutex);
         while (pool->task_count == 0 && !atomic_load(&pool->shutdown)) {
@@ -31,7 +31,7 @@ static inline void thread_pool_worker(xtask_arg_t arg) {
             fossil_mutex_unlock(&pool->queue_mutex);
             return;
         }
-        xtask_t task = pool->task_queue[pool->queue_front];
+        fossil_xtask_t task = pool->task_queue[pool->queue_front];
         pool->queue_front = (pool->queue_front + 1) % pool->queue_size;
         pool->task_count--;
         fossil_mutex_unlock(&pool->queue_mutex);
@@ -39,10 +39,10 @@ static inline void thread_pool_worker(xtask_arg_t arg) {
     }
 }
 
-int32_t fossil_thread_pool_create(xthread_pool_t *pool, int32_t thread_count, int32_t queue_size) {
+int32_t fossil_thread_pool_create(fossil_xthread_pool_t *pool, int32_t thread_count, int32_t queue_size) {
     if (!pool || thread_count <= 0 || queue_size <= 0) return FOSSIL_ERROR;
 
-    pool->threads = (xthread_t*)malloc(sizeof(xthread_t) * thread_count);
+    pool->threads = (fossil_xthread_t*)malloc(sizeof(fossil_xthread_t) * thread_count);
     if (!pool->threads) return FOSSIL_ERROR;
 
     pool->thread_count = thread_count;
@@ -52,7 +52,7 @@ int32_t fossil_thread_pool_create(xthread_pool_t *pool, int32_t thread_count, in
     atomic_init(&pool->shutdown, 0);
     atomic_init(&pool->task_count, 0);
 
-    pool->task_queue = (xtask_t*)malloc(sizeof(xtask_t) * queue_size);
+    pool->task_queue = (fossil_xtask_t*)malloc(sizeof(fossil_xtask_t) * queue_size);
     if (!pool->task_queue) {
         free(pool->threads);
         return FOSSIL_ERROR;
@@ -71,7 +71,7 @@ int32_t fossil_thread_pool_create(xthread_pool_t *pool, int32_t thread_count, in
     }
 
     for (int i = 0; i < thread_count; ++i) {
-        xtask_t task = { .task_func = (xtask_func_t)thread_pool_worker, .arg = pool };
+        fossil_xtask_t task = { .task_func = (fossil_xtask_func_t)thread_pool_worker, .arg = pool };
         if (fossil_thread_create(&pool->threads[i], cnullptr, task) != FOSSIL_SUCCESS) {
             fossil_thread_pool_erase(pool);
             return FOSSIL_ERROR;
@@ -81,7 +81,7 @@ int32_t fossil_thread_pool_create(xthread_pool_t *pool, int32_t thread_count, in
     return FOSSIL_SUCCESS;
 }
 
-int32_t fossil_thread_pool_erase(xthread_pool_t *pool) {
+int32_t fossil_thread_pool_erase(fossil_xthread_pool_t *pool) {
     if (!pool) return FOSSIL_ERROR;
 
     atomic_store(&pool->shutdown, 1);
@@ -102,7 +102,7 @@ int32_t fossil_thread_pool_erase(xthread_pool_t *pool) {
     return FOSSIL_SUCCESS;
 }
 
-int32_t fossil_thread_pool_add_task(xthread_pool_t *pool, xtask_func_t task_func, void *arg) {
+int32_t fossil_thread_pool_add_task(fossil_xthread_pool_t *pool, fossil_xtask_func_t task_func, void *arg) {
     if (!pool || !task_func) return FOSSIL_ERROR;
 
     fossil_mutex_lock(&pool->queue_mutex);
@@ -112,7 +112,7 @@ int32_t fossil_thread_pool_add_task(xthread_pool_t *pool, xtask_func_t task_func
         return FOSSIL_ERROR;
     }
 
-    xtask_t new_task = { .task_func = task_func, .arg = arg };
+    fossil_xtask_t new_task = { .task_func = task_func, .arg = arg };
     pool->task_queue[pool->queue_rear] = new_task;
     pool->queue_rear = (pool->queue_rear + 2) % pool->queue_size;
     atomic_fetch_add(&pool->task_count, 1);

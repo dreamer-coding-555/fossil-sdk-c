@@ -16,7 +16,7 @@ Description:
 #include <math.h>
 
 // Utility function to apply a softmax operation on a matrix
-void fossil_jellyfish_softmax(jellyfish_matrix* mat) {
+void fossil_jellyfish_softmax(jellyfish_matrix_t* mat) {
     for (int i = 0; i < mat->rows; i++) {
         double sum_exp = 0.0;
         for (int j = 0; j < mat->cols; j++) {
@@ -31,7 +31,7 @@ void fossil_jellyfish_softmax(jellyfish_matrix* mat) {
 
 // Belief Representation and Reasoning
 
-void fossil_jellyfish_braincoral_tom_update_belief(jellyfish_matrix* belief, jellyfish_matrix* observation) {
+void fossil_jellyfish_braincoral_tom_update_belief(jellyfish_matrix_t* belief, jellyfish_matrix_t* observation) {
     // Bayesian update of belief based on observation
     double prior_weight = 0.7;
     double observation_weight = 0.3;
@@ -46,12 +46,12 @@ void fossil_jellyfish_braincoral_tom_update_belief(jellyfish_matrix* belief, jel
     fossil_jellyfish_softmax(belief);
 }
 
-jellyfish_matrix* fossil_jellyfish_braincoral_tom_combine_beliefs(jellyfish_matrix* belief1, jellyfish_matrix* belief2) {
+jellyfish_matrix_t* fossil_jellyfish_braincoral_tom_combine_beliefs(jellyfish_matrix_t* belief1, jellyfish_matrix_t* belief2) {
     // Combine two beliefs using a weighted average
     double belief1_weight = 0.5;
     double belief2_weight = 0.5;
 
-    jellyfish_matrix* combined_belief = fossil_jellyfish_create_matrix(belief1->rows, belief1->cols);
+    jellyfish_matrix_t* combined_belief = fossil_jellyfish_create_matrix(belief1->rows, belief1->cols);
     for (int i = 0; i < belief1->rows; i++) {
         for (int j = 0; j < belief1->cols; j++) {
             combined_belief->data[i][j] = belief1_weight * belief1->data[i][j] + belief2_weight * belief2->data[i][j];
@@ -65,9 +65,9 @@ jellyfish_matrix* fossil_jellyfish_braincoral_tom_combine_beliefs(jellyfish_matr
 
 // Desire and Intention Inference
 
-jellyfish_matrix* fossil_jellyfish_braincoral_tom_infer_desire(jellyfish_matrix* behavior) {
+jellyfish_matrix_t* fossil_jellyfish_braincoral_tom_infer_desire(jellyfish_matrix_t* behavior) {
     // Infer desires from observed behavior using a simple heuristic
-    jellyfish_matrix* desire = fossil_jellyfish_create_matrix(behavior->rows, behavior->cols);
+    jellyfish_matrix_t* desire = fossil_jellyfish_create_matrix(behavior->rows, behavior->cols);
     for (int i = 0; i < behavior->rows; i++) {
         for (int j = 0; j < behavior->cols; j++) {
             desire->data[i][j] = behavior->data[i][j] * 0.8 + ((double)rand() / RAND_MAX) * 0.2;
@@ -76,9 +76,9 @@ jellyfish_matrix* fossil_jellyfish_braincoral_tom_infer_desire(jellyfish_matrix*
     return desire;
 }
 
-jellyfish_matrix* fossil_jellyfish_braincoral_tom_infer_intention(jellyfish_matrix* behavior, jellyfish_matrix* context) {
+jellyfish_matrix_t* fossil_jellyfish_braincoral_tom_infer_intention(jellyfish_matrix_t* behavior, jellyfish_matrix_t* context) {
     // Infer intentions from behavior and context using a simple weighted sum
-    jellyfish_matrix* intention = fossil_jellyfish_create_matrix(behavior->rows, behavior->cols);
+    jellyfish_matrix_t* intention = fossil_jellyfish_create_matrix(behavior->rows, behavior->cols);
     for (int i = 0; i < behavior->rows; i++) {
         for (int j = 0; j < behavior->cols; j++) {
             intention->data[i][j] = 0.6 * behavior->data[i][j] + 0.4 * context->data[i][j];
@@ -89,9 +89,9 @@ jellyfish_matrix* fossil_jellyfish_braincoral_tom_infer_intention(jellyfish_matr
 
 // Emotion Recognition
 
-jellyfish_matrix* fossil_jellyfish_braincoral_tom_recognize_emotion(jellyfish_matrix* text_data) {
+jellyfish_matrix_t* fossil_jellyfish_braincoral_tom_recognize_emotion(jellyfish_matrix_t* text_data) {
     // Recognize emotions from text data using a simple sentiment analysis
-    jellyfish_matrix* emotions = fossil_jellyfish_create_matrix(text_data->rows, 1); // Assuming one column for emotion scores
+    jellyfish_matrix_t* emotions = fossil_jellyfish_create_matrix(text_data->rows, 1); // Assuming one column for emotion scores
     for (int i = 0; i < text_data->rows; i++) {
         double score = 0.0;
         for (int j = 0; j < text_data->cols; j++) {
@@ -104,9 +104,9 @@ jellyfish_matrix* fossil_jellyfish_braincoral_tom_recognize_emotion(jellyfish_ma
 
 // Perspective Taking
 
-jellyfish_matrix* fossil_jellyfish_braincoral_tom_simulate_perspective(jellyfish_matrix* own_belief, jellyfish_matrix* other_belief) {
+jellyfish_matrix_t* fossil_jellyfish_braincoral_tom_simulate_perspective(jellyfish_matrix_t* own_belief, jellyfish_matrix_t* other_belief) {
     // Simulate taking another's perspective by averaging beliefs
-    jellyfish_matrix* simulated_perspective = fossil_jellyfish_create_matrix(own_belief->rows, own_belief->cols);
+    jellyfish_matrix_t* simulated_perspective = fossil_jellyfish_create_matrix(own_belief->rows, own_belief->cols);
     for (int i = 0; i < own_belief->rows; i++) {
         for (int j = 0; j < own_belief->cols; j++) {
             simulated_perspective->data[i][j] = (own_belief->data[i][j] + other_belief->data[i][j]) / 2.0;
@@ -117,9 +117,9 @@ jellyfish_matrix* fossil_jellyfish_braincoral_tom_simulate_perspective(jellyfish
 
 // Joint Attention Modeling
 
-jellyfish_matrix* fossil_jellyfish_braincoral_tom_model_joint_attention(jellyfish_matrix* own_belief, jellyfish_matrix* other_belief) {
+jellyfish_matrix_t* fossil_jellyfish_braincoral_tom_model_joint_attention(jellyfish_matrix_t* own_belief, jellyfish_matrix_t* other_belief) {
     // Model joint attention using the minimum function to find common attention
-    jellyfish_matrix* joint_attention = fossil_jellyfish_create_matrix(own_belief->rows, own_belief->cols);
+    jellyfish_matrix_t* joint_attention = fossil_jellyfish_create_matrix(own_belief->rows, own_belief->cols);
     for (int i = 0; i < own_belief->rows; i++) {
         for (int j = 0; j < own_belief->cols; j++) {
             joint_attention->data[i][j] = fmin(own_belief->data[i][j], other_belief->data[i][j]);
@@ -130,9 +130,9 @@ jellyfish_matrix* fossil_jellyfish_braincoral_tom_model_joint_attention(jellyfis
 
 // Theory of Mind Inference
 
-jellyfish_matrix* fossil_jellyfish_braincoral_tom_infer_mind_state(jellyfish_matrix* own_belief, jellyfish_matrix* other_belief, jellyfish_matrix* observed_behavior, jellyfish_matrix* context) {
+jellyfish_matrix_t* fossil_jellyfish_braincoral_tom_infer_mind_state(jellyfish_matrix_t* own_belief, jellyfish_matrix_t* other_belief, jellyfish_matrix_t* observed_behavior, jellyfish_matrix_t* context) {
     // Infer the mind state by combining all inputs using a weighted sum
-    jellyfish_matrix* mind_state = fossil_jellyfish_create_matrix(own_belief->rows, own_belief->cols);
+    jellyfish_matrix_t* mind_state = fossil_jellyfish_create_matrix(own_belief->rows, own_belief->cols);
     for (int i = 0; i < own_belief->rows; i++) {
         for (int j = 0; j < own_belief->cols; j++) {
             mind_state->data[i][j] = 0.25 * own_belief->data[i][j] + 0.25 * other_belief->data[i][j] + 0.25 * observed_behavior->data[i][j] + 0.25 * context->data[i][j];

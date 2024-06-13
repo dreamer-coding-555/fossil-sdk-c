@@ -35,7 +35,7 @@ char* fossil_console_in_get_line(void);
  * @param prompt The prompt displayed to the user.
  * @return       A dynamically allocated string containing the user input.
  */
-char* fossil_console_in_read_line(const char * restrict prompt);
+char* fossil_console_in_read_line(const char *prompt);
 
 /**
  * Read a password from the console with a prompt, masking input.
@@ -43,7 +43,7 @@ char* fossil_console_in_read_line(const char * restrict prompt);
  * @param prompt The prompt displayed to the user.
  * @return       A dynamically allocated string containing the user input.
  */
-char* fossil_console_in_read_password(const char * restrict prompt);
+char* fossil_console_in_read_password(const char *prompt);
 
 /**
  * Validate user input using a custom validator function.
@@ -52,7 +52,7 @@ char* fossil_console_in_read_password(const char * restrict prompt);
  * @param validator A function pointer to a custom validator function.
  * @return          True if the input is valid, false otherwise.
  */
-int32_t fossil_console_in_valid_input(const char * restrict prompt, bool (*validator)(const char*));
+int32_t fossil_console_in_valid_input(const char *prompt, bool (*validator)(const char*));
 
 /**
  * Confirm a yes/no question with the user.
@@ -60,7 +60,7 @@ int32_t fossil_console_in_valid_input(const char * restrict prompt, bool (*valid
  * @param question The question displayed to the user.
  * @return         True if the user confirms with "yes," false otherwise.
  */
-int32_t fossil_console_in_confirm_yes_no(const char * restrict question);
+int32_t fossil_console_in_confirm_yes_no(const char *question);
 
 /**
  * Display a menu and get the user's selection.
@@ -70,7 +70,7 @@ int32_t fossil_console_in_confirm_yes_no(const char * restrict question);
  * @param num_options The number of options in the menu.
  * @return            The index of the selected option.
  */
-int32_t fossil_console_in_confirm_menu(const char * restrict question, const char** menu, int32_t num_options);
+int32_t fossil_console_in_confirm_menu(const char *question, const char** menu, int32_t num_options);
 
 /**
  * Display a multi-choice menu and get the user's selections.
@@ -80,7 +80,7 @@ int32_t fossil_console_in_confirm_menu(const char * restrict question, const cha
  * @param selections  An array of boolean values indicating user selections.
  * @param num_options The number of options in the menu.
  */
-void fossil_console_in_confirm_multi_menu(const char * restrict question, const char** menu, int32_t* selections, int32_t num_options);
+void fossil_console_in_confirm_multi_menu(const char *question, const char** menu, int32_t* selections, int32_t num_options);
 
 /**
  * Confirm if the user wants to exit the program.
@@ -98,7 +98,7 @@ int32_t fossil_console_in_confirm_exit(void);
  * @param day    Pointer to store the entered day.
  * @return       True if the input is valid, false otherwise.
  */
-int32_t fossil_console_in_read_date(const char * restrict prompt, int32_t* year, int32_t* month, int32_t* day);
+int32_t fossil_console_in_read_date(const char *prompt, int32_t* year, int32_t* month, int32_t* day);
 
 /**
  * Read a time input from the console.
@@ -109,7 +109,7 @@ int32_t fossil_console_in_read_date(const char * restrict prompt, int32_t* year,
  * @param second Pointer to store the entered second.
  * @return       True if the input is valid, false otherwise.
  */
-int32_t fossil_console_in_read_time(const char * restrict prompt, int32_t* hour, int32_t* minute, int32_t* second);
+int32_t fossil_console_in_read_time(const char *prompt, int32_t* hour, int32_t* minute, int32_t* second);
 
 #ifdef __cplusplus
 }

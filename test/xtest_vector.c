@@ -10,7 +10,7 @@ Description:
     feel free to contact Michael at michaelbrockus@gmail.com.
 ==============================================================================
 */
-#include "fossil/xstructures/vector.h" // lib source code
+#include "fossil/structures/vector.h" // lib source code
 
 #include <fossil/unittest.h>   // basic test tools
 #include <fossil/xassume.h> // extra asserts
@@ -33,24 +33,24 @@ Description:
 // * * * * * * * * * * * * * * * * * * * * * * * *
 
 FOSSIL_TEST(test_vector_create_and_erase) {
-    cvector vector = fossil_vector_create(TOFU_INT_TYPE);
+    fossil_vector_t vector = fossil_vector_create(TOFU_INT_TYPE);
     
     // Check if the vector is created with the expected values
-    TEST_ASSUME_EQUAL(TOFU_INT_TYPE, vector.expected_type);
+    ASSUME_ITS_EQUAL_I32(TOFU_INT_TYPE, vector.expected_type);
     ASSUME_ITS_CNULL(vector.data);
-    TEST_ASSUME_EQUAL_UINT(0, vector.size);
-    TEST_ASSUME_EQUAL_UINT(INITIAL_CAPACITY, vector.capacity);
+    ASSUME_ITS_EQUAL_U32(0, vector.size);
+    ASSUME_ITS_EQUAL_U32(INITIAL_CAPACITY, vector.capacity);
 
     fossil_vector_erase(&vector);
 
     // Check if the vector is erased
     ASSUME_ITS_CNULL(vector.data);
-    TEST_ASSUME_EQUAL_UINT(0, vector.size);
-    TEST_ASSUME_EQUAL_UINT(0, vector.capacity);
+    ASSUME_ITS_EQUAL_U32(0, vector.size);
+    ASSUME_ITS_EQUAL_U32(0, vector.capacity);
 }
 
 FOSSIL_TEST(test_vector_push_back) {
-    cvector vector = fossil_vector_create(TOFU_INT_TYPE);
+    fossil_vector_t vector = fossil_vector_create(TOFU_INT_TYPE);
 
     // Push back some elements
     fossil_tofu_t element1 = { TOFU_INT_TYPE, { .int_type = 42 } };
@@ -62,7 +62,7 @@ FOSSIL_TEST(test_vector_push_back) {
     fossil_vector_push_back(&vector, element3);
 
     // Check if the elements are added correctly
-    TEST_ASSUME_EQUAL_UINT(3, vector.size);
+    ASSUME_ITS_EQUAL_U32(3, vector.size);
     ASSUME_ITS_EQUAL_I32(42, vector.data[0].data.int_type);
     ASSUME_ITS_EQUAL_I32(10, vector.data[1].data.int_type);
     ASSUME_ITS_EQUAL_I32(5, vector.data[2].data.int_type);
@@ -71,7 +71,7 @@ FOSSIL_TEST(test_vector_push_back) {
 }
 
 FOSSIL_TEST(test_vector_search) {
-    cvector vector = fossil_vector_create(TOFU_INT_TYPE);
+    fossil_vector_t vector = fossil_vector_create(TOFU_INT_TYPE);
 
     // Push back some elements
     fossil_tofu_t element1 = { TOFU_INT_TYPE, { .int_type = 42 } };

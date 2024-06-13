@@ -34,37 +34,37 @@ Description:
 
 // Test case 1: Test fossil_spinlock_create
 FOSSIL_TEST(test_fossil_spinlock_create) {
-    xspinlock_t lock;
-    ASSUME_ITS_EQUAL_I3232(0, fossil_spinlock_create(&lock));
+    fossil_xspinlock_t lock;
+    ASSUME_ITS_EQUAL_I32(0, fossil_spinlock_create(&lock));
 }
 
 // Test case 2: Test fossil_spinlock_erase
 FOSSIL_TEST(test_fossil_spinlock_erase) {
-    xspinlock_t lock;
+    fossil_xspinlock_t lock;
     fossil_spinlock_create(&lock); // Initialize the spinlock before erasing it
-    ASSUME_ITS_EQUAL_I3232(0, fossil_spinlock_erase(&lock));
+    ASSUME_ITS_EQUAL_I32(0, fossil_spinlock_erase(&lock));
 }
 
 // Test case 3: Test fossil_spinlock_lock with valid parameters
 FOSSIL_TEST(test_fossil_spinlock_lock_valid_params) {
-    xspinlock_t lock;
+    fossil_xspinlock_t lock;
     fossil_spinlock_create(&lock);
-    ASSUME_ITS_EQUAL_I3232(0, fossil_spinlock_lock(&lock));
+    ASSUME_ITS_EQUAL_I32(0, fossil_spinlock_lock(&lock));
 }
 
 // Test case 4: Test fossil_spinlock_unlock with valid parameters
 FOSSIL_TEST(test_fossil_spinlock_unlock_valid_params) {
-    xspinlock_t lock;
+    fossil_xspinlock_t lock;
     fossil_spinlock_create(&lock);
     fossil_spinlock_lock(&lock); // Acquire the spinlock before unlocking it
-    ASSUME_ITS_EQUAL_I3232(0, fossil_spinlock_unlock(&lock));
+    ASSUME_ITS_EQUAL_I32(0, fossil_spinlock_unlock(&lock));
 }
 
 // Test case 5: Test fossil_spinlock_trylock with valid parameters
 FOSSIL_TEST(test_fossil_spinlock_trylock_valid_params) {
-    xspinlock_t lock;
+    fossil_xspinlock_t lock;
     fossil_spinlock_create(&lock);
-    ASSUME_ITS_EQUAL_I3232(0, fossil_spinlock_trylock(&lock));
+    ASSUME_ITS_EQUAL_I32(0, fossil_spinlock_trylock(&lock));
 }
 
 // * * * * * * * * * * * * * * * * * * * * * * * *

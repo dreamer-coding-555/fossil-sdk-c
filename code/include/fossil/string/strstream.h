@@ -39,9 +39,9 @@ Description:
  * @endcode
  */
 
-#include <fossil/string/bstring.h>
-#include <fossil/string/cstring.h>
-#include <fossil/string/wstring.h>
+#include "string/bstring.h"
+#include "string/cstring.h"
+#include "string/wstring.h"
 
 #ifdef __cplusplus
 extern "C"

@@ -29,17 +29,17 @@ Description:
 #include "fossil/tofu/tofu.h"
 
 // Node structure for the queue
-typedef struct cqueue_node {
+typedef struct fossil_queue_node_t {
     fossil_tofu_t data;
-    struct cqueue_node* next;
-} cqueue_node;
+    struct fossil_queue_node_t* next;
+} fossil_queue_node_t;
 
 // Queue structure
-typedef struct cqueue {
-    cqueue_node* front;
-    cqueue_node* rear;
+typedef struct fossil_queue_t {
+    fossil_queue_node_t* front;
+    fossil_queue_node_t* rear;
     fossil_tofu_type queue_type;  // Type of the queue
-} cqueue;
+} fossil_queue_t;
 
 #ifdef __cplusplus
 extern "C"
@@ -55,14 +55,14 @@ extern "C"
  * @param list_type The type of data the queue will store.
  * @return          The created queue.
  */
-cqueue* fossil_queue_create(fossil_tofu_type list_type);
+fossil_queue_t* fossil_queue_create(fossil_tofu_type list_type);
 
 /**
  * Erase the contents of the queue and free allocated memory.
  *
  * @param queue The queue to erase.
  */
-void fossil_queue_erase(cqueue* queue);
+void fossil_queue_erase(fossil_queue_t* queue);
 
 // =======================
 // ALGORITHM FUNCTIONS
@@ -74,7 +74,7 @@ void fossil_queue_erase(cqueue* queue);
  * @param data  The data to insert.
  * @return      The error code indicating the success or failure of the operation.
  */
-fossil_tofu_error_t fossil_queue_insert(cqueue* queue, fossil_tofu_t data);
+fossil_tofu_error_t fossil_queue_insert(fossil_queue_t* queue, fossil_tofu_t data);
 
 /**
  * Remove data from the queue.
@@ -83,7 +83,7 @@ fossil_tofu_error_t fossil_queue_insert(cqueue* queue, fossil_tofu_t data);
  * @param data  The data to remove.
  * @return      The error code indicating the success or failure of the operation.
  */
-fossil_tofu_error_t fossil_queue_remove(cqueue* queue, fossil_tofu_t* data);
+fossil_tofu_error_t fossil_queue_remove(fossil_queue_t* queue, fossil_tofu_t* data);
 
 /**
  * Search for data in the queue.
@@ -92,7 +92,7 @@ fossil_tofu_error_t fossil_queue_remove(cqueue* queue, fossil_tofu_t* data);
  * @param data  The data to search for.
  * @return      The error code indicating the success or failure of the operation.
  */
-fossil_tofu_error_t fossil_queue_search(const cqueue* queue, fossil_tofu_t data);
+fossil_tofu_error_t fossil_queue_search(const fossil_queue_t* queue, fossil_tofu_t data);
 
 // =======================
 // UTILITY FUNCTIONS
@@ -103,7 +103,7 @@ fossil_tofu_error_t fossil_queue_search(const cqueue* queue, fossil_tofu_t data)
  * @param queue The queue for which to get the size.
  * @return      The size of the queue.
  */
-size_t fossil_queue_size(const cqueue* queue);
+size_t fossil_queue_size(const fossil_queue_t* queue);
 
 /**
  * Get the data from the queue matching the specified data.
@@ -112,7 +112,7 @@ size_t fossil_queue_size(const cqueue* queue);
  * @param data  The data to search for.
  * @return      A pointer to the matching data, or NULL if not found.
  */
-fossil_tofu_t* fossil_queue_getter(cqueue* queue, fossil_tofu_t data);
+fossil_tofu_t* fossil_queue_getter(fossil_queue_t* queue, fossil_tofu_t data);
 
 /**
  * Set data in the queue.
@@ -121,7 +121,7 @@ fossil_tofu_t* fossil_queue_getter(cqueue* queue, fossil_tofu_t data);
  * @param data  The data to set.
  * @return      The error code indicating the success or failure of the operation.
  */
-fossil_tofu_error_t fossil_queue_setter(cqueue* queue, fossil_tofu_t data);
+fossil_tofu_error_t fossil_queue_setter(fossil_queue_t* queue, fossil_tofu_t data);
 
 /**
  * Check if the queue is not empty.
@@ -129,7 +129,7 @@ fossil_tofu_error_t fossil_queue_setter(cqueue* queue, fossil_tofu_t data);
  * @param queue The queue to check.
  * @return      True if the queue is not empty, false otherwise.
  */
-bool fossil_queue_not_empty(const cqueue* queue);
+bool fossil_queue_not_empty(const fossil_queue_t* queue);
 
 /**
  * Check if the queue is not a null pointer.
@@ -137,7 +137,7 @@ bool fossil_queue_not_empty(const cqueue* queue);
  * @param queue The queue to check.
  * @return      True if the queue is not a null pointer, false otherwise.
  */
-bool fossil_queue_not_cnullptr(const cqueue* queue);
+bool fossil_queue_not_cnullptr(const fossil_queue_t* queue);
 
 /**
  * Check if the queue is empty.
@@ -145,7 +145,7 @@ bool fossil_queue_not_cnullptr(const cqueue* queue);
  * @param queue The queue to check.
  * @return      True if the queue is empty, false otherwise.
  */
-bool fossil_queue_is_empty(const cqueue* queue);
+bool fossil_queue_is_empty(const fossil_queue_t* queue);
 
 /**
  * Check if the queue is a null pointer.
@@ -153,7 +153,7 @@ bool fossil_queue_is_empty(const cqueue* queue);
  * @param queue The queue to check.
  * @return      True if the queue is a null pointer, false otherwise.
  */
-bool fossil_queue_is_cnullptr(const cqueue* queue);
+bool fossil_queue_is_cnullptr(const fossil_queue_t* queue);
 
 #ifdef __cplusplus
 }

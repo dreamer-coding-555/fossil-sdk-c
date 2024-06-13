@@ -38,7 +38,7 @@ FOSSIL_TEST(test_fossil_wstr_create) {
     wstring copy_str = fossil_wstr_create(test_str);
     
     ASSUME_NOT_CNULL(copy_str);
-    // TEST_ASSUME_EQUAL_CSTRING(test_str, copy_str); // in need of new assert in Xtest for wstring
+    // ASSUME_ITS_EQUAL_CSTR(test_str, copy_str); // in need of new assert in Xtest for wstring
 
     fossil_wstr_erase(copy_str);
 }

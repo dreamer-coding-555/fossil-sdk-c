@@ -31,7 +31,7 @@ Description:
  * @endcode
  */
 
-#include "fossil/string/letter.h"
+#include "string/letter.h"
 
 // byte string types
 typedef bletter * bstring;               // byte string type

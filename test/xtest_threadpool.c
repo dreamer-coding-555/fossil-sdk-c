@@ -34,37 +34,37 @@ Description:
 
 // Test case 1: Test fossil_thread_pool_create with valid parameters
 FOSSIL_TEST(test_fossil_thread_pool_create_valid_params) {
-    xthread_pool_t pool;
-    ASSUME_ITS_EQUAL_I3232(0, fossil_thread_pool_create(&pool, 4, 10));
+    fossil_xthread_pool_t pool;
+    ASSUME_ITS_EQUAL_I32(0, fossil_thread_pool_create(&pool, 4, 10));
 }
 
 // Test case 2: Test fossil_thread_pool_erase with valid parameters
 FOSSIL_TEST(test_fossil_thread_pool_erase_valid_params) {
-    xthread_pool_t pool;
+    fossil_xthread_pool_t pool;
     fossil_thread_pool_create(&pool, 4, 10); // Create a thread pool before erasing it
-    ASSUME_ITS_EQUAL_I3232(0, fossil_thread_pool_erase(&pool));
+    ASSUME_ITS_EQUAL_I32(0, fossil_thread_pool_erase(&pool));
 }
 
 // Test case 3: Test fossil_thread_pool_add_task with valid parameters
 FOSSIL_TEST(test_fossil_thread_pool_add_task_valid_params) {
-    xthread_pool_t pool;
+    fossil_xthread_pool_t pool;
     fossil_thread_pool_create(&pool, 4, 10); // Create a thread pool before adding tasks to it
-    ASSUME_ITS_EQUAL_I3232(0, fossil_thread_pool_add_task(&pool, NULL, NULL));
+    ASSUME_ITS_EQUAL_I32(0, fossil_thread_pool_add_task(&pool, NULL, NULL));
 }
 
 // Test case 4: Test fossil_thread_pool_add_task with full task queue
 FOSSIL_TEST(test_fossil_thread_pool_add_task_full_queue) {
-    xthread_pool_t pool;
+    fossil_xthread_pool_t pool;
     fossil_thread_pool_create(&pool, 4, 1); // Create a thread pool with a queue size of 1
     fossil_thread_pool_add_task(&pool, NULL, NULL); // Fill the task queue
-    ASSUME_ITS_EQUAL_I3232(-1, fossil_thread_pool_add_task(&pool, NULL, NULL)); // Attempt to add another task
+    ASSUME_ITS_EQUAL_I32(-1, fossil_thread_pool_add_task(&pool, NULL, NULL)); // Attempt to add another task
 }
 
 // Test case 5: Test fossil_thread_pool_add_task with NULL task function
 FOSSIL_TEST(test_fossil_thread_pool_add_task_null_task) {
-    xthread_pool_t pool;
+    fossil_xthread_pool_t pool;
     fossil_thread_pool_create(&pool, 4, 10); // Create a thread pool before adding tasks to it
-    ASSUME_ITS_EQUAL_I3232(-1, fossil_thread_pool_add_task(&pool, NULL, NULL));
+    ASSUME_ITS_EQUAL_I32(-1, fossil_thread_pool_add_task(&pool, NULL, NULL));
 }
 
 // * * * * * * * * * * * * * * * * * * * * * * * *

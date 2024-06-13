@@ -13,7 +13,7 @@ Description:
 #include <fossil/unittest.h>   // basic test tools
 #include <fossil/xassume.h> // extra asserts
 
-#include <fossil/xjellyfish/dolphin.h> // library under test
+#include <fossil/jellyfish/dolphin.h> // library under test
 
 // * * * * * * * * * * * * * * * * * * * * * * * *
 // * Fossil Logic Test Utilites
@@ -35,7 +35,7 @@ Description:
 FOSSIL_TEST(test_fossil_jellyfish_dolphin_tokenize) {
     char* text = "This is a test sentence.";
     int vocab_size = 100;
-    jellyfish_matrix* tokens = fossil_jellyfish_dolphin_tokenize(text, vocab_size, "en");
+    jellyfish_matrix_t* tokens = fossil_jellyfish_dolphin_tokenize(text, vocab_size, "en");
 
     // Check if the tokens matrix is not NULL
     ASSUME_NOT_CNULL(tokens);
@@ -45,10 +45,10 @@ FOSSIL_TEST(test_fossil_jellyfish_dolphin_tokenize) {
 
 FOSSIL_TEST(test_fossil_jellyfish_dolphin_embed) {
     // Create sample tokenized matrix and embedding matrix
-    jellyfish_matrix* tokens = fossil_jellyfish_create_matrix(5, 10);
-    jellyfish_matrix* embedding_matrix = fossil_jellyfish_create_matrix(10, 20);
+    jellyfish_matrix_t* tokens = fossil_jellyfish_create_matrix(5, 10);
+    jellyfish_matrix_t* embedding_matrix = fossil_jellyfish_create_matrix(10, 20);
 
-    jellyfish_matrix* embeddings = fossil_jellyfish_dolphin_embed(tokens, embedding_matrix);
+    jellyfish_matrix_t* embeddings = fossil_jellyfish_dolphin_embed(tokens, embedding_matrix);
 
     // Check if the embeddings matrix is not NULL
     ASSUME_NOT_CNULL(embeddings);
@@ -58,8 +58,8 @@ FOSSIL_TEST(test_fossil_jellyfish_dolphin_embed) {
 
 FOSSIL_TEST(test_fossil_jellyfish_dolphin_analyze_sentiment) {
     // Create sample tokenized matrix and sentiment labels matrix
-    jellyfish_matrix* tokens = fossil_jellyfish_create_matrix(5, 10);
-    jellyfish_matrix* sentiment_labels = fossil_jellyfish_create_matrix(5, 1);
+    jellyfish_matrix_t* tokens = fossil_jellyfish_create_matrix(5, 10);
+    jellyfish_matrix_t* sentiment_labels = fossil_jellyfish_create_matrix(5, 1);
 
     // Analyze sentiment
     fossil_jellyfish_dolphin_analyze_sentiment(tokens, sentiment_labels);
@@ -69,8 +69,8 @@ FOSSIL_TEST(test_fossil_jellyfish_dolphin_analyze_sentiment) {
 
 FOSSIL_TEST(test_fossil_jellyfish_dolphin_recognize_entities) {
     // Create sample tokenized matrix and NER labels matrix
-    jellyfish_matrix* tokens = fossil_jellyfish_create_matrix(5, 10);
-    jellyfish_matrix* ner_labels = fossil_jellyfish_create_matrix(5, 1);
+    jellyfish_matrix_t* tokens = fossil_jellyfish_create_matrix(5, 10);
+    jellyfish_matrix_t* ner_labels = fossil_jellyfish_create_matrix(5, 1);
 
     // Recognize entities
     fossil_jellyfish_dolphin_recognize_entities(tokens, ner_labels);

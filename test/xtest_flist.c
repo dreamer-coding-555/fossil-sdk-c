@@ -10,7 +10,7 @@ Description:
     feel free to contact Michael at michaelbrockus@gmail.com.
 ==============================================================================
 */
-#include "fossil/xstructures/flist.h" // lib source code
+#include "fossil/structures/flist.h" // lib source code
 
 #include <fossil/unittest.h>   // basic test tools
 #include <fossil/xassume.h> // extra asserts
@@ -33,12 +33,12 @@ Description:
 // * * * * * * * * * * * * * * * * * * * * * * * *
 
 FOSSIL_TEST(test_flist_create_and_erase) {
-    cflist* flist = fossil_flist_create(TOFU_INT_TYPE);
+    fossil_flist_t* flist = fossil_flist_create(TOFU_INT_TYPE);
 
     // Check if the linked list is created with the expected values
     ASSUME_NOT_CNULL(flist);
     ASSUME_ITS_CNULL(flist->head);
-    TEST_ASSUME_EQUAL(TOFU_INT_TYPE, flist->list_type);
+    ASSUME_ITS_EQUAL_I32(TOFU_INT_TYPE, flist->list_type);
 
     fossil_flist_erase(flist);
 
@@ -48,25 +48,25 @@ FOSSIL_TEST(test_flist_create_and_erase) {
 }
 
 FOSSIL_TEST(test_flist_insert_and_size) {
-    cflist* flist = fossil_flist_create(TOFU_INT_TYPE);
+    fossil_flist_t* flist = fossil_flist_create(TOFU_INT_TYPE);
 
     // Insert some elements
     fossil_tofu_t element1 = { TOFU_INT_TYPE, { .int_type = 42 } };
     fossil_tofu_t element2 = { TOFU_INT_TYPE, { .int_type = 10 } };
     fossil_tofu_t element3 = { TOFU_INT_TYPE, { .int_type = 5 } };
 
-    TEST_ASSUME_EQUAL(FOSSIL_TOFU_ERROR_OK, fossil_flist_insert(flist, element1));
-    TEST_ASSUME_EQUAL(FOSSIL_TOFU_ERROR_OK, fossil_flist_insert(flist, element2));
-    TEST_ASSUME_EQUAL(FOSSIL_TOFU_ERROR_OK, fossil_flist_insert(flist, element3));
+    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_flist_insert(flist, element1));
+    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_flist_insert(flist, element2));
+    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_flist_insert(flist, element3));
 
     // Check if the size is correct
-    TEST_ASSUME_EQUAL_UINT(3, fossil_flist_size(flist));
+    ASSUME_ITS_EQUAL_U32(3, fossil_flist_size(flist));
 
     fossil_flist_erase(flist);
 }
 
 FOSSIL_TEST(test_flist_remove) {
-    cflist* flist = fossil_flist_create(TOFU_INT_TYPE);
+    fossil_flist_t* flist = fossil_flist_create(TOFU_INT_TYPE);
 
     // Insert some elements
     fossil_tofu_t element1 = { TOFU_INT_TYPE, { .int_type = 42 } };
@@ -79,19 +79,19 @@ FOSSIL_TEST(test_flist_remove) {
 
     // Remove an element
     fossil_tofu_t removedElement;
-    TEST_ASSUME_EQUAL(FOSSIL_TOFU_ERROR_OK, fossil_flist_remove(flist, &removedElement));
+    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_flist_remove(flist, &removedElement));
 
     // Check if the removed element is correct
     ASSUME_ITS_EQUAL_I32(42, removedElement.data.int_type);
 
     // Check if the size is correct
-    TEST_ASSUME_EQUAL_UINT(2, fossil_flist_size(flist));
+    ASSUME_ITS_EQUAL_U32(2, fossil_flist_size(flist));
 
     fossil_flist_erase(flist);
 }
 
 FOSSIL_TEST(test_flist_reverse_forward) {
-    cflist* flist = fossil_flist_create(TOFU_INT_TYPE);
+    fossil_flist_t* flist = fossil_flist_create(TOFU_INT_TYPE);
 
     // Insert some elements
     fossil_tofu_t element1 = { TOFU_INT_TYPE, { .int_type = 42 } };
@@ -122,7 +122,7 @@ FOSSIL_TEST(test_flist_reverse_forward) {
 }
 
 FOSSIL_TEST(test_flist_reverse_backward) {
-    cflist* flist = fossil_flist_create(TOFU_INT_TYPE);
+    fossil_flist_t* flist = fossil_flist_create(TOFU_INT_TYPE);
 
     // Insert some elements
     fossil_tofu_t element1 = { TOFU_INT_TYPE, { .int_type = 42 } };

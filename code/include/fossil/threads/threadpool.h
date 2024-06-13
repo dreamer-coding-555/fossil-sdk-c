@@ -28,17 +28,17 @@ Description:
 #endif
 
 typedef struct {
-    xthread_t *threads;
+    fossil_xthread_t *threads;
     int32_t thread_count;
-    xmutex_t queue_mutex;
-    xcond_t queue_cond;
-    xtask_t *task_queue;
+    fossil_xmutex_t queue_mutex;
+    fossil_xcond_t queue_cond;
+    fossil_xtask_t *task_queue;
     int32_t queue_size;
     int32_t queue_front;
     int32_t queue_rear;
     atomic_int shutdown;
     atomic_int task_count;
-} xthread_pool_t;
+} fossil_xthread_pool_t;
 
 #ifdef __cplusplus
 extern "C"
@@ -53,7 +53,7 @@ extern "C"
  * @param queue_size The maximum size of the task queue in the pool.
  * @return int32_t 0 if the thread pool is successfully created, -1 otherwise.
  */
-int32_t fossil_thread_pool_create(xthread_pool_t *pool, int32_t thread_count, int32_t queue_size);
+int32_t fossil_thread_pool_create(fossil_xthread_pool_t *pool, int32_t thread_count, int32_t queue_size);
 
 /**
  * @brief Shuts down and deallocates resources associated with a thread pool.
@@ -61,7 +61,7 @@ int32_t fossil_thread_pool_create(xthread_pool_t *pool, int32_t thread_count, in
  * @param pool Pointer to the thread pool structure to erase.
  * @return int32_t 0 if the thread pool is successfully erased, -1 otherwise.
  */
-int32_t fossil_thread_pool_erase(xthread_pool_t *pool);
+int32_t fossil_thread_pool_erase(fossil_xthread_pool_t *pool);
 
 /**
  * @brief Adds a task to the thread pool for execution.
@@ -71,7 +71,7 @@ int32_t fossil_thread_pool_erase(xthread_pool_t *pool);
  * @param arg Pointer to the argument to pass to the task function.
  * @return int32_t 0 if the task is successfully added to the pool, -1 if the task queue is full.
  */
-int32_t fossil_thread_pool_add_task(xthread_pool_t *pool, xtask_func_t task_func, void *arg);
+int32_t fossil_thread_pool_add_task(fossil_xthread_pool_t *pool, fossil_xtask_func_t task_func, void *arg);
 
 #ifdef __cplusplus
 }

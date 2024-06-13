@@ -10,7 +10,7 @@ Description:
     feel free to contact Michael at michaelbrockus@gmail.com.
 ==============================================================================
 */
-#include <fossil/xalgorithms/greedy.h> // library under test
+#include <fossil/algorithms/greedy.h> // library under test
 
 #include <fossil/unittest.h>   // basic test tools
 #include <fossil/xassume.h> // extra asserts
@@ -59,7 +59,7 @@ FOSSIL_TEST(test_fossil_greedy_fractional_knapsack) {
     fossil_tofu_t* weights1 = fossil_tofu_create_array(TOFU_DOUBLE_TYPE, 3, 10.0, 20.0, 30.0);
     fossil_tofu_t* values1 = fossil_tofu_create_array(TOFU_DOUBLE_TYPE, 3, 60.0, 100.0, 120.0);
     double result1 = fossil_greedy_fractional_knapsack(weights1, values1, 50);
-    TEST_ASSUME_DOUBLE_EQUAL(240.0, result1);  // Expected result: Maximum value of 240.0
+    ASSUME_ITS_EQUAL_F64(240.0, result1);  // Expected result: Maximum value of 240.0
 
     // Cleanup
     fossil_tofu_erase_array(weights1);
