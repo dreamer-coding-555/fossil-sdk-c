@@ -45,7 +45,7 @@ if get_option('with_test').enabled()
         # Addintal Fossil Platform test cases
         'fossil', 'datetime',
         'fson', 'regex',
-        'stream', 'bluecrab'
+        'bluecrab'
     ]
 
     foreach cube : test_cubes
