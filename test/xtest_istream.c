@@ -24,7 +24,7 @@ Description:
 // * * * * * * * * * * * * * * * * * * * * * * * *
 
 // Mock input object
-static mockup_input_t *mock_input = xnull;
+static fossil_mockup_input_t *mock_input = xnull;
 
 // Validation function for testing
 FOSSIL_MOCK_FUNC(bool, validate_input, const char* input) {
@@ -56,13 +56,13 @@ FOSSIL_TEARDOWN(input_fixture) {
 
 FOSSIL_TEST(reader_let_reader_valid_input_valid) {
     // Test valid input validation
-    ASSUME_ITS_TRUE(fossil_console_in_valid_input("Enter a valid number (1-100)", mockup_validate_input));
+    ASSUME_ITS_TRUE(fossil_console_in_valid_input("Enter a valid number (1-100)", fossil_mockup_validate_input));
     ASSUME_ITS_TRUE(mockup_input_verify_call_count(mock_input, 1));
 }
 
 FOSSIL_TEST(reader_let_reader_valid_input_invalid) {
     // Test invalid input validation
-    ASSUME_ITS_FALSE(fossil_console_in_valid_input("Enter a valid number (1-100)", mockup_validate_input));
+    ASSUME_ITS_FALSE(fossil_console_in_valid_input("Enter a valid number (1-100)", fossil_mockup_validate_input));
     ASSUME_ITS_TRUE(mockup_input_verify_call_count(mock_input, 1));
 }
 
@@ -99,22 +99,22 @@ FOSSIL_TEST(reader_let_reader_confirm_exit) {
 // Additional test cases for reader_valid_input
 FOSSIL_TEST(reader_let_reader_valid_input_valid_upper_bound) {
     // Test valid input at upper bound
-    ASSUME_ITS_TRUE(fossil_console_in_valid_input("Enter a valid number (1-100)", mockup_validate_input));
+    ASSUME_ITS_TRUE(fossil_console_in_valid_input("Enter a valid number (1-100)", fossil_mockup_validate_input));
 }
 
 FOSSIL_TEST(reader_let_reader_valid_input_valid_lower_bound) {
     // Test valid input at lower bound
-    ASSUME_ITS_TRUE(fossil_console_in_valid_input("Enter a valid number (1-100)", mockup_validate_input));
+    ASSUME_ITS_TRUE(fossil_console_in_valid_input("Enter a valid number (1-100)", fossil_mockup_validate_input));
 }
 
 FOSSIL_TEST(reader_let_reader_valid_input_invalid_upper_bound) {
     // Test invalid input at upper bound
-    ASSUME_ITS_FALSE(fossil_console_in_valid_input("Enter a valid number (1-100)", mockup_validate_input));
+    ASSUME_ITS_FALSE(fossil_console_in_valid_input("Enter a valid number (1-100)", fossil_mockup_validate_input));
 }
 
 FOSSIL_TEST(reader_let_reader_valid_input_invalid_lower_bound) {
     // Test invalid input at lower bound
-    ASSUME_ITS_FALSE(fossil_console_in_valid_input("Enter a valid number (1-100)", mockup_validate_input));
+    ASSUME_ITS_FALSE(fossil_console_in_valid_input("Enter a valid number (1-100)", fossil_mockup_validate_input));
 }
 
 // Additional test cases for reader_confirm_yes_no

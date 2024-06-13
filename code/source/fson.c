@@ -32,12 +32,12 @@ const char* fson_type_names[] = {
 
 // Function to get type ID from type name
 fson_type get_type_id(const char* type_name) {
-    for (int i = 1; i <= FSON_TYPE_BOOL; i++) {
+    for (int i = 1; i <= FOSSIL_FSON_TYPE_BOOL; i++) {
         if (strcmp(fson_type_names[i], type_name) == 0) {
             return (fson_type)i;
         }
     }
-    return FSON_TYPE_UNKNOWN; // Type not found
+    return FOSSIL_FSON_TYPE_UNKNOWN; // Type not found
 }
 
 // Tokenize FSON string
@@ -55,37 +55,37 @@ fson_token* fossil_fson_tokenize(const char* restrict input) {
             while (isalnum(*ptr) || *ptr == '_') ptr++;
             int length = ptr - start;
             char* value = _custom_fossil_strndup(start, length);
-            tokens[token_count++] = (fson_token){FSON_TOKEN_IDENTIFIER, value};
+            tokens[token_count++] = (fson_token){FOSSIL_FSON_TOKEN_IDENTIFIER, value};
         } else if (isdigit(*ptr) || *ptr == '-' || *ptr == '+') {
             const char* start = ptr;
             while (isdigit(*ptr) || *ptr == '.' || *ptr == 'e' || *ptr == 'E' || *ptr == '-' || *ptr == '+') ptr++;
             int length = ptr - start;
             char* value = _custom_fossil_strndup(start, length);
-            tokens[token_count++] = (fson_token){FSON_TOKEN_NUMBER, value};
+            tokens[token_count++] = (fson_token){FOSSIL_FSON_TOKEN_NUMBER, value};
         } else if (*ptr == '"' || *ptr == '\'') {
             char quote = *ptr++;
             const char* start = ptr;
             while (*ptr != quote) ptr++;
             int length = ptr - start;
             char* value = _custom_fossil_strndup(start, length);
-            tokens[token_count++] = (fson_token){FSON_TOKEN_STRING, value};
+            tokens[token_count++] = (fson_token){FOSSIL_FSON_TOKEN_STRING, value};
             ptr++;
         } else if (ispunct(*ptr)) {
             char* value = _custom_fossil_strndup(ptr, 1);
-            tokens[token_count++] = (fson_token){FSON_TOKEN_SYMBOL, value};
+            tokens[token_count++] = (fson_token){FOSSIL_FSON_TOKEN_SYMBOL, value};
             ptr++;
         } else {
             ptr++;
         }
     }
 
-    tokens[token_count++] = (fson_token){FSON_TOKEN_EOF, cnullptr};
+    tokens[token_count++] = (fson_token){FOSSIL_FSON_TOKEN_EOF, cnullptr};
     return tokens;
 }
 
 // Free tokens
 void fossil_fson_erase_tokens(fson_token* tokens) {
-    for (int i = 0; tokens[i].type != FSON_TOKEN_EOF; i++) {
+    for (int i = 0; tokens[i].type != FOSSIL_FSON_TOKEN_EOF; i++) {
         free(tokens[i].value);
     }
     free(tokens);
@@ -117,7 +117,7 @@ fson_namespace* fossil_fson_namespace_parse(fson_token** tokens) {
     }
 
     // Expect an identifier (namespace name)
-    if ((*tokens)->type != FSON_TOKEN_IDENTIFIER) {
+    if ((*tokens)->type != FOSSIL_FSON_TOKEN_IDENTIFIER) {
         printf("Error: Expected an identifier for namespace name\n");
         return cnullptr;
     }
@@ -125,7 +125,7 @@ fson_namespace* fossil_fson_namespace_parse(fson_token** tokens) {
     (*tokens)++;
 
     // Expect a symbol '{'
-    if ((*tokens)->type != FSON_TOKEN_SYMBOL || strcmp((*tokens)->value, "{") != 0) {
+    if ((*tokens)->type != FOSSIL_FSON_TOKEN_SYMBOL || strcmp((*tokens)->value, "{") != 0) {
         printf("Error: Expected '{'\n");
         return cnullptr;
     }
@@ -138,9 +138,9 @@ fson_namespace* fossil_fson_namespace_parse(fson_token** tokens) {
         return cnullptr;
     }
     int value_count = 0;
-    while ((*tokens)->type != FSON_TOKEN_EOF) {
+    while ((*tokens)->type != FOSSIL_FSON_TOKEN_EOF) {
         // Expect an identifier (key)
-        if ((*tokens)->type != FSON_TOKEN_IDENTIFIER) {
+        if ((*tokens)->type != FOSSIL_FSON_TOKEN_IDENTIFIER) {
             printf("Error: Expected an identifier for key\n");
             return cnullptr;
         }
@@ -148,7 +148,7 @@ fson_namespace* fossil_fson_namespace_parse(fson_token** tokens) {
         (*tokens)++;
 
         // Expect a symbol ':'
-        if ((*tokens)->type != FSON_TOKEN_SYMBOL || strcmp((*tokens)->value, ":") != 0) {
+        if ((*tokens)->type != FOSSIL_FSON_TOKEN_SYMBOL || strcmp((*tokens)->value, ":") != 0) {
             printf("Error: Expected ':'\n");
             return cnullptr;
         }
@@ -157,14 +157,14 @@ fson_namespace* fossil_fson_namespace_parse(fson_token** tokens) {
         // Expect a value
         char* value = cnullptr;
         char* type = cnullptr;
-        if ((*tokens)->type == FSON_TOKEN_STRING || (*tokens)->type == FSON_TOKEN_NUMBER) {
+        if ((*tokens)->type == FOSSIL_FSON_TOKEN_STRING || (*tokens)->type == FOSSIL_FSON_TOKEN_NUMBER) {
             value = _custom_fossil_strdup((*tokens)->value);
             type = _custom_fossil_strdup("str");  // Default type is string
             (*tokens)++;
-        } else if ((*tokens)->type == FSON_TOKEN_IDENTIFIER) {
+        } else if ((*tokens)->type == FOSSIL_FSON_TOKEN_IDENTIFIER) {
             type = _custom_fossil_strdup((*tokens)->value);
             (*tokens)++;
-            if ((*tokens)->type != FSON_TOKEN_STRING && (*tokens)->type != FSON_TOKEN_NUMBER && strcmp((*tokens)->value, "cnull") != 0) {
+            if ((*tokens)->type != FOSSIL_FSON_TOKEN_STRING && (*tokens)->type != FOSSIL_FSON_TOKEN_NUMBER && strcmp((*tokens)->value, "cnull") != 0) {
                 printf("Error: Expected a value after type\n");
                 return cnullptr;
             }
@@ -183,7 +183,7 @@ fson_namespace* fossil_fson_namespace_parse(fson_token** tokens) {
         values[value_count++] = (fson_value){key, value, get_type_id(type)};
     }
     // Add a NULL terminator to the values array
-    values[value_count] = (fson_value){cnullptr, cnullptr, FSON_TYPE_UNKNOWN};
+    values[value_count] = (fson_value){cnullptr, cnullptr, FOSSIL_FSON_TYPE_UNKNOWN};
 
     ns->values = values;
     ns->count = value_count; // Set the count of values
@@ -225,7 +225,7 @@ int32_t fossil_fson_insert_data(fson_namespace* namespaces, const char* restrict
 
     // Get type ID from type name
     fson_type type = get_type_id(type_name);
-    if (type == FSON_TYPE_UNKNOWN) {
+    if (type == FOSSIL_FSON_TYPE_UNKNOWN) {
         return -1; // Invalid type name
     }
 

@@ -10,8 +10,8 @@ Description:
     feel free to contact Michael at michaelbrockus@gmail.com.
 ==============================================================================
 */
-#ifndef FOSSIl_CORE_FSON_H
-#define FOSSIl_CORE_FSON_H
+#ifndef FOSSIl_CORE_FOSSIL_FSON_H
+#define FOSSIl_CORE_FOSSIL_FSON_H
 
 /**
  * FSON (Fossil Logic Simple Object Notation) is a lightweight data interchange format inspired by JSON
@@ -156,40 +156,40 @@ Description:
 
 // Define token types
 typedef enum {
-    FSON_TOKEN_STRING,
-    FSON_TOKEN_NUMBER,
-    FSON_TOKEN_IDENTIFIER,
-    FSON_TOKEN_SYMBOL,
-    FSON_TOKEN_EOF
+    FOSSIL_FSON_TOKEN_STRING,
+    FOSSIL_FSON_TOKEN_NUMBER,
+    FOSSIL_FSON_TOKEN_IDENTIFIER,
+    FOSSIL_FSON_TOKEN_SYMBOL,
+    FOSSIL_FSON_TOKEN_EOF
 } fson_token_type;
 
 typedef enum {
-    FSON_TYPE_UNKNOWN = 0,
-    FSON_TYPE_I8,
-    FSON_TYPE_I16,
-    FSON_TYPE_I32,
-    FSON_TYPE_I64,
-    FSON_TYPE_U8,
-    FSON_TYPE_U16,
-    FSON_TYPE_U32,
-    FSON_TYPE_U64,
-    FSON_TYPE_O8,
-    FSON_TYPE_O16,
-    FSON_TYPE_O32,
-    FSON_TYPE_O64,
-    FSON_TYPE_B8,
-    FSON_TYPE_B16,
-    FSON_TYPE_B32,
-    FSON_TYPE_B64,
-    FSON_TYPE_H8,
-    FSON_TYPE_H16,
-    FSON_TYPE_H32,
-    FSON_TYPE_H64,
-    FSON_TYPE_STR,
-    FSON_TYPE_CNULL,
-    FSON_TYPE_FLOAT,
-    FSON_TYPE_DOUBLE,
-    FSON_TYPE_BOOL
+    FOSSIL_FSON_TYPE_UNKNOWN = 0,
+    FOSSIL_FSON_TYPE_I8,
+    FOSSIL_FSON_TYPE_I16,
+    FOSSIL_FSON_TYPE_I32,
+    FOSSIL_FSON_TYPE_I64,
+    FOSSIL_FSON_TYPE_U8,
+    FOSSIL_FSON_TYPE_U16,
+    FOSSIL_FSON_TYPE_U32,
+    FOSSIL_FSON_TYPE_U64,
+    FOSSIL_FSON_TYPE_O8,
+    FOSSIL_FSON_TYPE_O16,
+    FOSSIL_FSON_TYPE_O32,
+    FOSSIL_FSON_TYPE_O64,
+    FOSSIL_FSON_TYPE_B8,
+    FOSSIL_FSON_TYPE_B16,
+    FOSSIL_FSON_TYPE_B32,
+    FOSSIL_FSON_TYPE_B64,
+    FOSSIL_FSON_TYPE_H8,
+    FOSSIL_FSON_TYPE_H16,
+    FOSSIL_FSON_TYPE_H32,
+    FOSSIL_FSON_TYPE_H64,
+    FOSSIL_FSON_TYPE_STR,
+    FOSSIL_FSON_TYPE_CNULL,
+    FOSSIL_FSON_TYPE_FLOAT,
+    FOSSIL_FSON_TYPE_DOUBLE,
+    FOSSIL_FSON_TYPE_BOOL
 } fson_type;
 
 // Define token structure

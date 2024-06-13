@@ -100,55 +100,55 @@ int32_t fossil_crabdb_insert_data(fossil_crabdb_t* db, const char* namespace_nam
 
     // Determine the type
     if (strcmp(type, "str") == 0) {
-        new_value.type = FSON_TYPE_STR;
+        new_value.type = FOSSIL_FSON_TYPE_STR;
     } else if (strcmp(type, "i8") == 0) {
-        new_value.type = FSON_TYPE_I8;
+        new_value.type = FOSSIL_FSON_TYPE_I8;
     } else if (strcmp(type, "i16") == 0) {
-        new_value.type = FSON_TYPE_I16;
+        new_value.type = FOSSIL_FSON_TYPE_I16;
     } else if (strcmp(type, "i32") == 0) {
-        new_value.type = FSON_TYPE_I32;
+        new_value.type = FOSSIL_FSON_TYPE_I32;
     } else if (strcmp(type, "i64") == 0) {
-        new_value.type = FSON_TYPE_I64;
+        new_value.type = FOSSIL_FSON_TYPE_I64;
     } else if (strcmp(type, "u8") == 0) {
-        new_value.type = FSON_TYPE_U8;
+        new_value.type = FOSSIL_FSON_TYPE_U8;
     } else if (strcmp(type, "u16") == 0) {
-        new_value.type = FSON_TYPE_U16;
+        new_value.type = FOSSIL_FSON_TYPE_U16;
     } else if (strcmp(type, "u32") == 0) {
-        new_value.type = FSON_TYPE_U32;
+        new_value.type = FOSSIL_FSON_TYPE_U32;
     } else if (strcmp(type, "u64") == 0) {
-        new_value.type = FSON_TYPE_U64;
+        new_value.type = FOSSIL_FSON_TYPE_U64;
     } else if (strcmp(type, "o8") == 0) {
-        new_value.type = FSON_TYPE_O8;
+        new_value.type = FOSSIL_FSON_TYPE_O8;
     } else if (strcmp(type, "o16") == 0) {
-        new_value.type = FSON_TYPE_O16;
+        new_value.type = FOSSIL_FSON_TYPE_O16;
     } else if (strcmp(type, "o32") == 0) {
-        new_value.type = FSON_TYPE_O32;
+        new_value.type = FOSSIL_FSON_TYPE_O32;
     } else if (strcmp(type, "o64") == 0) {
-        new_value.type = FSON_TYPE_O64;
+        new_value.type = FOSSIL_FSON_TYPE_O64;
     } else if (strcmp(type, "b8") == 0) {
-        new_value.type = FSON_TYPE_B8;
+        new_value.type = FOSSIL_FSON_TYPE_B8;
     } else if (strcmp(type, "b16") == 0) {
-        new_value.type = FSON_TYPE_B16;
+        new_value.type = FOSSIL_FSON_TYPE_B16;
     } else if (strcmp(type, "b32") == 0) {
-        new_value.type = FSON_TYPE_B32;
+        new_value.type = FOSSIL_FSON_TYPE_B32;
     } else if (strcmp(type, "b64") == 0) {
-        new_value.type = FSON_TYPE_B64;
+        new_value.type = FOSSIL_FSON_TYPE_B64;
     } else if (strcmp(type, "h8") == 0) {
-        new_value.type = FSON_TYPE_H8;
+        new_value.type = FOSSIL_FSON_TYPE_H8;
     } else if (strcmp(type, "h16") == 0) {
-        new_value.type = FSON_TYPE_H16;
+        new_value.type = FOSSIL_FSON_TYPE_H16;
     } else if (strcmp(type, "h32") == 0) {
-        new_value.type = FSON_TYPE_H32;
+        new_value.type = FOSSIL_FSON_TYPE_H32;
     } else if (strcmp(type, "h64") == 0) {
-        new_value.type = FSON_TYPE_H64;
+        new_value.type = FOSSIL_FSON_TYPE_H64;
     } else if (strcmp(type, "float") == 0) {
-        new_value.type = FSON_TYPE_FLOAT;
+        new_value.type = FOSSIL_FSON_TYPE_FLOAT;
     } else if (strcmp(type, "double") == 0) {
-        new_value.type = FSON_TYPE_DOUBLE;
+        new_value.type = FOSSIL_FSON_TYPE_DOUBLE;
     } else if (strcmp(type, "bool") == 0) {
-        new_value.type = FSON_TYPE_BOOL;
+        new_value.type = FOSSIL_FSON_TYPE_BOOL;
     } else if (strcmp(type, "null") == 0) {
-        new_value.type = FSON_TYPE_CNULL;
+        new_value.type = FOSSIL_FSON_TYPE_CNULL;
     } else {
         free(new_value.key);
         free(new_value.value);

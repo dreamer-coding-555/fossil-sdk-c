@@ -131,12 +131,12 @@ FOSSIL_TEST(test_load_xson_file) {
     fson_value* name_value = fossil_fson_value_find(user_ns, "name");
     ASSUME_NOT_CNULL(name_value);
     ASSUME_ITS_EQUAL_CSTR("John Doe", name_value->value);
-    ASSUME_ITS_EQUAL_I32(FSON_TYPE_STR, name_value->type);
+    ASSUME_ITS_EQUAL_I32(FOSSIL_FSON_TYPE_STR, name_value->type);
 
     fson_value* email_value = fossil_fson_value_find(user_ns, "email");
     ASSUME_NOT_CNULL(email_value);
     ASSUME_ITS_EQUAL_CSTR("johndoe@example.com", email_value->value);
-    ASSUME_ITS_EQUAL_I32(FSON_TYPE_STR, email_value->type);
+    ASSUME_ITS_EQUAL_I32(FOSSIL_FSON_TYPE_STR, email_value->type);
 
     // Verify preferences namespace data
     fson_namespace* preferences_ns = fossil_fson_namespace_find(ns, 1, "preferences");
@@ -145,12 +145,12 @@ FOSSIL_TEST(test_load_xson_file) {
     fson_value* theme_value = fossil_fson_value_find(preferences_ns, "theme");
     ASSUME_NOT_CNULL(theme_value);
     ASSUME_ITS_EQUAL_CSTR("dark", theme_value->value);
-    ASSUME_ITS_EQUAL_I32(FSON_TYPE_STR, theme_value->type);
+    ASSUME_ITS_EQUAL_I32(FOSSIL_FSON_TYPE_STR, theme_value->type);
 
     fson_value* notifications_value = fossil_fson_value_find(preferences_ns, "notifications");
     ASSUME_NOT_CNULL(notifications_value);
     ASSUME_ITS_EQUAL_CSTR("true", notifications_value->value);
-    ASSUME_ITS_EQUAL_I32(FSON_TYPE_BOOL, notifications_value->type);
+    ASSUME_ITS_EQUAL_I32(FOSSIL_FSON_TYPE_BOOL, notifications_value->type);
 
     // Verify other_namespace data
     fson_namespace* other_ns = fossil_fson_namespace_find(ns, 1, "other_namespace");
@@ -159,12 +159,12 @@ FOSSIL_TEST(test_load_xson_file) {
     fson_value* integer_value = fossil_fson_value_find(other_ns, "integer");
     ASSUME_NOT_CNULL(integer_value);
     ASSUME_ITS_EQUAL_CSTR("42", integer_value->value);
-    ASSUME_ITS_EQUAL_I32(FSON_TYPE_I32, integer_value->type);
+    ASSUME_ITS_EQUAL_I32(FOSSIL_FSON_TYPE_I32, integer_value->type);
 
     fson_value* float_value = fossil_fson_value_find(other_ns, "float_number");
     ASSUME_NOT_CNULL(float_value);
     ASSUME_ITS_EQUAL_CSTR("3.14", float_value->value);
-    ASSUME_ITS_EQUAL_I32(FSON_TYPE_DOUBLE, float_value->type);
+    ASSUME_ITS_EQUAL_I32(FOSSIL_FSON_TYPE_DOUBLE, float_value->type);
 
     // Cleanup
     free(xson_content);
