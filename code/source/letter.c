@@ -11,7 +11,7 @@ Description:
 ==============================================================================
 */
 #include "fossil/string/letter.h"
-#include "fossil/string/common.h"
+#include "fossil/common/common.h"
 #include "fossil/string/manip.h"
 #include <stdlib.h>
 #include <ctype.h>
