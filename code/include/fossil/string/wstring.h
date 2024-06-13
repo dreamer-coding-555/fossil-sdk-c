@@ -30,7 +30,7 @@ Description:
  * @endcode
  */
 
-#include "string/letter.h"
+#include "letter.h"
 
 // classic wysiwyg C string types
 typedef wletter * wstring;             // cstring type
