@@ -31,7 +31,7 @@ Description:
  * @endcode
  */
 
-#include "string/letter.h"
+#include "letter.h"
 
 // byte string types
 typedef bletter * bstring;               // byte string type
