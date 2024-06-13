@@ -12,7 +12,7 @@ Description:
 */
 #include <fossil/threads/spinlocks.h> // library under test
 
-#include <fossil/xtest.h>   // basic test tools
+#include <fossil/unittest.h>   // basic test tools
 #include <fossil/xassume.h> // extra asserts
 
 // * * * * * * * * * * * * * * * * * * * * * * * *
@@ -33,47 +33,47 @@ Description:
 // * * * * * * * * * * * * * * * * * * * * * * * *
 
 // Test case 1: Test fossil_spinlock_create
-XTEST(test_fossil_spinlock_create) {
+FOSSIL_TEST(test_fossil_spinlock_create) {
     xspinlock_t lock;
-    TEST_ASSUME_EQUAL_INT32(0, fossil_spinlock_create(&lock));
+    ASSUME_ITS_EQUAL_I3232(0, fossil_spinlock_create(&lock));
 }
 
 // Test case 2: Test fossil_spinlock_erase
-XTEST(test_fossil_spinlock_erase) {
+FOSSIL_TEST(test_fossil_spinlock_erase) {
     xspinlock_t lock;
     fossil_spinlock_create(&lock); // Initialize the spinlock before erasing it
-    TEST_ASSUME_EQUAL_INT32(0, fossil_spinlock_erase(&lock));
+    ASSUME_ITS_EQUAL_I3232(0, fossil_spinlock_erase(&lock));
 }
 
 // Test case 3: Test fossil_spinlock_lock with valid parameters
-XTEST(test_fossil_spinlock_lock_valid_params) {
+FOSSIL_TEST(test_fossil_spinlock_lock_valid_params) {
     xspinlock_t lock;
     fossil_spinlock_create(&lock);
-    TEST_ASSUME_EQUAL_INT32(0, fossil_spinlock_lock(&lock));
+    ASSUME_ITS_EQUAL_I3232(0, fossil_spinlock_lock(&lock));
 }
 
 // Test case 4: Test fossil_spinlock_unlock with valid parameters
-XTEST(test_fossil_spinlock_unlock_valid_params) {
+FOSSIL_TEST(test_fossil_spinlock_unlock_valid_params) {
     xspinlock_t lock;
     fossil_spinlock_create(&lock);
     fossil_spinlock_lock(&lock); // Acquire the spinlock before unlocking it
-    TEST_ASSUME_EQUAL_INT32(0, fossil_spinlock_unlock(&lock));
+    ASSUME_ITS_EQUAL_I3232(0, fossil_spinlock_unlock(&lock));
 }
 
 // Test case 5: Test fossil_spinlock_trylock with valid parameters
-XTEST(test_fossil_spinlock_trylock_valid_params) {
+FOSSIL_TEST(test_fossil_spinlock_trylock_valid_params) {
     xspinlock_t lock;
     fossil_spinlock_create(&lock);
-    TEST_ASSUME_EQUAL_INT32(0, fossil_spinlock_trylock(&lock));
+    ASSUME_ITS_EQUAL_I3232(0, fossil_spinlock_trylock(&lock));
 }
 
 // * * * * * * * * * * * * * * * * * * * * * * * *
 // * Fossil Logic Test Pool
 // * * * * * * * * * * * * * * * * * * * * * * * *
-XTEST_DEFINE_POOL(spinlocks_group) {
-    XTEST_RUN_UNIT(test_fossil_spinlock_create);
-    XTEST_RUN_UNIT(test_fossil_spinlock_erase);
-    XTEST_RUN_UNIT(test_fossil_spinlock_lock_valid_params);
-    XTEST_RUN_UNIT(test_fossil_spinlock_unlock_valid_params);
-    XTEST_RUN_UNIT(test_fossil_spinlock_trylock_valid_params);
+FOSSIL_TEST_GROUP(spinlocks_group) {
+    ADD_TEST(test_fossil_spinlock_create);
+    ADD_TEST(test_fossil_spinlock_erase);
+    ADD_TEST(test_fossil_spinlock_lock_valid_params);
+    ADD_TEST(test_fossil_spinlock_unlock_valid_params);
+    ADD_TEST(test_fossil_spinlock_trylock_valid_params);
 } // end of fixture

@@ -12,7 +12,7 @@ Description:
 */
 #include "fossil/string/number.h" // lib source code
 
-#include <fossil/xtest.h>   // basic test tools
+#include <fossil/unittest.h>   // basic test tools
 #include <fossil/xassume.h> // extra asserts
 
 // * * * * * * * * * * * * * * * * * * * * * * * *
@@ -32,27 +32,27 @@ Description:
 // as samples for library usage.
 // * * * * * * * * * * * * * * * * * * * * * * * *
 
-XTEST(test_fossil_cstr_to_numeric) {
+FOSSIL_TEST(test_fossil_cstr_to_numeric) {
     cstring number = "12345";
     int result = fossil_cstr_to_numeric(number);
-    TEST_ASSUME_EQUAL_INT(12345, result);
+    ASSUME_ITS_EQUAL_I32(12345, result);
 
     number = "invalid";
     result = fossil_cstr_to_numeric(number);
-    TEST_ASSUME_EQUAL_INT(0, result);
+    ASSUME_ITS_EQUAL_I32(0, result);
 }
 
-XTEST(test_fossil_cstr_expression_to_numeric) {
+FOSSIL_TEST(test_fossil_cstr_expression_to_numeric) {
     cstring expression = "10 + 20 * 3";
     int result = fossil_cstr_expression_to_numeric(expression);
-    TEST_ASSUME_EQUAL_INT(70, result);
+    ASSUME_ITS_EQUAL_I32(70, result);
 
     expression = "invalid";
     result = fossil_cstr_expression_to_numeric(expression);
-    TEST_ASSUME_EQUAL_INT(0, result);
+    ASSUME_ITS_EQUAL_I32(0, result);
 }
 
-XTEST(test_fossil_cstr_from_numeric) {
+FOSSIL_TEST(test_fossil_cstr_from_numeric) {
     long long number = 12345;
     cstring result = fossil_cstr_from_numeric(number);
     TEST_ASSUME_EQUAL_CSTRING("12345", (cstring)result);
@@ -61,27 +61,27 @@ XTEST(test_fossil_cstr_from_numeric) {
 
 // Byte string to numeric conversion functions
 
-XTEST(test_fossil_bstr_to_numeric) {
+FOSSIL_TEST(test_fossil_bstr_to_numeric) {
     const_bstring number = (const_bstring)"12345";
     int result = fossil_bstr_to_numeric(number);
-    TEST_ASSUME_EQUAL_INT(12345, result);
+    ASSUME_ITS_EQUAL_I32(12345, result);
 
     const_bstring invalid = (const_bstring)"invalid";
     result = fossil_bstr_to_numeric(invalid);
-    TEST_ASSUME_EQUAL_INT(0, result);
+    ASSUME_ITS_EQUAL_I32(0, result);
 }
 
-XTEST(test_fossil_bstr_expression_to_numeric) {
+FOSSIL_TEST(test_fossil_bstr_expression_to_numeric) {
     const_bstring expression = (const_bstring)"10 + 20 * 3";
     int result = fossil_bstr_expression_to_numeric(expression);
-    TEST_ASSUME_EQUAL_INT(70, result);
+    ASSUME_ITS_EQUAL_I32(70, result);
 
     const_bstring invalid = (const_bstring)"invalid";
     result = fossil_bstr_expression_to_numeric(invalid);
-    TEST_ASSUME_EQUAL_INT(0, result);
+    ASSUME_ITS_EQUAL_I32(0, result);
 }
 
-XTEST(test_fossil_bstr_from_numeric) {
+FOSSIL_TEST(test_fossil_bstr_from_numeric) {
     long long number = 12345;
     bstring result = fossil_bstr_from_numeric(number);
     TEST_ASSUME_EQUAL_BSTRING("12345", result);
@@ -90,27 +90,27 @@ XTEST(test_fossil_bstr_from_numeric) {
 
 // Wide string to numeric conversion functions
 
-XTEST(test_fossil_wstr_to_numeric) {
+FOSSIL_TEST(test_fossil_wstr_to_numeric) {
     const_wstring number = L"12345";
     int result = fossil_wstr_to_numeric(number);
-    TEST_ASSUME_EQUAL_INT(12345, result);
+    ASSUME_ITS_EQUAL_I32(12345, result);
 
     const_wstring invalid = L"invalid";
     result = fossil_wstr_to_numeric(invalid);
-    TEST_ASSUME_EQUAL_INT(0, result);
+    ASSUME_ITS_EQUAL_I32(0, result);
 }
 
-XTEST(test_fossil_wstr_expression_to_numeric) {
+FOSSIL_TEST(test_fossil_wstr_expression_to_numeric) {
     const_wstring expression = L"10 + 20 * 3";
     int result = fossil_wstr_expression_to_numeric(expression);
-    TEST_ASSUME_EQUAL_INT(70, result);
+    ASSUME_ITS_EQUAL_I32(70, result);
 
     const_wstring invalid = L"invalid";
     result = fossil_wstr_expression_to_numeric(invalid);
-    TEST_ASSUME_EQUAL_INT(0, result);
+    ASSUME_ITS_EQUAL_I32(0, result);
 }
 
-XTEST(test_fossil_wstr_from_numeric) {
+FOSSIL_TEST(test_fossil_wstr_from_numeric) {
     long long number = 12345;
     wstring result = fossil_wstr_from_numeric(number);
     TEST_ASSUME_EQUAL_WSTRING(L"12345", (const_wstring)result);
@@ -120,20 +120,20 @@ XTEST(test_fossil_wstr_from_numeric) {
 // * * * * * * * * * * * * * * * * * * * * * * * *
 // * Fossil Logic Test Pool
 // * * * * * * * * * * * * * * * * * * * * * * * *
-XTEST_DEFINE_POOL(fossil_number_group) {
+FOSSIL_TEST_GROUP(fossil_number_group) {
     // C string to numeric conversion functions
-    XTEST_RUN_UNIT(test_fossil_cstr_to_numeric);
-    XTEST_RUN_UNIT(test_fossil_cstr_expression_to_numeric);
-    XTEST_RUN_UNIT(test_fossil_cstr_from_numeric);
+    ADD_TEST(test_fossil_cstr_to_numeric);
+    ADD_TEST(test_fossil_cstr_expression_to_numeric);
+    ADD_TEST(test_fossil_cstr_from_numeric);
 
     // Byte string to numeric conversion functions
-    XTEST_RUN_UNIT(test_fossil_bstr_to_numeric);
-    XTEST_RUN_UNIT(test_fossil_bstr_expression_to_numeric);
-    XTEST_RUN_UNIT(test_fossil_bstr_from_numeric);
+    ADD_TEST(test_fossil_bstr_to_numeric);
+    ADD_TEST(test_fossil_bstr_expression_to_numeric);
+    ADD_TEST(test_fossil_bstr_from_numeric);
 
     // Wide string to numeric conversion functions
-    XTEST_RUN_UNIT(test_fossil_wstr_to_numeric);
-    XTEST_RUN_UNIT(test_fossil_wstr_expression_to_numeric);
-    XTEST_RUN_UNIT(test_fossil_wstr_from_numeric);
+    ADD_TEST(test_fossil_wstr_to_numeric);
+    ADD_TEST(test_fossil_wstr_expression_to_numeric);
+    ADD_TEST(test_fossil_wstr_from_numeric);
 
 } // end of function main

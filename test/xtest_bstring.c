@@ -13,7 +13,7 @@ Description:
 #include "fossil/string/bstring.h" // lib source code
 #include "fossil/string/cstring.h" // for the cstring types
 
-#include <fossil/xtest.h>   // basic test tools
+#include <fossil/unittest.h>   // basic test tools
 #include <fossil/xassume.h> // extra asserts
 
 // * * * * * * * * * * * * * * * * * * * * * * * *
@@ -33,36 +33,36 @@ Description:
 // as samples for library usage.
 // * * * * * * * * * * * * * * * * * * * * * * * *
 
-XTEST(test_fossil_bstr_create) {
+FOSSIL_TEST(test_fossil_bstr_create) {
     const_bstring test_str = (const_bstring)"Hello, World!";
     bstring result = fossil_bstr_create(test_str);
 
-    TEST_ASSUME_NOT_CNULLPTR(result);
+    ASSUME_NOT_CNULL(result);
     TEST_ASSUME_EQUAL_CSTRING((const_cstring)test_str, (const_cstring)result);
 
     fossil_bstr_erase(result);
 }
 
-XTEST(test_fossil_bstr_erase) {
+FOSSIL_TEST(test_fossil_bstr_erase) {
     const_bstring test_str = (const_bstring)"Hello, World!";
     bstring str = fossil_bstr_create(test_str);
     fossil_bstr_erase(str);
 
-    TEST_ASSUME_CNULLPTR(str);
+    ASSUME_ITS_CNULL(str);
 }
 
-XTEST(test_fossil_bstr_length) {
+FOSSIL_TEST(test_fossil_bstr_length) {
     const_bstring test_str = (const_bstring)"Hello, World!";
     size_t len = fossil_bstr_length(test_str);
 
-    TEST_ASSUME_EQUAL_INT(fossil_bstr_length(test_str), len);
+    ASSUME_ITS_EQUAL_I32(fossil_bstr_length(test_str), len);
 }
 
 // * * * * * * * * * * * * * * * * * * * * * * * *
 // * Fossil Logic Test Pool
 // * * * * * * * * * * * * * * * * * * * * * * * *
-XTEST_DEFINE_POOL(fossil_bstring_group) {
-    XTEST_RUN_UNIT(test_fossil_bstr_create);
-    XTEST_RUN_UNIT(test_fossil_bstr_erase);
-    XTEST_RUN_UNIT(test_fossil_bstr_length);
+FOSSIL_TEST_GROUP(fossil_bstring_group) {
+    ADD_TEST(test_fossil_bstr_create);
+    ADD_TEST(test_fossil_bstr_erase);
+    ADD_TEST(test_fossil_bstr_length);
 } // end of function main

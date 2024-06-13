@@ -12,7 +12,7 @@ Description:
 */
 #include "fossil/string/manip.h" // lib source code
 
-#include <fossil/xtest.h>   // basic test tools
+#include <fossil/unittest.h>   // basic test tools
 #include <fossil/xassume.h> // extra asserts
 
 // * * * * * * * * * * * * * * * * * * * * * * * *
@@ -32,7 +32,7 @@ Description:
 // as samples for library usage.
 // * * * * * * * * * * * * * * * * * * * * * * * *
 
-XTEST(test_fossil_cstr_compare) {
+FOSSIL_TEST(test_fossil_cstr_compare) {
     const_cstring str1 = "Hello";
     const_cstring str2 = "World";
     int result = fossil_cstr_compare(str1, str2);
@@ -42,10 +42,10 @@ XTEST(test_fossil_cstr_compare) {
     TEST_ASSUME_TRUE(result > 0);
 
     result = fossil_cstr_compare(str1, str1);
-    TEST_ASSUME_EQUAL_INT(0, result);
+    ASSUME_ITS_EQUAL_I32(0, result);
 }
 
-XTEST(test_fossil_cstr_copy) {
+FOSSIL_TEST(test_fossil_cstr_copy) {
     cstring dest = malloc(10);
     const_cstring src = "Hello";
     fossil_cstr_copy(dest, src);
@@ -53,7 +53,7 @@ XTEST(test_fossil_cstr_copy) {
     free(dest);
 }
 
-XTEST(test_fossil_cstr_concat) {
+FOSSIL_TEST(test_fossil_cstr_concat) {
     cstring dest = malloc(20);
     const_cstring src = " World!";
     const_cstring base = "Hello";
@@ -63,19 +63,19 @@ XTEST(test_fossil_cstr_concat) {
     free(dest);
 }
 
-XTEST(test_fossil_cstr_find) {
+FOSSIL_TEST(test_fossil_cstr_find) {
     const_cstring str = "Hello, World!";
     const_cstring result = fossil_cstr_find(str, ',');
     TEST_ASSUME_EQUAL_CSTRING(", World!", result);
 }
 
-XTEST(test_fossil_cstr_reverse) {
+FOSSIL_TEST(test_fossil_cstr_reverse) {
     const_cstring str = "Hello";
     const_cstring result = fossil_cstr_reverse(str);
     TEST_ASSUME_EQUAL_CSTRING("olleH", result);
 }
 
-XTEST(test_fossil_cstr_split) {
+FOSSIL_TEST(test_fossil_cstr_split) {
     const_cstring str = "Hello,World,!";
     cstrings result = fossil_cstr_split(str, ',');
     TEST_ASSUME_EQUAL_CSTRING("Hello", result[0]);
@@ -87,7 +87,7 @@ XTEST(test_fossil_cstr_split) {
     free(result);
 }
 
-XTEST(test_fossil_cstr_strdup) {
+FOSSIL_TEST(test_fossil_cstr_strdup) {
     const_cstring str = "Hello";
     cstring result = fossil_cstr_strdup(str);
     TEST_ASSUME_EQUAL_CSTRING("Hello", result);
@@ -96,7 +96,7 @@ XTEST(test_fossil_cstr_strdup) {
 
 // Byte string library functions
 
-XTEST(test_fossil_bstr_compare) {
+FOSSIL_TEST(test_fossil_bstr_compare) {
     const_bstring str1 = (const_bstring)"Hello";
     const_bstring str2 = (const_bstring)"World";
     int result = fossil_bstr_compare(str1, str2);
@@ -106,10 +106,10 @@ XTEST(test_fossil_bstr_compare) {
     TEST_ASSUME_TRUE(result > 0);
 
     result = fossil_bstr_compare(str1, str1);
-    TEST_ASSUME_EQUAL_INT(0, result);
+    ASSUME_ITS_EQUAL_I32(0, result);
 }
 
-XTEST(test_fossil_bstr_copy) {
+FOSSIL_TEST(test_fossil_bstr_copy) {
     bstring dest = malloc(10);
     const_bstring src = (const_bstring)"Hello";
     fossil_bstr_copy(dest, src);
@@ -117,7 +117,7 @@ XTEST(test_fossil_bstr_copy) {
     fossil_bstr_erase(dest);
 }
 
-XTEST(test_fossil_bstr_concat) {
+FOSSIL_TEST(test_fossil_bstr_concat) {
     bstring dest = malloc(20);
     const_bstring src = (const_bstring)" World!";
     const_bstring base = (const_bstring)"Hello";
@@ -127,13 +127,13 @@ XTEST(test_fossil_bstr_concat) {
     fossil_bstr_erase(dest);
 }
 
-XTEST(test_fossil_bstr_find) {
+FOSSIL_TEST(test_fossil_bstr_find) {
     const_bstring str = (const_bstring)"Hello, World!";
     const_bstring result = fossil_bstr_find(str, ',');
     TEST_ASSUME_EQUAL_CSTRING(", World!", (cstring)result);
 }
 
-XTEST(test_fossil_bstr_split) {
+FOSSIL_TEST(test_fossil_bstr_split) {
     const_bstring str = (const_bstring)"Hello,World,!";
     bstrings result = fossil_bstr_split(str, ',');
     TEST_ASSUME_EQUAL_CSTRING("Hello", (cstring)result[0]);
@@ -145,7 +145,7 @@ XTEST(test_fossil_bstr_split) {
     free(result);
 }
 
-XTEST(test_fossil_bstr_strdup) {
+FOSSIL_TEST(test_fossil_bstr_strdup) {
     const_bstring str = (const_bstring)"Hello";
     bstring result = fossil_bstr_strdup(str);
     TEST_ASSUME_EQUAL_CSTRING("Hello", (cstring)result);
@@ -155,21 +155,21 @@ XTEST(test_fossil_bstr_strdup) {
 // * * * * * * * * * * * * * * * * * * * * * * * *
 // * Fossil Logic Test Pool
 // * * * * * * * * * * * * * * * * * * * * * * * *
-XTEST_DEFINE_POOL(fossil_manip_group) {
+FOSSIL_TEST_GROUP(fossil_manip_group) {
     // C string library functions
-    XTEST_RUN_UNIT(test_fossil_cstr_compare);
-    XTEST_RUN_UNIT(test_fossil_cstr_copy);
-    XTEST_RUN_UNIT(test_fossil_cstr_concat);
-    XTEST_RUN_UNIT(test_fossil_cstr_find);
-    XTEST_RUN_UNIT(test_fossil_cstr_reverse);
-    XTEST_RUN_UNIT(test_fossil_cstr_split);
-    XTEST_RUN_UNIT(test_fossil_cstr_strdup);
+    ADD_TEST(test_fossil_cstr_compare);
+    ADD_TEST(test_fossil_cstr_copy);
+    ADD_TEST(test_fossil_cstr_concat);
+    ADD_TEST(test_fossil_cstr_find);
+    ADD_TEST(test_fossil_cstr_reverse);
+    ADD_TEST(test_fossil_cstr_split);
+    ADD_TEST(test_fossil_cstr_strdup);
 
     // Byte string library functions
-    XTEST_RUN_UNIT(test_fossil_bstr_compare);
-    XTEST_RUN_UNIT(test_fossil_bstr_copy);
-    XTEST_RUN_UNIT(test_fossil_bstr_concat);
-    XTEST_RUN_UNIT(test_fossil_bstr_find);
-    XTEST_RUN_UNIT(test_fossil_bstr_split);
-    XTEST_RUN_UNIT(test_fossil_bstr_strdup);
+    ADD_TEST(test_fossil_bstr_compare);
+    ADD_TEST(test_fossil_bstr_copy);
+    ADD_TEST(test_fossil_bstr_concat);
+    ADD_TEST(test_fossil_bstr_find);
+    ADD_TEST(test_fossil_bstr_split);
+    ADD_TEST(test_fossil_bstr_strdup);
 } // end of function main

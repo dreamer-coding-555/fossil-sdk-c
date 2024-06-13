@@ -12,7 +12,7 @@ Description:
 */
 #include "fossil/xstructures/set.h" // lib source code
 
-#include <fossil/xtest.h>   // basic test tools
+#include <fossil/unittest.h>   // basic test tools
 #include <fossil/xassume.h> // extra asserts
 
 // * * * * * * * * * * * * * * * * * * * * * * * *
@@ -32,22 +32,22 @@ Description:
 // as samples for library usage.
 // * * * * * * * * * * * * * * * * * * * * * * * *
 
-XTEST(test_set_create_and_erase) {
+FOSSIL_TEST(test_set_create_and_erase) {
     cset* set = fossil_set_create(TOFU_INT_TYPE);
 
     // Check if the set is created with the expected values
-    TEST_ASSUME_NOT_CNULLPTR(set);
-    TEST_ASSUME_CNULLPTR(set->head);
+    ASSUME_NOT_CNULL(set);
+    ASSUME_ITS_CNULL(set->head);
     TEST_ASSUME_EQUAL(TOFU_INT_TYPE, set->set_type);
 
     fossil_set_erase(set);
 
     // Check if the set is erased
-    TEST_ASSUME_CNULLPTR(set->head);
-    TEST_ASSUME_CNULLPTR(set);
+    ASSUME_ITS_CNULL(set->head);
+    ASSUME_ITS_CNULL(set);
 }
 
-XTEST(test_set_insert_and_size) {
+FOSSIL_TEST(test_set_insert_and_size) {
     cset* set = fossil_set_create(TOFU_INT_TYPE);
 
     // Insert some elements
@@ -65,7 +65,7 @@ XTEST(test_set_insert_and_size) {
     fossil_set_erase(set);
 }
 
-XTEST(test_set_remove) {
+FOSSIL_TEST(test_set_remove) {
     cset* set = fossil_set_create(TOFU_INT_TYPE);
 
     // Insert some elements
@@ -86,7 +86,7 @@ XTEST(test_set_remove) {
     fossil_set_erase(set);
 }
 
-XTEST(test_set_contains) {
+FOSSIL_TEST(test_set_contains) {
     cset* set = fossil_set_create(TOFU_INT_TYPE);
 
     // Insert some elements
@@ -112,9 +112,9 @@ XTEST(test_set_contains) {
 // * * * * * * * * * * * * * * * * * * * * * * * *
 // * Fossil Logic Test Pool
 // * * * * * * * * * * * * * * * * * * * * * * * *
-XTEST_DEFINE_POOL(test_set_group) {
-    XTEST_RUN_UNIT(test_set_create_and_erase);
-    XTEST_RUN_UNIT(test_set_insert_and_size);
-    XTEST_RUN_UNIT(test_set_remove);
-    XTEST_RUN_UNIT(test_set_contains);
+FOSSIL_TEST_GROUP(test_set_group) {
+    ADD_TEST(test_set_create_and_erase);
+    ADD_TEST(test_set_insert_and_size);
+    ADD_TEST(test_set_remove);
+    ADD_TEST(test_set_contains);
 } // end of func

@@ -12,7 +12,7 @@ Description:
 */
 #include "fossil/xstructures/queue.h" // lib source code
 
-#include <fossil/xtest.h>   // basic test tools
+#include <fossil/unittest.h>   // basic test tools
 #include <fossil/xassume.h> // extra asserts
 
 // * * * * * * * * * * * * * * * * * * * * * * * *
@@ -32,24 +32,24 @@ Description:
 // as samples for library usage.
 // * * * * * * * * * * * * * * * * * * * * * * * *
 
-XTEST(test_queue_create_and_erase) {
+FOSSIL_TEST(test_queue_create_and_erase) {
     cqueue* queue = fossil_queue_create(TOFU_INT_TYPE);
 
     // Check if the queue is created with the expected values
-    TEST_ASSUME_NOT_CNULLPTR(queue);
-    TEST_ASSUME_CNULLPTR(queue->front);
-    TEST_ASSUME_CNULLPTR(queue->rear);
+    ASSUME_NOT_CNULL(queue);
+    ASSUME_ITS_CNULL(queue->front);
+    ASSUME_ITS_CNULL(queue->rear);
     TEST_ASSUME_EQUAL(TOFU_INT_TYPE, queue->queue_type);
 
     fossil_queue_erase(queue);
 
     // Check if the queue is erased
-    TEST_ASSUME_CNULLPTR(queue->front);
-    TEST_ASSUME_CNULLPTR(queue->rear);
-    TEST_ASSUME_CNULLPTR(queue);
+    ASSUME_ITS_CNULL(queue->front);
+    ASSUME_ITS_CNULL(queue->rear);
+    ASSUME_ITS_CNULL(queue);
 }
 
-XTEST(test_queue_insert_and_size) {
+FOSSIL_TEST(test_queue_insert_and_size) {
     cqueue* queue = fossil_queue_create(TOFU_INT_TYPE);
 
     // Insert some elements
@@ -67,7 +67,7 @@ XTEST(test_queue_insert_and_size) {
     fossil_queue_erase(queue);
 }
 
-XTEST(test_queue_remove) {
+FOSSIL_TEST(test_queue_remove) {
     cqueue* queue = fossil_queue_create(TOFU_INT_TYPE);
 
     // Insert some elements
@@ -84,7 +84,7 @@ XTEST(test_queue_remove) {
     TEST_ASSUME_EQUAL(FOSSIL_TOFU_ERROR_OK, fossil_queue_remove(queue, &removedElement));
 
     // Check if the removed element is correct
-    TEST_ASSUME_EQUAL_INT(42, removedElement.data.int_type);
+    ASSUME_ITS_EQUAL_I32(42, removedElement.data.int_type);
 
     // Check if the size is correct
     TEST_ASSUME_EQUAL_UINT(2, fossil_queue_size(queue));
@@ -92,7 +92,7 @@ XTEST(test_queue_remove) {
     fossil_queue_erase(queue);
 }
 
-XTEST(test_queue_not_empty_and_is_empty) {
+FOSSIL_TEST(test_queue_not_empty_and_is_empty) {
     cqueue* queue = fossil_queue_create(TOFU_INT_TYPE);
 
     // Check initially not empty
@@ -121,9 +121,9 @@ XTEST(test_queue_not_empty_and_is_empty) {
 // * * * * * * * * * * * * * * * * * * * * * * * *
 // * Fossil Logic Test Pool
 // * * * * * * * * * * * * * * * * * * * * * * * *
-XTEST_DEFINE_POOL(test_queue_group) {
-    XTEST_RUN_UNIT(test_queue_create_and_erase);
-    XTEST_RUN_UNIT(test_queue_insert_and_size);
-    XTEST_RUN_UNIT(test_queue_remove);
-    XTEST_RUN_UNIT(test_queue_not_empty_and_is_empty);
+FOSSIL_TEST_GROUP(test_queue_group) {
+    ADD_TEST(test_queue_create_and_erase);
+    ADD_TEST(test_queue_insert_and_size);
+    ADD_TEST(test_queue_remove);
+    ADD_TEST(test_queue_not_empty_and_is_empty);
 } // end of func

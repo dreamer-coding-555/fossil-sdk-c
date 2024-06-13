@@ -12,7 +12,7 @@ Description:
 */
 #include "fossil/xstructures/stack.h" // lib source code
 
-#include <fossil/xtest.h>   // basic test tools
+#include <fossil/unittest.h>   // basic test tools
 #include <fossil/xassume.h> // extra asserts
 
 // * * * * * * * * * * * * * * * * * * * * * * * *
@@ -32,22 +32,22 @@ Description:
 // as samples for library usage.
 // * * * * * * * * * * * * * * * * * * * * * * * *
 
-XTEST(test_stack_create_and_erase) {
+FOSSIL_TEST(test_stack_create_and_erase) {
     cstack* stack = fossil_stack_create(TOFU_INT_TYPE);
 
     // Check if the stack is created with the expected values
-    TEST_ASSUME_NOT_CNULLPTR(stack);
-    TEST_ASSUME_CNULLPTR(stack->top);
+    ASSUME_NOT_CNULL(stack);
+    ASSUME_ITS_CNULL(stack->top);
     TEST_ASSUME_EQUAL(TOFU_INT_TYPE, stack->stack_type);
 
     fossil_stack_erase(stack);
 
     // Check if the stack is erased
-    TEST_ASSUME_CNULLPTR(stack->top);
-    TEST_ASSUME_CNULLPTR(stack);
+    ASSUME_ITS_CNULL(stack->top);
+    ASSUME_ITS_CNULL(stack);
 }
 
-XTEST(test_stack_insert_and_size) {
+FOSSIL_TEST(test_stack_insert_and_size) {
     cstack* stack = fossil_stack_create(TOFU_INT_TYPE);
 
     // Insert some elements
@@ -65,7 +65,7 @@ XTEST(test_stack_insert_and_size) {
     fossil_stack_erase(stack);
 }
 
-XTEST(test_stack_remove) {
+FOSSIL_TEST(test_stack_remove) {
     cstack* stack = fossil_stack_create(TOFU_INT_TYPE);
 
     // Insert some elements
@@ -82,7 +82,7 @@ XTEST(test_stack_remove) {
     TEST_ASSUME_EQUAL(FOSSIL_TOFU_ERROR_OK, fossil_stack_remove(stack, &removedElement));
 
     // Check if the removed element is correct
-    TEST_ASSUME_EQUAL_INT(5, removedElement.data.int_type);
+    ASSUME_ITS_EQUAL_I32(5, removedElement.data.int_type);
 
     // Check if the size is correct
     TEST_ASSUME_EQUAL_UINT(2, fossil_stack_size(stack));
@@ -90,7 +90,7 @@ XTEST(test_stack_remove) {
     fossil_stack_erase(stack);
 }
 
-XTEST(test_stack_top) {
+FOSSIL_TEST(test_stack_top) {
     cstack* stack = fossil_stack_create(TOFU_INT_TYPE);
 
     // Insert some elements
@@ -104,14 +104,14 @@ XTEST(test_stack_top) {
 
     // Check the top element
     fossil_tofu_t topElement = fossil_stack_top(stack, (fossil_tofu_t){TOFU_INT_TYPE, {.int_type = -1}});
-    TEST_ASSUME_EQUAL_INT(5, topElement.data.int_type);
+    ASSUME_ITS_EQUAL_I32(5, topElement.data.int_type);
 
     // Remove an element
     fossil_stack_remove(stack, NULL);
 
     // Check the top element after removal
     topElement = fossil_stack_top(stack, (fossil_tofu_t){TOFU_INT_TYPE, {.int_type = -1}});
-    TEST_ASSUME_EQUAL_INT(10, topElement.data.int_type);
+    ASSUME_ITS_EQUAL_I32(10, topElement.data.int_type);
 
     fossil_stack_erase(stack);
 }
@@ -119,9 +119,9 @@ XTEST(test_stack_top) {
 // * * * * * * * * * * * * * * * * * * * * * * * *
 // * Fossil Logic Test Pool
 // * * * * * * * * * * * * * * * * * * * * * * * *
-XTEST_DEFINE_POOL(test_stack_group) {
-    XTEST_RUN_UNIT(test_stack_create_and_erase);
-    XTEST_RUN_UNIT(test_stack_insert_and_size);
-    XTEST_RUN_UNIT(test_stack_remove);
-    XTEST_RUN_UNIT(test_stack_top);
+FOSSIL_TEST_GROUP(test_stack_group) {
+    ADD_TEST(test_stack_create_and_erase);
+    ADD_TEST(test_stack_insert_and_size);
+    ADD_TEST(test_stack_remove);
+    ADD_TEST(test_stack_top);
 } // end of func

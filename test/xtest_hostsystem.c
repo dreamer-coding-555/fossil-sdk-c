@@ -10,10 +10,11 @@ Description:
     feel free to contact Michael at michaelbrockus@gmail.com.
 ==============================================================================
 */
-#include "fossil/string/cstring.h" // lib source code
+#include "fossil/stdtool/hostsystem.h" // lib source code
 
-#include <fossil/unittest.h>   // basic test tools
+#include <fossil/xtest.h>   // basic test tools
 #include <fossil/xassume.h> // extra asserts
+
 
 // * * * * * * * * * * * * * * * * * * * * * * * *
 // * Fossil Logic Test Utilites
@@ -32,36 +33,28 @@ Description:
 // as samples for library usage.
 // * * * * * * * * * * * * * * * * * * * * * * * *
 
-FOSSIL_TEST(test_fossil_cstr_create) {
-    const_cstring test_str = "Hello, World!";
-    cstring result = fossil_cstr_create(test_str);
 
-    ASSUME_NOT_CNULL(result);
-    TEST_ASSUME_EQUAL_CSTRING(test_str, result);
-
-    fossil_cstr_erase(result);
+XTEST(test_fossil_hostsys_get) {
+    fossil_hostsystem_t info;
+    ASSUME_ITS_TRUE(fossil_hostsys_get(&info));
+    ASSUME_NOT_EQUAL_CSTRING("", info.os_name);
+    ASSUME_NOT_EQUAL_CSTRING("", info.os_version);
+    ASSUME_NOT_EQUAL_CSTRING("", info.cpu_model);
+    ASSUME_ITS_MORE_OR_EQUAL_I32(0, info.cpu_cores);
+    ASSUME_ITS_MORE_OR_EQUAL_I32(0, info.total_memory);
+    ASSUME_ITS_MORE_OR_EQUAL_I32(0, info.free_memory);
 }
 
-FOSSIL_TEST(test_fossil_cstr_erase) {
-    const_cstring test_str = "Hello, World!";
-    cstring str = fossil_cstr_create(test_str);
-    fossil_cstr_erase(str);
-
-    ASSUME_ITS_CNULL(str);
-}
-
-FOSSIL_TEST(test_fossil_cstr_length) {
-    const_cstring test_str = "Hello, World!";
-    size_t len = fossil_cstr_length(test_str);
-
-    ASSUME_ITS_EQUAL_I32(strlen(test_str), len);
+XTEST(test_fossil_hostsys_endian) {
+    fossil_hostsystem_t info;
+    fossil_hostsys_get(&info);
+    ASSUME_ITS_TRUE(fossil_hostsys_endian(&info) != NULL);
 }
 
 // * * * * * * * * * * * * * * * * * * * * * * * *
 // * Fossil Logic Test Pool
 // * * * * * * * * * * * * * * * * * * * * * * * *
-FOSSIL_TEST_GROUP(fossil_cstring_group) {
-    ADD_TEST(test_fossil_cstr_create);
-    ADD_TEST(test_fossil_cstr_erase);
-    ADD_TEST(test_fossil_cstr_length);
+XTEST_DEFINE_POOL(test_hostsystem_group) {
+    ADD_TEST(test_fossil_hostsys_get);
+    ADD_TEST(test_fossil_hostsys_endian);
 } // end of function main

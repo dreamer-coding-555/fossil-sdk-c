@@ -12,7 +12,7 @@ Description:
 */
 #include "fossil/xstructures/tree.h" // lib source code
 
-#include <fossil/xtest.h>   // basic test tools
+#include <fossil/unittest.h>   // basic test tools
 #include <fossil/xassume.h> // extra asserts
 
 // * * * * * * * * * * * * * * * * * * * * * * * *
@@ -32,22 +32,22 @@ Description:
 // as samples for library usage.
 // * * * * * * * * * * * * * * * * * * * * * * * *
 
-XTEST(test_tree_create_and_erase) {
+FOSSIL_TEST(test_tree_create_and_erase) {
     ctree* tree = fossil_tree_create(TOFU_INT_TYPE);
     
     // Check if the tree is created with the expected values
-    TEST_ASSUME_NOT_CNULLPTR(tree);
-    TEST_ASSUME_CNULLPTR(tree->root);
+    ASSUME_NOT_CNULL(tree);
+    ASSUME_ITS_CNULL(tree->root);
     TEST_ASSUME_EQUAL(TOFU_INT_TYPE, tree->tree);
 
     fossil_tree_erase(tree);
 
     // Check if the tree is erased
-    TEST_ASSUME_CNULLPTR(tree->root);
-    TEST_ASSUME_CNULLPTR(tree);
+    ASSUME_ITS_CNULL(tree->root);
+    ASSUME_ITS_CNULL(tree);
 }
 
-XTEST(test_tree_insert_and_search) {
+FOSSIL_TEST(test_tree_insert_and_search) {
     ctree* tree = fossil_tree_create(TOFU_INT_TYPE);
 
     // Insert some elements
@@ -71,7 +71,7 @@ XTEST(test_tree_insert_and_search) {
     fossil_tree_erase(tree);
 }
 
-XTEST(test_tree_remove) {
+FOSSIL_TEST(test_tree_remove) {
     ctree* tree = fossil_tree_create(TOFU_INT_TYPE);
 
     // Insert some elements
@@ -97,8 +97,8 @@ XTEST(test_tree_remove) {
 // * * * * * * * * * * * * * * * * * * * * * * * *
 // * Fossil Logic Test Pool
 // * * * * * * * * * * * * * * * * * * * * * * * *
-XTEST_DEFINE_POOL(test_tree_group) {
-    XTEST_RUN_UNIT(test_tree_create_and_erase);
-    XTEST_RUN_UNIT(test_tree_insert_and_search);
-    XTEST_RUN_UNIT(test_tree_remove);
+FOSSIL_TEST_GROUP(test_tree_group) {
+    ADD_TEST(test_tree_create_and_erase);
+    ADD_TEST(test_tree_insert_and_search);
+    ADD_TEST(test_tree_remove);
 } // end of func

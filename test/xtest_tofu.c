@@ -12,7 +12,7 @@ Description:
 */
 #include "fossil/xtofu.h" // lib source code
 
-#include <fossil/xtest.h>   // basic test tools
+#include <fossil/unittest.h>   // basic test tools
 #include <fossil/xassume.h> // extra asserts
 
 // * * * * * * * * * * * * * * * * * * * * * * * *
@@ -88,117 +88,117 @@ void out_element_function(fossil_tofu_t* element) {
 // as samples for library usage.
 // * * * * * * * * * * * * * * * * * * * * * * * *
 
-XTEST(test_create_and_erase) {
+FOSSIL_TEST(test_create_and_erase) {
     // Test creating and erasing "tofu" structures for each supported type
 
     // Integer types
     fossil_tofu_t* int_tofu = fossil_tofu_create(TOFU_INT_TYPE, &(fossil_tofu_data){.int_type = 42});
-    TEST_ASSUME_NOT_CNULLPTR(int_tofu);
+    ASSUME_NOT_CNULL(int_tofu);
     fossil_tofu_erase(int_tofu);
 
     fossil_tofu_t* int8_tofu = fossil_tofu_create(TOFU_INT_TYPE, &(fossil_tofu_data){.int_type = 8});
-    TEST_ASSUME_NOT_CNULLPTR(int8_tofu);
+    ASSUME_NOT_CNULL(int8_tofu);
     fossil_tofu_erase(int8_tofu);
 
     fossil_tofu_t* int16_tofu = fossil_tofu_create(TOFU_INT_TYPE, &(fossil_tofu_data){.int_type = 16});
-    TEST_ASSUME_NOT_CNULLPTR(int16_tofu);
+    ASSUME_NOT_CNULL(int16_tofu);
     fossil_tofu_erase(int16_tofu);
 
     fossil_tofu_t* int32_tofu = fossil_tofu_create(TOFU_INT_TYPE, &(fossil_tofu_data){.int_type = 32});
-    TEST_ASSUME_NOT_CNULLPTR(int32_tofu);
+    ASSUME_NOT_CNULL(int32_tofu);
     fossil_tofu_erase(int32_tofu);
 
     fossil_tofu_t* int64_tofu = fossil_tofu_create(TOFU_INT_TYPE, &(fossil_tofu_data){.int_type = 64});
-    TEST_ASSUME_NOT_CNULLPTR(int64_tofu);
+    ASSUME_NOT_CNULL(int64_tofu);
     fossil_tofu_erase(int64_tofu);
 
     // Unsigned integer types
     fossil_tofu_t* uint_tofu = fossil_tofu_create(TOFU_UINT_TYPE, &(fossil_tofu_data){.uint_type = 42});
-    TEST_ASSUME_NOT_CNULLPTR(uint_tofu);
+    ASSUME_NOT_CNULL(uint_tofu);
     fossil_tofu_erase(uint_tofu);
 
     fossil_tofu_t* uint8_tofu = fossil_tofu_create(TOFU_UINT_TYPE, &(fossil_tofu_data){.uint_type = 8});
-    TEST_ASSUME_NOT_CNULLPTR(uint8_tofu);
+    ASSUME_NOT_CNULL(uint8_tofu);
     fossil_tofu_erase(uint8_tofu);
 
     fossil_tofu_t* uint16_tofu = fossil_tofu_create(TOFU_UINT_TYPE, &(fossil_tofu_data){.uint_type = 16});
-    TEST_ASSUME_NOT_CNULLPTR(uint16_tofu);
+    ASSUME_NOT_CNULL(uint16_tofu);
     fossil_tofu_erase(uint16_tofu);
 
     fossil_tofu_t* uint32_tofu = fossil_tofu_create(TOFU_UINT_TYPE, &(fossil_tofu_data){.uint_type = 32});
-    TEST_ASSUME_NOT_CNULLPTR(uint32_tofu);
+    ASSUME_NOT_CNULL(uint32_tofu);
     fossil_tofu_erase(uint32_tofu);
 
     fossil_tofu_t* uint64_tofu = fossil_tofu_create(TOFU_UINT_TYPE, &(fossil_tofu_data){.uint_type = 64});
-    TEST_ASSUME_NOT_CNULLPTR(uint64_tofu);
+    ASSUME_NOT_CNULL(uint64_tofu);
     fossil_tofu_erase(uint64_tofu);
 
     // Octal types
     fossil_tofu_t* octal8_tofu = fossil_tofu_create(TOFU_OCTAL_TYPE, &(fossil_tofu_data){.octal_type = 075});
-    TEST_ASSUME_NOT_CNULLPTR(octal8_tofu);
+    ASSUME_NOT_CNULL(octal8_tofu);
     fossil_tofu_erase(octal8_tofu);
 
     fossil_tofu_t* octal16_tofu = fossil_tofu_create(TOFU_OCTAL_TYPE, &(fossil_tofu_data){.octal_type = 017});
-    TEST_ASSUME_NOT_CNULLPTR(octal16_tofu);
+    ASSUME_NOT_CNULL(octal16_tofu);
     fossil_tofu_erase(octal16_tofu);
 
     fossil_tofu_t* octal32_tofu = fossil_tofu_create(TOFU_OCTAL_TYPE, &(fossil_tofu_data){.octal_type = 033});
-    TEST_ASSUME_NOT_CNULLPTR(octal32_tofu);
+    ASSUME_NOT_CNULL(octal32_tofu);
     fossil_tofu_erase(octal32_tofu);
 
     fossil_tofu_t* octal64_tofu = fossil_tofu_create(TOFU_OCTAL_TYPE, &(fossil_tofu_data){.octal_type = 070});
-    TEST_ASSUME_NOT_CNULLPTR(octal64_tofu);
+    ASSUME_NOT_CNULL(octal64_tofu);
     fossil_tofu_erase(octal64_tofu);
 
     // Hexadecimal types
     fossil_tofu_t* hex8_tofu = fossil_tofu_create(TOFU_HEX_TYPE, &(fossil_tofu_data){.hex_type = 0xA});
-    TEST_ASSUME_NOT_CNULLPTR(hex8_tofu);
+    ASSUME_NOT_CNULL(hex8_tofu);
     fossil_tofu_erase(hex8_tofu);
 
     fossil_tofu_t* hex16_tofu = fossil_tofu_create(TOFU_HEX_TYPE, &(fossil_tofu_data){.hex_type = 0xABCD});
-    TEST_ASSUME_NOT_CNULLPTR(hex16_tofu);
+    ASSUME_NOT_CNULL(hex16_tofu);
     fossil_tofu_erase(hex16_tofu);
 
     fossil_tofu_t* hex32_tofu = fossil_tofu_create(TOFU_HEX_TYPE, &(fossil_tofu_data){.hex_type = 0x12345678});
-    TEST_ASSUME_NOT_CNULLPTR(hex32_tofu);
+    ASSUME_NOT_CNULL(hex32_tofu);
     fossil_tofu_erase(hex32_tofu);
 
     fossil_tofu_t* hex64_tofu = fossil_tofu_create(TOFU_HEX_TYPE, &(fossil_tofu_data){.hex_type = 0x123456789ABCDEF0});
-    TEST_ASSUME_NOT_CNULLPTR(hex64_tofu);
+    ASSUME_NOT_CNULL(hex64_tofu);
     fossil_tofu_erase(hex64_tofu);
 
     // Floating-point types
     fossil_tofu_t* float_tofu = fossil_tofu_create(TOFU_FLOAT_TYPE, &(fossil_tofu_data){.float_type = 3.14f});
-    TEST_ASSUME_NOT_CNULLPTR(float_tofu);
+    ASSUME_NOT_CNULL(float_tofu);
     fossil_tofu_erase(float_tofu);
 
     fossil_tofu_t* double_tofu = fossil_tofu_create(TOFU_DOUBLE_TYPE, &(fossil_tofu_data){.double_type = 2.71828});
-    TEST_ASSUME_NOT_CNULLPTR(double_tofu);
+    ASSUME_NOT_CNULL(double_tofu);
     fossil_tofu_erase(double_tofu);
 
     // Character type
     fossil_tofu_t* char_tofu = fossil_tofu_create(TOFU_CHAR_TYPE, &(fossil_tofu_data){.char_type = 'A'});
-    TEST_ASSUME_NOT_CNULLPTR(char_tofu);
+    ASSUME_NOT_CNULL(char_tofu);
     fossil_tofu_erase(char_tofu);
 
     // Boolean type
     fossil_tofu_t* bool_tofu = fossil_tofu_create(TOFU_BOOLEAN_TYPE, &(fossil_tofu_data){.boolean_type = true});
-    TEST_ASSUME_NOT_CNULLPTR(bool_tofu);
+    ASSUME_NOT_CNULL(bool_tofu);
     fossil_tofu_erase(bool_tofu);
 
     // String type
     fossil_tofu_t* string_tofu = fossil_tofu_create(TOFU_STRING_TYPE, &(fossil_tofu_data){.string_type = "Hello"});
-    TEST_ASSUME_NOT_CNULLPTR(string_tofu);
+    ASSUME_NOT_CNULL(string_tofu);
     fossil_tofu_erase(string_tofu);
 
     // Null pointer type
     fossil_tofu_t* nullptr_tofu = fossil_tofu_create(TOFU_NULLPTR_TYPE, &(fossil_tofu_data){.nullptr_type = NULL});
-    TEST_ASSUME_NOT_CNULLPTR(nullptr_tofu);
+    ASSUME_NOT_CNULL(nullptr_tofu);
     fossil_tofu_erase(nullptr_tofu);
 
     // Array type
     fossil_tofu_t* array_tofu = fossil_tofu_create_array(TOFU_ARRAY_TYPE, 3, int_tofu, char_tofu, bool_tofu);
-    TEST_ASSUME_NOT_CNULLPTR(array_tofu);
+    ASSUME_NOT_CNULL(array_tofu);
     fossil_tofu_erase_array(array_tofu);
 
     // Map type
@@ -207,150 +207,150 @@ XTEST(test_create_and_erase) {
         .value = bool_tofu,
         .size = 1
     }});
-    TEST_ASSUME_NOT_CNULLPTR(map_tofu);
+    ASSUME_NOT_CNULL(map_tofu);
     fossil_tofu_erase(map_tofu);
 }
 
-XTEST(test_create_array_all_types) {
+FOSSIL_TEST(test_create_array_all_types) {
     // Test creating and erasing for each supported type
 
     // Integer array type
     fossil_tofu_t* int_array_tofu = fossil_tofu_create_array(TOFU_INT_TYPE, 3, 1, 2, 3);
-    TEST_ASSUME_NOT_CNULLPTR(int_array_tofu);
+    ASSUME_NOT_CNULL(int_array_tofu);
     fossil_tofu_erase(int_array_tofu);
 
     // 8-bit Integer array type
     fossil_tofu_t* int8_array_tofu = fossil_tofu_create_array(TOFU_INT_TYPE, 3, 8, 16, 32);
-    TEST_ASSUME_NOT_CNULLPTR(int8_array_tofu);
+    ASSUME_NOT_CNULL(int8_array_tofu);
     fossil_tofu_erase(int8_array_tofu);
 
     // 16-bit Integer array type
     fossil_tofu_t* int16_array_tofu = fossil_tofu_create_array(TOFU_INT_TYPE, 3, 16, 32, 64);
-    TEST_ASSUME_NOT_CNULLPTR(int16_array_tofu);
+    ASSUME_NOT_CNULL(int16_array_tofu);
     fossil_tofu_erase(int16_array_tofu);
 
     // 32-bit Integer array type
     fossil_tofu_t* int32_array_tofu = fossil_tofu_create_array(TOFU_INT_TYPE, 3, 32, 64, 128);
-    TEST_ASSUME_NOT_CNULLPTR(int32_array_tofu);
+    ASSUME_NOT_CNULL(int32_array_tofu);
     fossil_tofu_erase(int32_array_tofu);
 
     // 64-bit Integer array type
     fossil_tofu_t* int64_array_tofu = fossil_tofu_create_array(TOFU_INT_TYPE, 3, 64, 128, 256);
-    TEST_ASSUME_NOT_CNULLPTR(int64_array_tofu);
+    ASSUME_NOT_CNULL(int64_array_tofu);
     fossil_tofu_erase(int64_array_tofu);
 
     // Unsigned Integer array type
     fossil_tofu_t* uint_array_tofu = fossil_tofu_create_array(TOFU_UINT_TYPE, 3, 42, 84, 168);
-    TEST_ASSUME_NOT_CNULLPTR(uint_array_tofu);
+    ASSUME_NOT_CNULL(uint_array_tofu);
     fossil_tofu_erase(uint_array_tofu);
 
     // 8-bit Unsigned Integer array type
     fossil_tofu_t* uint8_array_tofu = fossil_tofu_create_array(TOFU_UINT_TYPE, 3, 8, 16, 32);
-    TEST_ASSUME_NOT_CNULLPTR(uint8_array_tofu);
+    ASSUME_NOT_CNULL(uint8_array_tofu);
     fossil_tofu_erase(uint8_array_tofu);
 
     // 16-bit Unsigned Integer array type
     fossil_tofu_t* uint16_array_tofu = fossil_tofu_create_array(TOFU_UINT_TYPE, 3, 16, 32, 64);
-    TEST_ASSUME_NOT_CNULLPTR(uint16_array_tofu);
+    ASSUME_NOT_CNULL(uint16_array_tofu);
     fossil_tofu_erase(uint16_array_tofu);
 
     // 32-bit Unsigned Integer array type
     fossil_tofu_t* uint32_array_tofu = fossil_tofu_create_array(TOFU_UINT_TYPE, 3, 32, 64, 128);
-    TEST_ASSUME_NOT_CNULLPTR(uint32_array_tofu);
+    ASSUME_NOT_CNULL(uint32_array_tofu);
     fossil_tofu_erase(uint32_array_tofu);
 
     // 64-bit Unsigned Integer array type
     fossil_tofu_t* uint64_array_tofu = fossil_tofu_create_array(TOFU_UINT_TYPE, 3, 64, 128, 256);
-    TEST_ASSUME_NOT_CNULLPTR(uint64_array_tofu);
+    ASSUME_NOT_CNULL(uint64_array_tofu);
     fossil_tofu_erase(uint64_array_tofu);
 
     // Octal 8-bit array type
     fossil_tofu_t* octal8_array_tofu = fossil_tofu_create_array(TOFU_OCTAL_TYPE, 3, 075, 064, 055);
-    TEST_ASSUME_NOT_CNULLPTR(octal8_array_tofu);
+    ASSUME_NOT_CNULL(octal8_array_tofu);
     fossil_tofu_erase(octal8_array_tofu);
 
     // Octal 16-bit array type
     fossil_tofu_t* octal16_array_tofu = fossil_tofu_create_array(TOFU_OCTAL_TYPE, 3, 0755, 0755, 0755);
-    TEST_ASSUME_NOT_CNULLPTR(octal16_array_tofu);
+    ASSUME_NOT_CNULL(octal16_array_tofu);
     fossil_tofu_erase(octal16_array_tofu);
 
     // Octal 32-bit array type
     fossil_tofu_t* octal32_array_tofu = fossil_tofu_create_array(TOFU_OCTAL_TYPE, 3, 0755, 0755, 0755);
-    TEST_ASSUME_NOT_CNULLPTR(octal32_array_tofu);
+    ASSUME_NOT_CNULL(octal32_array_tofu);
     fossil_tofu_erase(octal32_array_tofu);
 
     // Octal 64-bit array type
     fossil_tofu_t* octal64_array_tofu = fossil_tofu_create_array(TOFU_OCTAL_TYPE, 3, 0755, 0755, 0755);
-    TEST_ASSUME_NOT_CNULLPTR(octal64_array_tofu);
+    ASSUME_NOT_CNULL(octal64_array_tofu);
     fossil_tofu_erase(octal64_array_tofu);
 
     // Hexadecimal 8-bit array type
     fossil_tofu_t* hex8_array_tofu = fossil_tofu_create_array(TOFU_HEX_TYPE, 3, 0x1F, 0x2A, 0x3C);
-    TEST_ASSUME_NOT_CNULLPTR(hex8_array_tofu);
+    ASSUME_NOT_CNULL(hex8_array_tofu);
     fossil_tofu_erase(hex8_array_tofu);
 
     // Hexadecimal 16-bit array type
     fossil_tofu_t* hex16_array_tofu = fossil_tofu_create_array(TOFU_HEX_TYPE, 3, 0x1F2A, 0x2A3C, 0x3C1F);
-    TEST_ASSUME_NOT_CNULLPTR(hex16_array_tofu);
+    ASSUME_NOT_CNULL(hex16_array_tofu);
     fossil_tofu_erase(hex16_array_tofu);
 
     // Hexadecimal 32-bit array type
     fossil_tofu_t* hex32_array_tofu = fossil_tofu_create_array(TOFU_HEX_TYPE, 3, 0x1F2A3C4D, 0x2A3C4D5E, 0x3C4D5E6F);
-    TEST_ASSUME_NOT_CNULLPTR(hex32_array_tofu);
+    ASSUME_NOT_CNULL(hex32_array_tofu);
     fossil_tofu_erase(hex32_array_tofu);
 
     // Hexadecimal 64-bit array type
     fossil_tofu_t* hex64_array_tofu = fossil_tofu_create_array(TOFU_HEX_TYPE, 3, 0x1F2A3C4D5E6F7A8B, 0x2A3C4D5E6F7A8B9C, 0x3C4D5E6F7A8B9C0D);
-    TEST_ASSUME_NOT_CNULLPTR(hex64_array_tofu);
+    ASSUME_NOT_CNULL(hex64_array_tofu);
     fossil_tofu_erase(hex64_array_tofu);
 
     // Floating-point array type (double)
     fossil_tofu_t* double_array_tofu = fossil_tofu_create_array(TOFU_DOUBLE_TYPE, 3, 3.14, 2.71, 1.618);
-    TEST_ASSUME_NOT_CNULLPTR(double_array_tofu);
+    ASSUME_NOT_CNULL(double_array_tofu);
     fossil_tofu_erase(double_array_tofu);
 
     // Floating-point array type (float)
     fossil_tofu_t* float_array_tofu = fossil_tofu_create_array(TOFU_FLOAT_TYPE, 3, 3.14f, 2.71f, 1.618f);
-    TEST_ASSUME_NOT_CNULLPTR(float_array_tofu);
+    ASSUME_NOT_CNULL(float_array_tofu);
     fossil_tofu_erase(float_array_tofu);
 
     // String array type
     fossil_tofu_t* string_array_tofu = fossil_tofu_create_array(TOFU_STRING_TYPE, 3, "apple", "banana", "cherry");
-    TEST_ASSUME_NOT_CNULLPTR(string_array_tofu);
+    ASSUME_NOT_CNULL(string_array_tofu);
     fossil_tofu_erase(string_array_tofu);
 
     // Character array type
     fossil_tofu_t* char_array_tofu = fossil_tofu_create_array(TOFU_CHAR_TYPE, 3, 'A', 'B', 'C');
-    TEST_ASSUME_NOT_CNULLPTR(char_array_tofu);
+    ASSUME_NOT_CNULL(char_array_tofu);
     fossil_tofu_erase(char_array_tofu);
 
     // Boolean array type
     fossil_tofu_t* boolean_array_tofu = fossil_tofu_create_array(TOFU_BOOLEAN_TYPE, 3, true, false, true);
-    TEST_ASSUME_NOT_CNULLPTR(boolean_array_tofu);
+    ASSUME_NOT_CNULL(boolean_array_tofu);
     fossil_tofu_erase(boolean_array_tofu);
 
     // Null pointer array type
     fossil_tofu_t* nullptr_array_tofu = fossil_tofu_create_array(TOFU_NULLPTR_TYPE, 3, NULL, NULL, NULL);
-    TEST_ASSUME_NOT_CNULLPTR(nullptr_array_tofu);
+    ASSUME_NOT_CNULL(nullptr_array_tofu);
     fossil_tofu_erase(nullptr_array_tofu);
 
     // Invalid array type (Unknown type)
     fossil_tofu_t* invalid_array_tofu = fossil_tofu_create_array(TOFU_INVALID_TYPE, 3, NULL, NULL, NULL);
-    TEST_ASSUME_CNULLPTR(invalid_array_tofu);
+    ASSUME_ITS_CNULL(invalid_array_tofu);
 
     // Unknown array type
     fossil_tofu_t* unknown_array_tofu = fossil_tofu_create_array(TOFU_UNKNOWN_TYPE, 3, NULL, NULL, NULL);
-    TEST_ASSUME_CNULLPTR(unknown_array_tofu);
+    ASSUME_ITS_CNULL(unknown_array_tofu);
 
     // Fixed point array type
     fossil_tofu_t* fixed_array_tofu = fossil_tofu_create_array(TOFU_FIXED_TYPE, 3, 3.14, 2.71, 1.618);
-    TEST_ASSUME_NOT_CNULLPTR(fixed_array_tofu);
+    ASSUME_NOT_CNULL(fixed_array_tofu);
 }
 
-XTEST(test_type_mismatch) {
+FOSSIL_TEST(test_type_mismatch) {
     // Create a "tofu" structure with one type
     fossil_tofu_t* tofu = fossil_tofu_create(TOFU_INT_TYPE, NULL);
-    TEST_ASSUME_NOT_CNULLPTR(tofu);
+    ASSUME_NOT_CNULL(tofu);
 
     // Try to apply an operation with a different type
     fossil_tofu_t* wrong_type = fossil_tofu_create(TOFU_FLOAT_TYPE, NULL);
@@ -362,7 +362,7 @@ XTEST(test_type_mismatch) {
     fossil_tofu_erase(wrong_type);
 }
 
-XTEST(test_accumulate) {
+FOSSIL_TEST(test_accumulate) {
     // Create a "tofu" array with initial values
     fossil_tofu_t* array = fossil_tofu_create_array(TOFU_INT_TYPE, 5, 5, 3, 8, 1, 7);
 
@@ -374,7 +374,7 @@ XTEST(test_accumulate) {
     fossil_tofu_erase_array(array);
 }
 
-XTEST(test_transform) {
+FOSSIL_TEST(test_transform) {
     // Create a "tofu" array with initial values
     fossil_tofu_t* array = fossil_tofu_create_array(TOFU_INT_TYPE, 5, 5, 3, 8, 1, 7);
 
@@ -386,7 +386,7 @@ XTEST(test_transform) {
     fossil_tofu_erase_array(array);
 }
 
-XTEST(test_sort) {
+FOSSIL_TEST(test_sort) {
     // Create a "tofu" array with initial values
     fossil_tofu_t* array = fossil_tofu_create_array(TOFU_INT_TYPE, 5, 5, 3, 8, 1, 7);
 
@@ -398,7 +398,7 @@ XTEST(test_sort) {
     fossil_tofu_erase_array(array);
 }
 
-XTEST(test_search) {
+FOSSIL_TEST(test_search) {
     // Create a "tofu" array with initial values
     fossil_tofu_t* array = fossil_tofu_create_array(TOFU_INT_TYPE, 5, 5, 3, 8, 1, 7);
 
@@ -412,7 +412,7 @@ XTEST(test_search) {
     fossil_tofu_erase_array(array);
 }
 
-XTEST(test_filter) {
+FOSSIL_TEST(test_filter) {
     // Create a "tofu" array with initial values
     fossil_tofu_t* array = fossil_tofu_create_array(TOFU_INT_TYPE, 5, 5, 3, 8, 1, 7);
 
@@ -424,7 +424,7 @@ XTEST(test_filter) {
     fossil_tofu_erase_array(array);
 }
 
-XTEST(test_reverse) {
+FOSSIL_TEST(test_reverse) {
     // Create a "tofu" array with initial values
     fossil_tofu_t* array = fossil_tofu_create_array(TOFU_INT_TYPE, 5, 5, 3, 8, 1, 7);
 
@@ -436,7 +436,7 @@ XTEST(test_reverse) {
     fossil_tofu_erase_array(array);
 }
 
-XTEST(test_swap) {
+FOSSIL_TEST(test_swap) {
     // Create two "tofu" structures with initial values
     fossil_tofu_t* tofu1 = fossil_tofu_create(TOFU_INT_TYPE, &(fossil_tofu_data){.int_type = 5});
     fossil_tofu_t* tofu2 = fossil_tofu_create(TOFU_INT_TYPE, &(fossil_tofu_data){.int_type = 8});
@@ -450,7 +450,7 @@ XTEST(test_swap) {
     fossil_tofu_erase(tofu2);
 }
 
-XTEST(test_compare) {
+FOSSIL_TEST(test_compare) {
     // Create two "tofu" structures with initial values
     fossil_tofu_t* tofu1 = fossil_tofu_create(TOFU_INT_TYPE, &(fossil_tofu_data){.int_type = 5});
     fossil_tofu_t* tofu2 = fossil_tofu_create(TOFU_INT_TYPE, &(fossil_tofu_data){.int_type = 8});
@@ -464,7 +464,7 @@ XTEST(test_compare) {
     fossil_tofu_erase(tofu2);
 }
 
-XTEST(test_reduce) {
+FOSSIL_TEST(test_reduce) {
     // Create a "tofu" array with initial values
     fossil_tofu_t* array = fossil_tofu_create_array(TOFU_INT_TYPE, 5, 5, 3, 8, 1, 7);
 
@@ -476,7 +476,7 @@ XTEST(test_reduce) {
     fossil_tofu_erase_array(array);
 }
 
-XTEST(test_shuffle) {
+FOSSIL_TEST(test_shuffle) {
     // Create a "tofu" array with initial values
     fossil_tofu_t* array = fossil_tofu_create_array(TOFU_INT_TYPE, 5, 5, 3, 8, 1, 7);
 
@@ -488,7 +488,7 @@ XTEST(test_shuffle) {
     fossil_tofu_erase_array(array);
 }
 
-XTEST(test_for_each) {
+FOSSIL_TEST(test_for_each) {
     // Create a "tofu" array with initial values
     fossil_tofu_t* array = fossil_tofu_create_array(TOFU_INT_TYPE, 5, 5, 3, 8, 1, 7);
 
@@ -500,7 +500,7 @@ XTEST(test_for_each) {
     fossil_tofu_erase_array(array);
 }
 
-XTEST(test_partition) {
+FOSSIL_TEST(test_partition) {
     // Create a "tofu" array with initial values
     fossil_tofu_t* array = fossil_tofu_create_array(TOFU_INT_TYPE, 5, 5, 3, 8, 1, 7);
 
@@ -516,21 +516,21 @@ XTEST(test_partition) {
 // * * * * * * * * * * * * * * * * * * * * * * * *
 // * Fossil Logic Test Pool
 // * * * * * * * * * * * * * * * * * * * * * * * *
-XTEST_DEFINE_POOL(tofu_type_group) {
-    XTEST_RUN_UNIT(test_create_and_erase);
-    XTEST_RUN_UNIT(test_create_array_all_types);
-    XTEST_RUN_UNIT(test_type_mismatch);
-    XTEST_RUN_UNIT(test_accumulate);
-    XTEST_RUN_UNIT(test_transform);
-    XTEST_RUN_UNIT(test_sort);
-    XTEST_RUN_UNIT(test_search);
-    XTEST_RUN_UNIT(test_filter);
-    XTEST_RUN_UNIT(test_reverse);
-    XTEST_RUN_UNIT(test_swap);
-    XTEST_RUN_UNIT(test_compare);
-    XTEST_RUN_UNIT(test_reduce);
-    XTEST_RUN_UNIT(test_shuffle);
-    XTEST_RUN_UNIT(test_for_each);
-    XTEST_RUN_UNIT(test_partition);
+FOSSIL_TEST_GROUP(tofu_type_group) {
+    ADD_TEST(test_create_and_erase);
+    ADD_TEST(test_create_array_all_types);
+    ADD_TEST(test_type_mismatch);
+    ADD_TEST(test_accumulate);
+    ADD_TEST(test_transform);
+    ADD_TEST(test_sort);
+    ADD_TEST(test_search);
+    ADD_TEST(test_filter);
+    ADD_TEST(test_reverse);
+    ADD_TEST(test_swap);
+    ADD_TEST(test_compare);
+    ADD_TEST(test_reduce);
+    ADD_TEST(test_shuffle);
+    ADD_TEST(test_for_each);
+    ADD_TEST(test_partition);
 
 } // end of xdata_test_tofu_group

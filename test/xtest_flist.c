@@ -12,7 +12,7 @@ Description:
 */
 #include "fossil/xstructures/flist.h" // lib source code
 
-#include <fossil/xtest.h>   // basic test tools
+#include <fossil/unittest.h>   // basic test tools
 #include <fossil/xassume.h> // extra asserts
 
 // * * * * * * * * * * * * * * * * * * * * * * * *
@@ -32,22 +32,22 @@ Description:
 // as samples for library usage.
 // * * * * * * * * * * * * * * * * * * * * * * * *
 
-XTEST(test_flist_create_and_erase) {
+FOSSIL_TEST(test_flist_create_and_erase) {
     cflist* flist = fossil_flist_create(TOFU_INT_TYPE);
 
     // Check if the linked list is created with the expected values
-    TEST_ASSUME_NOT_CNULLPTR(flist);
-    TEST_ASSUME_CNULLPTR(flist->head);
+    ASSUME_NOT_CNULL(flist);
+    ASSUME_ITS_CNULL(flist->head);
     TEST_ASSUME_EQUAL(TOFU_INT_TYPE, flist->list_type);
 
     fossil_flist_erase(flist);
 
     // Check if the linked list is erased
-    TEST_ASSUME_CNULLPTR(flist->head);
-    TEST_ASSUME_CNULLPTR(flist);
+    ASSUME_ITS_CNULL(flist->head);
+    ASSUME_ITS_CNULL(flist);
 }
 
-XTEST(test_flist_insert_and_size) {
+FOSSIL_TEST(test_flist_insert_and_size) {
     cflist* flist = fossil_flist_create(TOFU_INT_TYPE);
 
     // Insert some elements
@@ -65,7 +65,7 @@ XTEST(test_flist_insert_and_size) {
     fossil_flist_erase(flist);
 }
 
-XTEST(test_flist_remove) {
+FOSSIL_TEST(test_flist_remove) {
     cflist* flist = fossil_flist_create(TOFU_INT_TYPE);
 
     // Insert some elements
@@ -82,7 +82,7 @@ XTEST(test_flist_remove) {
     TEST_ASSUME_EQUAL(FOSSIL_TOFU_ERROR_OK, fossil_flist_remove(flist, &removedElement));
 
     // Check if the removed element is correct
-    TEST_ASSUME_EQUAL_INT(42, removedElement.data.int_type);
+    ASSUME_ITS_EQUAL_I32(42, removedElement.data.int_type);
 
     // Check if the size is correct
     TEST_ASSUME_EQUAL_UINT(2, fossil_flist_size(flist));
@@ -90,7 +90,7 @@ XTEST(test_flist_remove) {
     fossil_flist_erase(flist);
 }
 
-XTEST(test_flist_reverse_forward) {
+FOSSIL_TEST(test_flist_reverse_forward) {
     cflist* flist = fossil_flist_create(TOFU_INT_TYPE);
 
     // Insert some elements
@@ -107,21 +107,21 @@ XTEST(test_flist_reverse_forward) {
 
     // Check if the elements are in reverse order
     fossil_tofu_t* retrievedElement = fossil_flist_getter(flist, element3);
-    TEST_ASSUME_NOT_CNULLPTR(retrievedElement);
-    TEST_ASSUME_EQUAL_INT(42, retrievedElement->data.int_type);
+    ASSUME_NOT_CNULL(retrievedElement);
+    ASSUME_ITS_EQUAL_I32(42, retrievedElement->data.int_type);
 
     retrievedElement = fossil_flist_getter(flist, element2);
-    TEST_ASSUME_NOT_CNULLPTR(retrievedElement);
-    TEST_ASSUME_EQUAL_INT(10, retrievedElement->data.int_type);
+    ASSUME_NOT_CNULL(retrievedElement);
+    ASSUME_ITS_EQUAL_I32(10, retrievedElement->data.int_type);
 
     retrievedElement = fossil_flist_getter(flist, element1);
-    TEST_ASSUME_NOT_CNULLPTR(retrievedElement);
-    TEST_ASSUME_EQUAL_INT(5, retrievedElement->data.int_type);
+    ASSUME_NOT_CNULL(retrievedElement);
+    ASSUME_ITS_EQUAL_I32(5, retrievedElement->data.int_type);
 
     fossil_flist_erase(flist);
 }
 
-XTEST(test_flist_reverse_backward) {
+FOSSIL_TEST(test_flist_reverse_backward) {
     cflist* flist = fossil_flist_create(TOFU_INT_TYPE);
 
     // Insert some elements
@@ -138,16 +138,16 @@ XTEST(test_flist_reverse_backward) {
 
     // Check if the elements are in reverse order
     fossil_tofu_t* retrievedElement = fossil_flist_getter(flist, element3);
-    TEST_ASSUME_NOT_CNULLPTR(retrievedElement);
-    TEST_ASSUME_EQUAL_INT(42, retrievedElement->data.int_type);
+    ASSUME_NOT_CNULL(retrievedElement);
+    ASSUME_ITS_EQUAL_I32(42, retrievedElement->data.int_type);
 
     retrievedElement = fossil_flist_getter(flist, element2);
-    TEST_ASSUME_NOT_CNULLPTR(retrievedElement);
-    TEST_ASSUME_EQUAL_INT(10, retrievedElement->data.int_type);
+    ASSUME_NOT_CNULL(retrievedElement);
+    ASSUME_ITS_EQUAL_I32(10, retrievedElement->data.int_type);
 
     retrievedElement = fossil_flist_getter(flist, element1);
-    TEST_ASSUME_NOT_CNULLPTR(retrievedElement);
-    TEST_ASSUME_EQUAL_INT(5, retrievedElement->data.int_type);
+    ASSUME_NOT_CNULL(retrievedElement);
+    ASSUME_ITS_EQUAL_I32(5, retrievedElement->data.int_type);
 
     fossil_flist_erase(flist);
 }
@@ -155,10 +155,10 @@ XTEST(test_flist_reverse_backward) {
 // * * * * * * * * * * * * * * * * * * * * * * * *
 // * Fossil Logic Test Pool
 // * * * * * * * * * * * * * * * * * * * * * * * *
-XTEST_DEFINE_POOL(test_flist_group) {
-    XTEST_RUN_UNIT(test_flist_create_and_erase);
-    XTEST_RUN_UNIT(test_flist_insert_and_size);
-    XTEST_RUN_UNIT(test_flist_remove);
-    XTEST_RUN_UNIT(test_flist_reverse_forward);
-    XTEST_RUN_UNIT(test_flist_reverse_backward);
+FOSSIL_TEST_GROUP(test_flist_group) {
+    ADD_TEST(test_flist_create_and_erase);
+    ADD_TEST(test_flist_insert_and_size);
+    ADD_TEST(test_flist_remove);
+    ADD_TEST(test_flist_reverse_forward);
+    ADD_TEST(test_flist_reverse_backward);
 } // end of func

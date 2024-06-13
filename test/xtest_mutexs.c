@@ -12,7 +12,7 @@ Description:
 */
 #include <fossil/threads/mutexs.h> // library under test
 
-#include <fossil/xtest.h>   // basic test tools
+#include <fossil/unittest.h>   // basic test tools
 #include <fossil/xassume.h> // extra asserts
 
 // * * * * * * * * * * * * * * * * * * * * * * * *
@@ -33,47 +33,47 @@ Description:
 // * * * * * * * * * * * * * * * * * * * * * * * *
 
 // Test case 1: Test fossil_mutex_create
-XTEST(test_fossil_mutex_create) {
+FOSSIL_TEST(test_fossil_mutex_create) {
     xmutex_t mutex;
-    TEST_ASSUME_EQUAL_INT32(0, fossil_mutex_create(&mutex));
+    ASSUME_ITS_EQUAL_I3232(0, fossil_mutex_create(&mutex));
 }
 
 // Test case 2: Test fossil_mutex_erase
-XTEST(test_fossil_mutex_erase) {
+FOSSIL_TEST(test_fossil_mutex_erase) {
     xmutex_t mutex;
     fossil_mutex_create(&mutex); // Initialize the mutex before erasing it
-    TEST_ASSUME_EQUAL_INT32(0, fossil_mutex_erase(&mutex));
+    ASSUME_ITS_EQUAL_I3232(0, fossil_mutex_erase(&mutex));
 }
 
 // Test case 3: Test fossil_mutex_lock with valid parameters
-XTEST(test_fossil_mutex_lock_valid_params) {
+FOSSIL_TEST(test_fossil_mutex_lock_valid_params) {
     xmutex_t mutex;
     fossil_mutex_create(&mutex);
-    TEST_ASSUME_EQUAL_INT32(0, fossil_mutex_lock(&mutex));
+    ASSUME_ITS_EQUAL_I3232(0, fossil_mutex_lock(&mutex));
 }
 
 // Test case 4: Test fossil_mutex_unlock with valid parameters
-XTEST(test_fossil_mutex_unlock_valid_params) {
+FOSSIL_TEST(test_fossil_mutex_unlock_valid_params) {
     xmutex_t mutex;
     fossil_mutex_create(&mutex);
     fossil_mutex_lock(&mutex); // Lock the mutex before unlocking it
-    TEST_ASSUME_EQUAL_INT32(0, fossil_mutex_unlock(&mutex));
+    ASSUME_ITS_EQUAL_I3232(0, fossil_mutex_unlock(&mutex));
 }
 
 // Test case 5: Test fossil_mutex_trylock with valid parameters
-XTEST(test_fossil_mutex_trylock_valid_params) {
+FOSSIL_TEST(test_fossil_mutex_trylock_valid_params) {
     xmutex_t mutex;
     fossil_mutex_create(&mutex);
-    TEST_ASSUME_EQUAL_INT32(0, fossil_mutex_trylock(&mutex));
+    ASSUME_ITS_EQUAL_I3232(0, fossil_mutex_trylock(&mutex));
 }
 
 // * * * * * * * * * * * * * * * * * * * * * * * *
 // * Fossil Logic Test Pool
 // * * * * * * * * * * * * * * * * * * * * * * * *
-XTEST_DEFINE_POOL(mutexs_group) {
-    XTEST_RUN_UNIT(test_fossil_mutex_create);
-    XTEST_RUN_UNIT(test_fossil_mutex_erase);
-    XTEST_RUN_UNIT(test_fossil_mutex_lock_valid_params);
-    XTEST_RUN_UNIT(test_fossil_mutex_unlock_valid_params);
-    XTEST_RUN_UNIT(test_fossil_mutex_trylock_valid_params);
+FOSSIL_TEST_GROUP(mutexs_group) {
+    ADD_TEST(test_fossil_mutex_create);
+    ADD_TEST(test_fossil_mutex_erase);
+    ADD_TEST(test_fossil_mutex_lock_valid_params);
+    ADD_TEST(test_fossil_mutex_unlock_valid_params);
+    ADD_TEST(test_fossil_mutex_trylock_valid_params);
 } // end of fixture

@@ -12,7 +12,7 @@ Description:
 */
 #include "fossil/xstructures/dqueue.h" // lib source code
 
-#include <fossil/xtest.h>   // basic test tools
+#include <fossil/unittest.h>   // basic test tools
 #include <fossil/xassume.h> // extra asserts
 
 // * * * * * * * * * * * * * * * * * * * * * * * *
@@ -32,24 +32,24 @@ Description:
 // as samples for library usage.
 // * * * * * * * * * * * * * * * * * * * * * * * *
 
-XTEST(test_dqueue_create_and_erase) {
+FOSSIL_TEST(test_dqueue_create_and_erase) {
     cdqueue* dqueue = fossil_dqueue_create(TOFU_INT_TYPE);
 
     // Check if the deque is created with the expected values
-    TEST_ASSUME_NOT_CNULLPTR(dqueue);
-    TEST_ASSUME_CNULLPTR(dqueue->front);
-    TEST_ASSUME_CNULLPTR(dqueue->rear);
+    ASSUME_NOT_CNULL(dqueue);
+    ASSUME_ITS_CNULL(dqueue->front);
+    ASSUME_ITS_CNULL(dqueue->rear);
     TEST_ASSUME_EQUAL(TOFU_INT_TYPE, dqueue->list_type);
 
     fossil_dqueue_erase(dqueue);
 
     // Check if the deque is erased
-    TEST_ASSUME_CNULLPTR(dqueue->front);
-    TEST_ASSUME_CNULLPTR(dqueue->rear);
-    TEST_ASSUME_CNULLPTR(dqueue);
+    ASSUME_ITS_CNULL(dqueue->front);
+    ASSUME_ITS_CNULL(dqueue->rear);
+    ASSUME_ITS_CNULL(dqueue);
 }
 
-XTEST(test_dqueue_insert_and_size) {
+FOSSIL_TEST(test_dqueue_insert_and_size) {
     cdqueue* dqueue = fossil_dqueue_create(TOFU_INT_TYPE);
 
     // Insert some elements
@@ -67,7 +67,7 @@ XTEST(test_dqueue_insert_and_size) {
     fossil_dqueue_erase(dqueue);
 }
 
-XTEST(test_dqueue_remove) {
+FOSSIL_TEST(test_dqueue_remove) {
     cdqueue* dqueue = fossil_dqueue_create(TOFU_INT_TYPE);
 
     // Insert some elements
@@ -84,7 +84,7 @@ XTEST(test_dqueue_remove) {
     TEST_ASSUME_EQUAL(FOSSIL_TOFU_ERROR_OK, fossil_dqueue_remove(dqueue, &removedElement));
 
     // Check if the removed element is correct
-    TEST_ASSUME_EQUAL_INT(42, removedElement.data.int_type);
+    ASSUME_ITS_EQUAL_I32(42, removedElement.data.int_type);
 
     // Check if the size is correct
     TEST_ASSUME_EQUAL_UINT(2, fossil_dqueue_size(dqueue));
@@ -92,7 +92,7 @@ XTEST(test_dqueue_remove) {
     fossil_dqueue_erase(dqueue);
 }
 
-XTEST(test_dqueue_getter_and_setter) {
+FOSSIL_TEST(test_dqueue_getter_and_setter) {
     cdqueue* dqueue = fossil_dqueue_create(TOFU_INT_TYPE);
 
     // Insert an element
@@ -101,8 +101,8 @@ XTEST(test_dqueue_getter_and_setter) {
 
     // Get the value for an element
     fossil_tofu_t* retrievedElement = fossil_dqueue_getter(dqueue, element);
-    TEST_ASSUME_NOT_CNULLPTR(retrievedElement);
-    TEST_ASSUME_EQUAL_INT(42, retrievedElement->data.int_type);
+    ASSUME_NOT_CNULL(retrievedElement);
+    ASSUME_ITS_EQUAL_I32(42, retrievedElement->data.int_type);
 
     // Update the value for an element
     fossil_tofu_t updatedElement = { TOFU_INT_TYPE, { .int_type = 50 } };
@@ -110,13 +110,13 @@ XTEST(test_dqueue_getter_and_setter) {
 
     // Get the updated value for the element
     retrievedElement = fossil_dqueue_getter(dqueue, updatedElement);
-    TEST_ASSUME_NOT_CNULLPTR(retrievedElement);
-    TEST_ASSUME_EQUAL_INT(50, retrievedElement->data.int_type);
+    ASSUME_NOT_CNULL(retrievedElement);
+    ASSUME_ITS_EQUAL_I32(50, retrievedElement->data.int_type);
 
     fossil_dqueue_erase(dqueue);
 }
 
-XTEST(test_dqueue_not_empty_and_is_empty) {
+FOSSIL_TEST(test_dqueue_not_empty_and_is_empty) {
     cdqueue* dqueue = fossil_dqueue_create(TOFU_INT_TYPE);
 
     // Check initially not empty
@@ -145,10 +145,10 @@ XTEST(test_dqueue_not_empty_and_is_empty) {
 // * * * * * * * * * * * * * * * * * * * * * * * *
 // * Fossil Logic Test Pool
 // * * * * * * * * * * * * * * * * * * * * * * * *
-XTEST_DEFINE_POOL(test_dqueue_group) {
-    XTEST_RUN_UNIT(test_dqueue_create_and_erase);
-    XTEST_RUN_UNIT(test_dqueue_insert_and_size);
-    XTEST_RUN_UNIT(test_dqueue_remove);
-    XTEST_RUN_UNIT(test_dqueue_getter_and_setter);
-    XTEST_RUN_UNIT(test_dqueue_not_empty_and_is_empty);
+FOSSIL_TEST_GROUP(test_dqueue_group) {
+    ADD_TEST(test_dqueue_create_and_erase);
+    ADD_TEST(test_dqueue_insert_and_size);
+    ADD_TEST(test_dqueue_remove);
+    ADD_TEST(test_dqueue_getter_and_setter);
+    ADD_TEST(test_dqueue_not_empty_and_is_empty);
 } // end of func

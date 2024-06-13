@@ -12,7 +12,7 @@ Description:
 */
 #include "fossil/xstructures/map.h" // lib source code
 
-#include <fossil/xtest.h>   // basic test tools
+#include <fossil/unittest.h>   // basic test tools
 #include <fossil/xassume.h> // extra asserts
 
 // * * * * * * * * * * * * * * * * * * * * * * * *
@@ -32,21 +32,21 @@ Description:
 // as samples for library usage.
 // * * * * * * * * * * * * * * * * * * * * * * * *
 
-XTEST(test_map_create_and_erase) {
+FOSSIL_TEST(test_map_create_and_erase) {
     cmap* map = fossil_map_create(TOFU_INT_TYPE);
 
     // Check if the map is created with the expected values
-    TEST_ASSUME_NOT_CNULLPTR(map);
+    ASSUME_NOT_CNULL(map);
     TEST_ASSUME_EQUAL_UINT(0, map->size);
 
     fossil_map_erase(map);
 
     // Check if the map is erased
     TEST_ASSUME_EQUAL_UINT(0, map->size);
-    TEST_ASSUME_CNULLPTR(map);
+    ASSUME_ITS_CNULL(map);
 }
 
-XTEST(test_map_insert_and_size) {
+FOSSIL_TEST(test_map_insert_and_size) {
     cmap* map = fossil_map_create(TOFU_INT_TYPE);
 
     // Insert some key-value pairs
@@ -64,7 +64,7 @@ XTEST(test_map_insert_and_size) {
     fossil_map_erase(map);
 }
 
-XTEST(test_map_remove) {
+FOSSIL_TEST(test_map_remove) {
     cmap* map = fossil_map_create(TOFU_INT_TYPE);
 
     // Insert some key-value pairs
@@ -85,7 +85,7 @@ XTEST(test_map_remove) {
     fossil_map_erase(map);
 }
 
-XTEST(test_map_getter_and_setter) {
+FOSSIL_TEST(test_map_getter_and_setter) {
     cmap* map = fossil_map_create(TOFU_INT_TYPE);
 
     // Insert a key-value pair
@@ -99,7 +99,7 @@ XTEST(test_map_getter_and_setter) {
     TEST_ASSUME_EQUAL(FOSSIL_TOFU_ERROR_OK, fossil_map_getter(map, key, &retrievedValue));
 
     // Check if the retrieved value is correct
-    TEST_ASSUME_EQUAL_INT(10, retrievedValue.data.int_type);
+    ASSUME_ITS_EQUAL_I32(10, retrievedValue.data.int_type);
 
     // Update the value for a key
     fossil_tofu_t updatedValue = { TOFU_INT_TYPE, { .int_type = 50 } };
@@ -109,12 +109,12 @@ XTEST(test_map_getter_and_setter) {
     TEST_ASSUME_EQUAL(FOSSIL_TOFU_ERROR_OK, fossil_map_getter(map, key, &retrievedValue));
 
     // Check if the retrieved value is correct after update
-    TEST_ASSUME_EQUAL_INT(50, retrievedValue.data.int_type);
+    ASSUME_ITS_EQUAL_I32(50, retrievedValue.data.int_type);
 
     fossil_map_erase(map);
 }
 
-XTEST(test_map_contains) {
+FOSSIL_TEST(test_map_contains) {
     cmap* map = fossil_map_create(TOFU_INT_TYPE);
 
     // Insert a key-value pair
@@ -136,10 +136,10 @@ XTEST(test_map_contains) {
 // * * * * * * * * * * * * * * * * * * * * * * * *
 // * Fossil Logic Test Pool
 // * * * * * * * * * * * * * * * * * * * * * * * *
-XTEST_DEFINE_POOL(test_map_group) {
-    XTEST_RUN_UNIT(test_map_create_and_erase);
-    XTEST_RUN_UNIT(test_map_insert_and_size);
-    XTEST_RUN_UNIT(test_map_remove);
-    XTEST_RUN_UNIT(test_map_getter_and_setter);
-    XTEST_RUN_UNIT(test_map_contains);
+FOSSIL_TEST_GROUP(test_map_group) {
+    ADD_TEST(test_map_create_and_erase);
+    ADD_TEST(test_map_insert_and_size);
+    ADD_TEST(test_map_remove);
+    ADD_TEST(test_map_getter_and_setter);
+    ADD_TEST(test_map_contains);
 } // end of func

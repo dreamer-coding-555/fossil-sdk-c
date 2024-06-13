@@ -12,7 +12,7 @@ Description:
 */
 #include <fossil/threads/condition.h> // library under test
 
-#include <fossil/xtest.h>   // basic test tools
+#include <fossil/unittest.h>   // basic test tools
 #include <fossil/xassume.h> // extra asserts
 
 // * * * * * * * * * * * * * * * * * * * * * * * *
@@ -33,50 +33,50 @@ Description:
 // * * * * * * * * * * * * * * * * * * * * * * * *
 
 // Test case 1: Test fossil_cond_create
-XTEST(test_fossil_cond_create) {
+FOSSIL_TEST(test_fossil_cond_create) {
     xcond_t cond;
-    TEST_ASSUME_EQUAL_INT32(0, fossil_cond_create(&cond));
+    ASSUME_ITS_EQUAL_I3232(0, fossil_cond_create(&cond));
 }
 
 // Test case 2: Test fossil_cond_erase
-XTEST(test_fossil_cond_erase) {
+FOSSIL_TEST(test_fossil_cond_erase) {
     xcond_t cond;
     fossil_cond_create(&cond); // Initialize the condition variable before erasing it
-    TEST_ASSUME_EQUAL_INT32(0, fossil_cond_erase(&cond));
+    ASSUME_ITS_EQUAL_I3232(0, fossil_cond_erase(&cond));
 }
 
 // Test case 3: Test fossil_cond_wait with valid parameters
-XTEST(test_fossil_cond_wait_valid_params) {
+FOSSIL_TEST(test_fossil_cond_wait_valid_params) {
     xcond_t cond;
     xmutex_t mutex;
     fossil_cond_create(&cond);
     fossil_mutex_create(&mutex);
     fossil_mutex_lock(&mutex); // Lock the mutex before calling fossil_cond_wait
-    TEST_ASSUME_EQUAL_INT32(0, fossil_cond_wait(&cond, &mutex));
+    ASSUME_ITS_EQUAL_I3232(0, fossil_cond_wait(&cond, &mutex));
     fossil_mutex_unlock(&mutex); // Unlock the mutex after waiting
 }
 
 // Test case 4: Test fossil_cond_signal with valid parameters
-XTEST(test_fossil_cond_signal_valid_params) {
+FOSSIL_TEST(test_fossil_cond_signal_valid_params) {
     xcond_t cond;
     fossil_cond_create(&cond);
-    TEST_ASSUME_EQUAL_INT32(0, fossil_cond_signal(&cond));
+    ASSUME_ITS_EQUAL_I3232(0, fossil_cond_signal(&cond));
 }
 
 // Test case 5: Test fossil_cond_broadcast with valid parameters
-XTEST(test_fossil_cond_broadcast_valid_params) {
+FOSSIL_TEST(test_fossil_cond_broadcast_valid_params) {
     xcond_t cond;
     fossil_cond_create(&cond);
-    TEST_ASSUME_EQUAL_INT32(0, fossil_cond_broadcast(&cond));
+    ASSUME_ITS_EQUAL_I3232(0, fossil_cond_broadcast(&cond));
 }
 
 // * * * * * * * * * * * * * * * * * * * * * * * *
 // * Fossil Logic Test Pool
 // * * * * * * * * * * * * * * * * * * * * * * * *
-XTEST_DEFINE_POOL(cond_group) {
-    XTEST_RUN_UNIT(test_fossil_cond_create);
-    XTEST_RUN_UNIT(test_fossil_cond_erase);
-    XTEST_RUN_UNIT(test_fossil_cond_wait_valid_params);
-    XTEST_RUN_UNIT(test_fossil_cond_signal_valid_params);
-    XTEST_RUN_UNIT(test_fossil_cond_broadcast_valid_params);
+FOSSIL_TEST_GROUP(cond_group) {
+    ADD_TEST(test_fossil_cond_create);
+    ADD_TEST(test_fossil_cond_erase);
+    ADD_TEST(test_fossil_cond_wait_valid_params);
+    ADD_TEST(test_fossil_cond_signal_valid_params);
+    ADD_TEST(test_fossil_cond_broadcast_valid_params);
 } // end of fixture

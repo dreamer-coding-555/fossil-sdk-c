@@ -12,7 +12,7 @@ Description:
 */
 #include "fossil/string/strstream.h" // lib source code
 
-#include <fossil/xtest.h>   // basic test tools
+#include <fossil/unittest.h>   // basic test tools
 #include <fossil/xassume.h> // extra asserts
 
 // * * * * * * * * * * * * * * * * * * * * * * * *
@@ -32,7 +32,7 @@ Description:
 // as samples for library usage.
 // * * * * * * * * * * * * * * * * * * * * * * * *
 
-XTEST(test_fossil_cstrstream_read) {
+FOSSIL_TEST(test_fossil_cstrstream_read) {
     const_cstring str = "Hello, world!";
     size_t pos = 0;
     size_t len = 5;
@@ -43,7 +43,7 @@ XTEST(test_fossil_cstrstream_read) {
     TEST_ASSUME_EQUAL_UINT(5, pos);
 }
 
-XTEST(test_fossil_cstrstream_read_line) {
+FOSSIL_TEST(test_fossil_cstrstream_read_line) {
     const_cstring str = "Line 1\nLine 2\nLine 3";
     size_t pos = 0;
     size_t end_pos;
@@ -61,7 +61,7 @@ XTEST(test_fossil_cstrstream_read_line) {
     TEST_ASSUME_EQUAL_UINT(21, end_pos);
 }
 
-XTEST(test_fossil_cstrstream_write) {
+FOSSIL_TEST(test_fossil_cstrstream_write) {
     const_cstring src = "world!";
     cstring dest = "Hello, ";
     size_t pos = 7;
@@ -71,7 +71,7 @@ XTEST(test_fossil_cstrstream_write) {
     TEST_ASSUME_EQUAL_UINT(13, pos);
 }
 
-XTEST(test_fossil_cstrstream_append) {
+FOSSIL_TEST(test_fossil_cstrstream_append) {
     const_cstring src = "world!";
     cstring dest = "Hello, ";
     size_t pos = 7;
@@ -81,7 +81,7 @@ XTEST(test_fossil_cstrstream_append) {
     TEST_ASSUME_EQUAL_UINT(13, pos);
 }
 
-XTEST(test_fossil_cstrstream_seek) {
+FOSSIL_TEST(test_fossil_cstrstream_seek) {
     size_t pos = 0;
     size_t offset = 5;
 
@@ -89,7 +89,7 @@ XTEST(test_fossil_cstrstream_seek) {
     TEST_ASSUME_EQUAL_UINT(5, pos);
 }
 
-XTEST(test_fossil_cstrstream_tell) {
+FOSSIL_TEST(test_fossil_cstrstream_tell) {
     const_cstring str = "Hello, world!";
     size_t pos = 7;
 
@@ -97,7 +97,7 @@ XTEST(test_fossil_cstrstream_tell) {
     TEST_ASSUME_EQUAL_UINT(7, result);
 }
 
-XTEST(test_fossil_bstrstream_read) {
+FOSSIL_TEST(test_fossil_bstrstream_read) {
     const_bstring str = (bstring)"Hello, world!";
     size_t pos = 0;
     size_t len = 5;
@@ -108,7 +108,7 @@ XTEST(test_fossil_bstrstream_read) {
     TEST_ASSUME_EQUAL_UINT(5, pos);
 }
 
-XTEST(test_fossil_bstrstream_read_line) {
+FOSSIL_TEST(test_fossil_bstrstream_read_line) {
     const_bstring str = (bstring)"Line 1\nLine 2\nLine 3";
     size_t pos = 0;
     size_t end_pos;
@@ -126,7 +126,7 @@ XTEST(test_fossil_bstrstream_read_line) {
     TEST_ASSUME_EQUAL_UINT(21, end_pos);
 }
 
-XTEST(test_fossil_bstrstream_write) {
+FOSSIL_TEST(test_fossil_bstrstream_write) {
     const_bstring src = (bstring)"world!";
     bstring dest = (bstring)"Hello, ";
     size_t pos = 7;
@@ -136,7 +136,7 @@ XTEST(test_fossil_bstrstream_write) {
     TEST_ASSUME_EQUAL_UINT(13, pos);
 }
 
-XTEST(test_fossil_bstrstream_append) {
+FOSSIL_TEST(test_fossil_bstrstream_append) {
     const_bstring src = (bstring)"world!";
     bstring dest = (bstring)"Hello, ";
     size_t pos = 7;
@@ -146,7 +146,7 @@ XTEST(test_fossil_bstrstream_append) {
     TEST_ASSUME_EQUAL_UINT(13, pos);
 }
 
-XTEST(test_fossil_bstrstream_seek) {
+FOSSIL_TEST(test_fossil_bstrstream_seek) {
     size_t pos = 0;
     size_t offset = 5;
 
@@ -154,7 +154,7 @@ XTEST(test_fossil_bstrstream_seek) {
     TEST_ASSUME_EQUAL_UINT(5, pos);
 }
 
-XTEST(test_fossil_bstrstream_tell) {
+FOSSIL_TEST(test_fossil_bstrstream_tell) {
     const_bstring str = (bstring)"Hello, world!";
     size_t pos = 7;
 
@@ -162,7 +162,7 @@ XTEST(test_fossil_bstrstream_tell) {
     TEST_ASSUME_EQUAL_UINT(7, result);
 }
 
-XTEST(test_fossil_wstrstream_read) {
+FOSSIL_TEST(test_fossil_wstrstream_read) {
     const_wstring str = L"Hello, world!";
     size_t pos = 0;
     size_t len = 5;
@@ -173,7 +173,7 @@ XTEST(test_fossil_wstrstream_read) {
     TEST_ASSUME_EQUAL_UINT(5, pos);
 }
 
-XTEST(test_fossil_wstrstream_read_line) {
+FOSSIL_TEST(test_fossil_wstrstream_read_line) {
     const_wstring str = L"Line 1\nLine 2\nLine 3";
     size_t pos = 0;
     size_t end_pos;
@@ -191,7 +191,7 @@ XTEST(test_fossil_wstrstream_read_line) {
     TEST_ASSUME_EQUAL_UINT(21, end_pos);
 }
 
-XTEST(test_fossil_wstrstream_write) {
+FOSSIL_TEST(test_fossil_wstrstream_write) {
     const_wstring src = L"world!";
     wstring dest = L"Hello, ";
     size_t pos = 7;
@@ -201,7 +201,7 @@ XTEST(test_fossil_wstrstream_write) {
     TEST_ASSUME_EQUAL_UINT(13, pos);
 }
 
-XTEST(test_fossil_wstrstream_append) {
+FOSSIL_TEST(test_fossil_wstrstream_append) {
     const_wstring src = L"world!";
     wstring dest = L"Hello, ";
     size_t pos = 7;
@@ -211,7 +211,7 @@ XTEST(test_fossil_wstrstream_append) {
     TEST_ASSUME_EQUAL_UINT(13, pos);
 }
 
-XTEST(test_fossil_wstrstream_seek) {
+FOSSIL_TEST(test_fossil_wstrstream_seek) {
     size_t pos = 0;
     size_t offset = 5;
 
@@ -219,7 +219,7 @@ XTEST(test_fossil_wstrstream_seek) {
     TEST_ASSUME_EQUAL_UINT(5, pos);
 }
 
-XTEST(test_fossil_wstrstream_tell) {
+FOSSIL_TEST(test_fossil_wstrstream_tell) {
     const_wstring str = L"Hello, world!";
     size_t pos = 7;
 
@@ -230,23 +230,23 @@ XTEST(test_fossil_wstrstream_tell) {
 // * * * * * * * * * * * * * * * * * * * * * * * *
 // * Fossil Logic Test Pool
 // * * * * * * * * * * * * * * * * * * * * * * * *
-XTEST_DEFINE_POOL(fossil_strstream_group) {
-    XTEST_RUN_UNIT(test_fossil_cstrstream_read);
-    XTEST_RUN_UNIT(test_fossil_cstrstream_read_line);
-    XTEST_RUN_UNIT(test_fossil_cstrstream_write);
-    XTEST_RUN_UNIT(test_fossil_cstrstream_append);
-    XTEST_RUN_UNIT(test_fossil_cstrstream_seek);
-    XTEST_RUN_UNIT(test_fossil_cstrstream_tell);
-    XTEST_RUN_UNIT(test_fossil_bstrstream_read);
-    XTEST_RUN_UNIT(test_fossil_bstrstream_read_line);
-    XTEST_RUN_UNIT(test_fossil_bstrstream_write);
-    XTEST_RUN_UNIT(test_fossil_bstrstream_append);
-    XTEST_RUN_UNIT(test_fossil_bstrstream_seek);
-    XTEST_RUN_UNIT(test_fossil_bstrstream_tell);
-    XTEST_RUN_UNIT(test_fossil_wstrstream_read);  // New wide string stream test cases
-    XTEST_RUN_UNIT(test_fossil_wstrstream_read_line);
-    XTEST_RUN_UNIT(test_fossil_wstrstream_write);
-    XTEST_RUN_UNIT(test_fossil_wstrstream_append);
-    XTEST_RUN_UNIT(test_fossil_wstrstream_seek);
-    XTEST_RUN_UNIT(test_fossil_wstrstream_tell);
+FOSSIL_TEST_GROUP(fossil_strstream_group) {
+    ADD_TEST(test_fossil_cstrstream_read);
+    ADD_TEST(test_fossil_cstrstream_read_line);
+    ADD_TEST(test_fossil_cstrstream_write);
+    ADD_TEST(test_fossil_cstrstream_append);
+    ADD_TEST(test_fossil_cstrstream_seek);
+    ADD_TEST(test_fossil_cstrstream_tell);
+    ADD_TEST(test_fossil_bstrstream_read);
+    ADD_TEST(test_fossil_bstrstream_read_line);
+    ADD_TEST(test_fossil_bstrstream_write);
+    ADD_TEST(test_fossil_bstrstream_append);
+    ADD_TEST(test_fossil_bstrstream_seek);
+    ADD_TEST(test_fossil_bstrstream_tell);
+    ADD_TEST(test_fossil_wstrstream_read);  // New wide string stream test cases
+    ADD_TEST(test_fossil_wstrstream_read_line);
+    ADD_TEST(test_fossil_wstrstream_write);
+    ADD_TEST(test_fossil_wstrstream_append);
+    ADD_TEST(test_fossil_wstrstream_seek);
+    ADD_TEST(test_fossil_wstrstream_tell);
 } // end of function main

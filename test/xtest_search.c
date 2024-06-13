@@ -12,7 +12,7 @@ Description:
 */
 #include <fossil/xalgorithms/search.h> // library under test
 
-#include <fossil/xtest.h>   // basic test tools
+#include <fossil/unittest.h>   // basic test tools
 #include <fossil/xassume.h> // extra asserts
 
 // * * * * * * * * * * * * * * * * * * * * * * * *
@@ -32,7 +32,7 @@ Description:
 // as samples for library usage.
 // * * * * * * * * * * * * * * * * * * * * * * * *
 
-XTEST(test_fossil_search_linear_key_found) {
+FOSSIL_TEST(test_fossil_search_linear_key_found) {
     // Define test data
     fossil_tofu_t* array = fossil_tofu_create_array(TOFU_INT_TYPE, 5, 10, 20, 30, 40, 50);
     fossil_tofu_t* key = fossil_tofu_create(TOFU_INT_TYPE, &(fossil_tofu_data){ .int_type = 20 });
@@ -41,14 +41,14 @@ XTEST(test_fossil_search_linear_key_found) {
     int result = fossil_search_linear(array, key);
 
     // Check result
-    TEST_ASSUME_EQUAL_INT(2, result);
+    ASSUME_ITS_EQUAL_I32(2, result);
 
     // Clean up
     fossil_tofu_erase_array(array);
     fossil_tofu_erase(key);
 }
 
-XTEST(test_fossil_search_linear_key_not_found) {
+FOSSIL_TEST(test_fossil_search_linear_key_not_found) {
     // Define test data
     fossil_tofu_t* array = fossil_tofu_create_array(TOFU_INT_TYPE, 5, 10, 20, 30, 40, 50);
     fossil_tofu_t* key = fossil_tofu_create(TOFU_INT_TYPE, &(fossil_tofu_data){ .int_type = 35 });
@@ -57,14 +57,14 @@ XTEST(test_fossil_search_linear_key_not_found) {
     int result = fossil_search_linear(array, key);
 
     // Check result
-    TEST_ASSUME_EQUAL_INT(-1, result);
+    ASSUME_ITS_EQUAL_I32(-1, result);
 
     // Clean up
     fossil_tofu_erase_array(array);
     fossil_tofu_erase(key);
 }
 
-XTEST(test_fossil_search_linear_empty_array) {
+FOSSIL_TEST(test_fossil_search_linear_empty_array) {
     // Define test data
     fossil_tofu_t* array = fossil_tofu_create_array(TOFU_INT_TYPE, 0);
     fossil_tofu_t* key = fossil_tofu_create(TOFU_INT_TYPE, &(fossil_tofu_data){ .int_type = 10 });
@@ -73,14 +73,14 @@ XTEST(test_fossil_search_linear_empty_array) {
     int result = fossil_search_linear(array, key);
 
     // Check result
-    TEST_ASSUME_EQUAL_INT(-1, result);
+    ASSUME_ITS_EQUAL_I32(-1, result);
 
     // Clean up
     fossil_tofu_erase_array(array);
     fossil_tofu_erase(key);
 }
 
-XTEST(test_fossil_search_binary_key_found) {
+FOSSIL_TEST(test_fossil_search_binary_key_found) {
     // Define test data
     fossil_tofu_t* array = fossil_tofu_create_array(TOFU_INT_TYPE, 5, 10, 20, 30, 40, 50);
     fossil_tofu_t* key = fossil_tofu_create(TOFU_INT_TYPE, &(fossil_tofu_data){ .int_type = 20 });
@@ -89,14 +89,14 @@ XTEST(test_fossil_search_binary_key_found) {
     int result = fossil_search_binary(array, key);
 
     // Check result
-    TEST_ASSUME_EQUAL_INT(2, result);
+    ASSUME_ITS_EQUAL_I32(2, result);
 
     // Clean up
     fossil_tofu_erase_array(array);
     fossil_tofu_erase(key);
 }
 
-XTEST(test_fossil_search_binary_key_not_found) {
+FOSSIL_TEST(test_fossil_search_binary_key_not_found) {
     // Define test data
     fossil_tofu_t* array = fossil_tofu_create_array(TOFU_INT_TYPE, 5, 10, 20, 30, 40, 50);
     fossil_tofu_t* key = fossil_tofu_create(TOFU_INT_TYPE, &(fossil_tofu_data){ .int_type = 35 });
@@ -105,14 +105,14 @@ XTEST(test_fossil_search_binary_key_not_found) {
     int result = fossil_search_binary(array, key);
 
     // Check result
-    TEST_ASSUME_EQUAL_INT(-1, result);
+    ASSUME_ITS_EQUAL_I32(-1, result);
 
     // Clean up
     fossil_tofu_erase_array(array);
     fossil_tofu_erase(key);
 }
 
-XTEST(test_fossil_search_binary_empty_array) {
+FOSSIL_TEST(test_fossil_search_binary_empty_array) {
     // Define test data
     fossil_tofu_t* array = fossil_tofu_create_array(TOFU_INT_TYPE, 0);
     fossil_tofu_t* key = fossil_tofu_create(TOFU_INT_TYPE, &(fossil_tofu_data){ .int_type = 10 });
@@ -121,14 +121,14 @@ XTEST(test_fossil_search_binary_empty_array) {
     int result = fossil_search_binary(array, key);
 
     // Check result
-    TEST_ASSUME_EQUAL_INT(-1, result);
+    ASSUME_ITS_EQUAL_I32(-1, result);
 
     // Clean up
     fossil_tofu_erase_array(array);
     fossil_tofu_erase(key);
 }
 
-XTEST(test_fossil_search_interpolation_key_found) {
+FOSSIL_TEST(test_fossil_search_interpolation_key_found) {
     // Define test data
     fossil_tofu_t* array = fossil_tofu_create_array(TOFU_INT_TYPE, 5, 10, 20, 30, 40, 50);
     fossil_tofu_t* key = fossil_tofu_create(TOFU_INT_TYPE, &(fossil_tofu_data){ .int_type = 20 });
@@ -137,14 +137,14 @@ XTEST(test_fossil_search_interpolation_key_found) {
     int result = fossil_search_interpolation(array, key);
 
     // Check result
-    TEST_ASSUME_EQUAL_INT(2, result);
+    ASSUME_ITS_EQUAL_I32(2, result);
 
     // Clean up
     fossil_tofu_erase_array(array);
     fossil_tofu_erase(key);
 }
 
-XTEST(test_fossil_search_interpolation_key_not_found) {
+FOSSIL_TEST(test_fossil_search_interpolation_key_not_found) {
     // Define test data
     fossil_tofu_t* array = fossil_tofu_create_array(TOFU_INT_TYPE, 5, 10, 20, 30, 40, 50);
     fossil_tofu_t* key = fossil_tofu_create(TOFU_INT_TYPE, &(fossil_tofu_data){ .int_type = 35 });
@@ -153,14 +153,14 @@ XTEST(test_fossil_search_interpolation_key_not_found) {
     int result = fossil_search_interpolation(array, key);
 
     // Check result
-    TEST_ASSUME_EQUAL_INT(-1, result);
+    ASSUME_ITS_EQUAL_I32(-1, result);
 
     // Clean up
     fossil_tofu_erase_array(array);
     fossil_tofu_erase(key);
 }
 
-XTEST(test_fossil_search_interpolation_empty_array) {
+FOSSIL_TEST(test_fossil_search_interpolation_empty_array) {
     // Define test data
     fossil_tofu_t* array = fossil_tofu_create_array(TOFU_INT_TYPE, 0);
     fossil_tofu_t* key = fossil_tofu_create(TOFU_INT_TYPE, &(fossil_tofu_data){ .int_type = 10 });
@@ -169,7 +169,7 @@ XTEST(test_fossil_search_interpolation_empty_array) {
     int result = fossil_search_interpolation(array, key);
 
     // Check result
-    TEST_ASSUME_EQUAL_INT(-1, result);
+    ASSUME_ITS_EQUAL_I32(-1, result);
 
     // Clean up
     fossil_tofu_erase_array(array);
@@ -179,19 +179,19 @@ XTEST(test_fossil_search_interpolation_empty_array) {
 // * * * * * * * * * * * * * * * * * * * * * * * *
 // * Fossil Logic Test Pool
 // * * * * * * * * * * * * * * * * * * * * * * * *
-XTEST_DEFINE_POOL(search_group) {
+FOSSIL_TEST_GROUP(search_group) {
     // Run test cases for linear search
-    XTEST_RUN_UNIT(test_fossil_search_linear_key_found);
-    XTEST_RUN_UNIT(test_fossil_search_linear_key_not_found);
-    XTEST_RUN_UNIT(test_fossil_search_linear_empty_array);
+    ADD_TEST(test_fossil_search_linear_key_found);
+    ADD_TEST(test_fossil_search_linear_key_not_found);
+    ADD_TEST(test_fossil_search_linear_empty_array);
 
     // Run test cases for binary search
-    XTEST_RUN_UNIT(test_fossil_search_binary_key_found);
-    XTEST_RUN_UNIT(test_fossil_search_binary_key_not_found);
-    XTEST_RUN_UNIT(test_fossil_search_binary_empty_array);
+    ADD_TEST(test_fossil_search_binary_key_found);
+    ADD_TEST(test_fossil_search_binary_key_not_found);
+    ADD_TEST(test_fossil_search_binary_empty_array);
 
     // Run test cases for interpolation search
-    XTEST_RUN_UNIT(test_fossil_search_interpolation_key_found);
-    XTEST_RUN_UNIT(test_fossil_search_interpolation_key_not_found);
-    XTEST_RUN_UNIT(test_fossil_search_interpolation_empty_array);
+    ADD_TEST(test_fossil_search_interpolation_key_found);
+    ADD_TEST(test_fossil_search_interpolation_key_not_found);
+    ADD_TEST(test_fossil_search_interpolation_empty_array);
 } // end of fixture

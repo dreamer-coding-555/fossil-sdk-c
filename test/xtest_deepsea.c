@@ -10,7 +10,7 @@ Description:
     feel free to contact Michael at michaelbrockus@gmail.com.
 ==============================================================================
 */
-#include <fossil/xtest.h>   // basic test tools
+#include <fossil/unittest.h>   // basic test tools
 #include <fossil/xassume.h> // extra asserts
 
 #include <fossil/xjellyfish/deepsea.h> // library under test
@@ -39,66 +39,66 @@ Description:
 // as samples for library usage.
 // * * * * * * * * * * * * * * * * * * * * * * * *
 
-XTEST(test_FOSSIL_jellyfish_deepsea_create_network) {
+FOSSIL_TEST(test_fossil_jellyfish_deepsea_create_network) {
     int num_layers = 3;
-    Jellyfish_Network* network = FOSSIL_jellyfish_deepsea_create_network(num_layers);
+    Jellyfish_Network* network = fossil_jellyfish_deepsea_create_network(num_layers);
 
-    TEST_ASSUME_NOT_CNULLPTR(network);
-    TEST_ASSUME_EQUAL_INT(num_layers, network->num_layers);
+    ASSUME_NOT_CNULL(network);
+    ASSUME_ITS_EQUAL_I32(num_layers, network->num_layers);
 
-    FOSSIL_jellyfish_deepsea_erase_network(network);
+    fossil_jellyfish_deepsea_erase_network(network);
 }
 
-XTEST(test_FOSSIL_jellyfish_deepsea_add_layer) {
+FOSSIL_TEST(test_fossil_jellyfish_deepsea_add_layer) {
     int num_layers = 3;
-    Jellyfish_Network* network = FOSSIL_jellyfish_deepsea_create_network(num_layers);
+    Jellyfish_Network* network = fossil_jellyfish_deepsea_create_network(num_layers);
 
     int input_size = 4;
     int output_size = 2;
-    jellyfish_layer* layer = FOSSIL_jellyfish_create_layer(input_size, output_size, FOSSIL_jellyfish_relu);
-    FOSSIL_jellyfish_deepsea_add_layer(network, layer);
+    jellyfish_layer* layer = fossil_jellyfish_create_layer(input_size, output_size, fossil_jellyfish_relu);
+    fossil_jellyfish_deepsea_add_layer(network, layer);
 
-    TEST_ASSUME_NOT_CNULLPTR(network->layers[0]);
+    ASSUME_NOT_CNULL(network->layers[0]);
 
-    FOSSIL_jellyfish_deepsea_erase_network(network);
+    fossil_jellyfish_deepsea_erase_network(network);
 }
 
-XTEST(test_FOSSIL_jellyfish_deepsea_forward) {
+FOSSIL_TEST(test_fossil_jellyfish_deepsea_forward) {
     int num_layers = 1;
-    Jellyfish_Network* network = FOSSIL_jellyfish_deepsea_create_network(num_layers);
+    Jellyfish_Network* network = fossil_jellyfish_deepsea_create_network(num_layers);
 
     int input_size = 4;
     int output_size = 2;
-    jellyfish_layer* layer = FOSSIL_jellyfish_create_layer(input_size, output_size, FOSSIL_jellyfish_relu);
-    FOSSIL_jellyfish_deepsea_add_layer(network, layer);
+    jellyfish_layer* layer = fossil_jellyfish_create_layer(input_size, output_size, fossil_jellyfish_relu);
+    fossil_jellyfish_deepsea_add_layer(network, layer);
 
-    jellyfish_matrix* input = FOSSIL_jellyfish_create_matrix(1, input_size);
+    jellyfish_matrix* input = fossil_jellyfish_create_matrix(1, input_size);
     for (int i = 0; i < input_size; i++) {
         input->data[0][i] = (double)i;
     }
 
-    jellyfish_matrix* output = FOSSIL_jellyfish_deepsea_forward(network, input);
+    jellyfish_matrix* output = fossil_jellyfish_deepsea_forward(network, input);
 
-    TEST_ASSUME_NOT_CNULLPTR(output);
-    TEST_ASSUME_EQUAL_INT(1, output->rows);
-    TEST_ASSUME_EQUAL_INT(output_size, output->cols);
+    ASSUME_NOT_CNULL(output);
+    ASSUME_ITS_EQUAL_I32(1, output->rows);
+    ASSUME_ITS_EQUAL_I32(output_size, output->cols);
 
-    FOSSIL_jellyfish_erase_matrix(input);
-    FOSSIL_jellyfish_erase_matrix(output);
-    FOSSIL_jellyfish_deepsea_erase_network(network);
+    fossil_jellyfish_erase_matrix(input);
+    fossil_jellyfish_erase_matrix(output);
+    fossil_jellyfish_deepsea_erase_network(network);
 }
 
-XTEST(test_FOSSIL_jellyfish_deepsea_backward) {
+FOSSIL_TEST(test_fossil_jellyfish_deepsea_backward) {
     int num_layers = 1;
-    Jellyfish_Network* network = FOSSIL_jellyfish_deepsea_create_network(num_layers);
+    Jellyfish_Network* network = fossil_jellyfish_deepsea_create_network(num_layers);
 
     int input_size = 4;
     int output_size = 2;
-    jellyfish_layer* layer = FOSSIL_jellyfish_create_layer(input_size, output_size, FOSSIL_jellyfish_relu);
-    FOSSIL_jellyfish_deepsea_add_layer(network, layer);
+    jellyfish_layer* layer = fossil_jellyfish_create_layer(input_size, output_size, fossil_jellyfish_relu);
+    fossil_jellyfish_deepsea_add_layer(network, layer);
 
-    jellyfish_matrix* input = FOSSIL_jellyfish_create_matrix(1, input_size);
-    jellyfish_matrix* target = FOSSIL_jellyfish_create_matrix(1, output_size);
+    jellyfish_matrix* input = fossil_jellyfish_create_matrix(1, input_size);
+    jellyfish_matrix* target = fossil_jellyfish_create_matrix(1, output_size);
     for (int i = 0; i < input_size; i++) {
         input->data[0][i] = (double)i;
     }
@@ -106,30 +106,30 @@ XTEST(test_FOSSIL_jellyfish_deepsea_backward) {
         target->data[0][i] = (double)(i + 1);
     }
 
-    FOSSIL_jellyfish_deepsea_backward(network, input, target, 0.01);
+    fossil_jellyfish_deepsea_backward(network, input, target, 0.01);
 
     // If no assertion fails, the backward pass was executed
     TEST_ASSUME_TRUE(1);
 
-    FOSSIL_jellyfish_erase_matrix(input);
-    FOSSIL_jellyfish_erase_matrix(target);
-    FOSSIL_jellyfish_deepsea_erase_network(network);
+    fossil_jellyfish_erase_matrix(input);
+    fossil_jellyfish_erase_matrix(target);
+    fossil_jellyfish_deepsea_erase_network(network);
 }
 
-XTEST(test_FOSSIL_jellyfish_deepsea_train) {
+FOSSIL_TEST(test_fossil_jellyfish_deepsea_train) {
     int num_layers = 1;
-    Jellyfish_Network* network = FOSSIL_jellyfish_deepsea_create_network(num_layers);
+    Jellyfish_Network* network = fossil_jellyfish_deepsea_create_network(num_layers);
 
     int input_size = 4;
     int output_size = 2;
-    jellyfish_layer* layer = FOSSIL_jellyfish_create_layer(input_size, output_size, FOSSIL_jellyfish_relu);
-    FOSSIL_jellyfish_deepsea_add_layer(network, layer);
+    jellyfish_layer* layer = fossil_jellyfish_create_layer(input_size, output_size, fossil_jellyfish_relu);
+    fossil_jellyfish_deepsea_add_layer(network, layer);
 
     int epochs = 10;
     double learning_rate = 0.01;
 
-    jellyfish_matrix* inputs = FOSSIL_jellyfish_create_matrix(3, input_size);
-    jellyfish_matrix* targets = FOSSIL_jellyfish_create_matrix(3, output_size);
+    jellyfish_matrix* inputs = fossil_jellyfish_create_matrix(3, input_size);
+    jellyfish_matrix* targets = fossil_jellyfish_create_matrix(3, output_size);
 
     for (int i = 0; i < 3; i++) {
         for (int j = 0; j < input_size; j++) {
@@ -140,23 +140,23 @@ XTEST(test_FOSSIL_jellyfish_deepsea_train) {
         }
     }
 
-    FOSSIL_jellyfish_deepsea_train(network, inputs, targets, epochs, learning_rate);
+    fossil_jellyfish_deepsea_train(network, inputs, targets, epochs, learning_rate);
 
     // If no assertion fails, the training process was executed
     TEST_ASSUME_TRUE(1);
 
-    FOSSIL_jellyfish_erase_matrix(inputs);
-    FOSSIL_jellyfish_erase_matrix(targets);
-    FOSSIL_jellyfish_deepsea_erase_network(network);
+    fossil_jellyfish_erase_matrix(inputs);
+    fossil_jellyfish_erase_matrix(targets);
+    fossil_jellyfish_deepsea_erase_network(network);
 }
 
 // * * * * * * * * * * * * * * * * * * * * * * * *
 // * Fossil Logic Test Pool
 // * * * * * * * * * * * * * * * * * * * * * * * *
-XTEST_DEFINE_POOL(deepsea_group) {
-    XTEST_RUN_UNIT(test_FOSSIL_jellyfish_deepsea_create_network);
-    XTEST_RUN_UNIT(test_FOSSIL_jellyfish_deepsea_add_layer);
-    XTEST_RUN_UNIT(test_FOSSIL_jellyfish_deepsea_forward);
-    XTEST_RUN_UNIT(test_FOSSIL_jellyfish_deepsea_backward);
-    XTEST_RUN_UNIT(test_FOSSIL_jellyfish_deepsea_train);
+FOSSIL_TEST_GROUP(deepsea_group) {
+    ADD_TEST(test_fossil_jellyfish_deepsea_create_network);
+    ADD_TEST(test_fossil_jellyfish_deepsea_add_layer);
+    ADD_TEST(test_fossil_jellyfish_deepsea_forward);
+    ADD_TEST(test_fossil_jellyfish_deepsea_backward);
+    ADD_TEST(test_fossil_jellyfish_deepsea_train);
 } // end of fixture

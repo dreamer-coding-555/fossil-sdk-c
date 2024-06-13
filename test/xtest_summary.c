@@ -12,7 +12,7 @@ Description:
 */
 #include <fossil/xalgorithms/summary.h> // library under test
 
-#include <fossil/xtest.h>   // basic test tools
+#include <fossil/unittest.h>   // basic test tools
 #include <fossil/xassume.h> // extra asserts
 
 // * * * * * * * * * * * * * * * * * * * * * * * *
@@ -32,7 +32,7 @@ Description:
 // as samples for library usage.
 // * * * * * * * * * * * * * * * * * * * * * * * *
 
-XTEST(test_fossil_summary_sum) {
+FOSSIL_TEST(test_fossil_summary_sum) {
     fossil_tofu_error_t error;
     fossil_tofu_t array;
     fossil_tofu_t sum;
@@ -41,8 +41,8 @@ XTEST(test_fossil_summary_sum) {
     array.type = TOFU_INT_TYPE;
     array.data.int_type = 0;
     error = fossil_summary_sum(&array, &sum);
-    TEST_ASSUME_EQUAL_INT(FOSSIL_TOFU_ERROR_OK, error);
-    TEST_ASSUME_EQUAL_INT(0, sum.data.int_type);
+    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, error);
+    ASSUME_ITS_EQUAL_I32(0, sum.data.int_type);
 
     // Case 2: Array with positive integers
     int int_values[] = {1, 2, 3, 4, 5};
@@ -54,8 +54,8 @@ XTEST(test_fossil_summary_sum) {
         array.data.array_type.elements[i].data.int_type = int_values[i];
     }
     error = fossil_summary_sum(&array, &sum);
-    TEST_ASSUME_EQUAL_INT(FOSSIL_TOFU_ERROR_OK, error);
-    TEST_ASSUME_EQUAL_INT(15, sum.data.int_type);
+    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, error);
+    ASSUME_ITS_EQUAL_I32(15, sum.data.int_type);
     free(array.data.array_type.elements);
 
     // Case 3: Array with negative integers
@@ -68,12 +68,12 @@ XTEST(test_fossil_summary_sum) {
         array.data.array_type.elements[i].data.int_type = neg_values[i];
     }
     error = fossil_summary_sum(&array, &sum);
-    TEST_ASSUME_EQUAL_INT(FOSSIL_TOFU_ERROR_OK, error);
-    TEST_ASSUME_EQUAL_INT(-15, sum.data.int_type);
+    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, error);
+    ASSUME_ITS_EQUAL_I32(-15, sum.data.int_type);
     free(array.data.array_type.elements);
 }
 
-XTEST(test_fossil_summary_mean) {
+FOSSIL_TEST(test_fossil_summary_mean) {
     fossil_tofu_error_t error;
     fossil_tofu_t array;
     fossil_tofu_t mean;
@@ -82,8 +82,8 @@ XTEST(test_fossil_summary_mean) {
     array.type = TOFU_INT_TYPE;
     array.data.int_type = 0;
     error = fossil_summary_mean(&array, &mean);
-    TEST_ASSUME_EQUAL_INT(FOSSIL_TOFU_ERROR_OK, error);
-    TEST_ASSUME_EQUAL_INT(0, mean.data.int_type);
+    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, error);
+    ASSUME_ITS_EQUAL_I32(0, mean.data.int_type);
 
     // Case 2: Array with positive integers
     int int_values[] = {1, 2, 3, 4, 5};
@@ -95,8 +95,8 @@ XTEST(test_fossil_summary_mean) {
         array.data.array_type.elements[i].data.int_type = int_values[i];
     }
     error = fossil_summary_mean(&array, &mean);
-    TEST_ASSUME_EQUAL_INT(FOSSIL_TOFU_ERROR_OK, error);
-    TEST_ASSUME_EQUAL_INT(3, mean.data.int_type);
+    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, error);
+    ASSUME_ITS_EQUAL_I32(3, mean.data.int_type);
     free(array.data.array_type.elements);
 
     // Case 3: Array with negative integers
@@ -109,12 +109,12 @@ XTEST(test_fossil_summary_mean) {
         array.data.array_type.elements[i].data.int_type = neg_values[i];
     }
     error = fossil_summary_mean(&array, &mean);
-    TEST_ASSUME_EQUAL_INT(FOSSIL_TOFU_ERROR_OK, error);
-    TEST_ASSUME_EQUAL_INT(-3, mean.data.int_type);
+    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, error);
+    ASSUME_ITS_EQUAL_I32(-3, mean.data.int_type);
     free(array.data.array_type.elements);
 }
 
-XTEST(test_fossil_summary_median) {
+FOSSIL_TEST(test_fossil_summary_median) {
     fossil_tofu_error_t error;
     fossil_tofu_t array;
     fossil_tofu_t median;
@@ -123,7 +123,7 @@ XTEST(test_fossil_summary_median) {
     array.type = TOFU_INT_TYPE;
     array.data.int_type = 0;
     error = fossil_summary_median(&array, &median);
-    TEST_ASSUME_EQUAL_INT(FOSSIL_TOFU_ERROR_INDEX_OUT_OF_BOUNDS, error);
+    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_INDEX_OUT_OF_BOUNDS, error);
 
     // Case 2: Array with odd number of elements
     int odd_values[] = {1, 3, 2, 5, 4};
@@ -135,8 +135,8 @@ XTEST(test_fossil_summary_median) {
         array.data.array_type.elements[i].data.int_type = odd_values[i];
     }
     error = fossil_summary_median(&array, &median);
-    TEST_ASSUME_EQUAL_INT(FOSSIL_TOFU_ERROR_OK, error);
-    TEST_ASSUME_EQUAL_INT(3, median.data.int_type);
+    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, error);
+    ASSUME_ITS_EQUAL_I32(3, median.data.int_type);
     free(array.data.array_type.elements);
 
     // Case 3: Array with even number of elements
@@ -149,16 +149,16 @@ XTEST(test_fossil_summary_median) {
         array.data.array_type.elements[i].data.int_type = even_values[i];
     }
     error = fossil_summary_median(&array, &median);
-    TEST_ASSUME_EQUAL_INT(FOSSIL_TOFU_ERROR_OK, error);
-    TEST_ASSUME_EQUAL_INT(2, median.data.int_type);
+    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, error);
+    ASSUME_ITS_EQUAL_I32(2, median.data.int_type);
     free(array.data.array_type.elements);
 }
 
 // * * * * * * * * * * * * * * * * * * * * * * * *
 // * Fossil Logic Test Pool
 // * * * * * * * * * * * * * * * * * * * * * * * *
-XTEST_DEFINE_POOL(summary_group) {
-    XTEST_RUN_UNIT(test_fossil_summary_sum);
-    XTEST_RUN_UNIT(test_fossil_summary_mean);
-    XTEST_RUN_UNIT(test_fossil_summary_median);
+FOSSIL_TEST_GROUP(summary_group) {
+    ADD_TEST(test_fossil_summary_sum);
+    ADD_TEST(test_fossil_summary_mean);
+    ADD_TEST(test_fossil_summary_median);
 } // end of fixture

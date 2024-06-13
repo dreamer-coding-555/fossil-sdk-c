@@ -12,7 +12,7 @@ Description:
 */
 #include "fossil/xstructures/vector.h" // lib source code
 
-#include <fossil/xtest.h>   // basic test tools
+#include <fossil/unittest.h>   // basic test tools
 #include <fossil/xassume.h> // extra asserts
 
 // * * * * * * * * * * * * * * * * * * * * * * * *
@@ -32,24 +32,24 @@ Description:
 // as samples for library usage.
 // * * * * * * * * * * * * * * * * * * * * * * * *
 
-XTEST(test_vector_create_and_erase) {
+FOSSIL_TEST(test_vector_create_and_erase) {
     cvector vector = fossil_vector_create(TOFU_INT_TYPE);
     
     // Check if the vector is created with the expected values
     TEST_ASSUME_EQUAL(TOFU_INT_TYPE, vector.expected_type);
-    TEST_ASSUME_CNULLPTR(vector.data);
+    ASSUME_ITS_CNULL(vector.data);
     TEST_ASSUME_EQUAL_UINT(0, vector.size);
     TEST_ASSUME_EQUAL_UINT(INITIAL_CAPACITY, vector.capacity);
 
     fossil_vector_erase(&vector);
 
     // Check if the vector is erased
-    TEST_ASSUME_CNULLPTR(vector.data);
+    ASSUME_ITS_CNULL(vector.data);
     TEST_ASSUME_EQUAL_UINT(0, vector.size);
     TEST_ASSUME_EQUAL_UINT(0, vector.capacity);
 }
 
-XTEST(test_vector_push_back) {
+FOSSIL_TEST(test_vector_push_back) {
     cvector vector = fossil_vector_create(TOFU_INT_TYPE);
 
     // Push back some elements
@@ -63,14 +63,14 @@ XTEST(test_vector_push_back) {
 
     // Check if the elements are added correctly
     TEST_ASSUME_EQUAL_UINT(3, vector.size);
-    TEST_ASSUME_EQUAL_INT(42, vector.data[0].data.int_type);
-    TEST_ASSUME_EQUAL_INT(10, vector.data[1].data.int_type);
-    TEST_ASSUME_EQUAL_INT(5, vector.data[2].data.int_type);
+    ASSUME_ITS_EQUAL_I32(42, vector.data[0].data.int_type);
+    ASSUME_ITS_EQUAL_I32(10, vector.data[1].data.int_type);
+    ASSUME_ITS_EQUAL_I32(5, vector.data[2].data.int_type);
 
     fossil_vector_erase(&vector);
 }
 
-XTEST(test_vector_search) {
+FOSSIL_TEST(test_vector_search) {
     cvector vector = fossil_vector_create(TOFU_INT_TYPE);
 
     // Push back some elements
@@ -83,13 +83,13 @@ XTEST(test_vector_search) {
     fossil_vector_push_back(&vector, element3);
 
     // Search for elements
-    TEST_ASSUME_EQUAL_INT(0, fossil_vector_search(&vector, element1));
-    TEST_ASSUME_EQUAL_INT(1, fossil_vector_search(&vector, element2));
-    TEST_ASSUME_EQUAL_INT(2, fossil_vector_search(&vector, element3));
+    ASSUME_ITS_EQUAL_I32(0, fossil_vector_search(&vector, element1));
+    ASSUME_ITS_EQUAL_I32(1, fossil_vector_search(&vector, element2));
+    ASSUME_ITS_EQUAL_I32(2, fossil_vector_search(&vector, element3));
 
     // Search for non-existing element
     fossil_tofu_t nonExistingElement = { TOFU_INT_TYPE, { .int_type = 100 } };
-    TEST_ASSUME_EQUAL_INT(-1, fossil_vector_search(&vector, nonExistingElement));
+    ASSUME_ITS_EQUAL_I32(-1, fossil_vector_search(&vector, nonExistingElement));
 
     fossil_vector_erase(&vector);
 }
@@ -97,8 +97,8 @@ XTEST(test_vector_search) {
 // * * * * * * * * * * * * * * * * * * * * * * * *
 // * Fossil Logic Test Pool
 // * * * * * * * * * * * * * * * * * * * * * * * *
-XTEST_DEFINE_POOL(test_vector_group) {
-    XTEST_RUN_UNIT(test_vector_create_and_erase);
-    XTEST_RUN_UNIT(test_vector_push_back);
-    XTEST_RUN_UNIT(test_vector_search);
+FOSSIL_TEST_GROUP(test_vector_group) {
+    ADD_TEST(test_vector_create_and_erase);
+    ADD_TEST(test_vector_push_back);
+    ADD_TEST(test_vector_search);
 } // end of func

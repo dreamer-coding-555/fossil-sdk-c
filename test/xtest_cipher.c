@@ -12,7 +12,7 @@ Description:
 */
 #include "fossil/string/cipher.h" // lib source code
 
-#include <fossil/xtest.h>   // basic test tools
+#include <fossil/unittest.h>   // basic test tools
 #include <fossil/xassume.h> // extra asserts
 
 // * * * * * * * * * * * * * * * * * * * * * * * *
@@ -32,7 +32,7 @@ Description:
 // as samples for library usage.
 // * * * * * * * * * * * * * * * * * * * * * * * *
 
-XTEST(test_fossil_cipher_caesar_encrypt) {
+FOSSIL_TEST(test_fossil_cipher_caesar_encrypt) {
     cstring message = "Hello, World!";
     int shift = 3;
     fossil_cipher_caesar_encrypt(message, shift);
@@ -44,7 +44,7 @@ XTEST(test_fossil_cipher_caesar_encrypt) {
     TEST_ASSUME_EQUAL_CSTRING("Hello, World!", message);
 }
 
-XTEST(test_fossil_cipher_caesar_decrypt) {
+FOSSIL_TEST(test_fossil_cipher_caesar_decrypt) {
     cstring message = "Khoor, Zruog!";
     int shift = 3;
     fossil_cipher_caesar_decrypt(message, shift);
@@ -52,7 +52,7 @@ XTEST(test_fossil_cipher_caesar_decrypt) {
     TEST_ASSUME_EQUAL_CSTRING("Hello, World!", message);
 }
 
-XTEST(test_fossil_cipher_atbash_encrypt) {
+FOSSIL_TEST(test_fossil_cipher_atbash_encrypt) {
     cstring message = "Hello, World!";
     fossil_cipher_atbash_encrypt(message);
 
@@ -63,14 +63,14 @@ XTEST(test_fossil_cipher_atbash_encrypt) {
     TEST_ASSUME_EQUAL_CSTRING("Hello, World!", message);
 }
 
-XTEST(test_fossil_cipher_atbash_decrypt) {
+FOSSIL_TEST(test_fossil_cipher_atbash_decrypt) {
     cstring message = "Svool, Dliow!";
     fossil_cipher_atbash_decrypt(message);
 
     TEST_ASSUME_EQUAL_CSTRING("Hello, World!", message);
 }
 
-XTEST(test_fossil_cipher_substitution_encrypt) {
+FOSSIL_TEST(test_fossil_cipher_substitution_encrypt) {
     cstring message = "Hello, World!";
     const_cstring key = "zyxwvutsrqponmlkjihgfedcba";
     fossil_cipher_substitution_encrypt(message, key);
@@ -82,7 +82,7 @@ XTEST(test_fossil_cipher_substitution_encrypt) {
     TEST_ASSUME_EQUAL_CSTRING("Hello, World!", message);
 }
 
-XTEST(test_fossil_cipher_substitution_decrypt) {
+FOSSIL_TEST(test_fossil_cipher_substitution_decrypt) {
     cstring message = "Svool, Dliow!";
     const_cstring key = "zyxwvutsrqponmlkjihgfedcba";
     fossil_cipher_substitution_decrypt(message, key);
@@ -90,7 +90,7 @@ XTEST(test_fossil_cipher_substitution_decrypt) {
     TEST_ASSUME_EQUAL_CSTRING("Hello, World!", message);
 }
 
-XTEST(test_fossil_cipher_haxor_encrypt) {
+FOSSIL_TEST(test_fossil_cipher_haxor_encrypt) {
     cstring message = "Hello, World!";
     fossil_cipher_haxor_encrypt(message);
 
@@ -101,14 +101,14 @@ XTEST(test_fossil_cipher_haxor_encrypt) {
     TEST_ASSUME_EQUAL_CSTRING("Hello, World!", message);
 }
 
-XTEST(test_fossil_cipher_haxor_decrypt) {
+FOSSIL_TEST(test_fossil_cipher_haxor_decrypt) {
     cstring message = "H3ll0, W0rld!";
     fossil_cipher_haxor_decrypt(message);
 
     TEST_ASSUME_EQUAL_CSTRING("Hello, World!", message);
 }
 
-XTEST(test_fossil_cipher_morse_encrypt) {
+FOSSIL_TEST(test_fossil_cipher_morse_encrypt) {
     cstring message = "Hello, World!";
     fossil_cipher_morse_encrypt(message);
 
@@ -119,14 +119,14 @@ XTEST(test_fossil_cipher_morse_encrypt) {
     TEST_ASSUME_EQUAL_CSTRING("Hello, World!", message);
 }
 
-XTEST(test_fossil_cipher_morse_decrypt) {
+FOSSIL_TEST(test_fossil_cipher_morse_decrypt) {
     cstring message = ".... . .-.. .-.. --- --..-- / .-- --- .-. .-.. -.. -.-.--";
     fossil_cipher_morse_decrypt(message);
 
     TEST_ASSUME_EQUAL_CSTRING("Hello, World!", message);
 }
 
-XTEST(test_fossil_cipher_rot13_encrypt) {
+FOSSIL_TEST(test_fossil_cipher_rot13_encrypt) {
     cstring message = "Hello, World!";
     fossil_cipher_rot13_encrypt(message);
 
@@ -137,7 +137,7 @@ XTEST(test_fossil_cipher_rot13_encrypt) {
     TEST_ASSUME_EQUAL_CSTRING("Hello, World!", message);
 }
 
-XTEST(test_fossil_cipher_rot13_decrypt) {
+FOSSIL_TEST(test_fossil_cipher_rot13_decrypt) {
     cstring message = "Uryyb, Jbeyq!";
     fossil_cipher_rot13_decrypt(message);
 
@@ -147,17 +147,17 @@ XTEST(test_fossil_cipher_rot13_decrypt) {
 // * * * * * * * * * * * * * * * * * * * * * * * *
 // * Fossil Logic Test Pool
 // * * * * * * * * * * * * * * * * * * * * * * * *
-XTEST_DEFINE_POOL(fossil_cipher_group) {
-    XTEST_RUN_UNIT(test_fossil_cipher_caesar_encrypt);
-    XTEST_RUN_UNIT(test_fossil_cipher_caesar_decrypt);
-    XTEST_RUN_UNIT(test_fossil_cipher_atbash_encrypt);
-    XTEST_RUN_UNIT(test_fossil_cipher_atbash_decrypt);
-    XTEST_RUN_UNIT(test_fossil_cipher_substitution_encrypt);
-    XTEST_RUN_UNIT(test_fossil_cipher_substitution_decrypt);
-    XTEST_RUN_UNIT(test_fossil_cipher_haxor_encrypt);
-    XTEST_RUN_UNIT(test_fossil_cipher_haxor_decrypt);
-    XTEST_RUN_UNIT(test_fossil_cipher_morse_encrypt);
-    XTEST_RUN_UNIT(test_fossil_cipher_morse_decrypt);
-    XTEST_RUN_UNIT(test_fossil_cipher_rot13_encrypt);
-    XTEST_RUN_UNIT(test_fossil_cipher_rot13_decrypt);
+FOSSIL_TEST_GROUP(fossil_cipher_group) {
+    ADD_TEST(test_fossil_cipher_caesar_encrypt);
+    ADD_TEST(test_fossil_cipher_caesar_decrypt);
+    ADD_TEST(test_fossil_cipher_atbash_encrypt);
+    ADD_TEST(test_fossil_cipher_atbash_decrypt);
+    ADD_TEST(test_fossil_cipher_substitution_encrypt);
+    ADD_TEST(test_fossil_cipher_substitution_decrypt);
+    ADD_TEST(test_fossil_cipher_haxor_encrypt);
+    ADD_TEST(test_fossil_cipher_haxor_decrypt);
+    ADD_TEST(test_fossil_cipher_morse_encrypt);
+    ADD_TEST(test_fossil_cipher_morse_decrypt);
+    ADD_TEST(test_fossil_cipher_rot13_encrypt);
+    ADD_TEST(test_fossil_cipher_rot13_decrypt);
 } // end of function main

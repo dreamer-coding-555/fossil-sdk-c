@@ -12,7 +12,7 @@ Description:
 */
 #include "fossil/xstructures/pqueue.h" // lib source code
 
-#include <fossil/xtest.h>   // basic test tools
+#include <fossil/unittest.h>   // basic test tools
 #include <fossil/xassume.h> // extra asserts
 
 // * * * * * * * * * * * * * * * * * * * * * * * *
@@ -31,22 +31,22 @@ Description:
 // by the Meson build system's approach of using test cases
 // as samples for library usage.
 // * * * * * * * * * * * * * * * * * * * * * * * *
-XTEST(test_pqueue_create_and_erase) {
+FOSSIL_TEST(test_pqueue_create_and_erase) {
     cpqueue* pqueue = fossil_pqueue_create(TOFU_INT_TYPE);
 
     // Check if the priority queue is created with the expected values
-    TEST_ASSUME_NOT_CNULLPTR(pqueue);
-    TEST_ASSUME_CNULLPTR(pqueue->front);
+    ASSUME_NOT_CNULL(pqueue);
+    ASSUME_ITS_CNULL(pqueue->front);
     TEST_ASSUME_EQUAL(TOFU_INT_TYPE, pqueue->queue_type);
 
     fossil_pqueue_erase(pqueue);
 
     // Check if the priority queue is erased
-    TEST_ASSUME_CNULLPTR(pqueue->front);
-    TEST_ASSUME_CNULLPTR(pqueue);
+    ASSUME_ITS_CNULL(pqueue->front);
+    ASSUME_ITS_CNULL(pqueue);
 }
 
-XTEST(test_pqueue_insert_and_size) {
+FOSSIL_TEST(test_pqueue_insert_and_size) {
     cpqueue* pqueue = fossil_pqueue_create(TOFU_INT_TYPE);
 
     // Insert some elements
@@ -64,7 +64,7 @@ XTEST(test_pqueue_insert_and_size) {
     fossil_pqueue_erase(pqueue);
 }
 
-XTEST(test_pqueue_remove) {
+FOSSIL_TEST(test_pqueue_remove) {
     cpqueue* pqueue = fossil_pqueue_create(TOFU_INT_TYPE);
 
     // Insert some elements
@@ -82,8 +82,8 @@ XTEST(test_pqueue_remove) {
     TEST_ASSUME_EQUAL(FOSSIL_TOFU_ERROR_OK, fossil_pqueue_remove(pqueue, &removedElement, &removedPriority));
 
     // Check if the removed element and priority are correct
-    TEST_ASSUME_EQUAL_INT(10, removedElement.data.int_type);
-    TEST_ASSUME_EQUAL_INT(1, removedPriority);
+    ASSUME_ITS_EQUAL_I32(10, removedElement.data.int_type);
+    ASSUME_ITS_EQUAL_I32(1, removedPriority);
 
     // Check if the size is correct
     TEST_ASSUME_EQUAL_UINT(2, fossil_pqueue_size(pqueue));
@@ -91,7 +91,7 @@ XTEST(test_pqueue_remove) {
     fossil_pqueue_erase(pqueue);
 }
 
-XTEST(test_pqueue_not_empty_and_is_empty) {
+FOSSIL_TEST(test_pqueue_not_empty_and_is_empty) {
     cpqueue* pqueue = fossil_pqueue_create(TOFU_INT_TYPE);
 
     // Check initially not empty
@@ -121,9 +121,9 @@ XTEST(test_pqueue_not_empty_and_is_empty) {
 // * * * * * * * * * * * * * * * * * * * * * * * *
 // * Fossil Logic Test Pool
 // * * * * * * * * * * * * * * * * * * * * * * * *
-XTEST_DEFINE_POOL(test_pqueue_group) {
-    XTEST_RUN_UNIT(test_pqueue_create_and_erase);
-    XTEST_RUN_UNIT(test_pqueue_insert_and_size);
-    XTEST_RUN_UNIT(test_pqueue_remove);
-    XTEST_RUN_UNIT(test_pqueue_not_empty_and_is_empty);
+FOSSIL_TEST_GROUP(test_pqueue_group) {
+    ADD_TEST(test_pqueue_create_and_erase);
+    ADD_TEST(test_pqueue_insert_and_size);
+    ADD_TEST(test_pqueue_remove);
+    ADD_TEST(test_pqueue_not_empty_and_is_empty);
 } // end of func

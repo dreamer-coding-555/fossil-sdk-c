@@ -13,7 +13,7 @@ Description:
 #include "fossil/string/wstring.h" // for the cstring types
 #include "fossil/string/common.h"   // for the common types
 
-#include <fossil/xtest.h>   // basic test tools
+#include <fossil/unittest.h>   // basic test tools
 #include <fossil/xassume.h> // extra asserts
 
 // * * * * * * * * * * * * * * * * * * * * * * * *
@@ -33,24 +33,24 @@ Description:
 // as samples for library usage.
 // * * * * * * * * * * * * * * * * * * * * * * * *
 
-XTEST(test_fossil_wstr_create) {
+FOSSIL_TEST(test_fossil_wstr_create) {
     const_wstring test_str = L"Hello, World!";
     wstring copy_str = fossil_wstr_create(test_str);
     
-    TEST_ASSUME_NOT_CNULLPTR(copy_str);
+    ASSUME_NOT_CNULL(copy_str);
     // TEST_ASSUME_EQUAL_CSTRING(test_str, copy_str); // in need of new assert in Xtest for wstring
 
     fossil_wstr_erase(copy_str);
 }
 
-XTEST(test_fossil_wstr_create_null) {
+FOSSIL_TEST(test_fossil_wstr_create_null) {
     const_wstring test_str = cnullptr;
     wstring copy_str = fossil_wstr_create(test_str);
     
-    TEST_ASSUME_CNULLPTR(copy_str);
+    ASSUME_ITS_CNULL(copy_str);
 }
 
-XTEST(test_fossil_wstr_erase) {
+FOSSIL_TEST(test_fossil_wstr_erase) {
     const_wstring test_str = L"Hello, World!";
     wstring copy_str = fossil_wstr_create(test_str);
     
@@ -58,27 +58,27 @@ XTEST(test_fossil_wstr_erase) {
     
     // If memory is correctly deallocated, the program should not crash.
     // Let's assert that the pointer is null after erasing.
-    TEST_ASSUME_CNULLPTR(copy_str);
+    ASSUME_ITS_CNULL(copy_str);
 }
 
-XTEST(test_fossil_wstr_length) {
+FOSSIL_TEST(test_fossil_wstr_length) {
     const_wstring test_str = L"Hello, World!";
     size_t len = fossil_wstr_length(test_str);
     
-    TEST_ASSUME_EQUAL_INT(13, len);
+    ASSUME_ITS_EQUAL_I32(13, len);
 
     const_wstring empty_str = L"";
     size_t empty_len = fossil_wstr_length(empty_str);
     
-    TEST_ASSUME_EQUAL_INT(0, empty_len);
+    ASSUME_ITS_EQUAL_I32(0, empty_len);
 }
 
 // * * * * * * * * * * * * * * * * * * * * * * * *
 // * Fossil Logic Test Pool
 // * * * * * * * * * * * * * * * * * * * * * * * *
-XTEST_DEFINE_POOL(fossil_wstring_group) {
-    XTEST_RUN_UNIT(test_fossil_wstr_create);
-    XTEST_RUN_UNIT(test_fossil_wstr_create_null);
-    XTEST_RUN_UNIT(test_fossil_wstr_erase);
-    XTEST_RUN_UNIT(test_fossil_wstr_length);
+FOSSIL_TEST_GROUP(fossil_wstring_group) {
+    ADD_TEST(test_fossil_wstr_create);
+    ADD_TEST(test_fossil_wstr_create_null);
+    ADD_TEST(test_fossil_wstr_erase);
+    ADD_TEST(test_fossil_wstr_length);
 } // end of function main
