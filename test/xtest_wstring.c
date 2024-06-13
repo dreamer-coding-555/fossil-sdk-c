@@ -11,7 +11,7 @@ Description:
 ==============================================================================
 */
 #include "fossil/string/wstring.h" // for the cstring types
-#include "fossil/string/common.h"   // for the common types
+#include "fossil/common/common.h"   // for the common types
 
 #include <fossil/unittest.h>   // basic test tools
 #include <fossil/xassume.h> // extra asserts
