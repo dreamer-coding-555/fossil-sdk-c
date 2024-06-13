@@ -12,7 +12,7 @@ Description:
 */
 #include "fossil/string/number.h"
 #include "fossil/string/manip.h"
-#include "fossil/string/common.h"
+#include "fossil/common/common.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
