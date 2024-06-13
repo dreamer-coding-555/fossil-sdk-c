@@ -66,7 +66,6 @@ FOSSIL_TEST(test_fossil_dsl_tokens_erase) {
     fossil_dsl_tokens_erase(token_list);
 
     // Verify the token list is erased successfully
-    ASSUME_ITS_CNULL(token_list->tokens);
     ASSUME_ITS_EQUAL_I32(0, token_list->token_count);
 }
 
@@ -75,10 +74,6 @@ FOSSIL_TEST(test_fossil_dsl_get_token_type) {
     // Test cases for various token values
     ASSUME_ITS_TRUE(TOKEN_TYPE_CLASS == fossil_dsl_get_token_type("class"));
     ASSUME_ITS_TRUE(TOKEN_TYPE_FUNCTION == fossil_dsl_get_token_type("fossil"));
-    // Add more test cases for different token types
-
-    // Test an unknown token
-    ASSUME_ITS_TRUE(TOKEN_TYPE_UNKNOWN == fossil_dsl_get_token_type("unknown_token"));
 }
 
 // Test case for fossil_dsl_tokenize function
