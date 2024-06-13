@@ -1,4 +1,4 @@
-# Fossil SDK - `C`
+# Fossil SDK - `C/C++`
 
 Fossil Logic's library stands as a cornerstone within a vast collection of libraries, each a testament to the company's commitment to knowledge and innovation. Serving as a rich repository of resources, Fossil Logic's library embodies the organization's dedication to fostering intellectual growth and development. With a diverse array of materials spanning various disciplines, it serves as a hub for exploration, learning, and collaboration. Whether seeking information for research, inspiration for creativity, or solutions to complex problems, Fossil Logic's library offers a wealth of opportunities for individuals to expand their horizons and deepen their understanding.
 
@@ -17,27 +17,27 @@ Before getting started, make sure you have the following installed:
    python -m pip install --upgrade meson # to upgrade Meson
    ```
 
-2. **Adding Wrap File**: You can add a `.wrap`, first go into `subprojects` directory and create `fossil-sdk-c.wrap` next copy the defintion into the file:
+2. **Adding Wrap File**: You can add a `.wrap`, first go into `subprojects` directory and create `fossil-sdk.wrap` next copy the defintion into the file:
 
    ```ini
    # ======================
    # Git Wrap package definition
    # ======================
    [wrap-git]
-   url = https://github.com/dreamer-coding-555/fossil-sdk-c.git
+   url = https://github.com/dreamer-coding-555/fossil-sdk.git
    revision = v1.0.0
 
    [provide]
-   fossil-sdk-c = fossil_sdk_c_dep
+   fossil-sdk = fossil_sdk_dep
    ```
 
 3. **Integrate the New Dependency**: After creating the dependency `.wrap` file, you need to integrate it into your Meson project. This typically involves adding the dependency to your `meson.build` file. Here's an example of how you might do that:
 
    ```ini
-   dep = dependency('fossil-sdk-c')
+   dep = dependency('fossil-sdk')
    ```
 
-   This line retrieves the `fossil-sdk-c` dependency, allowing you to use it in your project.
+   This line retrieves the `fossil-sdk` dependency, allowing you to use it in your project.
    
 ## Configure Options
 

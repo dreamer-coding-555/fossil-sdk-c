@@ -33,6 +33,12 @@ if get_option('with_test').enabled()
         'manip',   'number',
         'strfrom', 'strto',
         'wstring', 'strstream',
+        # Low level test cases
+        'command', 'random',
+        'filesystem', 'hostsystem',
+        'arguments', 'money',
+        'memory', 'bitwise',
+        'smartptr'
     ]
 
     foreach cube : test_cubes
@@ -41,7 +47,7 @@ if get_option('with_test').enabled()
 
     pizza = executable('runner', test_src,
         include_directories: dir,
-        dependencies: [dependency('fossil-test-c'), fossil_sdk_c_dep])
+        dependencies: [dependency('fossil-test'), fossil_sdk_dep])
 
     test('xunit_tests', pizza)  # Renamed the test target for clarity
 endif
