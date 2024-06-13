@@ -13,7 +13,7 @@ Description:
 #include "fossil/core/fossil.h" // lib source code
 #include "fossil/common/common.h"
 
-#include <fossil/xtest.h>   // basic test tools
+#include <fossil/unittest.h>   // basic test tools
 #include <fossil/xassume.h> // extra asserts
 
 // * * * * * * * * * * * * * * * * * * * * * * * *

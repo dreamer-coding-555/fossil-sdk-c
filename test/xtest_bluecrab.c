@@ -13,7 +13,7 @@ Description:
 #include <fossil/core/bluecrab.h>
 #include "fossil/common/common.h" // for cnull
 
-#include <fossil/xtest.h>   // basic test tools
+#include <fossil/unittest.h>   // basic test tools
 #include <fossil/xmock.h>   // basic mock tools
 #include <fossil/xassume.h> // extra asserts
 
