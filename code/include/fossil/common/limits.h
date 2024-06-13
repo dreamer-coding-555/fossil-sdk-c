@@ -55,7 +55,7 @@ typedef enum {
     FOSSIL_BUFFER_LARGE  = 1000,
     FOSSIL_BUFFER_HUGE   = 5000,
     FOSSIL_BUFFER_GIANT  = 10000
-} fscl_limit_t;
+} fossil_limit_t;
 
 #ifdef __cplusplus
 }

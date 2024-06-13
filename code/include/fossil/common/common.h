@@ -74,7 +74,7 @@ typedef enum {
 
 /* 
  * Boolean types: True or False
- * Usage: cbool flag = fossil_TRUE;
+ * Usage: fossil_bool_t flag = fossil_TRUE;
  */
 typedef enum {
     FOSSIL_TRUE,

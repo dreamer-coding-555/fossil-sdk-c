@@ -30,15 +30,19 @@ code = files(
     'manip.c',   'number.c',
     'strfrom.c', 'strto.c',
     'wstring.c', 'strstream.c',
+    # Standard low-level components
+    'command.c', 'random.c', 'filesystem.c',
+    'arguments.c', 'bitwise.c', 'money.c',
+    'memory.c', 'hostsystem.c', 'smartptr.c'
     )
 
-fossil_sdk_c_lib = library('fossil-sdk-c',
+fossil_sdk_lib = library('fossil-sdk',
     code,
     dependencies : code_deps,
     install: true,
     include_directories: dir)
 
-fossil_sdk_c_dep = declare_dependency(
-    link_with: fossil_sdk_c_lib,
+fossil_sdk_dep = declare_dependency(
+    link_with: fossil_sdk_lib,
     dependencies : code_deps,
     include_directories: dir)

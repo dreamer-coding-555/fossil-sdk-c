@@ -138,7 +138,7 @@ typedef enum {
     FOSSIL_ERROR_UNSUPPORTED_OPERATION_ON_DEVICE,
     FOSSIL_ERROR_INVALID_INPUT_SHAPE,
     FOSSIL_ERROR_INVALID_OUTPUT_SHAPE
-} fscl_status_t;
+} fossil_status_t;
 
 /**
  * @brief Retrieves the error message associated with the given error code.
@@ -146,7 +146,7 @@ typedef enum {
  * @param error The error code.
  * @return The error message.
  */
-static inline const char* fscl_common_error_message(fscl_status_t error) {
+static inline const char* fossil_common_error_message(fossil_status_t error) {
     static const char* error_messages[] = {
         "No error occurred.",
         "Error: Null pointer.",
