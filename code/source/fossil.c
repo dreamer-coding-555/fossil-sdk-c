@@ -25,7 +25,7 @@ void fossil_dsl_set_error(fossil_dsl_parser *parser, fossil_dsl_status error_cod
     if (parser->error_message != cnull) {
         free(parser->error_message);
     }
-    parser->error_message = _custom_fossil_core_strdup(message);
+    parser->error_message = _custom_fossil_strdup(message);
 }
 
 /**
@@ -227,7 +227,7 @@ fossil_dsl_tokens* fossil_dsl_tokenize(const char * restrict script, fossil_dsl_
 
             fossil_dsl_token new_token;
             new_token.type = type;
-            new_token.value = _custom_fossil_core_strdup(token_str);
+            new_token.value = _custom_fossil_strdup(token_str);
             if (!new_token.value) {
                 fossil_dsl_set_error(parser, FOSSIL_DSL_STATUS_MEMORY_ERROR, "Failed to allocate memory for token value.");
                 free(script_copy);
