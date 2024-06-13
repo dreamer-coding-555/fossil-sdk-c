@@ -1,4 +1,4 @@
-# Fossil SDK - `C/C++`
+# ***Fossil SDK Software Development Kit created by Fossil Logic*** `C/C++`
 
 Fossil Logic's library stands as a cornerstone within a vast collection of libraries, each a testament to the company's commitment to knowledge and innovation. Serving as a rich repository of resources, Fossil Logic's library embodies the organization's dedication to fostering intellectual growth and development. With a diverse array of materials spanning various disciplines, it serves as a hub for exploration, learning, and collaboration. Whether seeking information for research, inspiration for creativity, or solutions to complex problems, Fossil Logic's library offers a wealth of opportunities for individuals to expand their horizons and deepen their understanding.
 
