@@ -38,9 +38,9 @@ Description:
  * @endcode
  */
 
-#include "string/bstring.h"
-#include "string/cstring.h"
-#include "string/wstring.h"
+#include "bstring.h"
+#include "cstring.h"
+#include "wstring.h"
 
 #ifdef __cplusplus
 extern "C"
