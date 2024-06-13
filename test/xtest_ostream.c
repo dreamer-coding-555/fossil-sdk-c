@@ -110,15 +110,15 @@ FOSSIL_TEST(fossil_console_out_mix_classic_fstring_test) {
 
 // Test case for various fstring features in fossil_console_out function
 FOSSIL_TEST(fossil_console_out_fstring_features_test) {
-    fossil_mockup_output_t *mock_output = mockup_output_create("fossil_console_out");
+    fossil_mockup_output_t *mock_output = fossil_mockup_output_create("fossil_console_out");
 
     // Capture console output
-    mockup_output_capture(mock_output, "This is a bold string");
-    mockup_output_capture(mock_output, "This is an underlined string");
-    mockup_output_capture(mock_output, "This is a red string");
-    mockup_output_capture(mock_output, "This is a bold green string");
-    mockup_output_capture(mock_output, "This is an underlined blue string");
-    mockup_output_capture(mock_output, "This is a bold and underlined yellow string");
+    fossil_mockup_output_capture(mock_output, "This is a bold string");
+    fossil_mockup_output_capture(mock_output, "This is an underlined string");
+    fossil_mockup_output_capture(mock_output, "This is a red string");
+    fossil_mockup_output_capture(mock_output, "This is a bold green string");
+    fossil_mockup_output_capture(mock_output, "This is an underlined blue string");
+    fossil_mockup_output_capture(mock_output, "This is a bold and underlined yellow string");
 
     // Test various fstring features with fossil_console_out function
     fossil_console_out("f{str:bold}", "This is a bold string");
@@ -129,18 +129,18 @@ FOSSIL_TEST(fossil_console_out_fstring_features_test) {
     fossil_console_out("f{str:yellow:bold:underline}", "This is a bold and underlined yellow string");
 
     // Verify that the outputs are correct
-    ASSUME_ITS_TRUE(mockup_output_verify(mock_output, "This is a bold string", 0));
-    ASSUME_ITS_TRUE(mockup_output_verify(mock_output, "This is an underlined string", 1));
-    ASSUME_ITS_TRUE(mockup_output_verify(mock_output, "This is a red string", 2));
-    ASSUME_ITS_TRUE(mockup_output_verify(mock_output, "This is a bold green string", 3));
-    ASSUME_ITS_TRUE(mockup_output_verify(mock_output, "This is an underlined blue string", 4));
-    ASSUME_ITS_TRUE(mockup_output_verify(mock_output, "This is a bold and underlined yellow string", 5));
+    ASSUME_ITS_TRUE(fossil_mockup_output_verify(mock_output, "This is a bold string", 0));
+    ASSUME_ITS_TRUE(fossil_mockup_output_verify(mock_output, "This is an underlined string", 1));
+    ASSUME_ITS_TRUE(fossil_mockup_output_verify(mock_output, "This is a red string", 2));
+    ASSUME_ITS_TRUE(fossil_mockup_output_verify(mock_output, "This is a bold green string", 3));
+    ASSUME_ITS_TRUE(fossil_mockup_output_verify(mock_output, "This is an underlined blue string", 4));
+    ASSUME_ITS_TRUE(fossil_mockup_output_verify(mock_output, "This is a bold and underlined yellow string", 5));
 
     // Verify call count
     ASSUME_ITS_TRUE(fossil_mockup_output_verify_call_count(mock_output, 6));
 
     // Erase the mock output object
-    mockup_output_erase(mock_output);
+    fossil_mockup_output_erase(mock_output);
 }
 
 // Additional test cases for mixing fstring and classic formatting
