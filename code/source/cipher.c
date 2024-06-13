@@ -11,7 +11,7 @@ Description:
 ==============================================================================
 */
 #include "fossil/string/cipher.h"
-#include "fossil/string/common.h"
+#include "fossil/common/common.h"
 #include "fossil/string/manip.h"
 #include <string.h>
 #include <stdlib.h>
