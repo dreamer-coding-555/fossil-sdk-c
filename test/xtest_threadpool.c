@@ -36,6 +36,7 @@ Description:
 FOSSIL_TEST(test_fossil_thread_pool_create_valid_params) {
     fossil_xthread_pool_t pool;
     ASSUME_ITS_EQUAL_I32(0, fossil_thread_pool_create(&pool, 4, 10));
+    fossil_thread_pool_erase(&pool);
 }
 
 // Test case 2: Test fossil_thread_pool_erase with valid parameters
