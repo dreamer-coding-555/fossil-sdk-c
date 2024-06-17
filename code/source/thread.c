@@ -76,23 +76,21 @@ int32_t fossil_thread_join(fossil_xthread_t thread, void **retval) {
     if (!thread) return FOSSIL_ERROR;
 
 #ifdef _WIN32
-    DWORD result;
-    HANDLE mutex = CreateMutex(NULL, FALSE, NULL);
-    if (mutex == NULL) {
-        return FOSSIL_ERROR;
-    }
-    WaitForSingleObject(mutex, INFINITE);
-    result = WaitForSingleObject(thread, INFINITE);
+    DWORD result = WaitForSingleObject(thread, INFINITE);
     if (result == WAIT_OBJECT_0) {
         if (retval) {
             // Get the exit code
-            GetExitCodeThread(thread, (LPDWORD)retval);
+            DWORD exit_code;
+            if (GetExitCodeThread(thread, &exit_code)) {
+                *retval = (void*)(uintptr_t)exit_code;  // Store exit code as retval
+            } else {
+                return FOSSIL_ERROR;
+            }
         }
         CloseHandle(thread);
+        return FOSSIL_SUCCESS;
     }
-    ReleaseMutex(mutex);
-    CloseHandle(mutex);
-    return (result == WAIT_OBJECT_0) ? FOSSIL_SUCCESS : FOSSIL_ERROR;
+    return FOSSIL_ERROR;
 #else
     return pthread_join(thread, retval);
 #endif
@@ -104,7 +102,7 @@ int32_t fossil_thread_detach(fossil_xthread_t thread) {
 #ifdef _WIN32
     return CloseHandle(thread) ? FOSSIL_SUCCESS : FOSSIL_ERROR;
 #else
-    return pthread_detach(thread);
+    return pthread_detach(thread) == 0 ? FOSSIL_SUCCESS : FOSSIL_ERROR;
 #endif
 }
 
