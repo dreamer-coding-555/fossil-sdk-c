@@ -10,7 +10,7 @@ Description:
     feel free to contact Michael at michaelbrockus@gmail.com.
 ==============================================================================
 */
-#include <fossil/threads/thread.h> // library under test
+#include <fossil/threads.h> // library under test
 
 #include <fossil/unittest.h>   // basic test tools
 #include <fossil/xassume.h> // extra asserts
@@ -22,7 +22,14 @@ Description:
 // mock objects are set here.
 // * * * * * * * * * * * * * * * * * * * * * * * *
 
-// placeholder
+FOSSIL_FIXTURE(c_thread_fixture);
+FOSSIL_SETUP(c_thread_fixture) {
+    // Setup code goes here
+}
+
+FOSSIL_TEARDOWN(c_thread_fixture) {
+    // Teardown code goes here
+}
 
 // * * * * * * * * * * * * * * * * * * * * * * * *
 // * Fossil Logic Test Cases
@@ -32,10 +39,31 @@ Description:
 // as samples for library usage.
 // * * * * * * * * * * * * * * * * * * * * * * * *
 
+// * * * * * * * * * * * * * * * * * * * * * * * *
+// * Start: Fossil Threads Fixture
+// * * * * * * * * * * * * * * * * * * * * * * * *
+
+// Test case 1: Test fossil_thread_create with valid parameters
+FOSSIL_TEST(test_fossil_thread_create_valid_params) {
+    fossil_xthread_t thread;
+    fossil_xtask_t task;
+    ASSUME_ITS_EQUAL_I32(0, fossil_thread_create(&thread, xnullptr, task));
+}
+
+// Test case 2: Test fossil_thread_join with valid parameters
+FOSSIL_TEST(test_fossil_thread_join_valid_params) {
+    fossil_xthread_t thread;
+    fossil_xtask_t task = {}; // Initialize task variable
+    fossil_thread_create(&thread, xnullptr, task); // Create a thread before joining it
+    ASSUME_ITS_EQUAL_I32(0, fossil_thread_join(thread, xnullptr));
+    fossil_thread_detach(thread); // Clean up after joining a thread
+}
+
 // Test case 5: Test fossil_thread_attr_create
 FOSSIL_TEST(test_fossil_thread_attr_create) {
     fossil_xthread_attr_t attr;
     ASSUME_ITS_EQUAL_I32(0, fossil_thread_attr_create(&attr));
+    fossil_thread_attr_erase(&attr); // Clean up after creating thread attributes
 }
 
 // Test case 6: Test fossil_thread_attr_erase with valid parameters
@@ -46,9 +74,16 @@ FOSSIL_TEST(test_fossil_thread_attr_erase_valid_params) {
 }
 
 // * * * * * * * * * * * * * * * * * * * * * * * *
+// * End: Fossil Threads Fixture
+// * * * * * * * * * * * * * * * * * * * * * * * *
+
+// * * * * * * * * * * * * * * * * * * * * * * * *
 // * Fossil Logic Test Pool
 // * * * * * * * * * * * * * * * * * * * * * * * *
-FOSSIL_TEST_GROUP(threads_group) {
-    ADD_TEST(test_fossil_thread_attr_create);
-    ADD_TEST(test_fossil_thread_attr_erase_valid_params);
+FOSSIL_TEST_GROUP(c_threaded_tests) {
+    // Threads Fixture
+    ADD_TESTF(test_fossil_thread_create_valid_params, c_thread_fixture);
+    ADD_TESTF(test_fossil_thread_join_valid_params, c_thread_fixture);
+    ADD_TESTF(test_fossil_thread_attr_create, c_thread_fixture);
+    ADD_TESTF(test_fossil_thread_attr_erase_valid_params, c_thread_fixture);
 } // end of fixture

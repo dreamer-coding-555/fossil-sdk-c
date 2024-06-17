@@ -6,7 +6,7 @@ if get_option('with_test').enabled()
 
     test_src = ['xunit_runner.c']
     test_cubes = [
-        'thread', 'threadpool', 'threadlocal',
+        'threaded',
     ]
 
     foreach cube : test_cubes
