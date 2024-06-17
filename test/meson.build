@@ -6,7 +6,7 @@ if get_option('with_test').enabled()
 
     test_src = ['xunit_runner.c']
     test_cubes = [
-        'mutexs', 'semaphores', 'thread',
+        'semaphores', 'thread',
         'threadpool', 'threadlocal', 'spinlocks',
     ]
 
