@@ -86,15 +86,17 @@ int32_t fossil_thread_join(fossil_xthread_t thread, void **retval) {
             // Get the exit code
             DWORD exit_code;
             if (GetExitCodeThread(thread, &exit_code)) {
-                *retval = (void*)(uintptr_t)exit_code;  // Store exit code as retval
+                // Store the exit code as retval
+                *retval = (void*)(uintptr_t)exit_code;
             } else {
                 return FOSSIL_ERROR;
             }
         }
         CloseHandle(thread);
         return FOSSIL_SUCCESS;
+    } else {
+        return FOSSIL_ERROR;
     }
-    return FOSSIL_ERROR;
 #else
     return pthread_join(thread, retval) == 0 ? FOSSIL_SUCCESS : FOSSIL_ERROR;
 #endif
