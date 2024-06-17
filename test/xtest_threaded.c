@@ -43,10 +43,15 @@ FOSSIL_TEARDOWN(c_thread_fixture) {
 // * Start: Fossil Threads Fixture
 // * * * * * * * * * * * * * * * * * * * * * * * *
 
+XTASK(pizza_maker_task, arg_name) {
+    // Making a cool pizza
+}
+
 // Test case 1: Test fossil_thread_create with valid parameters
 FOSSIL_TEST(test_fossil_thread_create_valid_params) {
     fossil_xthread_t thread;
-    fossil_xtask_t task;
+    fossil_xtask_t task = (fossil_xtask_t){pizza_maker_task, xnull};
+
     ASSUME_ITS_EQUAL_I32(0, fossil_thread_create(&thread, xnullptr, task));
 }
 
