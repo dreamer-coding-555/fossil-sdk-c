@@ -41,7 +41,7 @@ XTASK(pizza_maker_task, arg) {
 }
 
 // Test case 1: Test fossil_thread_create with valid parameters
-FOSSIL_TEST(test_fossil_thread_create_valid_params) {
+FOSSIL_TEST(testing_thread_create) {
     fossil_xthread_t thread;
     fossil_xtask_t task = {pizza_maker_task, NULL};
 
@@ -50,17 +50,10 @@ FOSSIL_TEST(test_fossil_thread_create_valid_params) {
 }
 
 // Test case 2: Test fossil_thread_attr_create
-FOSSIL_TEST(test_fossil_thread_attr_create) {
+FOSSIL_TEST(testing_thread_attr_create) {
     fossil_xthread_attr_t attr;
     ASSUME_ITS_EQUAL_I32(FOSSIL_SUCCESS, fossil_thread_attr_create(&attr));
     ASSUME_ITS_EQUAL_I32(FOSSIL_SUCCESS, fossil_thread_attr_erase(&attr)); // Clean up after creating thread attributes
-}
-
-// Test case 3: Test fossil_thread_attr_erase with valid parameters
-FOSSIL_TEST(test_fossil_thread_attr_erase_valid_params) {
-    fossil_xthread_attr_t attr;
-    ASSUME_ITS_EQUAL_I32(FOSSIL_SUCCESS, fossil_thread_attr_create(&attr)); // Create thread attributes before erasing them
-    ASSUME_ITS_EQUAL_I32(FOSSIL_SUCCESS, fossil_thread_attr_erase(&attr));
 }
 
 // * * * * * * * * * * * * * * * * * * * * * * * *
@@ -68,7 +61,6 @@ FOSSIL_TEST(test_fossil_thread_attr_erase_valid_params) {
 // * * * * * * * * * * * * * * * * * * * * * * * *
 FOSSIL_TEST_GROUP(c_threaded_tests) {
     // Threads Fixture
-    ADD_TESTF(test_fossil_thread_create_valid_params, c_thread_fixture);
-    ADD_TESTF(test_fossil_thread_attr_create, c_thread_fixture);
-    ADD_TESTF(test_fossil_thread_attr_erase_valid_params, c_thread_fixture);
+    ADD_TESTF(testing_thread_create, c_thread_fixture);
+    ADD_TESTF(testing_thread_attr_create, c_thread_fixture);
 } // end of fixture
