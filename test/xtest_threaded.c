@@ -13,6 +13,7 @@ Description:
 #include <fossil/threads.h> // library under test
 #include <fossil/unittest.h> // basic test tools
 #include <fossil/xassume.h>  // extra asserts
+#include <fossil/common/common.h>
 
 // * * * * * * * * * * * * * * * * * * * * * * * *
 // * Fossil Logic Test Utilities
