@@ -33,7 +33,7 @@ void* thread_start_routine(void *arg) {
     if (task_func) {
         task_func(task_arg);
     }
-    return cnullptr;
+    return NULL;
 }
 #endif
 
@@ -42,20 +42,24 @@ int32_t fossil_thread_create(fossil_xthread_t *thread, fossil_xthread_attr_t *at
 
     // Create a new thread attribute if not provided
     fossil_xthread_attr_t default_attr;
+    fossil_xthread_attr_t *used_attr = attr;
+
     if (!attr) {
-        if (fossil_thread_attr_create(&default_attr) != 0) {
+        if (fossil_thread_attr_create(&default_attr) != FOSSIL_SUCCESS) {
             return FOSSIL_ERROR;
         }
-        attr = &default_attr;
+        used_attr = &default_attr;
     }
 
     // Create the thread using the provided attributes and start routine
     #ifdef _WIN32
-    *thread = CreateThread(cnullptr, 0, thread_start_routine, (LPVOID)&task, 0, cnullptr);
+    *thread = CreateThread(NULL, used_attr->stack_size, thread_start_routine, (LPVOID)&task, 0, NULL);
     #else
-    int32_t result = pthread_create(thread, attr, thread_start_routine, (void *)&task);
+    int32_t result = pthread_create(thread, used_attr, thread_start_routine, (void *)&task);
     if (result != 0) {
-        fossil_thread_attr_erase(&default_attr);
+        if (!attr) {
+            fossil_thread_attr_erase(&default_attr);
+        }
         return FOSSIL_ERROR;
     }
     #endif
@@ -65,10 +69,10 @@ int32_t fossil_thread_create(fossil_xthread_t *thread, fossil_xthread_attr_t *at
         fossil_thread_attr_erase(&default_attr);
     }
 
-    #ifndef _WIN32
-    return FOSSIL_SUCCESS;
+    #ifdef _WIN32
+    return (*thread != NULL) ? FOSSIL_SUCCESS : FOSSIL_ERROR;
     #else
-    return (*thread != cnullptr) ? FOSSIL_SUCCESS : FOSSIL_ERROR;
+    return FOSSIL_SUCCESS;
     #endif
 }
 
@@ -92,7 +96,7 @@ int32_t fossil_thread_join(fossil_xthread_t thread, void **retval) {
     }
     return FOSSIL_ERROR;
 #else
-    return pthread_join(thread, retval);
+    return pthread_join(thread, retval) == 0 ? FOSSIL_SUCCESS : FOSSIL_ERROR;
 #endif
 }
 
@@ -125,6 +129,6 @@ int32_t fossil_thread_attr_erase(fossil_xthread_attr_t *attr) {
     // No cleanup required for Windows attributes
     return FOSSIL_SUCCESS;
 #else
-    return pthread_attr_destroy(attr);
+    return pthread_attr_destroy(attr) == 0 ? FOSSIL_SUCCESS : FOSSIL_ERROR;
 #endif
 }
