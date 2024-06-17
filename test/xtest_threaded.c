@@ -60,6 +60,12 @@ FOSSIL_TEST(testing_thread_attr_create) {
 // * Fossil Logic Test thread-local
 // * * * * * * * * * * * * * * * * * * * * * * * *
 
+// Test case: Thread-local storage with destructor
+XTASK(dummy_destructor, value) {
+    // Dummy destructor function for testing
+    free(value);
+}
+
 // Test fixture for thread-local storage
 FOSSIL_FIXTURE(c_thread_local_fixture);
 FOSSIL_SETUP(c_thread_local_fixture) {
@@ -103,7 +109,6 @@ FOSSIL_TEST(test_fossil_thread_local_with_destructor) {
     ASSUME_ITS_EQUAL_S(value, retrieved_value);
     
     ASSUME_ITS_EQUAL_I32(FOSSIL_SUCCESS, fossil_thread_local_erase(key));
-    dummy_destructor(value);
 }
 
 // * * * * * * * * * * * * * * * * * * * * * * * *
