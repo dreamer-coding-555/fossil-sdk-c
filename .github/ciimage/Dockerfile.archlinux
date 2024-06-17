@@ -22,8 +22,8 @@ RUN pacman -Syu --noconfirm && \
     pacman -Scc --noconfirm
 
 # Set environment variables
-ENV CC=/usr/bin/clang
-ENV CXX=/usr/bin/clang++
+ENV CC=/usr/bin/gcc
+ENV CXX=/usr/bin/g++
 ENV LD_LIBRARY_PATH=/usr/local/lib
 
 # Set working directory
