@@ -73,4 +73,36 @@ int32_t fossil_barrier_wait(fossil_xbarrier_t *barrier);
 }
 #endif
 
+#ifdef __cplusplus
+
+#include <stdexcept>
+
+namespace fossil {
+
+class Barrier {
+public:
+    Barrier(uint32_t count) {
+        if (fossil_barrier_create(&barrier_, count) != 0) {
+            throw std::runtime_error("Failed to create barrier");
+        }
+    }
+
+    ~Barrier() {
+        if (fossil_barrier_erase(&barrier_) != 0) {
+            throw std::runtime_error("Failed to destroy barrier");
+        }
+    }
+
+    int wait() {
+        return fossil_barrier_wait(&barrier_);
+    }
+
+private:
+    fossil_xbarrier_t barrier_;
+};
+
+} // namespace fossil
+
+#endif // __cplusplus
+
 #endif

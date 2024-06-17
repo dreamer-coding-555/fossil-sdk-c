@@ -36,6 +36,10 @@ typedef struct {
 #include <stdint.h>
 #include <time.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /**
  * @brief Macro to define a task function with a platform-independent argument type.
  *
@@ -79,5 +83,45 @@ static inline void fossil_task_delay_milliseconds(uint32_t milliseconds) {
     sleep(milliseconds * 1000);
 #endif
 }
+
+#ifdef __cplusplus
+}
+#endif
+
+// C++ interface
+#ifdef __cplusplus
+
+namespace fossil {
+
+/**
+ * @brief Inline function to provide platform-independent task delay by seconds.
+ *
+ * @param seconds The number of seconds to delay.
+ */
+static inline void task_delay_seconds(uint32_t seconds) {
+    fossil_task_delay_seconds(seconds);
+}
+
+/**
+ * @brief Inline function to provide platform-independent task delay by minutes.
+ *
+ * @param minutes The number of minutes to delay.
+ */
+static inline void task_delay_minutes(uint32_t minutes) {
+    task_delay_seconds(minutes * 60);
+}
+
+/**
+ * @brief Inline function to provide platform-independent task delay by milliseconds.
+ *
+ * @param milliseconds The number of milliseconds to delay.
+ */
+static inline void task_delay_milliseconds(uint32_t milliseconds) {
+    fossil_task_delay_milliseconds(milliseconds);
+}
+
+} // namespace fossil
+
+#endif // __cplusplus
 
 #endif

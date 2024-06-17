@@ -74,4 +74,51 @@ int32_t fossil_cond_broadcast(fossil_xcond_t *cond);
 }
 #endif
 
+#ifdef __cplusplus
+
+#include <stdexcept>
+
+namespace fossil {
+
+class ConditionVariable
+{
+public:
+    ConditionVariable() {
+        if (fossil_cond_create(&cond_) != 0) {
+            throw std::runtime_error("Failed to create condition variable");
+        }
+    }
+
+    ~ConditionVariable() {
+        if (fossil_cond_erase(&cond_) != 0) {
+            throw std::runtime_error("Failed to destroy condition variable");
+        }
+    }
+
+    void wait(Mutex &mutex) {
+        if (fossil_cond_wait(&cond_, &mutex.mutex_) != 0) {
+            throw std::runtime_error("Failed to wait on condition variable");
+        }
+    }
+
+    void signal() {
+        if (fossil_cond_signal(&cond_) != 0) {
+            throw std::runtime_error("Failed to signal condition variable");
+        }
+    }
+
+    void broadcast() {
+        if (fossil_cond_broadcast(&cond_) != 0) {
+            throw std::runtime_error("Failed to broadcast condition variable");
+        }
+    }
+
+private:
+    fossil_xcond_t cond_;
+};
+
+} // namespace fossil
+
+#endif // __cplusplus
+
 #endif

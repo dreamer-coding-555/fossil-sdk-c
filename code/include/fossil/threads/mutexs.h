@@ -71,4 +71,48 @@ int32_t fossil_mutex_trylock(fossil_xmutex_t *mutex);
 }
 #endif
 
+#ifdef __cplusplus
+
+#include <stdexcept>
+
+namespace fossil {
+
+class Mutex {
+public:
+    Mutex() {
+        if (fossil_mutex_create(&mutex_) != 0) {
+            throw std::runtime_error("Failed to create mutex");
+        }
+    }
+
+    ~Mutex() {
+        if (fossil_mutex_erase(&mutex_) != 0) {
+            throw std::runtime_error("Failed to destroy mutex");
+        }
+    }
+
+    void lock() {
+        if (fossil_mutex_lock(&mutex_) != 0) {
+            throw std::runtime_error("Failed to lock mutex");
+        }
+    }
+
+    void unlock() {
+        if (fossil_mutex_unlock(&mutex_) != 0) {
+            throw std::runtime_error("Failed to unlock mutex");
+        }
+    }
+
+    bool trylock() {
+        return fossil_mutex_trylock(&mutex_) == 0;
+    }
+
+private:
+    fossil_xmutex_t mutex_;
+};
+
+} // namespace fossil
+
+#endif // __cplusplus
+
 #endif

@@ -82,4 +82,48 @@ int32_t fossil_sem_trywait(fossil_xsem_t *sem);
 }
 #endif
 
+#ifdef __cplusplus
+
+#include <stdexcept>
+
+namespace fossil {
+
+class Semaphore {
+public:
+    Semaphore(uint32_t value) {
+        if (fossil_sem_create(&sem_, value) != 0) {
+            throw std::runtime_error("Failed to create semaphore");
+        }
+    }
+
+    ~Semaphore() {
+        if (fossil_sem_erase(&sem_) != 0) {
+            throw std::runtime_error("Failed to destroy semaphore");
+        }
+    }
+
+    void wait() {
+        if (fossil_sem_wait(&sem_) != 0) {
+            throw std::runtime_error("Failed to lock semaphore");
+        }
+    }
+
+    void post() {
+        if (fossil_sem_post(&sem_) != 0) {
+            throw std::runtime_error("Failed to unlock semaphore");
+        }
+    }
+
+    bool trywait() {
+        return fossil_sem_trywait(&sem_) == 0;
+    }
+
+private:
+    fossil_xsem_t sem_;
+};
+
+} // namespace fossil
+
+#endif // __cplusplus
+
 #endif

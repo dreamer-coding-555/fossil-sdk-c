@@ -65,4 +65,42 @@ int32_t fossil_thread_local_set(fossil_xthread_local_t key, const void *value);
 }
 #endif
 
+#ifdef __cplusplus
+
+#include <stdexcept>
+
+namespace fossil {
+
+class ThreadLocal {
+public:
+    ThreadLocal(void (*destructor)(void*) = nullptr) {
+        if (fossil_thread_local_create(&key_, destructor) != 0) {
+            throw std::runtime_error("Failed to create thread-local storage key");
+        }
+    }
+
+    ~ThreadLocal() {
+        if (fossil_thread_local_erase(key_) != 0) {
+            throw std::runtime_error("Failed to erase thread-local storage key");
+        }
+    }
+
+    void* get() const {
+        return fossil_thread_local_get(key_);
+    }
+
+    void set(const void* value) {
+        if (fossil_thread_local_set(key_, value) != 0) {
+            throw std::runtime_error("Failed to set thread-local storage value");
+        }
+    }
+
+private:
+    fossil_xthread_local_t key_;
+};
+
+} // namespace fossil
+
+#endif // __cplusplus
+
 #endif

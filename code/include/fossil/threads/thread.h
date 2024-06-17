@@ -87,30 +87,61 @@ int32_t fossil_thread_attr_erase(fossil_xthread_attr_t *attr);
 
 #ifdef __cplusplus
 
-namespace fossil
-{
-    class Thread
-    {
-    public:
-        Thread(fossil_xthread_attr_t *attr, fossil_xtask_t task)
-        {
-            fossil_thread_create(&m_thread, attr, task);
-        }
+#include <stdexcept>
 
-        ~Thread()
-        {
-            fossil_thread_detach(m_thread);
-        }
+namespace fossil {
 
-        int32_t join(void **retval)
-        {
-            return fossil_thread_join(m_thread, retval);
+class Thread {
+public:
+    Thread(fossil_xtask_t task, fossil_xthread_attr_t *attr = nullptr) {
+        if (fossil_thread_create(&thread_, attr, task) != 0) {
+            throw std::runtime_error("Failed to create thread");
         }
+    }
 
-    private:
-        fossil_xthread_t m_thread;
-    };
-}
+    ~Thread() {
+        // Destructor logic if needed
+    }
+
+    void join(void **retval = nullptr) {
+        if (fossil_thread_join(thread_, retval) != 0) {
+            throw std::runtime_error("Failed to join thread");
+        }
+    }
+
+    void detach() {
+        if (fossil_thread_detach(thread_) != 0) {
+            throw std::runtime_error("Failed to detach thread");
+        }
+    }
+
+private:
+    fossil_xthread_t thread_;
+};
+
+class ThreadAttr {
+public:
+    ThreadAttr() {
+        if (fossil_thread_attr_create(&attr_) != 0) {
+            throw std::runtime_error("Failed to create thread attributes");
+        }
+    }
+
+    ~ThreadAttr() {
+        if (fossil_thread_attr_erase(&attr_) != 0) {
+            throw std::runtime_error("Failed to destroy thread attributes");
+        }
+    }
+
+    fossil_xthread_attr_t *get() {
+        return &attr_;
+    }
+
+private:
+    fossil_xthread_attr_t attr_;
+};
+
+} // namespace fossil
 
 #endif
 

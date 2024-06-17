@@ -77,4 +77,40 @@ int32_t fossil_thread_pool_add_task(fossil_xthread_pool_t *pool, fossil_xtask_fu
 }
 #endif
 
+#ifdef __cplusplus
+
+#include <stdexcept>
+
+namespace fossil
+{
+
+class ThreadPool
+{
+public:
+    ThreadPool(int32_t thread_count, int32_t queue_size) {
+        if (fossil_thread_pool_create(&pool_, thread_count, queue_size) != 0) {
+            throw std::runtime_error("Failed to create thread pool");
+        }
+    }
+
+    ~ThreadPool() {
+        if (fossil_thread_pool_erase(&pool_) != 0) {
+            throw std::runtime_error("Failed to erase thread pool");
+        }
+    }
+
+    void addTask(fossil_xtask_func_t task_func, void *arg) {
+        if (fossil_thread_pool_add_task(&pool_, task_func, arg) != 0) {
+            throw std::runtime_error("Failed to add task to thread pool");
+        }
+    }
+
+private:
+    fossil_xthread_pool_t pool_;
+};
+
+} // namespace fossil
+
+#endif // __cplusplus
+
 #endif

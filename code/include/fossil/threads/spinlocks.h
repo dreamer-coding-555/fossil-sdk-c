@@ -72,4 +72,48 @@ int32_t fossil_spinlock_trylock(fossil_xspinlock_t *lock);
 }
 #endif
 
+#ifdef __cplusplus
+
+#include <stdexcept>
+
+namespace fossil {
+
+class Spinlock {
+public:
+    Spinlock() {
+        if (fossil_spinlock_create(&lock_) != 0) {
+            throw std::runtime_error("Failed to create spinlock");
+        }
+    }
+
+    ~Spinlock() {
+        if (fossil_spinlock_erase(&lock_) != 0) {
+            throw std::runtime_error("Failed to destroy spinlock");
+        }
+    }
+
+    void lock() {
+        if (fossil_spinlock_lock(&lock_) != 0) {
+            throw std::runtime_error("Failed to acquire spinlock");
+        }
+    }
+
+    void unlock() {
+        if (fossil_spinlock_unlock(&lock_) != 0) {
+            throw std::runtime_error("Failed to release spinlock");
+        }
+    }
+
+    bool trylock() {
+        return fossil_spinlock_trylock(&lock_) == 0;
+    }
+
+private:
+    fossil_xspinlock_t lock_;
+};
+
+} // namespace fossil
+
+#endif // __cplusplus
+
 #endif
