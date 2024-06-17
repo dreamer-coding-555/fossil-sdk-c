@@ -45,6 +45,7 @@ FOSSIL_TEARDOWN(c_thread_fixture) {
 
 XTASK(pizza_maker_task, arg_name) {
     // Making a cool pizza
+    (void)arg_name;
 }
 
 // Test case 1: Test fossil_thread_create with valid parameters
