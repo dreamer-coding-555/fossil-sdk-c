@@ -97,7 +97,7 @@ typedef enum {
 enum {
     FOSSIL_SUCCESS,
     FOSSIL_FAILURE,
-    FOSSIL_ERROR
+    FOSSIL_ERROR = -1
 };
 #endif
 
