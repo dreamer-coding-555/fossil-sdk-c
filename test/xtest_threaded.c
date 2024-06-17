@@ -13,7 +13,6 @@ Description:
 #include <fossil/threads.h> // library under test
 #include <fossil/unittest.h> // basic test tools
 #include <fossil/xassume.h>  // extra asserts
-#include <fossil/common/common.h>
 
 // * * * * * * * * * * * * * * * * * * * * * * * *
 // * Fossil Logic Test Utilities
@@ -34,20 +33,16 @@ FOSSIL_TEARDOWN(c_thread_fixture) {
 // * * * * * * * * * * * * * * * * * * * * * * * *
 // * Fossil Logic Test Cases
 // * * * * * * * * * * * * * * * * * * * * * * * *
-// The test cases below are provided as samples, inspired
-// by the Meson build system's approach of using test cases
-// as samples for library usage.
-// * * * * * * * * * * * * * * * * * * * * * * * *
 
-XTASK(pizza_maker_task, arg_name) {
+XTASK(pizza_maker_task, arg) {
     // Making a cool pizza
-    (void)arg_name;
+    (void)arg;
 }
 
 // Test case 1: Test fossil_thread_create with valid parameters
 FOSSIL_TEST(test_fossil_thread_create_valid_params) {
     fossil_xthread_t thread;
-    fossil_xtask_t task = (fossil_xtask_t){pizza_maker_task, NULL};
+    fossil_xtask_t task = {pizza_maker_task, NULL};
 
     ASSUME_ITS_EQUAL_I32(FOSSIL_SUCCESS, fossil_thread_create(&thread, NULL, task));
     fossil_thread_detach(thread); // Detach the thread to clean up resources
@@ -56,7 +51,7 @@ FOSSIL_TEST(test_fossil_thread_create_valid_params) {
 // Test case 2: Test fossil_thread_join with valid parameters
 FOSSIL_TEST(test_fossil_thread_join_valid_params) {
     fossil_xthread_t thread;
-    fossil_xtask_t task = (fossil_xtask_t){pizza_maker_task, NULL}; // Initialize task variable
+    fossil_xtask_t task = {NULL, NULL}; // Initialize task variable
     ASSUME_ITS_EQUAL_I32(FOSSIL_SUCCESS, fossil_thread_create(&thread, NULL, task)); // Create a thread before joining it
     ASSUME_ITS_EQUAL_I32(FOSSIL_SUCCESS, fossil_thread_join(thread, NULL));
     // No need to detach after joining
