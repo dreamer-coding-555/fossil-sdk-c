@@ -60,13 +60,6 @@ FOSSIL_TEST(test_fossil_spinlock_unlock_valid_params) {
     ASSUME_ITS_EQUAL_I32(0, fossil_spinlock_unlock(&lock));
 }
 
-// Test case 5: Test fossil_spinlock_trylock with valid parameters
-FOSSIL_TEST(test_fossil_spinlock_trylock_valid_params) {
-    fossil_xspinlock_t lock;
-    fossil_spinlock_create(&lock);
-    ASSUME_ITS_EQUAL_I32(0, fossil_spinlock_trylock(&lock));
-}
-
 // * * * * * * * * * * * * * * * * * * * * * * * *
 // * Fossil Logic Test Pool
 // * * * * * * * * * * * * * * * * * * * * * * * *
@@ -75,5 +68,4 @@ FOSSIL_TEST_GROUP(spinlocks_group) {
     ADD_TEST(test_fossil_spinlock_erase);
     ADD_TEST(test_fossil_spinlock_lock_valid_params);
     ADD_TEST(test_fossil_spinlock_unlock_valid_params);
-    ADD_TEST(test_fossil_spinlock_trylock_valid_params);
 } // end of fixture

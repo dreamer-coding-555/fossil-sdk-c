@@ -54,6 +54,10 @@ int32_t fossil_thread_create(fossil_xthread_t *thread, fossil_xthread_attr_t *at
     *thread = CreateThread(cnullptr, 0, thread_start_routine, (LPVOID)&task, 0, cnullptr);
     #else
     int32_t result = pthread_create(thread, attr, thread_start_routine, (void *)&task);
+    if (result != 0) {
+        fossil_thread_attr_erase(&default_attr);
+        return FOSSIL_ERROR;
+    }
     #endif
 
     // Destroy the default thread attribute if created
@@ -62,7 +66,7 @@ int32_t fossil_thread_create(fossil_xthread_t *thread, fossil_xthread_attr_t *at
     }
 
     #ifndef _WIN32
-    return (result == 0) ? FOSSIL_SUCCESS : FOSSIL_ERROR;
+    return FOSSIL_SUCCESS;
     #else
     return (*thread != cnullptr) ? FOSSIL_SUCCESS : FOSSIL_ERROR;
     #endif

@@ -85,4 +85,33 @@ int32_t fossil_thread_attr_erase(fossil_xthread_attr_t *attr);
 }
 #endif
 
+#ifdef __cplusplus
+
+namespace fossil
+{
+    class Thread
+    {
+    public:
+        Thread(fossil_xthread_attr_t *attr, fossil_xtask_t task)
+        {
+            fossil_thread_create(&m_thread, attr, task);
+        }
+
+        ~Thread()
+        {
+            fossil_thread_detach(m_thread);
+        }
+
+        int32_t join(void **retval)
+        {
+            return fossil_thread_join(m_thread, retval);
+        }
+
+    private:
+        fossil_xthread_t m_thread;
+    };
+}
+
+#endif
+
 #endif

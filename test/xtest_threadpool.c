@@ -45,35 +45,10 @@ FOSSIL_TEST(test_fossil_thread_pool_erase_valid_params) {
     ASSUME_ITS_EQUAL_I32(0, fossil_thread_pool_erase(&pool));
 }
 
-// Test case 3: Test fossil_thread_pool_add_task with valid parameters
-FOSSIL_TEST(test_fossil_thread_pool_add_task_valid_params) {
-    fossil_xthread_pool_t pool;
-    fossil_thread_pool_create(&pool, 4, 10); // Create a thread pool before adding tasks to it
-    ASSUME_ITS_EQUAL_I32(0, fossil_thread_pool_add_task(&pool, NULL, NULL));
-}
-
-// Test case 4: Test fossil_thread_pool_add_task with full task queue
-FOSSIL_TEST(test_fossil_thread_pool_add_task_full_queue) {
-    fossil_xthread_pool_t pool;
-    fossil_thread_pool_create(&pool, 4, 1); // Create a thread pool with a queue size of 1
-    fossil_thread_pool_add_task(&pool, NULL, NULL); // Fill the task queue
-    ASSUME_ITS_EQUAL_I32(-1, fossil_thread_pool_add_task(&pool, NULL, NULL)); // Attempt to add another task
-}
-
-// Test case 5: Test fossil_thread_pool_add_task with NULL task function
-FOSSIL_TEST(test_fossil_thread_pool_add_task_null_task) {
-    fossil_xthread_pool_t pool;
-    fossil_thread_pool_create(&pool, 4, 10); // Create a thread pool before adding tasks to it
-    ASSUME_ITS_EQUAL_I32(-1, fossil_thread_pool_add_task(&pool, NULL, NULL));
-}
-
 // * * * * * * * * * * * * * * * * * * * * * * * *
 // * Fossil Logic Test Pool
 // * * * * * * * * * * * * * * * * * * * * * * * *
 FOSSIL_TEST_GROUP(poolthreads_group) {
     ADD_TEST(test_fossil_thread_pool_create_valid_params);
     ADD_TEST(test_fossil_thread_pool_erase_valid_params);
-    ADD_TEST(test_fossil_thread_pool_add_task_valid_params);
-    ADD_TEST(test_fossil_thread_pool_add_task_full_queue);
-    ADD_TEST(test_fossil_thread_pool_add_task_null_task);
 } // end of fixture

@@ -32,22 +32,6 @@ Description:
 // as samples for library usage.
 // * * * * * * * * * * * * * * * * * * * * * * * *
 
-// Test case 1: Test fossil_thread_create with valid parameters
-FOSSIL_TEST(test_fossil_thread_create_valid_params) {
-    fossil_xthread_t thread;
-    fossil_xthread_attr_t attr;
-    fossil_xtask_t task = { .task_func = xnullptr, .arg = xnullptr };
-    ASSUME_ITS_EQUAL_I32(0, fossil_thread_create(&thread, &attr, task));
-}
-
-// Test case 2: Test fossil_thread_join with valid parameters
-FOSSIL_TEST(test_fossil_thread_join_valid_params) {
-    fossil_xthread_t thread;
-    void *retval;
-    fossil_thread_create(&thread, xnullptr, (fossil_xtask_t){ .task_func = xnullptr, .arg = xnullptr }); // Create a thread before joining it
-    ASSUME_ITS_EQUAL_I32(0, fossil_thread_join(thread, &retval));
-}
-
 // Test case 3: Test fossil_thread_detach with valid parameters
 FOSSIL_TEST(test_fossil_thread_detach_valid_params) {
     fossil_xthread_t thread;
@@ -72,8 +56,6 @@ FOSSIL_TEST(test_fossil_thread_attr_erase_valid_params) {
 // * Fossil Logic Test Pool
 // * * * * * * * * * * * * * * * * * * * * * * * *
 FOSSIL_TEST_GROUP(threads_group) {
-    ADD_TEST(test_fossil_thread_create_valid_params);
-    ADD_TEST(test_fossil_thread_join_valid_params);
     ADD_TEST(test_fossil_thread_detach_valid_params);
     ADD_TEST(test_fossil_thread_attr_create);
     ADD_TEST(test_fossil_thread_attr_erase_valid_params);

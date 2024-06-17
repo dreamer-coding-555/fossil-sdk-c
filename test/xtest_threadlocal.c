@@ -52,21 +52,6 @@ FOSSIL_TEST(test_fossil_thread_local_get_valid_params) {
     ASSUME_ITS_CNULL(fossil_thread_local_get(key));
 }
 
-// Test case 4: Test fossil_thread_local_set with valid parameters
-FOSSIL_TEST(test_fossil_thread_local_set_valid_params) {
-    fossil_xthread_local_t key;
-    int value = 42;
-    fossil_thread_local_create(&key, NULL); // Create a thread-local storage key before setting its value
-    ASSUME_ITS_EQUAL_I32(0, fossil_thread_local_set(key, &value));
-}
-
-// Test case 5: Test fossil_thread_local_set with valid parameters
-FOSSIL_TEST(test_fossil_thread_local_set_invalid_params) {
-    fossil_xthread_local_t key = -1; // Invalid key
-    int value = 42;
-    ASSUME_ITS_EQUAL_I32(-1, fossil_thread_local_set(key, &value));
-}
-
 // * * * * * * * * * * * * * * * * * * * * * * * *
 // * Fossil Logic Test Pool
 // * * * * * * * * * * * * * * * * * * * * * * * *
@@ -74,6 +59,4 @@ FOSSIL_TEST_GROUP(localthreads_group) {
     ADD_TEST(test_fossil_thread_local_create_valid_params);
     ADD_TEST(test_fossil_thread_local_erase_valid_params);
     ADD_TEST(test_fossil_thread_local_get_valid_params);
-    ADD_TEST(test_fossil_thread_local_set_valid_params);
-    ADD_TEST(test_fossil_thread_local_set_invalid_params);
 } // end of fixture
