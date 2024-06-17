@@ -54,6 +54,7 @@ FOSSIL_TEST(test_fossil_thread_create_valid_params) {
     fossil_xtask_t task = (fossil_xtask_t){pizza_maker_task, xnull};
 
     ASSUME_ITS_EQUAL_I32(0, fossil_thread_create(&thread, xnullptr, task));
+    fossil_thread_detach(thread);
 }
 
 // Test case 2: Test fossil_thread_join with valid parameters
@@ -62,6 +63,7 @@ FOSSIL_TEST(test_fossil_thread_join_valid_params) {
     fossil_xtask_t task = (fossil_xtask_t){pizza_maker_task, xnull}; // Initialize task variable
     fossil_thread_create(&thread, xnullptr, task); // Create a thread before joining it
     ASSUME_ITS_EQUAL_I32(0, fossil_thread_join(thread, xnullptr));
+    fossil_thread_detach(thread);
 }
 
 // Test case 5: Test fossil_thread_attr_create
