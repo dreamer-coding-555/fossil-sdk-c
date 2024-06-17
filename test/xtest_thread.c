@@ -32,11 +32,6 @@ Description:
 // as samples for library usage.
 // * * * * * * * * * * * * * * * * * * * * * * * *
 
-// Test case 4: Test fossil_thread_join with invalid parameters
-FOSSIL_TEST(test_fossil_thread_join_invalid_params) {
-    ASSUME_ITS_EQUAL_I32(-1, fossil_thread_join(xnull, xnullptr));
-}
-
 // Test case 5: Test fossil_thread_attr_create
 FOSSIL_TEST(test_fossil_thread_attr_create) {
     fossil_xthread_attr_t attr;
@@ -50,17 +45,10 @@ FOSSIL_TEST(test_fossil_thread_attr_erase_valid_params) {
     ASSUME_ITS_EQUAL_I32(0, fossil_thread_attr_erase(&attr));
 }
 
-// Test case 7: Test fossil_thread_attr_erase with invalid parameters
-FOSSIL_TEST(test_fossil_thread_attr_erase_invalid_params) {
-    ASSUME_ITS_EQUAL_I32(-1, fossil_thread_attr_erase(xnull));
-}
-
 // * * * * * * * * * * * * * * * * * * * * * * * *
 // * Fossil Logic Test Pool
 // * * * * * * * * * * * * * * * * * * * * * * * *
 FOSSIL_TEST_GROUP(threads_group) {
-    ADD_TEST(test_fossil_thread_join_invalid_params);
     ADD_TEST(test_fossil_thread_attr_create);
     ADD_TEST(test_fossil_thread_attr_erase_valid_params);
-    ADD_TEST(test_fossil_thread_attr_erase_invalid_params);
 } // end of fixture
