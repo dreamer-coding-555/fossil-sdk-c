@@ -53,7 +53,7 @@ FOSSIL_TEST(test_fossil_thread_create_valid_params) {
 // Test case 2: Test fossil_thread_join with valid parameters
 FOSSIL_TEST(test_fossil_thread_join_valid_params) {
     fossil_xthread_t thread;
-    fossil_xtask_t task = {}; // Initialize task variable
+    fossil_xtask_t task = (fossil_xtask_t){xnull, xnull}; // Initialize task variable
     fossil_thread_create(&thread, xnullptr, task); // Create a thread before joining it
     ASSUME_ITS_EQUAL_I32(0, fossil_thread_join(thread, xnullptr));
     fossil_thread_detach(thread); // Clean up after joining a thread
