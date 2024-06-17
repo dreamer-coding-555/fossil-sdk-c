@@ -114,7 +114,7 @@ int32_t fossil_thread_attr_create(fossil_xthread_attr_t *attr) {
     attr->detach_state = 0;
     return FOSSIL_SUCCESS;
 #else
-    return pthread_attr_init(attr);
+    return pthread_attr_init(attr) == 0 ? FOSSIL_SUCCESS : FOSSIL_ERROR;
 #endif
 }
 
