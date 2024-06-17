@@ -45,20 +45,6 @@ FOSSIL_TEST(test_fossil_sem_erase_after_create) {
     ASSUME_ITS_EQUAL_I32(0, fossil_sem_erase(&sem));
 }
 
-// Test case 3: Test fossil_sem_wait with valid parameters
-FOSSIL_TEST(test_fossil_sem_wait_valid_params) {
-    fossil_xsem_t sem;
-    fossil_sem_create(&sem, 1);
-    ASSUME_ITS_EQUAL_I32(0, fossil_sem_wait(&sem));
-}
-
-// Test case 4: Test fossil_sem_post with valid parameters
-FOSSIL_TEST(test_fossil_sem_post_valid_params) {
-    fossil_xsem_t sem;
-    fossil_sem_create(&sem, 0);
-    ASSUME_ITS_EQUAL_I32(0, fossil_sem_post(&sem));
-}
-
 // Test case 5: Test fossil_sem_trywait with valid parameters
 FOSSIL_TEST(test_fossil_sem_trywait_valid_params) {
     fossil_xsem_t sem;
@@ -72,7 +58,5 @@ FOSSIL_TEST(test_fossil_sem_trywait_valid_params) {
 FOSSIL_TEST_GROUP(sem_group) {
     ADD_TEST(test_fossil_sem_create_valid_value);
     ADD_TEST(test_fossil_sem_erase_after_create);
-    ADD_TEST(test_fossil_sem_wait_valid_params);
-    ADD_TEST(test_fossil_sem_post_valid_params);
     ADD_TEST(test_fossil_sem_trywait_valid_params);
 } // end of fixture

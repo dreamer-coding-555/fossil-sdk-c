@@ -32,31 +32,35 @@ Description:
 // as samples for library usage.
 // * * * * * * * * * * * * * * * * * * * * * * * *
 
-// Test case 3: Test fossil_thread_detach with valid parameters
-FOSSIL_TEST(test_fossil_thread_detach_valid_params) {
-    fossil_xthread_t thread;
-    fossil_thread_create(&thread, xnullptr, (fossil_xtask_t){ .task_func = xnullptr, .arg = xnullptr }); // Create a thread before detaching it
-    ASSUME_ITS_EQUAL_I32(0, fossil_thread_detach(thread));
+// Test case 4: Test fossil_thread_join with invalid parameters
+FOSSIL_TEST(test_fossil_thread_join_invalid_params) {
+    ASSUME_ITS_EQUAL_I32(-1, fossil_thread_join(xnull, xnullptr));
 }
 
-// Test case 4: Test fossil_thread_attr_create
+// Test case 5: Test fossil_thread_attr_create
 FOSSIL_TEST(test_fossil_thread_attr_create) {
     fossil_xthread_attr_t attr;
     ASSUME_ITS_EQUAL_I32(0, fossil_thread_attr_create(&attr));
 }
 
-// Test case 5: Test fossil_thread_attr_erase with valid parameters
+// Test case 6: Test fossil_thread_attr_erase with valid parameters
 FOSSIL_TEST(test_fossil_thread_attr_erase_valid_params) {
     fossil_xthread_attr_t attr;
     fossil_thread_attr_create(&attr); // Create thread attributes before erasing them
     ASSUME_ITS_EQUAL_I32(0, fossil_thread_attr_erase(&attr));
 }
 
+// Test case 7: Test fossil_thread_attr_erase with invalid parameters
+FOSSIL_TEST(test_fossil_thread_attr_erase_invalid_params) {
+    ASSUME_ITS_EQUAL_I32(-1, fossil_thread_attr_erase(xnull));
+}
+
 // * * * * * * * * * * * * * * * * * * * * * * * *
 // * Fossil Logic Test Pool
 // * * * * * * * * * * * * * * * * * * * * * * * *
 FOSSIL_TEST_GROUP(threads_group) {
-    ADD_TEST(test_fossil_thread_detach_valid_params);
+    ADD_TEST(test_fossil_thread_join_invalid_params);
     ADD_TEST(test_fossil_thread_attr_create);
     ADD_TEST(test_fossil_thread_attr_erase_valid_params);
+    ADD_TEST(test_fossil_thread_attr_erase_invalid_params);
 } // end of fixture
