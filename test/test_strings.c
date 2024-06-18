@@ -45,7 +45,7 @@ FOSSIL_TEARDOWN(c_string_fixture) {
 // Test case 1: Test fossil_cstring_create
 FOSSIL_TEST(test_fossil_cstring_create) {
     cstring cstring = cnullptr;
-    ASSUME_ITS_TRUE(cnullptr == fossil_cstr_create(&cstring));
+    ASSUME_ITS_TRUE(cnullptr == fossil_cstr_create(cstring));
     fossil_cstr_erase(cstring); // Clean up after creating a cstring
 }
 
@@ -87,15 +87,15 @@ FOSSIL_TEARDOWN(w_string_fixture) {
 
 // Test case 1: Test fossil_wstring_create
 FOSSIL_TEST(test_fossil_wstring_create) {
-    wstring wstring = cnullptr;
-    ASSUME_ITS_TRUE(cnullptr == fossil_wstr_create(wstring));
-    fossil_wstr_erase(wstring); // Clean up after creating a wstring
+    wstring var = cnullptr;
+    ASSUME_ITS_TRUE(cnullptr == fossil_wstr_create(var));
+    fossil_wstr_erase(var); // Clean up after creating a wstring
 }
 
 // Test case 2: Test fossil_wstring_length
 FOSSIL_TEST(test_fossil_wstring_length) {
-    wstring wstring = L"Hello, World!";
-    ASSUME_ITS_TRUE(fossil_wstr_length(wstring) == 13);
+    wstring var = L"Hello, World!";
+    ASSUME_ITS_TRUE(fossil_wstr_length(var) == 13);
 }
 
 // Test case 3: Test fossil_wstring_copy
@@ -130,15 +130,15 @@ FOSSIL_TEARDOWN(b_string_fixture) {
 
 // Test case 1: Test fossil_bstring_create
 FOSSIL_TEST(test_fossil_bstring_create) {
-    bstring bstring = cnullptr;
-    ASSUME_ITS_TRUE(cnullptr == fossil_bstr_create(bstring));
-    fossil_bstr_erase(bstring); // Clean up after creating a bstring
+    bstring var = cnullptr;
+    ASSUME_ITS_TRUE(cnullptr == fossil_bstr_create(var));
+    fossil_bstr_erase(var); // Clean up after creating a bstring
 }
 
 // Test case 2: Test fossil_bstring_length
 FOSSIL_TEST(test_fossil_bstring_length) {
-    bstring bstring = FOSSIL_STATIC_CAST(bstring, "Hello, World!");
-    ASSUME_ITS_TRUE(fossil_bstr_length(bstring) == 13);
+    bstring var = FOSSIL_STATIC_CAST(bstring, "Hello, World!");
+    ASSUME_ITS_TRUE(fossil_bstr_length(var) == 13);
 }
 
 // Test case 3: Test fossil_bstring_copy
