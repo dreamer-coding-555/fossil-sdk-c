@@ -141,5 +141,5 @@ FOSSIL_TEST_GROUP(c_threaded_tests) {
     
     // Pool Thread Fixture
     ADD_TESTF(test_fossil_thread_pool_create_erase, c_thread_pool_fixture);
-    //ADD_TESTF(test_fossil_thread_pool_add_task, c_thread_pool_fixture);
+    ADD_TESTF(test_fossil_thread_pool_add_task, c_thread_pool_fixture);
 } // end of fixture
