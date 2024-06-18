@@ -66,6 +66,7 @@ int32_t fossil_thread_pool_create(fossil_xthread_pool_t *pool, int32_t thread_co
         pool->task_queue = NULL;
         return FOSSIL_ERROR;
     }
+
     if (fossil_cond_create(&pool->queue_cond) != 0) {
         fossil_mutex_erase(&pool->queue_mutex);
         free(pool->threads);
@@ -78,21 +79,7 @@ int32_t fossil_thread_pool_create(fossil_xthread_pool_t *pool, int32_t thread_co
     for (int i = 0; i < thread_count; ++i) {
         fossil_xtask_t task = { .task_func = (fossil_xtask_func_t)thread_pool_worker, .arg = pool };
         if (fossil_thread_create(&pool->threads[i], NULL, task) != FOSSIL_SUCCESS) {
-            atomic_store(&pool->shutdown, 1);
-            fossil_mutex_lock(&pool->queue_mutex);
-            fossil_cond_broadcast(&pool->queue_cond);
-            fossil_mutex_unlock(&pool->queue_mutex);
-
-            for (int j = 0; j < i; ++j) {
-                fossil_thread_join(pool->threads[j], NULL);
-            }
-
-            fossil_mutex_erase(&pool->queue_mutex);
-            fossil_cond_erase(&pool->queue_cond);
-            free(pool->threads);
-            pool->threads = NULL;
-            free(pool->task_queue);
-            pool->task_queue = NULL;
+            fossil_thread_pool_erase(pool);
             return FOSSIL_ERROR;
         }
     }
@@ -114,9 +101,7 @@ int32_t fossil_thread_pool_erase(fossil_xthread_pool_t *pool) {
     }
 
     free(pool->threads);
-    pool->threads = NULL;
     free(pool->task_queue);
-    pool->task_queue = NULL;
     fossil_mutex_erase(&pool->queue_mutex);
     fossil_cond_erase(&pool->queue_cond);
 
