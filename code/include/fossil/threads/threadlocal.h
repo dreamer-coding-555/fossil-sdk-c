@@ -15,12 +15,18 @@ Description:
 
 #ifdef _WIN32
 #include <windows.h>
-typedef DWORD fossil_xthread_local_t;
 #else
 #include <pthread.h>
-typedef pthread_key_t fossil_xthread_local_t;
 #endif
 #include <stdint.h>
+
+typedef struct {
+#ifdef _WIN32
+    DWORD key;
+#else
+    pthread_key_t key;
+#endif
+} fossil_xthread_local_t;
 
 #ifdef __cplusplus
 extern "C"
