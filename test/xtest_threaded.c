@@ -14,7 +14,9 @@ Description:
 #include <fossil/unittest.h> // basic test tools
 #include <fossil/xassume.h>  // extra asserts
 #include <fossil/common/common.h>
+
 #include <string.h>
+#include <stdlib.h>
 
 // * * * * * * * * * * * * * * * * * * * * * * * *
 // * Fossil Logic Test Utilities
