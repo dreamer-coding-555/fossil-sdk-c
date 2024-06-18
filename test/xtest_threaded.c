@@ -110,19 +110,19 @@ XTASK(dummy_task, arg) {
     (void)arg;
 }
 
-// Test case: Create and erase thread pool
 FOSSIL_TEST(test_fossil_thread_pool_create_erase) {
     fossil_xthread_pool_t pool;
     ASSUME_ITS_EQUAL_I32(FOSSIL_SUCCESS, fossil_thread_pool_create(&pool, 4, 10));
     ASSUME_ITS_EQUAL_I32(FOSSIL_SUCCESS, fossil_thread_pool_erase(&pool));
+    // After erase, avoid accessing pool or any of its fields
 }
 
-// Test case: Add task to thread pool
 FOSSIL_TEST(test_fossil_thread_pool_add_task) {
     fossil_xthread_pool_t pool;
     ASSUME_ITS_EQUAL_I32(FOSSIL_SUCCESS, fossil_thread_pool_create(&pool, 4, 10));
     ASSUME_ITS_EQUAL_I32(FOSSIL_SUCCESS, fossil_thread_pool_add_task(&pool, dummy_task, NULL));
     ASSUME_ITS_EQUAL_I32(FOSSIL_SUCCESS, fossil_thread_pool_erase(&pool));
+    // After erase, avoid accessing pool or any of its fields
 }
 
 // * * * * * * * * * * * * * * * * * * * * * * * *
@@ -138,6 +138,6 @@ FOSSIL_TEST_GROUP(c_threaded_tests) {
     ADD_TESTF(test_fossil_thread_local_set_get, c_thread_local_fixture);
     
     // Pool Thread Fixture
-    //ADD_TESTF(test_fossil_thread_pool_create_erase, c_thread_pool_fixture);
-    //ADD_TESTF(test_fossil_thread_pool_add_task, c_thread_pool_fixture);
+    ADD_TESTF(test_fossil_thread_pool_create_erase, c_thread_pool_fixture);
+    ADD_TESTF(test_fossil_thread_pool_add_task, c_thread_pool_fixture);
 } // end of fixture
