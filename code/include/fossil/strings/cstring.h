@@ -133,6 +133,28 @@ namespace fossil {
             return fossil_cstr_length(cstr_);
         }
 
+        /**
+         * Access a character at the specified index.
+         * 
+         * @param index The index of the character to access.
+         * @return The character at the specified index.
+         */
+        cletter at(size_t index) const {
+            if (index >= length()) {
+                throw std::out_of_range("Index out of range");
+            }
+            return cstr_[index];
+        }
+
+        /**
+         * Get a pointer to the underlying C string.
+         * 
+         * @return A pointer to the underlying C string.
+         */
+        const_cstring c_str() const {
+            return cstr_;
+        }
+
     private:
         cstring cstr_;
     };

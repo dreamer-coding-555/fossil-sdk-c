@@ -145,6 +145,29 @@ public:
         return fossil_bstr_length(str);
     }
 
+    /**
+     * Get a pointer to the underlying C-style string.
+     * 
+     * Returns a pointer to the underlying C-style string.
+     */
+    const char* c_str() const {
+        return reinterpret_cast<const char*>(str);
+    }
+
+    /**
+     * Access the byte string at the specified index.
+     * 
+     * @param index The index of the byte to access.
+     * @return The byte at the specified index.
+     * @throws std::out_of_range if the index is out of range.
+     */
+    bletter& at(size_t index) {
+        if (index >= length()) {
+            throw std::out_of_range("Index out of range.");
+        }
+        return str[index];
+    }
+
 private:
     bstring str;
 };
