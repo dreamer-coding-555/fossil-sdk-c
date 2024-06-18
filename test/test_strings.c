@@ -44,7 +44,7 @@ FOSSIL_TEARDOWN(c_string_fixture) {
 
 // Test case 1: Test fossil_cstring_create
 FOSSIL_TEST(test_fossil_cstring_create) {
-    cstring cstring;
+    cstring cstring = cnullptr;
     ASSUME_ITS_EQUAL_I32(FOSSIL_SUCCESS, fossil_cstr_create(cstring));
     fossil_cstr_erase(cstring); // Clean up after creating a cstring
 }
@@ -63,7 +63,7 @@ FOSSIL_TEARDOWN(w_string_fixture) {
 
 // Test case 1: Test fossil_wstring_create
 FOSSIL_TEST(test_fossil_wstring_create) {
-    wstring wstring;
+    wstring wstring = cnullptr;
     ASSUME_ITS_EQUAL_I32(FOSSIL_SUCCESS, fossil_wstr_create(wstring));
     fossil_wstr_erase(wstring); // Clean up after creating a wstring
 }
@@ -82,7 +82,7 @@ FOSSIL_TEARDOWN(b_string_fixture) {
 
 // Test case 1: Test fossil_bstring_create
 FOSSIL_TEST(test_fossil_bstring_create) {
-    bstring bstring;
+    bstring bstring = cnullptr;
     ASSUME_ITS_EQUAL_I32(FOSSIL_SUCCESS, fossil_bstr_create(bstring));
     fossil_bstr_erase(bstring); // Clean up after creating a bstring
 }
