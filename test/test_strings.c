@@ -60,7 +60,7 @@ FOSSIL_TEST(test_fossil_cstring_copy) {
     cstring src = "Hello, World!";
     cstring dest = "";
     fossil_cstr_copy(dest, src);
-    ASSUME_ITS_TRUE(fossil_cstr_compare(src, dest) == 0);
+    ASSUME_ITS_EQUAL_CSTR(src, dest);
     fossil_cstr_erase(dest); // Clean up after copying
 }
 
@@ -69,7 +69,7 @@ FOSSIL_TEST(test_fossil_cstring_concatenate) {
     cstring str1 = "Hello, ";
     cstring str2 = "World!";
     cstring result = fossil_cstr_concat(str1, str2);
-    ASSUME_ITS_TRUE(fossil_cstr_compare(result, "Hello, World!") == 0);
+    ASSUME_ITS_EQUAL_CSTR(result, "Hello, World!");
     fossil_cstr_erase(result); // Clean up after concatenating
 }
 
@@ -103,7 +103,7 @@ FOSSIL_TEST(test_fossil_wstring_copy) {
     wstring src = L"Hello, World!";
     wstring dest = L"";
     fossil_wstr_copy(dest, src);
-    ASSUME_ITS_TRUE(fossil_wstr_compare(src, dest) == 0);
+    ASSUME_ITS_EQUAL_WSTR(src, dest);
     fossil_wstr_erase(dest); // Clean up after copying
 }
 
@@ -112,7 +112,7 @@ FOSSIL_TEST(test_fossil_wstring_concatenate) {
     wstring str1 = L"Hello, ";
     wstring str2 = L"World!";
     wstring result = fossil_wstr_concat(str1, str2);
-    ASSUME_ITS_TRUE(fossil_wstr_compare(result, L"Hello, World!") == 0);
+    ASSUME_ITS_EQUAL_WSTR(result, L"Hello, World!");
     fossil_wstr_erase(result); // Clean up after concatenating
 }
 
@@ -146,7 +146,7 @@ FOSSIL_TEST(test_fossil_bstring_copy) {
     bstring src = FOSSIL_STATIC_CAST(bstring, "Hello, World!");
     bstring dest = FOSSIL_STATIC_CAST(bstring, "");
     fossil_bstr_copy(dest, src);
-    ASSUME_ITS_TRUE(fossil_bstr_compare(src, dest) == 0);
+    ASSUME_ITS_EQUAL_BSTR(src, dest);
     fossil_bstr_erase(dest); // Clean up after copying
 }
 
@@ -155,7 +155,7 @@ FOSSIL_TEST(test_fossil_bstring_concatenate) {
     bstring str1 = FOSSIL_STATIC_CAST(bstring, "Hello, ");
     bstring str2 = FOSSIL_STATIC_CAST(bstring, "World!");
     bstring result = fossil_bstr_concat(str1, str2);
-    ASSUME_ITS_TRUE(fossil_bstr_compare(result, (bstring)"Hello, World!") == 0);
+    ASSUME_ITS_EQUAL_BSTR(result, "Hello, World!");
     fossil_bstr_erase(result); // Clean up after concatenating
 }
 
