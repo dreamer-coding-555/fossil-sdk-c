@@ -104,7 +104,7 @@ FOSSIL_TEST(test_fossil_thread_local_with_destructor) {
     fossil_xthread_local_t key;
     ASSUME_ITS_EQUAL_I32(FOSSIL_SUCCESS, fossil_thread_local_create(&key, dummy_destructor));
     
-    char *value = malloc(20);
+    char *value = malloc(27);
     strcpy(value, "test_value_with_destructor");
     ASSUME_ITS_EQUAL_I32(FOSSIL_SUCCESS, fossil_thread_local_set(key, value));
     
