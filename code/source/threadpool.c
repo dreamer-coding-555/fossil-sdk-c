@@ -86,6 +86,7 @@ int32_t fossil_thread_pool_create(fossil_xthread_pool_t *pool, int32_t thread_co
             for (int j = 0; j < i; ++j) {
                 fossil_thread_join(pool->threads[j], NULL);
             }
+
             fossil_mutex_erase(&pool->queue_mutex);
             fossil_cond_erase(&pool->queue_cond);
             free(pool->threads);
