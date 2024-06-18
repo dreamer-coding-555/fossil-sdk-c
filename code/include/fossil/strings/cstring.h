@@ -77,37 +77,64 @@ size_t fossil_cstr_length(const_cstring str);
 #endif
 
 #ifdef __cplusplus
+#include <stdexcept>
+
 namespace fossil {
     class CString {
     public:
         /**
-         * Create a copy of a C string.
+         * C++ constructor for creating a copy of a C string.
          * 
          * @param str The C string to copy.
-         * @return A new C string containing a copy of the input string.
+         * @throws std::bad_alloc if memory allocation fails
          */
-        static cstring create(const_cstring str) {
-            return fossil_cstr_create(str);
+        CString(const_cstring str) {
+            try {
+                cstr_ = fossil_cstr_create(str);
+            } catch (const std::bad_alloc& e) {
+                // Handle memory allocation failure
+                // You can log the error or take appropriate action
+                throw e;
+            }
         }
 
         /**
-         * Erase (free) a C string.
+         * C++ default constructor.
          * 
-         * @param str The C string to erase.
+         * Creates an empty CString object.
          */
-        static void erase(cstring str) {
-            fossil_cstr_erase(str);
+        CString() : cstr_(cnullptr) {}
+
+        /**
+         * C++ move constructor.
+         * 
+         * Moves the content of the source CString object to the new object.
+         * The source CString object will be left in a valid but unspecified state.
+         * 
+         * @param other The source CString object to move from.
+         */
+        CString(CString&& other) noexcept : cstr_(other.cstr_) {
+            other.cstr_ = cnullptr;
+        }
+
+        /**
+         * C++ destructor for erasing (freeing) a C string.
+         */
+        ~CString() {
+            fossil_cstr_erase(cstr_);
         }
 
         /**
          * Get the length of a C string.
          * 
-         * @param str The C string to get the length of.
          * @return The length of the C string.
          */
-        static size_t length(const_cstring str) {
-            return fossil_cstr_length(str);
+        size_t length() const {
+            return fossil_cstr_length(cstr_);
         }
+
+    private:
+        cstring cstr_;
     };
 }
 

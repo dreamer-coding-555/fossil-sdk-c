@@ -124,4 +124,49 @@ wstring fossil_wstr_from_numeric(long long number);
 }
 #endif
 
+#ifdef __cplusplus
+namespace fossil {
+
+    class NumericStringConverter {
+    public:
+        static int cstr_to_numeric(const_cstring number) {
+            return fossil_cstr_to_numeric(number);
+        }
+
+        static int bstr_to_numeric(const_bstring number) {
+            return fossil_bstr_to_numeric(number);
+        }
+
+        static int cstr_expression_to_numeric(const_cstring expression) {
+            return fossil_cstr_expression_to_numeric(expression);
+        }
+
+        static int bstr_expression_to_numeric(const_bstring expression) {
+            return fossil_bstr_expression_to_numeric(expression);
+        }
+
+        static const_cstring cstr_from_numeric(long long number) {
+            return fossil_cstr_from_numeric(number);
+        }
+
+        static const_bstring bstr_from_numeric(long long number) {
+            return fossil_bstr_from_numeric(number);
+        }
+
+        static int wstr_to_numeric(const_wstring number) {
+            return fossil_wstr_to_numeric(number);
+        }
+
+        static int wstr_expression_to_numeric(const_wstring expression) {
+            return fossil_wstr_expression_to_numeric(expression);
+        }
+
+        static const_wstring wstr_from_numeric(long long number) {
+            return fossil_wstr_from_numeric(number);
+        }
+    };
+
+}        
+#endif
+
 #endif

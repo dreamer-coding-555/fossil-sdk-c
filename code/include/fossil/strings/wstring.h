@@ -76,4 +76,82 @@ size_t fossil_wstr_length(const_wstring str);
 }
 #endif
 
+#ifdef __cplusplus
+namespace fossil {
+    
+    class WString {
+    public:
+        WString() : _str(nullptr) {} // Default constructor
+        
+        /**
+         * @brief Constructor with parameter
+         * 
+         * Creates a WString object with a copy of the input string.
+         * 
+         * @param str The input string
+         */
+        WString(const_wstring str) : _str(fossil_wstr_create(str)) {} 
+        
+        /**
+         * @brief Move constructor
+         * 
+         * Moves the content of another WString object to this object.
+         * 
+         * @param other The other WString object to move from
+         */
+        WString(WString&& other) noexcept : _str(other._str) {
+            other._str = nullptr;
+        } 
+        
+        /**
+         * @brief Destructor
+         * 
+         * Frees the memory allocated for the WString object.
+         */
+        ~WString() {
+            fossil_wstr_erase(_str);
+        }
+        
+        /**
+         * @brief Get the length of the string
+         * 
+         * Returns the length of the string.
+         * 
+         * @return The length of the string
+         */
+        size_t length() const {
+            return fossil_wstr_length(_str);
+        }
+        
+        /**
+         * @brief Get the character at the specified index
+         * 
+         * Returns the character at the specified index.
+         * 
+         * @param index The index of the character
+         * @return The character at the specified index
+         */
+        const_wletter at(size_t index) const {
+            return fossil_wletter_at(_str, index);
+        }
+        
+        /**
+         * @brief Get the C-style string representation
+         * 
+         * Returns the C-style string representation of the WString object.
+         * 
+         * @return The C-style string representation
+         */
+        const_wstring c_str() const {
+            return _str;
+        }
+
+    private:
+        const_wstring _str;
+    };
+    
+}
+
+#endif
+
 #endif

@@ -251,90 +251,271 @@ wstring fossil_wstr_format_ssn(const_wstring ssn);
 #endif
 
 #ifdef __cplusplus
+
+#include <stdexcept>
+
 namespace fossil {
     class StringFormatter {
     public:
-        // Format a string
+        /**
+         * Format a string.
+         * 
+         * @param format The format string.
+         * @param ... Additional arguments to format.
+         * @return The formatted string, or NULL if an error occurred.
+         */
         static cstring format(const_cstring format, ...) {
-            return fossil_cstr_format(format);
+            try {
+                return fossil_cstr_format(format);
+            } catch (const std::exception& e) {
+                // Handle exception here
+                // Print error message or perform any necessary actions
+                return cnullptr;
+            }
         }
 
-        // Format a phone number string
+        /**
+         * Format a phone number string.
+         * 
+         * @param phone The phone number string.
+         * @return The formatted phone number string, or NULL if an error occurred.
+         */
         static cstring format_phone(const_cstring phone) {
-            return fossil_cstr_format_phone(phone);
+            try {
+                return fossil_cstr_format_phone(phone);
+            } catch (const std::exception& e) {
+                // Handle exception here
+                // Print error message or perform any necessary actions
+                return cnullptr;
+            }
         }
 
-        // Format a date string
+        /**
+         * Format a date string.
+         * 
+         * @param date The date string.
+         * @return The formatted date string, or NULL if an error occurred.
+         */
         static cstring format_date(const_cstring date) {
-            return fossil_cstr_format_date(date);
+            try {
+                return fossil_cstr_format_date(date);
+            } catch (const std::exception& e) {
+                // Handle exception here
+                // Print error message or perform any necessary actions
+                return cnullptr;
+            }
         }
 
-        // Format a time string
+        /**
+         * Format a time string.
+         * 
+         * @param time The time string.
+         * @return The formatted time string, or NULL if an error occurred.
+         */
         static cstring format_time(const_cstring time) {
-            return fossil_cstr_format_time(time);
+            try {
+                return fossil_cstr_format_time(time);
+            } catch (const std::exception& e) {
+                // Handle exception here
+                // Print error message or perform any necessary actions
+                return cnullptr;
+            }
         }
 
-        // Format a currency string
+        /**
+         * Format a currency string.
+         * 
+         * @param currency The currency string.
+         * @return The formatted currency string, or NULL if an error occurred.
+         */
         static cstring format_currency(const_cstring currency) {
-            return fossil_cstr_format_currency(currency);
+            try {
+                return fossil_cstr_format_currency(currency);
+            } catch (const std::exception& e) {
+                // Handle exception here
+                // Print error message or perform any necessary actions
+                return cnullptr;
+            }
         }
 
-        // Format a percentage string
+        /**
+         * Format a percentage string.
+         * 
+         * @param percentage The percentage string.
+         * @return The formatted percentage string, or NULL if an error occurred.
+         */
         static cstring format_percentage(const_cstring percentage) {
-            return fossil_cstr_format_percentage(percentage);
+            try {
+                return fossil_cstr_format_percentage(percentage);
+            } catch (const std::exception& e) {
+                // Handle exception here
+                // Print error message or perform any necessary actions
+                return cnullptr;
+            }
         }
 
-        // Format a postal code string
+        /**
+         * Format a postal code string.
+         * 
+         * @param postal_code The postal code string.
+         * @return The formatted postal code string, or NULL if an error occurred.
+         */
         static cstring format_postal_code(const_cstring postal_code) {
-            return fossil_cstr_format_postal_code(postal_code);
+            try {
+                return fossil_cstr_format_postal_code(postal_code);
+            } catch (const std::exception& e) {
+                // Handle exception here
+                // Print error message or perform any necessary actions
+                return cnullptr;
+            }
         }
 
-        // Format a SSN (Social Security Number) string
+        /**
+         * Format a SSN (Social Security Number) string.
+         * 
+         * @param ssn The SSN string.
+         * @return The formatted SSN string, or NULL if an error occurred.
+         */
         static cstring format_ssn(const_cstring ssn) {
-            return fossil_cstr_format_ssn(ssn);
+            try {
+                return fossil_cstr_format_ssn(ssn);
+            } catch (const std::exception& e) {
+                // Handle exception here
+                // Print error message or perform any necessary actions
+                return cnullptr;
+            }
         }
 
-        // Format a byte string
+        /**
+         * Format a byte string.
+         * 
+         * @param format The format byte string.
+         * @param ... Additional arguments to format.
+         * @return The formatted byte string, or NULL if an error occurred.
+         */
         static bstring format(const_bstring format, ...) {
-            return fossil_bstr_format(format);
+            try {
+                return fossil_bstr_format(format);
+            } catch (const std::exception& e) {
+                // Handle exception here
+                // Print error message or perform any necessary actions
+                return cnullptr;
+            }
         }
 
-        // Format a phone number byte string
+        /**
+         * Format a phone number byte string.
+         * 
+         * @param phone The phone number byte string.
+         * @return The formatted phone number byte string, or NULL if an error occurred.
+         */
         static bstring format_phone(const_bstring phone) {
-            return fossil_bstr_format_phone(phone);
+            try {
+                return fossil_bstr_format_phone(phone);
+            } catch (const std::exception& e) {
+                // Handle exception here
+                // Print error message or perform any necessary actions
+                return cnullptr;
+            }
         }
 
-        // Format a date byte string
+        /**
+         * Format a date byte string.
+         * 
+         * @param date The date byte string.
+         * @return The formatted date byte string, or NULL if an error occurred.
+         */
         static bstring format_date(const_bstring date) {
-            return fossil_bstr_format_date(date);
+            try {
+                return fossil_bstr_format_date(date);
+            } catch (const std::exception& e) {
+                // Handle exception here
+                // Print error message or perform any necessary actions
+                return cnullptr;
+            }
         }
 
-        // Format a time byte string
+        /**
+         * Format a time byte string.
+         * 
+         * @param time The time byte string.
+         * @return The formatted time byte string, or NULL if an error occurred.
+         */
         static bstring format_time(const_bstring time) {
-            return fossil_bstr_format_time(time);
+            try {
+                return fossil_bstr_format_time(time);
+            } catch (const std::exception& e) {
+                // Handle exception here
+                // Print error message or perform any necessary actions
+                return cnullptr;
+            }
         }
 
-        // Format a currency byte string
+        /**
+         * Format a currency byte string.
+         * 
+         * @param currency The currency byte string.
+         * @return The formatted currency byte string, or NULL if an error occurred.
+         */
         static bstring format_currency(const_bstring currency) {
-            return fossil_bstr_format_currency(currency);
+            try {
+                return fossil_bstr_format_currency(currency);
+            } catch (const std::exception& e) {
+                // Handle exception here
+                // Print error message or perform any necessary actions
+                return cnullptr;
+            }
         }
 
-        // Format a percentage byte string
+        /**
+         * Format a percentage byte string.
+         * 
+         * @param percentage The percentage byte string.
+         * @return The formatted percentage byte string, or NULL if an error occurred.
+         */
         static bstring format_percentage(const_bstring percentage) {
-            return fossil_bstr_format_percentage(percentage);
+            try {
+                return fossil_bstr_format_percentage(percentage);
+            } catch (const std::exception& e) {
+                // Handle exception here
+                // Print error message or perform any necessary actions
+                return cnullptr;
+            }
         }
 
-        // Format a postal code byte string
+        /**
+         * Format a postal code byte string.
+         * 
+         * @param postal_code The postal code byte string.
+         * @return The formatted postal code byte string, or NULL if an error occurred.
+         */
         static bstring format_postal_code(const_bstring postal_code) {
-            return fossil_bstr_format_postal_code(postal_code);
+            try {
+                return fossil_bstr_format_postal_code(postal_code);
+            } catch (const std::exception& e) {
+                // Handle exception here
+                // Print error message or perform any necessary actions
+                return cnullptr;
+            }
         }
 
-        // Format a SSN (Social Security Number) byte string
+        /**
+         * Format a SSN (Social Security Number) byte string.
+         * 
+         * @param ssn The SSN byte string.
+         * @return The formatted SSN byte string, or NULL if an error occurred.
+         */
         static bstring format_ssn(const_bstring ssn) {
-            return fossil_bstr_format_ssn(ssn);
+            try {
+                return fossil_bstr_format_ssn(ssn);
+            } catch (const std::exception& e) {
+                // Handle exception here
+                // Print error message or perform any necessary actions
+                return cnullptr;
+            }
         }
     };
-}
+} // namespace fossil
 
 #endif
 

@@ -218,4 +218,132 @@ size_t fossil_wstrstream_tell(const_wstring str, size_t pos);
 }
 #endif
 
+#ifdef __cplusplus
+
+namespace fossil {
+    
+    class StrStream {
+    public:
+        virtual ~StrStream() = default;
+        virtual cstring read(const_cstring str, size_t* pos, size_t len) = 0;
+        virtual cstring readLine(const_cstring str, size_t* pos, size_t* end_pos) = 0;
+        virtual void write(cstring dest, size_t* pos, const_cstring src) = 0;
+        virtual void append(cstring dest, size_t* pos, const_cstring src) = 0;
+        virtual void seek(size_t* pos, size_t offset) = 0;
+        virtual size_t tell(const_cstring str, size_t pos) = 0;
+    };
+
+    class WStrStream : public StrStream {
+    public:
+        cstring read(const_cstring str, size_t* pos, size_t len) override {
+            return fossil_wstrstream_read(str, pos, len);
+        }
+
+        cstring readLine(const_cstring str, size_t* pos, size_t* end_pos) override {
+            return fossil_wstrstream_read_line(str, pos, end_pos);
+        }
+
+        void write(cstring dest, size_t* pos, const_cstring src) override {
+            fossil_wstrstream_write(dest, pos, src);
+        }
+
+        void append(cstring dest, size_t* pos, const_cstring src) override {
+            fossil_wstrstream_append(dest, pos, src);
+        }
+
+        void seek(size_t* pos, size_t offset) override {
+            fossil_wstrstream_seek(pos, offset);
+        }
+
+        size_t tell(const_cstring str, size_t pos) override {
+            return fossil_wstrstream_tell(str, pos);
+        }
+    };
+
+    class CStrStream : public StrStream {
+    public:
+        cstring read(const_cstring str, size_t* pos, size_t len) override {
+            return fossil_cstrstream_read(str, pos, len);
+        }
+
+        cstring readLine(const_cstring str, size_t* pos, size_t* end_pos) override {
+            return fossil_cstrstream_read_line(str, pos, end_pos);
+        }
+
+        void write(cstring dest, size_t* pos, const_cstring src) override {
+            fossil_cstrstream_write(dest, pos, src);
+        }
+
+        void append(cstring dest, size_t* pos, const_cstring src) override {
+            fossil_cstrstream_append(dest, pos, src);
+        }
+
+        void seek(size_t* pos, size_t offset) override {
+            fossil_cstrstream_seek(pos, offset);
+        }
+
+        size_t tell(const_cstring str, size_t pos) override {
+            return fossil_cstrstream_tell(str, pos);
+        }
+    };
+
+    class BStrStream : public StrStream {
+    public:
+        cstring read(const_cstring str, size_t* pos, size_t len) override {
+            return fossil_bstrstream_read(str, pos, len);
+        }
+
+        cstring readLine(const_cstring str, size_t* pos, size_t* end_pos) override {
+            return fossil_bstrstream_read_line(str, pos, end_pos);
+        }
+
+        void write(cstring dest, size_t* pos, const_cstring src) override {
+            fossil_bstrstream_write(dest, pos, src);
+        }
+
+        void append(cstring dest, size_t* pos, const_cstring src) override {
+            fossil_bstrstream_append(dest, pos, src);
+        }
+
+        void seek(size_t* pos, size_t offset) override {
+            fossil_bstrstream_seek(pos, offset);
+        }
+
+        size_t tell(const_cstring str, size_t pos) override {
+            return fossil_bstrstream_tell(str, pos);
+        }
+    };
+    public:
+        StrStream() = default;
+        ~StrStream() = default;
+
+        cstring read(const_cstring str, size_t* pos, size_t len) {
+            return fossil_cstrstream_read(str, pos, len);
+        }
+
+        cstring readLine(const_cstring str, size_t* pos, size_t* end_pos) {
+            return fossil_cstrstream_read_line(str, pos, end_pos);
+        }
+
+        void write(cstring dest, size_t* pos, const_cstring src) {
+            fossil_cstrstream_write(dest, pos, src);
+        }
+
+        void append(cstring dest, size_t* pos, const_cstring src) {
+            fossil_cstrstream_append(dest, pos, src);
+        }
+
+        void seek(size_t* pos, size_t offset) {
+            fossil_cstrstream_seek(pos, offset);
+        }
+
+        size_t tell(const_cstring str, size_t pos) {
+            return fossil_cstrstream_tell(str, pos);
+        }
+    };
+    
+}
+
+#endif
+
 #endif

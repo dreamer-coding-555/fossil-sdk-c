@@ -420,181 +420,194 @@ int16_t fossil_wletter_is_xdigit(wletter ch);
 #endif
 
 #ifdef __cplusplus
-namespace fossil {
-    
-    class CLetter {
-    public:
-        static cletter at(const_cletter* str, size_t index) {
-            return fossil_cletter_at(str, index);
-        }
 
-        static int16_t is_alpha(cletter ch) {
+namespace fossil {
+
+    // Interface class for letter operations
+    class ILetter {
+    public:
+        virtual int16_t is_alpha(cletter ch) = 0; /**< Check if the character is an alphabetic character. */
+        virtual int16_t is_digit(cletter ch) = 0; /**< Check if the character is a digit. */
+        virtual int16_t is_alnum(cletter ch) = 0; /**< Check if the character is an alphanumeric character. */
+        virtual int16_t is_lower(cletter ch) = 0; /**< Check if the character is a lowercase letter. */
+        virtual int16_t is_upper(cletter ch) = 0; /**< Check if the character is an uppercase letter. */
+        virtual cletter to_lower(cletter ch) = 0; /**< Convert the character to lowercase. */
+        virtual cletter to_upper(cletter ch) = 0; /**< Convert the character to uppercase. */
+        virtual int16_t is_space(cletter ch) = 0; /**< Check if the character is a whitespace character. */
+        virtual int16_t is_punct(cletter ch) = 0; /**< Check if the character is a punctuation character. */
+        virtual int16_t is_graph(cletter ch) = 0; /**< Check if the character is a printable character excluding space. */
+        virtual int16_t is_print(cletter ch) = 0; /**< Check if the character is a printable character including space. */
+        virtual int16_t is_cntrl(cletter ch) = 0; /**< Check if the character is a control character. */
+        virtual int16_t is_xdigit(cletter ch) = 0; /**< Check if the character is a hexadecimal digit. */
+    };
+
+    // CLetter class implementing ILetter interface
+    class CLetter : public ILetter {
+    public:
+        // Implement the methods from ILetter
+        int16_t is_alpha(cletter ch) override { /**< Check if the character is an alphabetic character. */
             return fossil_cletter_is_alpha(ch);
         }
 
-        static int16_t is_digit(cletter ch) {
+        int16_t is_digit(cletter ch) override { /**< Check if the character is a digit. */
             return fossil_cletter_is_digit(ch);
         }
 
-        static int16_t is_alnum(cletter ch) {
+        int16_t is_alnum(cletter ch) override { /**< Check if the character is an alphanumeric character. */
             return fossil_cletter_is_alnum(ch);
         }
 
-        static int16_t is_lower(cletter ch) {
+        int16_t is_lower(cletter ch) override { /**< Check if the character is a lowercase letter. */
             return fossil_cletter_is_lower(ch);
         }
 
-        static int16_t is_upper(cletter ch) {
+        int16_t is_upper(cletter ch) override { /**< Check if the character is an uppercase letter. */
             return fossil_cletter_is_upper(ch);
         }
 
-        static cletter to_lower(cletter ch) {
+        cletter to_lower(cletter ch) override { /**< Convert the character to lowercase. */
             return fossil_cletter_to_lower(ch);
         }
 
-        static cletter to_upper(cletter ch) {
+        cletter to_upper(cletter ch) override { /**< Convert the character to uppercase. */
             return fossil_cletter_to_upper(ch);
         }
 
-        static int16_t is_space(cletter ch) {
+        int16_t is_space(cletter ch) override { /**< Check if the character is a whitespace character. */
             return fossil_cletter_is_space(ch);
         }
 
-        static int16_t is_punct(cletter ch) {
+        int16_t is_punct(cletter ch) override { /**< Check if the character is a punctuation character. */
             return fossil_cletter_is_punct(ch);
         }
 
-        static int16_t is_graph(cletter ch) {
+        int16_t is_graph(cletter ch) override { /**< Check if the character is a printable character excluding space. */
             return fossil_cletter_is_graph(ch);
         }
 
-        static int16_t is_print(cletter ch) {
+        int16_t is_print(cletter ch) override { /**< Check if the character is a printable character including space. */
             return fossil_cletter_is_print(ch);
         }
 
-        static int16_t is_cntrl(cletter ch) {
+        int16_t is_cntrl(cletter ch) override { /**< Check if the character is a control character. */
             return fossil_cletter_is_cntrl(ch);
         }
 
-        static int16_t is_xdigit(cletter ch) {
+        int16_t is_xdigit(cletter ch) override { /**< Check if the character is a hexadecimal digit. */
             return fossil_cletter_is_xdigit(ch);
         }
     };
 
-    class BLetter {
+    // BLetter class implementing ILetter interface
+    class BLetter : public ILetter {
     public:
-        static bletter at(const_bletter* str, size_t index) {
-            return fossil_bletter_at(str, index);
-        }
-
-        static int16_t is_alpha(bletter ch) {
+        // Implement the methods from ILetter
+        int16_t is_alpha(cletter ch) override { /**< Check if the character is an alphabetic character. */
             return fossil_bletter_is_alpha(ch);
         }
 
-        static int16_t is_digit(bletter ch) {
+        int16_t is_digit(cletter ch) override { /**< Check if the character is a digit. */
             return fossil_bletter_is_digit(ch);
         }
 
-        static int16_t is_alnum(bletter ch) {
+        int16_t is_alnum(cletter ch) override { /**< Check if the character is an alphanumeric character. */
             return fossil_bletter_is_alnum(ch);
         }
 
-        static int16_t is_lower(bletter ch) {
+        int16_t is_lower(cletter ch) override { /**< Check if the character is a lowercase letter. */
             return fossil_bletter_is_lower(ch);
         }
 
-        static int16_t is_upper(bletter ch) {
+        int16_t is_upper(cletter ch) override { /**< Check if the character is an uppercase letter. */
             return fossil_bletter_is_upper(ch);
         }
 
-        static bletter to_lower(bletter ch) {
+        cletter to_lower(cletter ch) override { /**< Convert the character to lowercase. */
             return fossil_bletter_to_lower(ch);
         }
 
-        static bletter to_upper(bletter ch) {
+        cletter to_upper(cletter ch) override { /**< Convert the character to uppercase. */
             return fossil_bletter_to_upper(ch);
         }
 
-        static int16_t is_space(bletter ch) {
+        int16_t is_space(cletter ch) override { /**< Check if the character is a whitespace character. */
             return fossil_bletter_is_space(ch);
         }
 
-        static int16_t is_punct(bletter ch) {
+        int16_t is_punct(cletter ch) override { /**< Check if the character is a punctuation character. */
             return fossil_bletter_is_punct(ch);
         }
 
-        static int16_t is_graph(bletter ch) {
+        int16_t is_graph(cletter ch) override { /**< Check if the character is a printable character excluding space. */
             return fossil_bletter_is_graph(ch);
         }
 
-        static int16_t is_print(bletter ch) {
+        int16_t is_print(cletter ch) override { /**< Check if the character is a printable character including space. */
             return fossil_bletter_is_print(ch);
         }
 
-        static int16_t is_cntrl(bletter ch) {
+        int16_t is_cntrl(cletter ch) override { /**< Check if the character is a control character. */
             return fossil_bletter_is_cntrl(ch);
         }
 
-        static int16_t is_xdigit(bletter ch) {
+        int16_t is_xdigit(cletter ch) override { /**< Check if the character is a hexadecimal digit. */
             return fossil_bletter_is_xdigit(ch);
         }
     };
 
-    class WLetter {
+    // WLetter class implementing ILetter interface
+    class WLetter : public ILetter {
     public:
-        static wletter at(const_wletter* str, size_t index) {
-            return fossil_wletter_at(str, index);
-        }
-
-        static int16_t is_alpha(wletter ch) {
+        // Implement the methods from ILetter
+        int16_t is_alpha(cletter ch) override { /**< Check if the character is an alphabetic character. */
             return fossil_wletter_is_alpha(ch);
         }
 
-        static int16_t is_digit(wletter ch) {
+        int16_t is_digit(cletter ch) override { /**< Check if the character is a digit. */
             return fossil_wletter_is_digit(ch);
         }
 
-        static int16_t is_alnum(wletter ch) {
+        int16_t is_alnum(cletter ch) override { /**< Check if the character is an alphanumeric character. */
             return fossil_wletter_is_alnum(ch);
         }
 
-        static int16_t is_lower(wletter ch) {
+        int16_t is_lower(cletter ch) override { /**< Check if the character is a lowercase letter. */
             return fossil_wletter_is_lower(ch);
         }
 
-        static int16_t is_upper(wletter ch) {
+        int16_t is_upper(cletter ch) override { /**< Check if the character is an uppercase letter. */
             return fossil_wletter_is_upper(ch);
         }
 
-        static wletter to_lower(wletter ch) {
+        cletter to_lower(cletter ch) override { /**< Convert the character to lowercase. */
             return fossil_wletter_to_lower(ch);
         }
 
-        static wletter to_upper(wletter ch) {
+        cletter to_upper(cletter ch) override { /**< Convert the character to uppercase. */
             return fossil_wletter_to_upper(ch);
         }
 
-        static int16_t is_space(wletter ch) {
+        int16_t is_space(cletter ch) override { /**< Check if the character is a whitespace character. */
             return fossil_wletter_is_space(ch);
         }
 
-        static int16_t is_punct(wletter ch) {
+        int16_t is_punct(cletter ch) override { /**< Check if the character is a punctuation character. */
             return fossil_wletter_is_punct(ch);
         }
 
-        static int16_t is_graph(wletter ch) {
+        int16_t is_graph(cletter ch) override { /**< Check if the character is a printable character excluding space. */
             return fossil_wletter_is_graph(ch);
         }
 
-        static int16_t is_print(wletter ch) {
+        int16_t is_print(cletter ch) override { /**< Check if the character is a printable character including space. */
             return fossil_wletter_is_print(ch);
         }
 
-        static int16_t is_cntrl(wletter ch) {
+        int16_t is_cntrl(cletter ch) override { /**< Check if the character is a control character. */
             return fossil_wletter_is_cntrl(ch);
         }
 
-        static int16_t is_xdigit(wletter ch) {
+        int16_t is_xdigit(cletter ch) override { /**< Check if the character is a hexadecimal digit. */
             return fossil_wletter_is_xdigit(ch);
         }
     };

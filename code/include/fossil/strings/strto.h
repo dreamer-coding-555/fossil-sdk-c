@@ -229,4 +229,100 @@ int fossil_wstr_to_bool(const_wstring str);
 }
 #endif
 
+#ifdef __cplusplus
+
+#include <stdexcept>
+
+namespace fossil {
+    
+    class StringToConverter {
+    public:
+        int to_int(const char* str) {
+            try {
+                return fossil_cstr_to_int(str);
+            } catch (...) {
+                // Exception occurred while converting string to int
+                // Handle the exception here
+                // ...
+                // Return a default value or rethrow the exception
+                throw;
+            }
+        }
+
+        double to_double(const char* str) {
+            try {
+                return fossil_cstr_to_double(str);
+            } catch (...) {
+                // Exception occurred while converting string to double
+                // Handle the exception here
+                // ...
+                // Return a default value or rethrow the exception
+                throw;
+            }
+        }
+
+        long to_long(const char* str) {
+            try {
+                return fossil_cstr_to_long(str);
+            } catch (...) {
+                // Exception occurred while converting string to long
+                // Handle the exception here
+                // ...
+                // Return a default value or rethrow the exception
+                throw;
+            }
+        }
+
+        unsigned long to_ulong(const char* str) {
+            try {
+                return fossil_cstr_to_ulong(str);
+            } catch (...) {
+                // Exception occurred while converting string to unsigned long
+                // Handle the exception here
+                // ...
+                // Return a default value or rethrow the exception
+                throw;
+            }
+        }
+
+        long long to_llong(const char* str) {
+            try {
+                return fossil_cstr_to_llong(str);
+            } catch (...) {
+                // Exception occurred while converting string to long long
+                // Handle the exception here
+                // ...
+                // Return a default value or rethrow the exception
+                throw;
+            }
+        }
+
+        unsigned long long to_ullong(const char* str) {
+            try {
+                return fossil_cstr_to_ullong(str);
+            } catch (...) {
+                // Exception occurred while converting string to unsigned long long
+                // Handle the exception here
+                // ...
+                // Return a default value or rethrow the exception
+                throw;
+            }
+        }
+
+        bool to_bool(const char* str) {
+            try {
+                return fossil_cstr_to_bool(str);
+            } catch (...) {
+                // Exception occurred while converting string to bool
+                // Handle the exception here
+                // ...
+                // Return a default value or rethrow the exception
+                throw;
+            }
+        }
+    };
+}
+
+#endif
+
 #endif

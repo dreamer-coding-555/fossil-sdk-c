@@ -78,6 +78,7 @@ size_t fossil_bstr_length(const_bstring str);
 #endif
 
 #ifdef __cplusplus
+#include <stdexcept>
 
 namespace fossil {
 
@@ -89,11 +90,42 @@ namespace fossil {
 class BString {
 public:
     /**
+     * Default Constructor
+     * 
+     * Creates an empty byte string object.
+     */
+    BString() : str(cnullptr) {}
+
+    /**
      * Constructor
      * 
      * Creates a new byte string object.
+     * 
+     * @param str The input C-style string.
+     * @throws std::runtime_error if the byte string creation fails.
      */
-    BString(const char* str) : str(fossil_bstr_create(reinterpret_cast<const_bstring>(str))) {}
+    BString(const char* str) : str(cnullptr) {
+        try {
+            str = fossil_bstr_create(reinterpret_cast<const_bstring>(str));
+            if (str == cnullptr) {
+                throw std::runtime_error("Failed to create byte string.");
+            }
+        } catch (...) {
+            fossil_bstr_erase(str);
+            throw;
+        }
+    }
+
+    /**
+     * Move Constructor
+     * 
+     * Moves the content of the input byte string object to a new byte string object.
+     * 
+     * @param other The input byte string object to be moved.
+     */
+    BString(BString&& other) noexcept : str(other.str) {
+        other.str = cnullptr;
+    }
 
     /**
      * Destructor

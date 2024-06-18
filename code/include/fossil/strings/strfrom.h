@@ -208,4 +208,141 @@ wstring fossil_wstr_from_double(double num);
 }
 #endif
 
+#ifdef __cplusplus
+
+namespace fossil {
+
+class StringFromConverter {
+public:
+    static std::string cstr_from_int(int num) {
+        cstring str = fossil_cstr_from_int(num);
+        std::string result(str);
+        free(str);
+        return result;
+    }
+
+    static std::string cstr_from_long(long num) {
+        cstring str = fossil_cstr_from_long(num);
+        std::string result(str);
+        free(str);
+        return result;
+    }
+
+    static std::string cstr_from_llong(long long num) {
+        cstring str = fossil_cstr_from_llong(num);
+        std::string result(str);
+        free(str);
+        return result;
+    }
+
+    static std::string cstr_from_ulong(unsigned long num) {
+        cstring str = fossil_cstr_from_ulong(num);
+        std::string result(str);
+        free(str);
+        return result;
+    }
+
+    static std::string cstr_from_ullong(unsigned long long num) {
+        cstring str = fossil_cstr_from_ullong(num);
+        std::string result(str);
+        free(str);
+        return result;
+    }
+
+    static std::string cstr_from_double(double num) {
+        cstring str = fossil_cstr_from_double(num);
+        std::string result(str);
+        free(str);
+        return result;
+    }
+
+    static std::string bstr_from_int(int num) {
+        bstring str = fossil_bstr_from_int(num);
+        std::string result(str);
+        free(str);
+        return result;
+    }
+
+    static std::string bstr_from_long(long num) {
+        bstring str = fossil_bstr_from_long(num);
+        std::string result(str);
+        free(str);
+        return result;
+    }
+
+    static std::string bstr_from_llong(long long num) {
+        bstring str = fossil_bstr_from_llong(num);
+        std::string result(str);
+        free(str);
+        return result;
+    }
+
+    static std::string bstr_from_ulong(unsigned long num) {
+        bstring str = fossil_bstr_from_ulong(num);
+        std::string result(str);
+        free(str);
+        return result;
+    }
+
+    static std::string bstr_from_ullong(unsigned long long num) {
+        bstring str = fossil_bstr_from_ullong(num);
+        std::string result(str);
+        free(str);
+        return result;
+    }
+
+    static std::string bstr_from_double(double num) {
+        bstring str = fossil_bstr_from_double(num);
+        std::string result(str);
+        free(str);
+        return result;
+    }
+
+    static std::wstring wstr_from_int(int num) {
+        wstring str = fossil_wstr_from_int(num);
+        std::wstring result(str);
+        free(str);
+        return result;
+    }
+
+    static std::wstring wstr_from_long(long num) {
+        wstring str = fossil_wstr_from_long(num);
+        std::wstring result(str);
+        free(str);
+        return result;
+    }
+
+    static std::wstring wstr_from_llong(long long num) {
+        wstring str = fossil_wstr_from_llong(num);
+        std::wstring result(str);
+        free(str);
+        return result;
+    }
+
+    static std::wstring wstr_from_ulong(unsigned long num) {
+        wstring str = fossil_wstr_from_ulong(num);
+        std::wstring result(str);
+        free(str);
+        return result;
+    }
+
+    static std::wstring wstr_from_ullong(unsigned long long num) {
+        wstring str = fossil_wstr_from_ullong(num);
+        std::wstring result(str);
+        free(str);
+        return result;
+    }
+
+    static std::wstring wstr_from_double(double num) {
+        wstring str = fossil_wstr_from_double(num);
+        std::wstring result(str);
+        free(str);
+        return result;
+    }
+};
+
+} // namespace fossil
+
+#endif
+
 #endif
