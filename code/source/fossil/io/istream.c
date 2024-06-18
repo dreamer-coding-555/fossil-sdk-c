@@ -54,6 +54,7 @@ int32_t fossil_console_in_valid_input(const char *prompt, fossil_bool_t (*valida
         }
         fossil_console_puts("Invalid input. Please try again.");
     }
+    return FOSSIL_TRUE;
 }
 
 // Function to confirm a yes/no question.
@@ -70,6 +71,7 @@ int32_t fossil_console_in_confirm_yes_no(const char *question) {
             fossil_console_puts("Please answer with 'yes' or 'no'.");
         }
     }
+    return FOSSIL_TRUE;
 }
 
 // Function to confirm a selection from a menu.
@@ -87,6 +89,7 @@ int32_t fossil_console_in_confirm_menu(const char *question, const char** menu, 
         }
         fossil_console_puts("Invalid choice. Please enter a valid option.");
     }
+    return FOSSIL_TRUE;
 }
 
 // Function to confirm multiple selections from a menu.
@@ -125,6 +128,7 @@ int32_t fossil_console_in_read_date(const char *prompt, int32_t* year, int32_t* 
         while (getchar() != '\n');  // Clear the input buffer
         return FOSSIL_FALSE;
     }
+    return FOSSIL_TRUE;
 }
 
 // Function to read a time from the user.
@@ -137,6 +141,7 @@ int32_t fossil_console_in_read_time(const char *prompt, int32_t* hour, int32_t* 
         while (getchar() != '\n');  // Clear the input buffer
         return FOSSIL_FALSE;
     }
+    return FOSSIL_TRUE;
 }
 
 // Function to disable echoing for password input
