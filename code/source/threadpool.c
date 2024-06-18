@@ -20,9 +20,6 @@ Description:
  * @param arg Pointer to the thread pool structure.
  * @return void
  */
-#include <fossil/threads/thread.h> // Include appropriate headers
-#include <fossil/common/common.h>
-
 static inline void thread_pool_worker(fossil_xtask_arg_t arg) {
     fossil_xthread_pool_t* pool = (fossil_xthread_pool_t*)arg;
     while (1) {
