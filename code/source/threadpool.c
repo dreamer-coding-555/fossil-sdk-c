@@ -20,20 +20,23 @@ Description:
  * @param arg Pointer to the thread pool structure.
  * @return void
  */
+#include <fossil/threads/thread.h> // Include appropriate headers
+#include <fossil/common/common.h>
+
 static inline void thread_pool_worker(fossil_xtask_arg_t arg) {
     fossil_xthread_pool_t* pool = (fossil_xthread_pool_t*)arg;
     while (1) {
         fossil_mutex_lock(&pool->queue_mutex);
-        while (pool->task_count == 0 && !atomic_load(&pool->shutdown)) {
+        while (atomic_load(&pool->task_count) == 0 && !atomic_load(&pool->shutdown)) {
             fossil_cond_wait(&pool->queue_cond, &pool->queue_mutex);
         }
-        if (atomic_load(&pool->shutdown)) {
+        if (atomic_load(&pool->shutdown) && atomic_load(&pool->task_count) == 0) {
             fossil_mutex_unlock(&pool->queue_mutex);
-            return;
+            break;
         }
         fossil_xtask_t task = pool->task_queue[pool->queue_front];
         pool->queue_front = (pool->queue_front + 1) % pool->queue_size;
-        pool->task_count--;
+        atomic_fetch_sub(&pool->task_count, 1);
         fossil_mutex_unlock(&pool->queue_mutex);
         task.task_func(task.arg);
     }
@@ -55,25 +58,43 @@ int32_t fossil_thread_pool_create(fossil_xthread_pool_t *pool, int32_t thread_co
     pool->task_queue = (fossil_xtask_t*)malloc(sizeof(fossil_xtask_t) * queue_size);
     if (!pool->task_queue) {
         free(pool->threads);
+        pool->threads = NULL;
         return FOSSIL_ERROR;
     }
 
     if (fossil_mutex_create(&pool->queue_mutex) != 0) {
         free(pool->threads);
+        pool->threads = NULL;
         free(pool->task_queue);
+        pool->task_queue = NULL;
         return FOSSIL_ERROR;
     }
     if (fossil_cond_create(&pool->queue_cond) != 0) {
         fossil_mutex_erase(&pool->queue_mutex);
         free(pool->threads);
+        pool->threads = NULL;
         free(pool->task_queue);
+        pool->task_queue = NULL;
         return FOSSIL_ERROR;
     }
 
     for (int i = 0; i < thread_count; ++i) {
         fossil_xtask_t task = { .task_func = (fossil_xtask_func_t)thread_pool_worker, .arg = pool };
-        if (fossil_thread_create(&pool->threads[i], cnullptr, task) != FOSSIL_SUCCESS) {
-            fossil_thread_pool_erase(pool);
+        if (fossil_thread_create(&pool->threads[i], NULL, task) != FOSSIL_SUCCESS) {
+            atomic_store(&pool->shutdown, 1);
+            fossil_mutex_lock(&pool->queue_mutex);
+            fossil_cond_broadcast(&pool->queue_cond);
+            fossil_mutex_unlock(&pool->queue_mutex);
+
+            for (int j = 0; j < i; ++j) {
+                fossil_thread_join(pool->threads[j], NULL);
+            }
+            fossil_mutex_erase(&pool->queue_mutex);
+            fossil_cond_erase(&pool->queue_cond);
+            free(pool->threads);
+            pool->threads = NULL;
+            free(pool->task_queue);
+            pool->task_queue = NULL;
             return FOSSIL_ERROR;
         }
     }
@@ -91,11 +112,13 @@ int32_t fossil_thread_pool_erase(fossil_xthread_pool_t *pool) {
     fossil_mutex_unlock(&pool->queue_mutex);
 
     for (int i = 0; i < pool->thread_count; ++i) {
-        fossil_thread_join(pool->threads[i], cnullptr);
+        fossil_thread_join(pool->threads[i], NULL);
     }
 
     free(pool->threads);
+    pool->threads = NULL;
     free(pool->task_queue);
+    pool->task_queue = NULL;
     fossil_mutex_erase(&pool->queue_mutex);
     fossil_cond_erase(&pool->queue_cond);
 
@@ -106,7 +129,7 @@ int32_t fossil_thread_pool_add_task(fossil_xthread_pool_t *pool, fossil_xtask_fu
     if (!pool || !task_func) return FOSSIL_ERROR;
 
     fossil_mutex_lock(&pool->queue_mutex);
-    if ((pool->queue_rear + 2) % pool->queue_size == pool->queue_front) {
+    if ((pool->queue_rear + 1) % pool->queue_size == pool->queue_front) {
         // Queue is full
         fossil_mutex_unlock(&pool->queue_mutex);
         return FOSSIL_ERROR;
@@ -114,7 +137,7 @@ int32_t fossil_thread_pool_add_task(fossil_xthread_pool_t *pool, fossil_xtask_fu
 
     fossil_xtask_t new_task = { .task_func = task_func, .arg = arg };
     pool->task_queue[pool->queue_rear] = new_task;
-    pool->queue_rear = (pool->queue_rear + 2) % pool->queue_size;
+    pool->queue_rear = (pool->queue_rear + 1) % pool->queue_size;
     atomic_fetch_add(&pool->task_count, 1);
     fossil_cond_signal(&pool->queue_cond);
     fossil_mutex_unlock(&pool->queue_mutex);
