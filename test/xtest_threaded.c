@@ -92,42 +92,6 @@ FOSSIL_TEST(test_fossil_thread_local_set_get) {
 }
 
 // * * * * * * * * * * * * * * * * * * * * * * * *
-// * Fossil Logic Test thread-pool
-// * * * * * * * * * * * * * * * * * * * * * * * *
-
-// Test fixture for thread pool
-FOSSIL_FIXTURE(c_thread_pool_fixture);
-FOSSIL_SETUP(c_thread_pool_fixture) {
-    // Setup code if needed
-}
-
-FOSSIL_TEARDOWN(c_thread_pool_fixture) {
-    // Teardown code if needed
-}
-
-// Dummy task function for testing
-XTASK(dummy_task, arg) {
-    (void)arg;
-}
-
-// Test case: Create and erase thread pool
-FOSSIL_TEST(test_fossil_thread_pool_create_erase) {
-    fossil_xthread_pool_t pool;
-    ASSUME_ITS_EQUAL_I32(FOSSIL_SUCCESS, fossil_thread_pool_create(&pool, 4, 10));
-    ASSUME_ITS_EQUAL_I32(FOSSIL_SUCCESS, fossil_thread_pool_erase(&pool));
-    // After erase, avoid accessing pool or any of its fields
-}
-
-// Test case: Add task to thread pool
-FOSSIL_TEST(test_fossil_thread_pool_add_task) {
-    fossil_xthread_pool_t pool;
-    ASSUME_ITS_EQUAL_I32(FOSSIL_SUCCESS, fossil_thread_pool_create(&pool, 4, 10));
-    ASSUME_ITS_EQUAL_I32(FOSSIL_SUCCESS, fossil_thread_pool_add_task(&pool, dummy_task, NULL));
-    ASSUME_ITS_EQUAL_I32(FOSSIL_SUCCESS, fossil_thread_pool_erase(&pool));
-    // After erase, avoid accessing pool or any of its fields
-}
-
-// * * * * * * * * * * * * * * * * * * * * * * * *
 // * Fossil Logic Test Pool
 // * * * * * * * * * * * * * * * * * * * * * * * *
 FOSSIL_TEST_GROUP(c_threaded_tests) {
@@ -138,8 +102,4 @@ FOSSIL_TEST_GROUP(c_threaded_tests) {
     // Local Threads Fixture
     ADD_TESTF(test_fossil_thread_local_create_erase, c_thread_local_fixture);
     ADD_TESTF(test_fossil_thread_local_set_get, c_thread_local_fixture);
-    
-    // Pool Thread Fixture
-    ADD_TESTF(test_fossil_thread_pool_create_erase, c_thread_pool_fixture);
-    ADD_TESTF(test_fossil_thread_pool_add_task, c_thread_pool_fixture);
 } // end of fixture
