@@ -61,8 +61,8 @@ int32_t fossil_thread_pool_create(fossil_xthread_pool_t *pool, int32_t thread_co
 
     if (fossil_mutex_create(&pool->queue_mutex) != 0) {
         free(pool->threads);
-        pool->threads = NULL;
         free(pool->task_queue);
+        pool->threads = NULL;
         pool->task_queue = NULL;
         return FOSSIL_ERROR;
     }
@@ -70,8 +70,8 @@ int32_t fossil_thread_pool_create(fossil_xthread_pool_t *pool, int32_t thread_co
     if (fossil_cond_create(&pool->queue_cond) != 0) {
         fossil_mutex_erase(&pool->queue_mutex);
         free(pool->threads);
-        pool->threads = NULL;
         free(pool->task_queue);
+        pool->threads = NULL;
         pool->task_queue = NULL;
         return FOSSIL_ERROR;
     }
@@ -90,8 +90,8 @@ int32_t fossil_thread_pool_create(fossil_xthread_pool_t *pool, int32_t thread_co
             fossil_mutex_erase(&pool->queue_mutex);
             fossil_cond_erase(&pool->queue_cond);
             free(pool->threads);
-            pool->threads = NULL;
             free(pool->task_queue);
+            pool->threads = NULL;
             pool->task_queue = NULL;
             return FOSSIL_ERROR;
         }
@@ -126,9 +126,8 @@ int32_t fossil_thread_pool_add_task(fossil_xthread_pool_t *pool, fossil_xtask_fu
 
     fossil_mutex_lock(&pool->queue_mutex);
     if ((pool->queue_rear + 1) % pool->queue_size == pool->queue_front) {
-        // Queue is full
         fossil_mutex_unlock(&pool->queue_mutex);
-        return FOSSIL_ERROR;
+        return FOSSIL_ERROR; // Queue is full
     }
 
     fossil_xtask_t new_task = { .task_func = task_func, .arg = arg };
