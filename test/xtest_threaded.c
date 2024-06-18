@@ -93,7 +93,7 @@ FOSSIL_TEST(test_fossil_thread_local_set_get) {
     ASSUME_ITS_EQUAL_I32(FOSSIL_SUCCESS, fossil_thread_local_set(key, value));
     
     const char *retrieved_value = (const char*)fossil_thread_local_get(key);
-    ASSUME_ITS_EQUAL_S(value, retrieved_value);
+    ASSUME_ITS_EQUAL_CSTR(value, retrieved_value);
     
     ASSUME_ITS_EQUAL_I32(FOSSIL_SUCCESS, fossil_thread_local_erase(key));
 }
