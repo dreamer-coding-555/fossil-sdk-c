@@ -54,8 +54,7 @@ Description:
  *
  */
 
-#include <stdint.h>
-#include <stddef.h>
+#include "fossil/common/common.h"
 
 /**
  * Enumeration defining status codes for datetime operations.
@@ -104,7 +103,7 @@ extern "C"
  * @param datetime Pointer to a fossil_datetime_t structure to store the parsed date and time.
  * @return         FOSSIL_DATETIME_STATUS_SUCCESS if parsing is successful, FOSSIL_DATETIME_STATUS_FAILURE otherwise.
  */
-int32_t fossil_datetime_get_current_parse_military(const char * restrict str, fossil_datetime_t *datetime);
+int32_t fossil_datetime_get_current_parse_military(const char*  str, fossil_datetime_t *datetime);
 
 /**
  * Parse a 12-hour time string and populate a fossil_datetime_t structure with the current date.
@@ -113,7 +112,7 @@ int32_t fossil_datetime_get_current_parse_military(const char * restrict str, fo
  * @param datetime Pointer to a fossil_datetime_t structure to store the parsed date and time.
  * @return         FOSSIL_DATETIME_STATUS_SUCCESS if parsing is successful, FOSSIL_DATETIME_STATUS_FAILURE otherwise.
  */
-int32_t fossil_datetime_get_current_parse_12_hour(const char * restrict str, fossil_datetime_t *datetime);
+int32_t fossil_datetime_get_current_parse_12_hour(const char*  str, fossil_datetime_t *datetime);
 
 /**
  * Parse a human-readable time string and populate a fossil_datetime_t structure with the current date.
@@ -122,7 +121,7 @@ int32_t fossil_datetime_get_current_parse_12_hour(const char * restrict str, fos
  * @param datetime Pointer to a fossil_datetime_t structure to store the parsed date and time.
  * @return         FOSSIL_DATETIME_STATUS_SUCCESS if parsing is successful, FOSSIL_DATETIME_STATUS_FAILURE otherwise.
  */
-int32_t fossil_datetime_get_current_parse_human_readable(const char * restrict str, fossil_datetime_t *datetime);
+int32_t fossil_datetime_get_current_parse_human_readable(const char*  str, fossil_datetime_t *datetime);
 
 /**
  * Get a custom string representation of a fossil_datetime_t structure.
@@ -131,7 +130,7 @@ int32_t fossil_datetime_get_current_parse_human_readable(const char * restrict s
  * @param str      Buffer to store the custom string representation.
  * @param max_size Maximum size of the buffer.
  */
-void fossil_datetime_get_current_custom(const fossil_datetime_t *datetime, char * restrict str, size_t max_size);
+void fossil_datetime_get_current_custom(const fossil_datetime_t *datetime, char*  str, size_t max_size);
 
 // =================================================================
 // Calander functions
@@ -144,7 +143,7 @@ void fossil_datetime_get_current_custom(const fossil_datetime_t *datetime, char 
  * @param str      Buffer to store the formatted date string.
  * @param max_size Maximum size of the buffer.
  */
-void fossil_datetime_get_current_calendar_yyyy_mm_dd(const fossil_calendar_t *calendar, char * restrict str, size_t max_size);
+void fossil_datetime_get_current_calendar_yyyy_mm_dd(const fossil_calendar_t *calendar, char*  str, size_t max_size);
 
 /**
  * Get the current date in the "DD-MM-YYYY" format from a fossil_calendar_t structure.
@@ -153,7 +152,7 @@ void fossil_datetime_get_current_calendar_yyyy_mm_dd(const fossil_calendar_t *ca
  * @param str      Buffer to store the formatted date string.
  * @param max_size Maximum size of the buffer.
  */
-void fossil_datetime_get_current_calendar_dd_mm_yyyy(const fossil_calendar_t *calendar, char * restrict str, size_t max_size);
+void fossil_datetime_get_current_calendar_dd_mm_yyyy(const fossil_calendar_t *calendar, char*  str, size_t max_size);
 
 /**
  * Get the current date in the "Month DD, YYYY" format from a fossil_calendar_t structure.
@@ -162,7 +161,7 @@ void fossil_datetime_get_current_calendar_dd_mm_yyyy(const fossil_calendar_t *ca
  * @param str      Buffer to store the formatted date string.
  * @param max_size Maximum size of the buffer.
  */
-void fossil_datetime_get_current_calendar_month_dd_yyyy(const fossil_calendar_t *calendar, char * restrict str, size_t max_size);
+void fossil_datetime_get_current_calendar_month_dd_yyyy(const fossil_calendar_t *calendar, char*  str, size_t max_size);
 
 /**
  * Check if the given year is a leap year.
@@ -186,22 +185,22 @@ void fossil_datetime_get_current(fossil_datetime_t *datetime);
 /**
  * Function to format a fossil_calendar_t object into a string with the format "YYYY-MM-DD".
  */
-void fossil_datetime_format_yyyy_mm_dd(const fossil_calendar_t *calendar, char * restrict str, size_t max_size);
+void fossil_datetime_format_yyyy_mm_dd(const fossil_calendar_t *calendar, char*  str, size_t max_size);
 
 /**
  * Function to format a fossil_calendar_t object into a string with the format "DD/MM/YYYY".
  */
-void fossil_datetime_format_dd_mm_yyyy(const fossil_calendar_t *calendar, char * restrict str, size_t max_size);
+void fossil_datetime_format_dd_mm_yyyy(const fossil_calendar_t *calendar, char*  str, size_t max_size);
 
 /**
  * Function to format a fossil_calendar_t object into a string with the format "Month DD, YYYY".
  */
-void fossil_datetime_format_month_dd_yyyy(const fossil_calendar_t *calendar, char * restrict str, size_t max_size);
+void fossil_datetime_format_month_dd_yyyy(const fossil_calendar_t *calendar, char*  str, size_t max_size);
 
 /**
  * Function to format a fossil_datetime_t object into a custom string
  */
-void fossil_datetime_format_custom(const fossil_datetime_t *datetime, char * restrict str, size_t max_size);
+void fossil_datetime_format_custom(const fossil_datetime_t *datetime, char*  str, size_t max_size);
 
 // =================================================================
 // DateTime utilities

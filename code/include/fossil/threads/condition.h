@@ -80,42 +80,47 @@ int32_t fossil_cond_broadcast(fossil_xcond_t *cond);
 
 namespace fossil {
 
-class ConditionVariable
-{
-public:
-    ConditionVariable() {
-        if (fossil_cond_create(&cond_) != 0) {
-            throw std::runtime_error("Failed to create condition variable");
+    class Condition {
+    public:
+        Condition() {
+            int32_t result = fossil_cond_create(&m_cond);
+            if (result != 0) {
+                throw std::runtime_error("Failed to create condition variable");
+            }
         }
-    }
 
-    ~ConditionVariable() {
-        if (fossil_cond_erase(&cond_) != 0) {
-            throw std::runtime_error("Failed to destroy condition variable");
+        ~Condition() {
+            int32_t result = fossil_cond_erase(&m_cond);
+            if (result != 0) {
+                throw std::runtime_error("Failed to destroy condition variable");
+            }
         }
-    }
 
-    void wait(Mutex &mutex) {
-        if (fossil_cond_wait(&cond_, &mutex.mutex_) != 0) {
-            throw std::runtime_error("Failed to wait on condition variable");
+        void wait(Mutex& mutex) {
+            int32_t result = fossil_cond_wait(&m_cond, &m_mutex.get());
+            if (result != 0) {
+                throw std::runtime_error("Failed to wait on condition variable");
+            }
         }
-    }
 
-    void signal() {
-        if (fossil_cond_signal(&cond_) != 0) {
-            throw std::runtime_error("Failed to signal condition variable");
+        void signal() {
+            int32_t result = fossil_cond_signal(&m_cond);
+            if (result != 0) {
+                throw std::runtime_error("Failed to signal condition variable");
+            }
         }
-    }
 
-    void broadcast() {
-        if (fossil_cond_broadcast(&cond_) != 0) {
-            throw std::runtime_error("Failed to broadcast condition variable");
+        void broadcast() {
+            int32_t result = fossil_cond_broadcast(&m_cond);
+            if (result != 0) {
+                throw std::runtime_error("Failed to broadcast condition variable");
+            }
         }
-    }
 
-private:
-    fossil_xcond_t cond_;
-};
+    private:
+        fossil_xcond_t m_cond;
+        fossil::Mutex m_mutex;
+    };
 
 } // namespace fossil
 

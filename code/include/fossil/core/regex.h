@@ -59,7 +59,7 @@ Description:
  * 
  */
 
-#include <stdint.h>
+#include "fossil/common/common.h"
 
 #ifdef _WIN32
 #include <windows.h>
@@ -108,7 +108,7 @@ extern "C"
  * @param pattern The regex pattern to be compiled.
  * @return        0 on success, non-zero on failure.
  */
-int32_t fossil_regex_create(fossil_regex_t *preg, const char * restrict pattern);
+int32_t fossil_regex_create(fossil_regex_t *preg, const char*  pattern);
 
 /**
  * Match a text against a compiled regex pattern.
@@ -117,7 +117,7 @@ int32_t fossil_regex_create(fossil_regex_t *preg, const char * restrict pattern)
  * @param text The text to be matched against the regex pattern.
  * @return     0 if there is a match, non-zero otherwise.
  */
-int32_t fossil_regex_match(fossil_regex_t *preg, const char * restrict text);
+int32_t fossil_regex_match(fossil_regex_t *preg, const char*  text);
 
 // =================================================================
 // Available Functions
@@ -137,7 +137,7 @@ void fossil_regex_reset(fossil_regex_t *preg);
  * @param text The text to be matched against the regex pattern.
  * @return     A constant string containing the matched substring or NULL if no match.
  */
-const char *fossil_regex_match_and_extract(fossil_regex_t *preg, const char * restrict text);
+const char *fossil_regex_match_and_extract(fossil_regex_t *preg, const char*  text);
 
 /**
  * Get the matched substring from the last successful match.

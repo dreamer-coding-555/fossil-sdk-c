@@ -35,16 +35,23 @@ Before getting started, make sure you have the following installed:
    # ======================
    [wrap-git]
    url = https://github.com/dreamer-coding-555/fossil-sdk.git
-   revision = v1.0.0
+   revision = v1.0.1
 
    [provide]
-   fossil-sdk = fossil_sdk_dep
+   fossil-sdk           = fossil_sdk_dep
+   fossil-sdk-io        = fossil_sdk_io_dep
+   fossil-sdk-core      = fossil_sdk_core_dep
+   fossil-sdk-strings   = fossil_sdk_strings_dep
+   fossil-sdk-algorithm = fossil_sdk_algorithm_dep
+   fossil-sdk-structure = fossil_sdk_structure_dep
+   fossil-sdk-threads   = fossil_sdk_threads_dep
+   fossil-sdk-generic   = fossil_sdk_generic_dep
    ```
 
 3. **Integrate the New Dependency**: After creating the dependency `.wrap` file, you need to integrate it into your Meson project. This typically involves adding the dependency to your `meson.build` file. Here's an example of how you might do that:
 
    ```ini
-   dep = dependency('fossil-sdk')
+   dep = dependency('fossil-sdk') # includes everything
    ```
 
    This line retrieves the `fossil-sdk` dependency, allowing you to use it in your project.

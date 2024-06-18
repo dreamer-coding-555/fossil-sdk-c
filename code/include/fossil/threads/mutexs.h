@@ -107,6 +107,10 @@ public:
         return fossil_mutex_trylock(&mutex_) == 0;
     }
 
+    fossil_xmutex_t &get() {
+        return mutex_;
+    }
+
 private:
     fossil_xmutex_t mutex_;
 };

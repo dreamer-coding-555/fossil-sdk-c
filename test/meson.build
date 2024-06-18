@@ -4,13 +4,13 @@ if get_option('with_test').enabled()
     fs.copyfile('sample-data.fson', 'sample-data.fson')
     run_command(['python3', 'generate-runner.py'], check: true)
 
-    test_src = ['xunit_runner.c']
+    test_src = ['unit_runner.c']
     test_cubes = [
-        'threaded',
+        'strings',
     ]
 
     foreach cube : test_cubes
-        test_src += ['xtest_' + cube + '.c']
+        test_src += ['test_' + cube + '.c']
     endforeach
 
     pizza = executable('runner', test_src,

@@ -12,7 +12,7 @@ class TestRunnerGenerator:
 
         for root, _, files in os.walk(self.directory):
             for file in files:
-                if file.startswith("xtest_") and file.endswith("." + extension):
+                if file.startswith("test_") and file.endswith("." + extension):
                     with open(os.path.join(root, file), "r") as f:
                         content = f.read()
                         matches = re.findall(pattern, content)
@@ -85,7 +85,7 @@ int main(int argc, const char **argv) {
 } // end of func
 """
 
-        with open(f"xunit_runner.{extension}", "w") as file:
+        with open(f"unit_runner.{extension}", "w") as file:
             file.write(header)
             file.write("\n")
             file.write(extern_pools)

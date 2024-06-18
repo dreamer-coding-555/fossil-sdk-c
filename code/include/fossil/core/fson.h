@@ -151,8 +151,7 @@ Description:
  * information within complex data structures.
  */
 
-#include <stdlib.h>
-#include <stdint.h>
+#include "fossil/common/common.h"
 
 // Define token types
 typedef enum {
@@ -223,7 +222,7 @@ extern "C"
  * @param input The input XSON string to tokenize.
  * @return An array of tokens representing the input XSON string.
  */
-fson_token* fossil_fson_tokenize(const char* restrict input);
+fson_token* fossil_fson_tokenize(const char*  input);
 
 /**
  * Frees the memory allocated for an array of tokens.
@@ -239,7 +238,7 @@ void fossil_fson_erase_tokens(fson_token* tokens);
  * @param key The key of the value to find.
  * @return A pointer to the value if found, otherwise NULL.
  */
-fson_value* fossil_fson_value_find(fson_namespace* ns, const char* restrict key);
+fson_value* fossil_fson_value_find(fson_namespace* ns, const char*  key);
 
 // Namespace-specific functions
 
@@ -259,7 +258,7 @@ fson_namespace* fossil_fson_namespace_parse(fson_token** tokens);
  * @param name The name of the namespace to find.
  * @return A pointer to the found namespace, or NULL if not found.
  */
-fson_namespace* fossil_fson_namespace_find(fson_namespace* namespaces, int32_t count, const char* restrict name);
+fson_namespace* fossil_fson_namespace_find(fson_namespace* namespaces, int32_t count, const char*  name);
 
 /**
  * Frees the memory allocated for a namespace.
@@ -279,7 +278,7 @@ void fossil_fson_namespace_erase(fson_namespace* ns);
  * @param type The type of the data to insert.
  * @return 1 if insertion is successful, -1 if insertion fails.
  */
-int32_t fossil_fson_insert_data(fson_namespace* namespaces, const char* restrict key, const char* restrict value, const char* restrict type);
+int32_t fossil_fson_insert_data(fson_namespace* namespaces, const char*  key, const char*  value, const char*  type);
 
 /**
  * Updates data in a namespace.
@@ -289,7 +288,7 @@ int32_t fossil_fson_insert_data(fson_namespace* namespaces, const char* restrict
  * @param value The new value of the data.
  * @return 1 if update is successful, -1 if update fails.
  */
-int32_t fossil_fson_update_data(fson_namespace* namespaces, const char* restrict key, const char* restrict value);
+int32_t fossil_fson_update_data(fson_namespace* namespaces, const char*  key, const char*  value);
 
 /**
  * Removes data from a namespace.
@@ -298,7 +297,7 @@ int32_t fossil_fson_update_data(fson_namespace* namespaces, const char* restrict
  * @param key The key of the data to remove.
  * @return 1 if removal is successful, 0 if key does not exist, -1 if removal fails.
  */
-int32_t fossil_fson_remove_data(fson_namespace* namespaces, const char* restrict key);
+int32_t fossil_fson_remove_data(fson_namespace* namespaces, const char*  key);
 
 /**
  * Searches for data in a namespace by its key.
@@ -307,7 +306,7 @@ int32_t fossil_fson_remove_data(fson_namespace* namespaces, const char* restrict
  * @param key The key of the data to search for.
  * @return A pointer to the found data if it exists, otherwise NULL.
  */
-fson_value* fossil_fson_search_data(fson_namespace* ns, const char* restrict key);
+fson_value* fossil_fson_search_data(fson_namespace* ns, const char*  key);
 
 #ifdef __cplusplus
 }
