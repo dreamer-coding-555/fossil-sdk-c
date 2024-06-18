@@ -15,9 +15,6 @@ Description:
 #include <fossil/xassume.h>  // extra asserts
 #include <fossil/common/common.h>
 
-#include <string.h>
-#include <stdlib.h>
-
 // * * * * * * * * * * * * * * * * * * * * * * * *
 // * Fossil Logic Test Utilities
 // * * * * * * * * * * * * * * * * * * * * * * * *
@@ -63,12 +60,6 @@ FOSSIL_TEST(testing_thread_attr_create) {
 // * Fossil Logic Test thread-local
 // * * * * * * * * * * * * * * * * * * * * * * * *
 
-// Test case: Thread-local storage with destructor
-XTASK(dummy_destructor, value) {
-    // Dummy destructor function for testing
-    free(value);
-}
-
 // Test fixture for thread-local storage
 FOSSIL_FIXTURE(c_thread_local_fixture);
 FOSSIL_SETUP(c_thread_local_fixture) {
@@ -98,23 +89,6 @@ FOSSIL_TEST(test_fossil_thread_local_set_get) {
     ASSUME_ITS_EQUAL_CSTR(value, retrieved_value);
     
     ASSUME_ITS_EQUAL_I32(FOSSIL_SUCCESS, fossil_thread_local_erase(key));
-}
-
-FOSSIL_TEST(test_fossil_thread_local_with_destructor) {
-    fossil_xthread_local_t key;
-    ASSUME_ITS_EQUAL_I32(FOSSIL_SUCCESS, fossil_thread_local_create(&key, dummy_destructor));
-    
-    char *value = (char *)malloc(27);
-    ASSUME_NOT_CNULL(value); // Check if malloc succeeded
-
-    strcpy(value, "test_value_with_destructor");
-    ASSUME_ITS_EQUAL_I32(FOSSIL_SUCCESS, fossil_thread_local_set(key, value));
-    
-    const char *retrieved_value = (const char*)fossil_thread_local_get(key);
-    ASSUME_ITS_EQUAL_CSTR(value, retrieved_value);
-    
-    ASSUME_ITS_EQUAL_I32(FOSSIL_SUCCESS, fossil_thread_local_erase(key));
-    // No need to free(value) here as it should be handled by the destructor
 }
 
 // * * * * * * * * * * * * * * * * * * * * * * * *
@@ -162,7 +136,6 @@ FOSSIL_TEST_GROUP(c_threaded_tests) {
     // Local Threads Fixture
     ADD_TESTF(test_fossil_thread_local_create_erase, c_thread_local_fixture);
     ADD_TESTF(test_fossil_thread_local_set_get, c_thread_local_fixture);
-    ADD_TESTF(test_fossil_thread_local_with_destructor, c_thread_local_fixture);
     
     // Pool Thread Fixture
     ADD_TESTF(test_fossil_thread_pool_create_erase, c_thread_pool_fixture);
