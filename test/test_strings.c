@@ -58,7 +58,7 @@ FOSSIL_TEST(test_fossil_cstring_length) {
 // Test case 3: Test fossil_cstring_copy
 FOSSIL_TEST(test_fossil_cstring_copy) {
     cstring src = "Hello, World!";
-    cstring dest = cnullptr;
+    cstring dest = "";
     fossil_cstr_copy(dest, src);
     ASSUME_ITS_TRUE(fossil_cstr_compare(src, dest) == 0);
     fossil_cstr_erase(dest); // Clean up after copying
@@ -101,7 +101,7 @@ FOSSIL_TEST(test_fossil_wstring_length) {
 // Test case 3: Test fossil_wstring_copy
 FOSSIL_TEST(test_fossil_wstring_copy) {
     wstring src = L"Hello, World!";
-    wstring dest = cnullptr;
+    wstring dest = L"";
     fossil_wstr_copy(dest, src);
     ASSUME_ITS_TRUE(fossil_wstr_compare(src, dest) == 0);
     fossil_wstr_erase(dest); // Clean up after copying
@@ -144,7 +144,7 @@ FOSSIL_TEST(test_fossil_bstring_length) {
 // Test case 3: Test fossil_bstring_copy
 FOSSIL_TEST(test_fossil_bstring_copy) {
     bstring src = FOSSIL_STATIC_CAST(bstring, "Hello, World!");
-    bstring dest = cnullptr;
+    bstring dest = FOSSIL_STATIC_CAST(bstring, "");
     fossil_bstr_copy(dest, src);
     ASSUME_ITS_TRUE(fossil_bstr_compare(src, dest) == 0);
     fossil_bstr_erase(dest); // Clean up after copying
@@ -155,7 +155,7 @@ FOSSIL_TEST(test_fossil_bstring_concatenate) {
     bstring str1 = FOSSIL_STATIC_CAST(bstring, "Hello, ");
     bstring str2 = FOSSIL_STATIC_CAST(bstring, "World!");
     bstring result = fossil_bstr_concat(str1, str2);
-    ASSUME_ITS_TRUE(fossil_bstr_compare(result, FOSSIL_STATIC_CAST(bstring, "Hello, World!")) == 0);
+    ASSUME_ITS_TRUE(fossil_bstr_compare(result, (bstring)"Hello, World!") == 0);
     fossil_bstr_erase(result); // Clean up after concatenating
 }
 
