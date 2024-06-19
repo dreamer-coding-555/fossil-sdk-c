@@ -3,7 +3,7 @@
 Author: Michael Gene Brockus (Dreamer)
 Email: michaelbrockus@gmail.com
 Organization: Fossil Logic
-Description: 
+Description:
     This file is part of the Fossil Logic project, where innovation meets
     excellence in software development. Michael Gene Brockus, also known as
     "Dreamer," is a dedicated contributor to this project. For any inquiries,
@@ -91,367 +91,470 @@ typedef struct fossil_tofu_t fossil_tofu_t;
 /**
  * Enumerated types for representing various data types in the "tofu" data structure.
  */
-typedef enum {
-    TOFU_INT_TYPE,           ///< Integer type.
-    TOFU_UINT_TYPE,          ///< Unsigned integer type.
-    TOFU_OCTAL_TYPE,         ///< Octal type.
-    TOFU_HEX_TYPE,           ///< Hexadecimal type.
-    TOFU_FIXED_TYPE,         ///< Fixed-point type.
-    TOFU_FLOAT_TYPE,         ///< Floating-point type (float).
-    TOFU_DOUBLE_TYPE,        ///< Floating-point type (double).
-    TOFU_STRING_TYPE,        ///< String type.
-    TOFU_CHAR_TYPE,          ///< Character type.
-    TOFU_BOOLEAN_TYPE,       ///< Boolean type.
-    TOFU_ARRAY_TYPE,         ///< Array type.
-    TOFU_MAP_TYPE,           ///< Map type.
-    TOFU_NULLPTR_TYPE,       ///< Null pointer type.
-    TOFU_INVALID_TYPE,       ///< Invalid data structure type.
-    TOFU_UNKNOWN_TYPE        ///< Unknown data type.
+typedef enum
+{
+    TOFU_INT_TYPE,     ///< Integer type.
+    TOFU_UINT_TYPE,    ///< Unsigned integer type.
+    TOFU_OCTAL_TYPE,   ///< Octal type.
+    TOFU_HEX_TYPE,     ///< Hexadecimal type.
+    TOFU_FIXED_TYPE,   ///< Fixed-point type.
+    TOFU_FLOAT_TYPE,   ///< Floating-point type (float).
+    TOFU_DOUBLE_TYPE,  ///< Floating-point type (double).
+    TOFU_STRING_TYPE,  ///< String type.
+    TOFU_CHAR_TYPE,    ///< Character type.
+    TOFU_BOOLEAN_TYPE, ///< Boolean type.
+    TOFU_ARRAY_TYPE,   ///< Array type.
+    TOFU_MAP_TYPE,     ///< Map type.
+    TOFU_NULLPTR_TYPE, ///< Null pointer type.
+    TOFU_INVALID_TYPE, ///< Invalid data structure type.
+    TOFU_UNKNOWN_TYPE  ///< Unknown data type.
 } fossil_tofu_type;
 
 /**
  * Union to hold data of different types in the "tofu" data structure.
  */
-typedef union {
-    int64_t int_type;          ///< Integer type.
-    uint64_t uint_type;        ///< Unsigned integer type.
-    uint64_t octal_type;       ///< Octal type.
-    uint64_t hex_type;         ///< Hexadecimal type.
-    int64_t fixed_type;        ///< Fixed-point type.
-    double double_type;        ///< Double precision floating-point type.
-    float float_type;          ///< Single precision floating-point type.
-    char* string_type;         ///< String type.
-    char char_type;            ///< Character type.
-    void* nullptr_type;        ///< Null pointer type.
-    bool boolean_type;         ///< Boolean type.
-    struct {
-        struct fossil_tofu_t* elements; ///< Array type.
-        size_t size;            ///< Size of the array.
+typedef union
+{
+    int64_t int_type;    ///< Integer type.
+    uint64_t uint_type;  ///< Unsigned integer type.
+    uint64_t octal_type; ///< Octal type.
+    uint64_t hex_type;   ///< Hexadecimal type.
+    int64_t fixed_type;  ///< Fixed-point type.
+    double double_type;  ///< Double precision floating-point type.
+    float float_type;    ///< Single precision floating-point type.
+    char *string_type;   ///< String type.
+    char char_type;      ///< Character type.
+    void *nullptr_type;  ///< Null pointer type.
+    bool boolean_type;   ///< Boolean type.
+    struct
+    {
+        struct fossil_tofu_t *elements; ///< Array type.
+        size_t size;                    ///< Size of the array.
     } array_type;
-    struct {
-        struct fossil_tofu_t* key;      ///< Key type for a map.
-        struct fossil_tofu_t* value;    ///< Value type for a map.
-        size_t size;            ///< Size of the map.
+    struct
+    {
+        struct fossil_tofu_t *key;   ///< Key type for a map.
+        struct fossil_tofu_t *value; ///< Value type for a map.
+        size_t size;                 ///< Size of the map.
     } map_type;
 } fossil_tofu_data;
 
 /**
  * Struct to represent the data and its type in the "tofu" data structure.
  */
-struct fossil_tofu_t {
-    fossil_tofu_type type;  ///< The data type of the "tofu" structure.
-    fossil_tofu_data data;  ///< The data stored in the "tofu" structure.
+struct fossil_tofu_t
+{
+    fossil_tofu_type type; ///< The data type of the "tofu" structure.
+    fossil_tofu_data data; ///< The data stored in the "tofu" structure.
 };
 
 /**
  * Struct to represent an iterator for traversing a "tofu" array.
  */
-typedef struct {
-    fossil_tofu_t* current_key;    ///< The current key element pointed to by the iterator.
-    fossil_tofu_t* current_value;  ///< The current value element pointed to by the iterator.
-    size_t index;          ///< The index of the iterator within the "tofu" array.
+typedef struct
+{
+    fossil_tofu_t *current_key;   ///< The current key element pointed to by the iterator.
+    fossil_tofu_t *current_value; ///< The current value element pointed to by the iterator.
+    size_t index;                 ///< The index of the iterator within the "tofu" array.
 } fossil_tofu_iterator;
 
 /**
  * Struct to represent a pair of key and value elements in a searchable data type.
  */
-typedef struct {
-    fossil_tofu_t* current_key;    ///< The current key element in the pair.
-    fossil_tofu_t* current_value;  ///< The current value element in the pair.
+typedef struct
+{
+    fossil_tofu_t *current_key;   ///< The current key element in the pair.
+    fossil_tofu_t *current_value; ///< The current value element in the pair.
 } fossil_tofu_pair;
-
 
 #ifdef __cplusplus
 extern "C"
 {
 #endif
 
-// =======================
-// CREATE/ERASE FUNCTIONS
-// =======================
+    // =======================
+    // CREATE/ERASE FUNCTIONS
+    // =======================
 
-/**
- * Creates a new "tofu" structure with the specified type and optional initial value.
- *
- * @param type The data type of the "tofu" structure.
- * @param value Optional initial value for the "tofu" structure.
- * @return A pointer to the newly created "tofu" structure, or NULL on failure.
- */
-fossil_tofu_t* fossil_tofu_create(fossil_tofu_type type, fossil_tofu_data* value);
+    /**
+     * Creates a new "tofu" structure with the specified type and optional initial value.
+     *
+     * @param type The data type of the "tofu" structure.
+     * @param value Optional initial value for the "tofu" structure.
+     * @return A pointer to the newly created "tofu" structure, or NULL on failure.
+     */
+    fossil_tofu_t *fossil_tofu_create(fossil_tofu_type type, fossil_tofu_data *value);
 
-/**
- * Creates a new "tofu" array with the specified type and size, initialized with variable arguments.
- *
- * @param type The data type of the "tofu" array.
- * @param size The size of the "tofu" array.
- * @param ... Variable arguments to initialize the "tofu" array.
- * @return A pointer to the newly created "tofu" array, or NULL on failure.
- */
-fossil_tofu_t* fossil_tofu_create_array(fossil_tofu_type type, size_t size, ...);
+    /**
+     * Creates a new "tofu" array with the specified type and size, initialized with variable arguments.
+     *
+     * @param type The data type of the "tofu" array.
+     * @param size The size of the "tofu" array.
+     * @param ... Variable arguments to initialize the "tofu" array.
+     * @return A pointer to the newly created "tofu" array, or NULL on failure.
+     */
+    fossil_tofu_t *fossil_tofu_create_array(fossil_tofu_type type, size_t size, ...);
 
-/**
- * Erases a single "tofu" structure, freeing its memory.
- *
- * @param value The "tofu" structure to erase.
- * @return Error code indicating the success or failure of the operation.
- */
-fossil_tofu_error_t fossil_tofu_erase(fossil_tofu_t* value);
+    /**
+     * Erases a single "tofu" structure, freeing its memory.
+     *
+     * @param value The "tofu" structure to erase.
+     * @return Error code indicating the success or failure of the operation.
+     */
+    fossil_tofu_error_t fossil_tofu_erase(fossil_tofu_t *value);
 
-/**
- * Erases an array of "tofu" structures, freeing their memory.
- *
- * @param array The array of "tofu" structures to erase.
- * @return Error code indicating the success or failure of the operation.
- */
-fossil_tofu_error_t fossil_tofu_erase_array(fossil_tofu_t* array);
+    /**
+     * Erases an array of "tofu" structures, freeing their memory.
+     *
+     * @param array The array of "tofu" structures to erase.
+     * @return Error code indicating the success or failure of the operation.
+     */
+    fossil_tofu_error_t fossil_tofu_erase_array(fossil_tofu_t *array);
 
-// =======================
-// CLASSIC ALGORITHM FUNCTIONS
-// =======================
+    // =======================
+    // CLASSIC ALGORITHM FUNCTIONS
+    // =======================
 
-/**
- * Accumulates the values in the "tofu" structure.
- *
- * @param objects The "tofu" structure to accumulate.
- * @return Error code indicating the success or failure of the operation.
- */
-fossil_tofu_error_t fossil_tofu_accumulate(fossil_tofu_t* objects);
+    /**
+     * Accumulates the values in the "tofu" structure.
+     *
+     * @param objects The "tofu" structure to accumulate.
+     * @return Error code indicating the success or failure of the operation.
+     */
+    fossil_tofu_error_t fossil_tofu_accumulate(fossil_tofu_t *objects);
 
-/**
- * Transforms the elements of a TOFU array using a specified transformation function.
- *
- * @param objects   The TOFU array to be transformed.
- * @param transformFunc  A function pointer to the transformation function.
- *                       It should take an integer as input and return an integer.
- * @return           Returns an error code indicating the success or failure of the operation.
- */
-fossil_tofu_error_t fossil_tofu_transform(fossil_tofu_t* objects, int (*transformFunc)(int));
+    /**
+     * Transforms the elements of a TOFU array using a specified transformation function.
+     *
+     * @param objects   The TOFU array to be transformed.
+     * @param transformFunc  A function pointer to the transformation function.
+     *                       It should take an integer as input and return an integer.
+     * @return           Returns an error code indicating the success or failure of the operation.
+     */
+    fossil_tofu_error_t fossil_tofu_transform(fossil_tofu_t *objects, int (*transformFunc)(int));
 
-/**
- * Transforms each element in the "tofu" structure using the provided transformation function.
- *
- * @param objects The "tofu" structure to transform.
- * @param transformFunc The transformation function applied to each element.
- * @return Error code indicating the success or failure of the operation.
- */
-fossil_tofu_error_t fossil_tofu_filter(fossil_tofu_t* objects, bool (*filterFunc)(const fossil_tofu_data*));
+    /**
+     * Transforms each element in the "tofu" structure using the provided transformation function.
+     *
+     * @param objects The "tofu" structure to transform.
+     * @param transformFunc The transformation function applied to each element.
+     * @return Error code indicating the success or failure of the operation.
+     */
+    fossil_tofu_error_t fossil_tofu_filter(fossil_tofu_t *objects, bool (*filterFunc)(const fossil_tofu_data *));
 
-/**
- * Sorts the elements in the "tofu" structure in ascending order.
- *
- * @param objects The "tofu" structure to sort.
- * @return Error code indicating the success or failure of the operation.
- */
-fossil_tofu_error_t fossil_tofu_sort(fossil_tofu_t* objects);
+    /**
+     * Sorts the elements in the "tofu" structure in ascending order.
+     *
+     * @param objects The "tofu" structure to sort.
+     * @return Error code indicating the success or failure of the operation.
+     */
+    fossil_tofu_error_t fossil_tofu_sort(fossil_tofu_t *objects);
 
-/**
- * Searches for a key element in the "tofu" structure.
- *
- * @param objects The "tofu" structure to search.
- * @param key The key element to search for.
- * @return Error code indicating the success or failure of the operation.
- */
-fossil_tofu_error_t fossil_tofu_search(fossil_tofu_t* objects, fossil_tofu_t* key);
+    /**
+     * Searches for a key element in the "tofu" structure.
+     *
+     * @param objects The "tofu" structure to search.
+     * @param key The key element to search for.
+     * @return Error code indicating the success or failure of the operation.
+     */
+    fossil_tofu_error_t fossil_tofu_search(fossil_tofu_t *objects, fossil_tofu_t *key);
 
-/**
- * Filters elements in the "tofu" structure based on the provided filter function.
- *
- * @param objects The "tofu" structure to filter.
- * @param filterFunc The filter function applied to each element.
- * @return Error code indicating the success or failure of the operation.
- */
-fossil_tofu_error_t fossil_tofu_filter(fossil_tofu_t* objects, bool (*filterFunc)(const fossil_tofu_data*));
+    /**
+     * Filters elements in the "tofu" structure based on the provided filter function.
+     *
+     * @param objects The "tofu" structure to filter.
+     * @param filterFunc The filter function applied to each element.
+     * @return Error code indicating the success or failure of the operation.
+     */
+    fossil_tofu_error_t fossil_tofu_filter(fossil_tofu_t *objects, bool (*filterFunc)(const fossil_tofu_data *));
 
-/**
- * Reverses the order of elements in the "tofu" structure.
- *
- * @param objects The "tofu" structure to reverse.
- * @return Error code indicating the success or failure of the operation.
- */
-fossil_tofu_error_t fossil_tofu_reverse(fossil_tofu_t* objects);
+    /**
+     * Reverses the order of elements in the "tofu" structure.
+     *
+     * @param objects The "tofu" structure to reverse.
+     * @return Error code indicating the success or failure of the operation.
+     */
+    fossil_tofu_error_t fossil_tofu_reverse(fossil_tofu_t *objects);
 
-/**
- * Swaps the positions of two elements in the "tofu" structure.
- *
- * @param right The first element to swap.
- * @param left The second element to swap.
- * @return Error code indicating the success or failure of the operation.
- */
-fossil_tofu_error_t fossil_tofu_swap(fossil_tofu_t* right, fossil_tofu_t* left);
+    /**
+     * Swaps the positions of two elements in the "tofu" structure.
+     *
+     * @param right The first element to swap.
+     * @param left The second element to swap.
+     * @return Error code indicating the success or failure of the operation.
+     */
+    fossil_tofu_error_t fossil_tofu_swap(fossil_tofu_t *right, fossil_tofu_t *left);
 
-/**
- * Compares two elements in the "tofu" structure.
- *
- * @param right The first element to compare.
- * @param left The second element to compare.
- * @return Error code indicating the success or failure of the operation.
- */
-fossil_tofu_error_t fossil_tofu_compare(fossil_tofu_t* right, fossil_tofu_t* left);
+    /**
+     * Compares two elements in the "tofu" structure.
+     *
+     * @param right The first element to compare.
+     * @param left The second element to compare.
+     * @return Error code indicating the success or failure of the operation.
+     */
+    fossil_tofu_error_t fossil_tofu_compare(fossil_tofu_t *right, fossil_tofu_t *left);
 
-/**
- * Reduces the elements in the "tofu" structure using the provided reduction function.
- *
- * @param objects The "tofu" structure to reduce.
- * @param reduceFunc The reduction function applied to pairs of elements.
- * @return Error code indicating the success or failure of the operation.
- */
-fossil_tofu_error_t fossil_tofu_reduce(fossil_tofu_t* objects, fossil_tofu_t (*reduceFunc)(const fossil_tofu_t*, const fossil_tofu_t*));
+    /**
+     * Reduces the elements in the "tofu" structure using the provided reduction function.
+     *
+     * @param objects The "tofu" structure to reduce.
+     * @param reduceFunc The reduction function applied to pairs of elements.
+     * @return Error code indicating the success or failure of the operation.
+     */
+    fossil_tofu_error_t fossil_tofu_reduce(fossil_tofu_t *objects, fossil_tofu_t (*reduceFunc)(const fossil_tofu_t *, const fossil_tofu_t *));
 
-/**
- * Shuffles the elements in the "tofu" structure randomly.
- *
- * @param objects The "tofu" structure to shuffle.
- * @return Error code indicating the success or failure of the operation.
- */
-fossil_tofu_error_t fossil_tofu_shuffle(fossil_tofu_t* objects);
+    /**
+     * Shuffles the elements in the "tofu" structure randomly.
+     *
+     * @param objects The "tofu" structure to shuffle.
+     * @return Error code indicating the success or failure of the operation.
+     */
+    fossil_tofu_error_t fossil_tofu_shuffle(fossil_tofu_t *objects);
 
-/**
- * Applies a given function to each element in the "tofu" structure without modifying the structure.
- * The function signature should be: void (*forEachFunc)(fossil_tofu_t* element);
- *
- * @param objects The "tofu" structure.
- */
-fossil_tofu_error_t fossil_tofu_for_each(fossil_tofu_t* objects, void (*forEachFunc)(fossil_tofu_t*));
+    /**
+     * Applies a given function to each element in the "tofu" structure without modifying the structure.
+     * The function signature should be: void (*forEachFunc)(fossil_tofu_t* element);
+     *
+     * @param objects The "tofu" structure.
+     */
+    fossil_tofu_error_t fossil_tofu_for_each(fossil_tofu_t *objects, void (*forEachFunc)(fossil_tofu_t *));
 
-/**
- * Divides the elements in the "tofu" structure into two groups based on a predicate.
- * The predicate signature should be: bool (*partitionFunc)(const fossil_tofu_t* element);
- * The function returns a new "tofu" structure containing two arrays: elements satisfying the predicate
- * and elements not satisfying the predicate.
- *
- * @param objects The "tofu" structure.
- * @param partitionFunc The predicate function.
- * @param partitionedResults An array containing two "tofu" structures representing the two partitions.
- * @return Error code indicating the success or failure of the operation.
- */
-fossil_tofu_error_t fossil_tofu_partition(fossil_tofu_t* objects, bool (*partitionFunc)(const fossil_tofu_t*), fossil_tofu_t* partitionedResults[2]);
+    /**
+     * Divides the elements in the "tofu" structure into two groups based on a predicate.
+     * The predicate signature should be: bool (*partitionFunc)(const fossil_tofu_t* element);
+     * The function returns a new "tofu" structure containing two arrays: elements satisfying the predicate
+     * and elements not satisfying the predicate.
+     *
+     * @param objects The "tofu" structure.
+     * @param partitionFunc The predicate function.
+     * @param partitionedResults An array containing two "tofu" structures representing the two partitions.
+     * @return Error code indicating the success or failure of the operation.
+     */
+    fossil_tofu_error_t fossil_tofu_partition(fossil_tofu_t *objects, bool (*partitionFunc)(const fossil_tofu_t *), fossil_tofu_t *partitionedResults[2]);
 
-// =======================
-// UTILITY FUNCTIONS
-// =======================
+    // =======================
+    // UTILITY FUNCTIONS
+    // =======================
 
-/**
- * @brief Print the value of a fossil_tofu_t variable to the standard output.
- *
- * This function prints the value of the given fossil_tofu_t variable to the standard output.
- * The output format depends on the type of the fossil_tofu_t variable.
- *
- * @param value The fossil_tofu_t variable whose value needs to be printed.
- */
-void fossil_tofu_out(const fossil_tofu_t value);
+    /**
+     * @brief Print the value of a fossil_tofu_t variable to the standard output.
+     *
+     * This function prints the value of the given fossil_tofu_t variable to the standard output.
+     * The output format depends on the type of the fossil_tofu_t variable.
+     *
+     * @param value The fossil_tofu_t variable whose value needs to be printed.
+     */
+    void fossil_tofu_out(const fossil_tofu_t value);
 
-/**
- * @brief Duplicates a string.
- *
- * This function takes a null-terminated string `source` as input and creates
- * a duplicate, allocating memory for the new string. The duplicated string is
- * null-terminated as well. The caller is responsible for freeing the memory
- * allocated by this function using `free()`.
- *
- * @param source The null-terminated string to be duplicated.
- * @return A pointer to the duplicated string or NULL if memory allocation fails.
- */
-char* fossil_tofu_strdup(const char* source);
+    /**
+     * @brief Duplicates a string.
+     *
+     * This function takes a null-terminated string `source` as input and creates
+     * a duplicate, allocating memory for the new string. The duplicated string is
+     * null-terminated as well. The caller is responsible for freeing the memory
+     * allocated by this function using `free()`.
+     *
+     * @param source The null-terminated string to be duplicated.
+     * @return A pointer to the duplicated string or NULL if memory allocation fails.
+     */
+    char *fossil_tofu_strdup(const char *source);
 
+    /**
+     * Retrieves a descriptive error message for the given "tofu" error code.
+     *
+     * @param error The "tofu" error code.
+     * @return A descriptive error message.
+     */
+    fossil_tofu_error_t fossil_tofu_error(fossil_tofu_error_t error);
 
-/**
- * Retrieves a descriptive error message for the given "tofu" error code.
- *
- * @param error The "tofu" error code.
- * @return A descriptive error message.
- */
-fossil_tofu_error_t fossil_tofu_error(fossil_tofu_error_t error);
+    /**
+     * Copies the value of a "tofu" structure to another.
+     *
+     * @param source The source "tofu" structure.
+     * @param dest The destination "tofu" structure.
+     * @return Error code indicating the success or failure of the operation.
+     */
+    fossil_tofu_error_t fossil_tofu_value_copy(const fossil_tofu_t *source, fossil_tofu_t *dest);
 
-/**
- * Copies the value of a "tofu" structure to another.
- *
- * @param source The source "tofu" structure.
- * @param dest The destination "tofu" structure.
- * @return Error code indicating the success or failure of the operation.
- */
-fossil_tofu_error_t fossil_tofu_value_copy(const fossil_tofu_t* source, fossil_tofu_t* dest);
+    /**
+     * Sets the value of a "tofu" structure based on another "tofu" structure.
+     *
+     * @param source The source "tofu" structure.
+     * @param dest The destination "tofu" structure.
+     */
+    void fossil_tofu_value_setter(const fossil_tofu_t *source, fossil_tofu_t *dest);
 
-/**
- * Sets the value of a "tofu" structure based on another "tofu" structure.
- *
- * @param source The source "tofu" structure.
- * @param dest The destination "tofu" structure.
- */
-void fossil_tofu_value_setter(const fossil_tofu_t* source, fossil_tofu_t* dest);
+    /**
+     * Erases the value of a "tofu" structure, freeing any associated resources.
+     *
+     * @param value The "tofu" structure to erase the value of.
+     */
+    void fossil_tofu_value_erase(fossil_tofu_t *value);
 
-/**
- * Erases the value of a "tofu" structure, freeing any associated resources.
- *
- * @param value The "tofu" structure to erase the value of.
- */
-void fossil_tofu_value_erase(fossil_tofu_t* value);
+    /**
+     * Retrieves the data stored in a "tofu" structure.
+     *
+     * @param current The "tofu" structure.
+     * @return The data stored in the "tofu" structure.
+     */
+    fossil_tofu_data fossil_tofu_value_getter(fossil_tofu_t *current);
 
-/**
- * Retrieves the data stored in a "tofu" structure.
- *
- * @param current The "tofu" structure.
- * @return The data stored in the "tofu" structure.
- */
-fossil_tofu_data fossil_tofu_value_getter(fossil_tofu_t* current);
+    /**
+     * Retrieves the data type of a "tofu" structure.
+     *
+     * @param current The "tofu" structure.
+     * @return The data type of the "tofu" structure.
+     */
+    fossil_tofu_type fossil_tofu_type_getter(fossil_tofu_t *current);
 
-/**
- * Retrieves the data type of a "tofu" structure.
- *
- * @param current The "tofu" structure.
- * @return The data type of the "tofu" structure.
- */
-fossil_tofu_type fossil_tofu_type_getter(fossil_tofu_t* current);
+    /**
+     * Checks if the given "tofu" structure is not a nullptr.
+     *
+     * @param value The "tofu" structure to check.
+     * @return true if the "tofu" structure is not a nullptr, false otherwise.
+     */
+    bool fossil_tofu_not_cnullptr(const fossil_tofu_t *value);
 
-/**
- * Checks if the given "tofu" structure is not a nullptr.
- *
- * @param value The "tofu" structure to check.
- * @return true if the "tofu" structure is not a nullptr, false otherwise.
- */
-bool fossil_tofu_not_cnullptr(const fossil_tofu_t* value);
+    /**
+     * Checks if the given "tofu" structure is a nullptr.
+     *
+     * @param value The "tofu" structure to check.
+     * @return true if the "tofu" structure is a nullptr, false otherwise.
+     */
+    bool fossil_tofu_its_cnullptr(const fossil_tofu_t *value);
 
-/**
- * Checks if the given "tofu" structure is a nullptr.
- *
- * @param value The "tofu" structure to check.
- * @return true if the "tofu" structure is a nullptr, false otherwise.
- */
-bool fossil_tofu_its_cnullptr(const fossil_tofu_t* value);
+    // =======================
+    // ITERATOR FUNCTIONS
+    // =======================
 
-// =======================
-// ITERATOR FUNCTIONS
-// =======================
+    /**
+     * Creates an iterator positioned at a specific index in the "tofu" array.
+     *
+     * @param array The "tofu" array.
+     * @param num The number of elements in the array.
+     * @param at The index to position the iterator at.
+     * @return An iterator positioned at the specified index.
+     */
+    fossil_tofu_iterator fossil_tofu_iterator_at(fossil_tofu_t *array, size_t num, size_t at);
 
-/**
- * Creates an iterator positioned at a specific index in the "tofu" array.
- *
- * @param array The "tofu" array.
- * @param num The number of elements in the array.
- * @param at The index to position the iterator at.
- * @return An iterator positioned at the specified index.
- */
-fossil_tofu_iterator fossil_tofu_iterator_at(fossil_tofu_t* array, size_t num, size_t at);
+    /**
+     * Creates an iterator positioned at the beginning of the "tofu" array.
+     *
+     * @param array The "tofu" array.
+     * @param num The number of elements in the array.
+     * @return An iterator positioned at the beginning of the array.
+     */
+    fossil_tofu_iterator fossil_tofu_iterator_start(fossil_tofu_t *array, size_t num);
 
-/**
- * Creates an iterator positioned at the beginning of the "tofu" array.
- *
- * @param array The "tofu" array.
- * @param num The number of elements in the array.
- * @return An iterator positioned at the beginning of the array.
- */
-fossil_tofu_iterator fossil_tofu_iterator_start(fossil_tofu_t* array, size_t num);
-
-/**
- * Creates an iterator positioned at the end of the "tofu" array.
- *
- * @param array The "tofu" array.
- * @param num The number of elements in the array.
- * @return An iterator positioned at the end of the array.
- */
-fossil_tofu_iterator fossil_tofu_iterator_end(fossil_tofu_t* array, size_t num);
+    /**
+     * Creates an iterator positioned at the end of the "tofu" array.
+     *
+     * @param array The "tofu" array.
+     * @param num The number of elements in the array.
+     * @return An iterator positioned at the end of the array.
+     */
+    fossil_tofu_iterator fossil_tofu_iterator_end(fossil_tofu_t *array, size_t num);
 
 #ifdef __cplusplus
 }
+#endif
+
+#ifdef __cplusplus
+#include <utility>
+#include <algorithm>
+#include <stdexcept>
+
+namespace fossil {
+
+    template <typename T>
+    class Tofu {
+    public:
+        Tofu() : m_tofu(nullptr) {}
+
+        Tofu(fossil_tofu_type type, fossil_tofu_data *value = nullptr) : m_tofu(nullptr) {
+            try {
+                m_tofu = fossil_tofu_create(type, value);
+            } catch (...) {
+                // Handle exception
+            }
+        }
+
+        Tofu(const Tofu& other) : m_tofu(nullptr) {
+            try {
+                if (other.m_tofu != nullptr) {
+                    m_tofu = new fossil_tofu_t;
+                    fossil_tofu_value_copy(other.m_tofu, m_tofu);
+                }
+            } catch (...) {
+                // Handle exception
+                delete m_tofu;
+                m_tofu = nullptr;
+            }
+        }
+
+        Tofu(Tofu&& other) noexcept : m_tofu(other.m_tofu) {
+            other.m_tofu = nullptr;
+        }
+
+        ~Tofu() {
+            if (m_tofu != nullptr) {
+                fossil_tofu_value_erase(m_tofu);
+                delete m_tofu;
+            }
+        }
+
+        Tofu& operator=(const Tofu& other) {
+            if (this != &other) {
+                Tofu temp(other);
+                std::swap(m_tofu, temp.m_tofu);
+            }
+            return *this;
+        }
+
+        Tofu& operator=(Tofu&& other) noexcept {
+            if (this != &other) {
+                std::swap(m_tofu, other.m_tofu);
+            }
+            return *this;
+        }
+
+        fossil_tofu_error_t accumulate() {
+            return fossil_tofu_accumulate(m_tofu);
+        }
+
+        fossil_tofu_error_t transform(int (*transform_func)(int)) {
+            return fossil_tofu_transform(m_tofu, transform_func);
+        }
+
+        fossil_tofu_error_t reverse() {
+            return fossil_tofu_reverse(m_tofu);
+        }
+
+        fossil_tofu_error_t swap(Tofu &other) {
+            return fossil_tofu_swap(m_tofu, other.m_tofu);
+        }
+
+        fossil_tofu_error_t compare(Tofu &other) {
+            return fossil_tofu_compare(m_tofu, other.m_tofu);
+        }
+
+        fossil_tofu_error_t partition(bool (*partition_func)(const fossil_tofu_t *), Tofu *partitioned_results[2]) {
+            return fossil_tofu_partition(m_tofu, partition_func, partitioned_results);
+        }
+
+        static fossil_tofu_error_t value_copy(const Tofu &source, Tofu &dest) {
+            return fossil_tofu_value_copy(source.m_tofu, dest.m_tofu);
+        }
+
+        static bool not_cnullptr(const Tofu &value) {
+            return fossil_tofu_not_cnullptr(value.m_tofu);
+        }
+
+    private:
+        fossil_tofu_t *m_tofu;
+    };
+
+} // namespace fossil
 #endif
 
 #endif
