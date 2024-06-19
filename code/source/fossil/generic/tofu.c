@@ -79,6 +79,7 @@ fossil_tofu_t* fossil_tofu_create(fossil_tofu_type type, fossil_tofu_data* value
     return result;
 }
 
+
 bool fossil_tofu_is_homogeneous(fossil_tofu_type type, size_t size, fossil_tofu_data* elements) {
     for (size_t i = 0; i < size; ++i) {
         if (elements[i].array_type.elements->type != type) {
@@ -136,10 +137,10 @@ fossil_tofu_t* fossil_tofu_create_array(fossil_tofu_type type, size_t size, ...)
                 tofu_array->data.array_type.elements[i].data.string_type = va_arg(args, char*);
                 break;
             case TOFU_CHAR_TYPE:
-                tofu_array->data.array_type.elements[i].data.char_type = va_arg(args, int);
+                tofu_array->data.array_type.elements[i].data.char_type = (char)va_arg(args, int);
                 break;
             case TOFU_BOOLEAN_TYPE:
-                tofu_array->data.array_type.elements[i].data.boolean_type = va_arg(args, int);
+                tofu_array->data.array_type.elements[i].data.boolean_type = (bool)va_arg(args, int);
                 break;
             case TOFU_NULLPTR_TYPE:
             case TOFU_UNKNOWN_TYPE:
@@ -155,14 +156,6 @@ fossil_tofu_t* fossil_tofu_create_array(fossil_tofu_type type, size_t size, ...)
     }
 
     va_end(args);
-
-    // Perform type checking to ensure homogeneity
-    if (!fossil_tofu_is_homogeneous(type, size, &tofu_array->data)) {
-        // Handle mixed types, free allocated memory and return NULL
-        free(tofu_array->data.array_type.elements);
-        free(tofu_array);
-        return NULL;
-    }
 
     return tofu_array;
 }
@@ -193,70 +186,48 @@ fossil_tofu_error_t fossil_tofu_erase(fossil_tofu_t* value) {
 // =======================
 // CLASSIC ALGORITHM FUNCTIONS
 // =======================
+
 fossil_tofu_error_t fossil_tofu_accumulate(fossil_tofu_t* objects) {
-    if (objects == NULL) {
-        return fossil_tofu_error(FOSSIL_TOFU_ERROR_NULL_POINTER);
-    }
-
-    if (objects->type != TOFU_ARRAY_TYPE) {
-        return fossil_tofu_error(FOSSIL_TOFU_ERROR_INVALID_OPERATION);
-    }
-
-    size_t size = objects->data.array_type.size;
-
-    if (size == 0) {
-        return fossil_tofu_error(FOSSIL_TOFU_ERROR_NULL_POINTER);
-    }
-
-    if (objects->data.array_type.elements == NULL) {
+    if (objects == NULL || objects->type != TOFU_ARRAY_TYPE || objects->data.array_type.size == 0 || objects->data.array_type.elements == NULL) {
         return fossil_tofu_error(FOSSIL_TOFU_ERROR_NULL_POINTER);
     }
 
     fossil_tofu_data result;
     result.int_type = 0;
 
-    for (size_t i = 0; i < size; ++i) {
+    for (size_t i = 0; i < objects->data.array_type.size; ++i) {
         if (objects->data.array_type.elements[i].type != TOFU_INT_TYPE) {
             return fossil_tofu_error(FOSSIL_TOFU_ERROR_INVALID_OPERATION);
         }
-
-        fossil_tofu_data currentData = fossil_tofu_value_getter(&objects->data.array_type.elements[i]);
-
-        // Accumulate the values
-        result.int_type += currentData.int_type;
+        result.int_type += objects->data.array_type.elements[i].data.int_type;
     }
 
-    // Create a new fossil_tofu_t with the accumulated value
     fossil_tofu_t* resultObject = fossil_tofu_create(TOFU_INT_TYPE, &result);
-    
     if (resultObject == NULL) {
         return fossil_tofu_error(FOSSIL_TOFU_ERROR_MEMORY_CORRUPTION);
     }
 
-    // Erase the existing array and set the result object as its only element
-    fossil_tofu_erase_array(objects);
+    free(objects->data.array_type.elements);
+    objects->data.array_type.elements = (fossil_tofu_t*)malloc(sizeof(fossil_tofu_t));
+    if (objects->data.array_type.elements == NULL) {
+        free(resultObject);
+        return fossil_tofu_error(FOSSIL_TOFU_ERROR_MEMORY_CORRUPTION);
+    }
+
+    objects->data.array_type.elements[0] = *resultObject;
     objects->data.array_type.size = 1;
-    objects->data.array_type.elements = resultObject;
+    free(resultObject);
 
     return fossil_tofu_error(FOSSIL_TOFU_ERROR_OK);
 }
 
 fossil_tofu_error_t fossil_tofu_transform(fossil_tofu_t* objects, int (*transformFunc)(int)) {
-    if (!fossil_tofu_not_cnullptr(objects)) {
+    if (!fossil_tofu_not_cnullptr(objects) || fossil_tofu_type_getter(objects) != TOFU_ARRAY_TYPE || transformFunc == NULL) {
         return fossil_tofu_error(FOSSIL_TOFU_ERROR_NULL_POINTER);
-    }
-
-    if (fossil_tofu_type_getter(objects) != TOFU_ARRAY_TYPE) {
-        return fossil_tofu_error(FOSSIL_TOFU_ERROR_INVALID_OPERATION);
     }
 
     size_t size = objects->data.array_type.size;
-
-    if (size == 0) {
-        return fossil_tofu_error(FOSSIL_TOFU_ERROR_NULL_POINTER);
-    }
-
-    if (objects->data.array_type.elements == NULL || transformFunc == NULL) {
+    if (size == 0 || objects->data.array_type.elements == NULL) {
         return fossil_tofu_error(FOSSIL_TOFU_ERROR_NULL_POINTER);
     }
 
@@ -264,44 +235,27 @@ fossil_tofu_error_t fossil_tofu_transform(fossil_tofu_t* objects, int (*transfor
         if (objects->data.array_type.elements[i].type != TOFU_INT_TYPE) {
             return fossil_tofu_error(FOSSIL_TOFU_ERROR_INVALID_OPERATION);
         }
-
-        // Get the current fossil_tofu_t element
-        fossil_tofu_t currentData = objects->data.array_type.elements[i];
-
-        // Apply the transformation function to the int_type
-        currentData.data.int_type = transformFunc(currentData.data.int_type);
-
-        // Set the updated fossil_tofu_t element back to the array
-        fossil_tofu_value_setter(&objects->data.array_type.elements[i], &currentData);
+        objects->data.array_type.elements[i].data.int_type = transformFunc(objects->data.array_type.elements[i].data.int_type);
     }
 
     return fossil_tofu_error(FOSSIL_TOFU_ERROR_OK);
 }
 
 fossil_tofu_error_t fossil_tofu_sort(fossil_tofu_t* objects) {
-    if (!fossil_tofu_not_cnullptr(objects)) {
+    if (!fossil_tofu_not_cnullptr(objects) || fossil_tofu_type_getter(objects) != TOFU_ARRAY_TYPE) {
         return fossil_tofu_error(FOSSIL_TOFU_ERROR_NULL_POINTER);
     }
 
-    if (fossil_tofu_type_getter(objects) != TOFU_ARRAY_TYPE) {
-        return fossil_tofu_error(FOSSIL_TOFU_ERROR_INVALID_OPERATION);
-    }
-
-    // Ensure that array elements have compatible types for sorting
-    for (size_t i = 0; i < objects->data.array_type.size; ++i) {
+    size_t size = objects->data.array_type.size;
+    for (size_t i = 0; i < size; ++i) {
         if (fossil_tofu_type_getter(&objects->data.array_type.elements[i]) != TOFU_INT_TYPE) {
             return fossil_tofu_error(FOSSIL_TOFU_ERROR_INVALID_OPERATION);
         }
     }
 
-    // Implement a simple bubble sort algorithm
-    for (size_t i = 0; i < objects->data.array_type.size - 1; ++i) {
-        for (size_t j = 0; j < objects->data.array_type.size - i - 1; ++j) {
-            fossil_tofu_data current = fossil_tofu_value_getter(&objects->data.array_type.elements[j]);
-            fossil_tofu_data next = fossil_tofu_value_getter(&objects->data.array_type.elements[j + 1]);
-
-            if (current.int_type > next.int_type) {
-                // Swap elements if they are in the wrong order
+    for (size_t i = 0; i < size - 1; ++i) {
+        for (size_t j = 0; j < size - i - 1; ++j) {
+            if (objects->data.array_type.elements[j].data.int_type > objects->data.array_type.elements[j + 1].data.int_type) {
                 fossil_tofu_data temp = objects->data.array_type.elements[j].data;
                 objects->data.array_type.elements[j].data = objects->data.array_type.elements[j + 1].data;
                 objects->data.array_type.elements[j + 1].data = temp;
@@ -313,89 +267,69 @@ fossil_tofu_error_t fossil_tofu_sort(fossil_tofu_t* objects) {
 }
 
 fossil_tofu_error_t fossil_tofu_search(fossil_tofu_t* objects, fossil_tofu_t* key) {
-    if (!fossil_tofu_not_cnullptr(objects) || !fossil_tofu_not_cnullptr(key)) {
+    if (!fossil_tofu_not_cnullptr(objects) || !fossil_tofu_not_cnullptr(key) || fossil_tofu_type_getter(objects) != TOFU_ARRAY_TYPE) {
         return fossil_tofu_error(FOSSIL_TOFU_ERROR_NULL_POINTER);
     }
 
-    if (fossil_tofu_type_getter(objects) != TOFU_ARRAY_TYPE) {
-        return fossil_tofu_error(FOSSIL_TOFU_ERROR_INVALID_OPERATION);
-    }
-
     fossil_tofu_type keyType = fossil_tofu_type_getter(key);
-
-    // Ensure that array elements have compatible types for searching
     for (size_t i = 0; i < objects->data.array_type.size; ++i) {
         if (fossil_tofu_type_getter(&objects->data.array_type.elements[i]) != keyType) {
             return fossil_tofu_error(FOSSIL_TOFU_ERROR_INVALID_OPERATION);
         }
-    }
-
-    // Implement a simple linear search algorithm
-    for (size_t i = 0; i < objects->data.array_type.size; ++i) {
         if (fossil_tofu_compare(&objects->data.array_type.elements[i], key) == FOSSIL_TOFU_ERROR_OK) {
-            return fossil_tofu_error(FOSSIL_TOFU_ERROR_OK);  // Key found
+            return fossil_tofu_error(FOSSIL_TOFU_ERROR_OK);
         }
     }
 
-    return fossil_tofu_error(FOSSIL_TOFU_ERROR_TYPE_MISMATCH);  // Key not found
+    return fossil_tofu_error(FOSSIL_TOFU_ERROR_TYPE_MISMATCH);
 }
 
 fossil_tofu_error_t fossil_tofu_filter(fossil_tofu_t* objects, bool (*filterFunc)(const fossil_tofu_data*)) {
-    if (!fossil_tofu_not_cnullptr(objects)) {
+    if (!fossil_tofu_not_cnullptr(objects) || fossil_tofu_type_getter(objects) != TOFU_ARRAY_TYPE || filterFunc == NULL) {
         return fossil_tofu_error(FOSSIL_TOFU_ERROR_NULL_POINTER);
     }
 
-    if (fossil_tofu_type_getter(objects) != TOFU_ARRAY_TYPE) {
-        return fossil_tofu_error(FOSSIL_TOFU_ERROR_INVALID_OPERATION);
-    }
-
-    // Declare an array of fossil_tofu_data to store the filtered elements
-    fossil_tofu_data filteredArray[objects->data.array_type.size];
+    size_t size = objects->data.array_type.size;
+    fossil_tofu_data* filteredArray = (fossil_tofu_data*)malloc(size * sizeof(fossil_tofu_data));
     size_t filteredSize = 0;
 
-    // Filter elements based on the provided function
-    for (size_t i = 0; i < objects->data.array_type.size; ++i) {
+    for (size_t i = 0; i < size; ++i) {
         if (filterFunc(&objects->data.array_type.elements[i].data)) {
-            // Copy the entire fossil_tofu_data element into the filteredArray
-            filteredArray[filteredSize] = objects->data.array_type.elements[i].data;
-            ++filteredSize;
+            filteredArray[filteredSize++] = objects->data.array_type.elements[i].data;
         }
     }
 
-    // Clear existing data and store the filtered result
-    fossil_tofu_erase(objects);
-    // Create a new TOFU array and set its data
-    objects = fossil_tofu_create(TOFU_ARRAY_TYPE, filteredArray);
+    free(objects->data.array_type.elements);
+    objects->data.array_type.elements = (fossil_tofu_t*)malloc(filteredSize * sizeof(fossil_tofu_t));
+    if (objects->data.array_type.elements == NULL) {
+        free(filteredArray);
+        return fossil_tofu_error(FOSSIL_TOFU_ERROR_MEMORY_CORRUPTION);
+    }
+
+    for (size_t i = 0; i < filteredSize; ++i) {
+        objects->data.array_type.elements[i].data = filteredArray[i];
+    }
     objects->data.array_type.size = filteredSize;
+    free(filteredArray);
 
     return fossil_tofu_error(FOSSIL_TOFU_ERROR_OK);
 }
 
 fossil_tofu_error_t fossil_tofu_reverse(fossil_tofu_t* objects) {
-    if (!fossil_tofu_not_cnullptr(objects)) {
+    if (!fossil_tofu_not_cnullptr(objects) || fossil_tofu_type_getter(objects) != TOFU_ARRAY_TYPE) {
         return fossil_tofu_error(FOSSIL_TOFU_ERROR_NULL_POINTER);
     }
 
-    if (fossil_tofu_type_getter(objects) != TOFU_ARRAY_TYPE) {
-        return fossil_tofu_error(FOSSIL_TOFU_ERROR_UNKNOWN);
-    }
-
-    // Reverse the array elements
-    size_t i = 0;
-    size_t j = objects->data.array_type.size - 1;
-
-    while (i < j) {
-        // Swap elements at positions i and j
+    size_t size = objects->data.array_type.size;
+    for (size_t i = 0; i < size / 2; ++i) {
         fossil_tofu_data temp = objects->data.array_type.elements[i].data;
-        objects->data.array_type.elements[i].data = objects->data.array_type.elements[j].data;
-        objects->data.array_type.elements[j].data = temp;
-
-        ++i;
-        --j;
+        objects->data.array_type.elements[i].data = objects->data.array_type.elements[size - i - 1].data;
+        objects->data.array_type.elements[size - i - 1].data = temp;
     }
 
     return fossil_tofu_error(FOSSIL_TOFU_ERROR_OK);
 }
+
 
 fossil_tofu_error_t fossil_tofu_swap(fossil_tofu_t* right, fossil_tofu_t* left) {
     if (!right || !left) {
