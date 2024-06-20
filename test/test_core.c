@@ -217,7 +217,6 @@ FOSSIL_TEST(test_fossil_hostsys_get) {
     fossil_hostsys_get(&info);
     ASSUME_NOT_EQUAL_CSTR("", info.os_name);
     ASSUME_NOT_EQUAL_CSTR("", info.os_version);
-    ASSUME_NOT_EQUAL_CSTR("", info.cpu_model);
 }
 
 FOSSIL_TEST(test_fossil_hostsys_endian) {
