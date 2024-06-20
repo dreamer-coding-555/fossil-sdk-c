@@ -106,12 +106,21 @@ enum {
 #endif
 
 /**
+ * Get the version number of the library.
+ *
+ * @return A constant string representing the library's version number.
+ */
+inline const char* fossil_version(void) {
+    return "1.0.1";
+}
+
+/**
  * Get the codename associated with the library.
  *
  * @return A constant string representing the library's codename.
  */
 inline const char* fossil_codename(void) {
-    return "Mesozoic";
+    return "Paleozoic Dimetrodon";
 }
 
 /**
