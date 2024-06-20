@@ -197,4 +197,148 @@ int32_t fossil_money_is_zero(fossil_money_t m);
 }
 #endif
 
+#ifdef __cplusplus
+#include <stdexcept>
+namespace fossil {
+
+    class Money {
+    private:
+        fossil_money_t money;
+
+    public:
+        Money() {
+            money = fossil_money_create(0, 0, DEFAULT_CURRENCY);
+        }
+
+        Money(int32_t dollars, int32_t cents, fossil_currency_t currency) {
+            money = fossil_money_create(dollars, cents, currency);
+        }
+
+        Money(const Money& other) {
+            money = fossil_money_create(other.money.dollars, other.money.cents, other.money.currency);
+        }
+
+        Money(Money&& other) noexcept {
+            money = other.money;
+            other.money.dollars = 0;
+            other.money.cents = 0;
+            other.money.currency = DEFAULT_CURRENCY;
+        }
+
+        Money& operator=(const Money& other) {
+            if (this != &other) {
+                money = fossil_money_create(other.money.dollars, other.money.cents, other.money.currency);
+            }
+            return *this;
+        }
+
+        Money& operator=(Money&& other) noexcept {
+            if (this != &other) {
+                money = other.money;
+                other.money.dollars = 0;
+                other.money.cents = 0;
+                other.money.currency = DEFAULT_CURRENCY;
+            }
+            return *this;
+        }
+
+        Money add(const Money& other) const {
+            try {
+                fossil_money_t result = fossil_money_add(money, other.money);
+                return Money(result.dollars, result.cents, result.currency);
+            } catch (...) {
+                // Handle the exception here
+                // You can throw a custom exception or return a default value
+                // For example, you can return a Money object with zero dollars and cents
+                return Money(0, 0, DEFAULT_CURRENCY);
+            }
+        }
+        
+        Money subtract(const Money& other) const {
+            try {
+                fossil_money_t result = fossil_money_subtract(money, other.money);
+                return Money(result.dollars, result.cents, result.currency);
+            } catch (...) {
+                // Handle the exception here
+                // You can throw a custom exception or return a default value
+                // For example, you can return a Money object with zero dollars and cents
+                return Money(0, 0, DEFAULT_CURRENCY);
+            }
+        }
+        
+        Money multiply_scalar(int32_t scalar) const {
+            try {
+                fossil_money_t result = fossil_money_multiply_scalar(money, scalar);
+                return Money(result.dollars, result.cents, result.currency);
+            } catch (...) {
+                // Handle the exception here
+                // You can throw a custom exception or return a default value
+                // For example, you can return a Money object with zero dollars and cents
+                return Money(0, 0, DEFAULT_CURRENCY);
+            }
+        }
+        
+        Money divide_scalar(int32_t divisor) const {
+            try {
+                fossil_money_t result = fossil_money_divide_scalar(money, divisor);
+                return Money(result.dollars, result.cents, result.currency);
+            } catch (...) {
+                // Handle the exception here
+                // You can throw a custom exception or return a default value
+                // For example, you can return a Money object with zero dollars and cents
+                return Money(0, 0, DEFAULT_CURRENCY);
+            }
+        }
+        
+        Money round() const {
+            try {
+                fossil_money_t result = fossil_money_round(money);
+                return Money(result.dollars, result.cents, result.currency);
+            } catch (...) {
+                // Handle the exception here
+                // You can throw a custom exception or return a default value
+                // For example, you can return a Money object with zero dollars and cents
+                return Money(0, 0, DEFAULT_CURRENCY);
+            }
+        }
+
+        bool is_positive() const {
+            return fossil_money_is_positive(money);
+        }
+
+        bool is_negative() const {
+            return fossil_money_is_negative(money);
+        }
+
+        bool is_zero() const {
+            return fossil_money_is_zero(money);
+        }
+
+        bool operator==(const Money& other) const {
+            return fossil_money_compare(money, other.money) == 0;
+        }
+
+        bool operator!=(const Money& other) const {
+            return fossil_money_compare(money, other.money) != 0;
+        }
+
+        bool operator>(const Money& other) const {
+            return fossil_money_compare(money, other.money) > 0;
+        }
+
+        bool operator<(const Money& other) const {
+            return fossil_money_compare(money, other.money) < 0;
+        }
+
+        bool operator>=(const Money& other) const {
+            return fossil_money_compare(money, other.money) >= 0;
+        }
+
+        bool operator<=(const Money& other) const {
+            return fossil_money_compare(money, other.money) <= 0;
+        }
+    };    
+}
+#endif
+
 #endif

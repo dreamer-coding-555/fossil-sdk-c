@@ -120,4 +120,78 @@ void fossil_command_strcat_safe(char *restrict dest, const char *restrict src, s
 }
 #endif
 
+#ifdef __cplusplus
+#include <string>
+
+namespace fossil {
+
+    class Command {
+    public:
+        Command() {
+            // Initialize any necessary resources
+        }
+
+        ~Command() {
+            // Clean up any allocated resources
+        }
+
+        int execute_command(const std::string& command) {
+            try {
+                return fossil_command(const_cast<char*>(command.c_str()));
+            } catch (...) {
+                // Handle any exceptions here
+                return -1; // Return an error code
+            }
+        }
+
+        bool is_command_successful(int32_t process) {
+            try {
+                return fossil_command_success(reinterpret_cast<fossil_command_t>(process));
+            } catch (...) {
+                // Handle any exceptions here
+                return false; // Return false in case of exception
+            }
+        }
+
+        std::string get_command_output(int32_t process) {
+            try {
+                char output[1024];
+                fossil_command_output(reinterpret_cast<fossil_command_t>(process), output, sizeof(output));
+                return std::string(output);
+            } catch (...) {
+                // Handle any exceptions here
+                return ""; // Return an empty string in case of exception
+            }
+        }
+
+        bool does_command_exist(int32_t process) {
+            try {
+                return fossil_command_exists(reinterpret_cast<fossil_command_t>(process));
+            } catch (...) {
+                // Handle any exceptions here
+                return false; // Return false in case of exception
+            }
+        }
+
+        bool erase_command_and_check_existence(int32_t process) {
+            try {
+                return fossil_command_erase_exists(reinterpret_cast<fossil_command_t>(process));
+            } catch (...) {
+                // Handle any exceptions here
+                return false; // Return false in case of exception
+            }
+        }
+
+        void safe_string_concatenation(char* dest, const char* src, size_t dest_size) {
+            try {
+                fossil_command_strcat_safe(dest, src, dest_size);
+            } catch (...) {
+                // Handle any exceptions here
+            }
+        }
+    };
+}
+
+#endif
+
 #endif
