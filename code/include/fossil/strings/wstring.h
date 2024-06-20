@@ -77,6 +77,8 @@ size_t fossil_wstr_length(const_wstring str);
 #endif
 
 #ifdef __cplusplus
+#include <stdexcept>
+
 namespace fossil {
     
     class WString {
@@ -145,7 +147,104 @@ namespace fossil {
         const_wstring c_str() const {
             return _str;
         }
-
+        
+        /**
+         * @brief Concatenate two WString objects
+         * 
+         * Concatenates two WString objects and returns a new WString object.
+         * 
+         * @param other The other WString object to concatenate
+         * @return The concatenated WString object
+         */
+        WString operator+(const WString& other) const {
+            size_t len1 = length();
+            size_t len2 = other.length();
+            size_t newLen = len1 + len2;
+            wletter* newStr = new wletter[newLen + 1];
+            
+            for (size_t i = 0; i < len1; i++) {
+                newStr[i] = at(i);
+            }
+            
+            for (size_t i = 0; i < len2; i++) {
+                newStr[len1 + i] = other.at(i);
+            }
+            
+            newStr[newLen] = L'\0';
+            
+            return WString(newStr);
+        }
+        
+        /**
+         * @brief Assign the value of another WString object
+         * 
+         * Assigns the value of another WString object to this object.
+         * 
+         * @param other The other WString object to assign from
+         * @return This WString object after assignment
+         */
+        WString& operator=(const WString& other) {
+            if (this != &other) {
+                fossil_wstr_erase(_str);
+                _str = fossil_wstr_create(other._str);
+            }
+            return *this;
+        }
+        
+        /**
+         * @brief Move the content of another WString object
+         * 
+         * Moves the content of another WString object to this object.
+         * 
+         * @param other The other WString object to move from
+         * @return This WString object after move
+         */
+        WString& operator=(WString&& other) noexcept {
+            if (this != &other) {
+                fossil_wstr_erase(_str);
+                _str = other._str;
+                other._str = nullptr;
+            }
+            return *this;
+        }
+        
+        /**
+         * @brief Check if two WString objects are equal
+         * 
+         * Checks if two WString objects are equal.
+         * 
+         * @param other The other WString object to compare
+         * @return True if the two WString objects are equal, false otherwise
+         */
+        bool operator==(const WString& other) const {
+            size_t len1 = length();
+            size_t len2 = other.length();
+            
+            if (len1 != len2) {
+                return false;
+            }
+            
+            for (size_t i = 0; i < len1; i++) {
+                if (at(i) != other.at(i)) {
+                    return false;
+                }
+            }
+            
+            return true;
+        }
+        
+        /**
+         * @brief Check if two WString objects are not equal
+         * 
+         * Checks if two WString objects are not equal.
+         * 
+         * @param other The other WString object to compare
+         * @return True if the two WString objects are not equal, false otherwise
+         */
+        bool operator!=(const WString& other) const {
+            return !(*this == other);
+        }
+        
     private:
         const_wstring _str;
     };

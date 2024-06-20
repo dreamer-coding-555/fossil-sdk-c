@@ -79,6 +79,7 @@ size_t fossil_bstr_length(const_bstring str);
 
 #ifdef __cplusplus
 #include <stdexcept>
+#include <cstring>
 
 namespace fossil {
 
@@ -166,6 +167,72 @@ public:
             throw std::out_of_range("Index out of range.");
         }
         return str[index];
+    }
+
+    /**
+     * Concatenate two byte strings.
+     * 
+     * @param other The byte string to concatenate with.
+     * @return The concatenated byte string.
+     */
+    BString operator+(const BString& other) const {
+        BString result;
+        size_t totalLength = length() + other.length();
+        result.str = new bletter[totalLength + 1];
+        memcpy(result.str, str, length());
+        memcpy(result.str + length(), other.str, other.length());
+        result.str[totalLength] = '\0';
+        return result;
+    }
+
+    /**
+     * Assign a byte string to another byte string.
+     * 
+     * @param other The byte string to assign.
+     * @return The assigned byte string.
+     */
+    BString& operator=(const BString& other) {
+        if (this != &other) {
+            fossil_bstr_erase(str);
+            str = fossil_bstr_create(other.str);
+        }
+        return *this;
+    }
+
+    /**
+     * Move assign a byte string to another byte string.
+     * 
+     * @param other The byte string to move assign.
+     * @return The moved assigned byte string.
+     */
+    BString& operator=(BString&& other) noexcept {
+        if (this != &other) {
+            fossil_bstr_erase(str);
+            str = other.str;
+            other.str = cnullptr;
+        }
+        return *this;
+    }
+
+    /**
+     * Compare two byte strings for equality.
+     * 
+     * @param other The byte string to compare with.
+     * @return True if the byte strings are equal, false otherwise.
+     */
+    bool operator==(const BString& other) const {
+        return fossil_bstr_length(str) == fossil_bstr_length(other.str) &&
+               memcmp(str, other.str, fossil_bstr_length(str)) == 0;
+    }
+
+    /**
+     * Compare two byte strings for inequality.
+     * 
+     * @param other The byte string to compare with.
+     * @return True if the byte strings are not equal, false otherwise.
+     */
+    bool operator!=(const BString& other) const {
+        return !(*this == other);
     }
 
 private:

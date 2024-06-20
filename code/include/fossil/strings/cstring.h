@@ -78,6 +78,7 @@ size_t fossil_cstr_length(const_cstring str);
 
 #ifdef __cplusplus
 #include <stdexcept>
+#include <cstring>
 
 namespace fossil {
     class CString {
@@ -153,6 +154,112 @@ namespace fossil {
          */
         const_cstring c_str() const {
             return cstr_;
+        }
+
+        /**
+         * Concatenate two CStrings.
+         * 
+         * @param other The CString to concatenate with.
+         * @return A new CString object containing the concatenated strings.
+         */
+        CString operator+(const CString& other) const {
+            size_t len1 = length();
+            size_t len2 = other.length();
+            size_t newLen = len1 + len2;
+            cstring newStr = new cletter[newLen + 1];
+            std::memcpy(newStr, cstr_, len1);
+            std::memcpy(newStr + len1, other.cstr_, len2);
+            newStr[newLen] = '\0';
+            return CString(newStr);
+        }
+
+        /**
+         * Assign the value of another CString.
+         * 
+         * @param other The CString to assign from.
+         * @return The updated CString object.
+         */
+        CString& operator=(const CString& other) {
+            if (this != &other) {
+                fossil_cstr_erase(cstr_);
+                cstr_ = fossil_cstr_create(other.c_str());
+            }
+            return *this;
+        }
+
+        /**
+         * Move the content of another CString.
+         * 
+         * @param other The CString to move from.
+         * @return The updated CString object.
+         */
+        CString& operator=(CString&& other) noexcept {
+            if (this != &other) {
+                fossil_cstr_erase(cstr_);
+                cstr_ = other.cstr_;
+                other.cstr_ = cnullptr;
+            }
+            return *this;
+        }
+
+        /**
+         * Compare two CStrings for equality.
+         * 
+         * @param other The CString to compare with.
+         * @return true if the CStrings are equal, false otherwise.
+         */
+        bool operator==(const CString& other) const {
+            return std::strcmp(cstr_, other.cstr_) == 0;
+        }
+
+        /**
+         * Compare two CStrings for inequality.
+         * 
+         * @param other The CString to compare with.
+         * @return true if the CStrings are not equal, false otherwise.
+         */
+        bool operator!=(const CString& other) const {
+            return std::strcmp(cstr_, other.cstr_) != 0;
+        }
+
+        /**
+         * Compare two CStrings lexicographically.
+         * 
+         * @param other The CString to compare with.
+         * @return true if this CString is less than the other, false otherwise.
+         */
+        bool operator<(const CString& other) const {
+            return std::strcmp(cstr_, other.cstr_) < 0;
+        }
+
+        /**
+         * Compare two CStrings lexicographically.
+         * 
+         * @param other The CString to compare with.
+         * @return true if this CString is less than or equal to the other, false otherwise.
+         */
+        bool operator<=(const CString& other) const {
+            return std::strcmp(cstr_, other.cstr_) <= 0;
+        }
+
+        /**
+         * Compare two CStrings lexicographically.
+         * 
+         * @param other The CString to compare with.
+         * @return true if this CString is greater than the other, false otherwise.
+         */
+        bool operator>(const CString& other) const {
+            return std::strcmp(cstr_, other.cstr_) > 0;
+        }
+
+        /**
+         * Compare two CStrings lexicographically.
+         * 
+         * @param other The CString to compare with.
+         * @return true if this CString is greater than or equal to the other, false otherwise.
+         */
+        bool operator>=(const CString& other) const {
+            return std::strcmp(cstr_, other.cstr_) >= 0;
         }
 
     private:
