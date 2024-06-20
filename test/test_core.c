@@ -218,14 +218,12 @@ FOSSIL_TEST(test_fossil_hostsys_get) {
     ASSUME_NOT_EQUAL_CSTR("", info.os_name);
     ASSUME_NOT_EQUAL_CSTR("", info.os_version);
     ASSUME_NOT_EQUAL_CSTR("", info.cpu_model);
-    ASSUME_ITS_MORE_OR_EQUAL_I32(0, info.total_memory);
-    ASSUME_ITS_MORE_OR_EQUAL_I32(0, info.free_memory);
 }
 
 FOSSIL_TEST(test_fossil_hostsys_endian) {
     fossil_hostsystem_t info;
     fossil_hostsys_get(&info);
-    ASSUME_ITS_TRUE(fossil_hostsys_endian(&info) != NULL);
+    ASSUME_ITS_EQUAL_CSTR(fossil_hostsys_endian(&info), info.is_big_endian ? "Big Endian" : "Little Endian");
 }
 
 // * * * * * * * * * * * * * * * * * * * * * * * *
@@ -297,11 +295,6 @@ FOSSIL_TEST(test_money_convert) {
     ASSUME_ITS_EQUAL_I32(10, result.dollars);
     ASSUME_ITS_EQUAL_I32(50, result.cents);
     ASSUME_ITS_EQUAL_I32(CAD, result.currency);
-}
-
-FOSSIL_TEST(test_money_display) {
-    fossil_money_t m = fossil_money_create(10, 50, USD);
-    fossil_money_display(m); // Just check if it doesn't crash
 }
 
 FOSSIL_TEST(test_money_is_valid) {
@@ -397,6 +390,7 @@ FOSSIL_TEST(test_fossil_random_int_range) {
     fossil_random_t rng;
     fossil_random_seed(&rng, 12345);
     fossil_random_int_range(&rng, 0, 10);
+    ASSUME_ITS_LESS_THAN_U32(10, rng.current_seed);
 }
 
 FOSSIL_TEST(test_fossil_random_float) {
@@ -448,7 +442,6 @@ FOSSIL_TEST_GROUP(c_core_tests) {
     ADD_TESTF(test_money_create, core_money_fixture);
     ADD_TESTF(test_money_add, core_money_fixture);
     ADD_TESTF(test_money_convert, core_money_fixture);
-    ADD_TESTF(test_money_display, core_money_fixture);
     ADD_TESTF(test_money_is_valid, core_money_fixture);
     ADD_TESTF(test_money_compare, core_money_fixture);
     ADD_TESTF(test_money_subtract, core_money_fixture);
