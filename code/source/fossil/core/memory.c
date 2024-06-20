@@ -60,37 +60,27 @@ void fossil_memory_free(fossil_memory_t ptr) {
 fossil_memory_t fossil_memory_copy(fossil_memory_t dest, const fossil_memory_t src, size_t size) {
     if (!dest || !src) {
         fprintf(stderr, "Error: Invalid memory copy arguments. Source or destination is NULL.\n");
-        exit(FOSSIL_FAILURE);
+        return cnullptr;
     }
     
     if (size == 0) {
         fprintf(stderr, "Error: Cannot copy zero bytes.\n");
-        exit(FOSSIL_FAILURE);
+        return cnullptr;
     }
     
-    fossil_memory_t result = memcpy(dest, src, size);
-    if (!result) {
-        fprintf(stderr, "Error: Memory copy failed.\n");
-        exit(FOSSIL_FAILURE);
-    }
-    return result;
+    return memcpy(dest, src, size);
 }
 
 fossil_memory_t fossil_memory_set(fossil_memory_t ptr, int32_t value, size_t size) {
     if (!ptr) {
         fprintf(stderr, "Error: Invalid memory set argument. Pointer is NULL.\n");
-        exit(FOSSIL_FAILURE);
+        return cnullptr;
     }
     
     if (size == 0) {
         fprintf(stderr, "Error: Cannot set zero bytes.\n");
-        exit(FOSSIL_FAILURE);
+        return cnullptr;
     }
     
-    fossil_memory_t result = memset(ptr, value, size);
-    if (!result) {
-        fprintf(stderr, "Error: Memory set failed.\n");
-        exit(FOSSIL_FAILURE);
-    }
-    return result;
+    return memset(ptr, value, size);
 }

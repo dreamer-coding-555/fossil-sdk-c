@@ -30,6 +30,15 @@ fossil_filesystem_t fossil_filesys_create(const char*  path) {
     fossil_filesystem_t new_directory;
     new_directory.path = (char*)malloc(strlen(path) + 1);
     strcpy(new_directory.path, path);
+    
+#ifdef _WIN32
+    // Windows-specific directory creation logic
+    _mkdir(new_directory.path);
+#else
+    // POSIX-specific directory creation logic
+    mkdir(new_directory.path, 0777);
+#endif
+    
     return new_directory;
 } // end of func
 
@@ -99,7 +108,7 @@ int fossil_filesys_exists(const fossil_filesystem_t* directory) {
         return (stat(directory->path, &info) == 0 && S_ISDIR(info.st_mode));
 #endif
     }
-    return 0; // Invalid directory structure
+    return FOSSIL_FALSE; // Invalid directory structure
 } // end of func
 
 // Function to remove a file within a directory

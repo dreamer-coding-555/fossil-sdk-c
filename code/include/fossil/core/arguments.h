@@ -201,4 +201,115 @@ fossil_option_t* fossil_arg_create_options(const char* names[], fossil_option_ty
 }
 #endif
 
+#ifdef __cplusplus
+#include <string>
+#include <vector>
+
+namespace fossil {
+
+class ArgParser {
+public:
+    ArgParser(int argc, char* argv[]) : cmd{argc, argv} {}
+
+    void parse_usage(const std::string& program_name, const std::vector<Option>& options) {
+        fossil_arg_parse_usage(program_name.c_str(), options.data(), options.size());
+    }
+
+    bool has_option(const std::vector<Option>& options, const std::string& option_name) {
+        return fossil_arg_parse_has(options.data(), options.size(), option_name.c_str()) != 0;
+    }
+
+    void parse(const std::vector<Option>& options) {
+        fossil_arg_parse(&cmd, options.data(), options.size());
+    }
+
+    void check_unrecognized(const std::vector<Option>& options) {
+        fossil_arg_check_unrecognized(&cmd, options.data(), options.size());
+    }
+
+    void print_parsed_options(const std::vector<Option>& options) {
+        fossil_arg_print_parsed_options(options.data(), options.size());
+    }
+
+    void reset_parsed_flags(const std::vector<Option>& options) {
+        fossil_arg_reset_parsed_flags(options.data(), options.size());
+    }
+
+    std::vector<ComboChoice> create_combo_choices(const std::vector<std::string>& names, const std::vector<int>& values) {
+        std::vector<const char*> name_ptrs;
+        std::vector<int32_t> value_ints;
+
+        for (const auto& name : names) {
+            name_ptrs.push_back(name.c_str());
+        }
+
+        for (const auto& value : values) {
+            value_ints.push_back(value);
+        }
+
+        fossil_combo_choice_t* choices = fossil_arg_create_fossil_combo_choice_ts(name_ptrs.data(), value_ints.data(), name_ptrs.size());
+
+        std::vector<ComboChoice> combo_choices;
+        for (size_t i = 0; i < name_ptrs.size(); ++i) {
+            combo_choices.push_back({choices[i].name, choices[i].value});
+        }
+
+        return combo_choices;
+    }
+
+    std::vector<Option> create_options(const std::vector<std::string>& names, const std::vector<OptionType>& types, const std::vector<OptionValue>& values, const std::vector<void*>& extra_data) {
+        std::vector<const char*> name_ptrs;
+        std::vector<fossil_option_type_t> type_enums;
+        std::vector<fossil_option_value_t> value_unions;
+
+        for (const auto& name : names) {
+            name_ptrs.push_back(name.c_str());
+        }
+
+        for (const auto& type : types) {
+            type_enums.push_back(static_cast<fossil_option_type_t>(type));
+        }
+
+        for (const auto& value : values) {
+            fossil_option_value_t value_union;
+            switch (value.index()) {
+                case 0:
+                    value_union.int_val = std::get<int>(value);
+                    break;
+                case 1:
+                    value_union.str_val = const_cast<char*>(std::get<std::string>(value).c_str());
+                    break;
+                case 2:
+                    value_union.bool_val = std::get<bool>(value);
+                    break;
+                case 3:
+                    value_union.combo_val = std::get<int>(value);
+                    break;
+                case 4:
+                    value_union.feature_val = static_cast<fossil_option_feature_t>(std::get<int>(value));
+                    break;
+                default:
+                    throw std::runtime_error("Invalid option value type");
+            }
+            value_unions.push_back(value_union);
+        }
+
+        fossil_option_t* options = fossil_arg_create_options(name_ptrs.data(), type_enums.data(), value_unions.data(), extra_data.data(), name_ptrs.size());
+
+        std::vector<Option> wrapped_options;
+        for (size_t i = 0; i < name_ptrs.size(); ++i) {
+            wrapped_options.push_back({options[i].name, static_cast<OptionType>(options[i].type), options[i].value, options[i].extra_data, options[i].num_choices, options[i].parsed});
+        }
+
+        return wrapped_options;
+    }
+
+private:
+    fossil_command_line_t cmd;
+};
+
+} // namespace fossil
+
+#endif
+
 #endif
