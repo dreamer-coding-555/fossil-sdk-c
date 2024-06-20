@@ -40,6 +40,7 @@ Before getting started, make sure you have the following installed:
    [provide]
    fossil-sdk           = fossil_sdk_dep
    fossil-sdk-io        = fossil_sdk_io_dep
+   fossil-sdk-ai        = fossil_sdk_ai_dep
    fossil-sdk-core      = fossil_sdk_core_dep
    fossil-sdk-strings   = fossil_sdk_strings_dep
    fossil-sdk-algorithm = fossil_sdk_algorithm_dep
