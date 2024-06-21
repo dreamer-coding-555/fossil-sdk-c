@@ -45,7 +45,7 @@ Description:
  * @return Error code indicating the success or failure of the operation.
  */
 
-#include "fossil/generic/tofu.h"
+#include "fossil/generic/arrayof.h"
 
 #ifdef __cplusplus
 extern "C"
@@ -60,7 +60,7 @@ extern "C"
  * @param array The "tofu" array to be sorted.
  * @return Error code indicating the success or failure of the operation.
  */
-fossil_tofu_error_t fossil_sort_bubble(fossil_tofu_t* array);
+int_least16_t fossil_sort_bubble(fossil_tofu_arrayof_t array);
 
 /**
  * @brief Sorts a "tofu" array using the Quick Sort algorithm.
@@ -70,7 +70,7 @@ fossil_tofu_error_t fossil_sort_bubble(fossil_tofu_t* array);
  * @param array The "tofu" array to be sorted.
  * @return Error code indicating the success or failure of the operation.
  */
-fossil_tofu_error_t fossil_sort_quick(fossil_tofu_t* array);
+int fossil_sort_quick(fossil_tofu_arrayof_t array);
 
 /**
  * @brief Sorts a "tofu" array using the Merge Sort algorithm.
@@ -80,7 +80,7 @@ fossil_tofu_error_t fossil_sort_quick(fossil_tofu_t* array);
  * @param array The "tofu" array to be sorted.
  * @return Error code indicating the success or failure of the operation.
  */
-fossil_tofu_error_t fossil_sort_merge(fossil_tofu_t* array);
+int fossil_sort_merge(fossil_tofu_arrayof_t array);
 
 #ifdef __cplusplus
 }

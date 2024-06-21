@@ -51,7 +51,7 @@ Description:
  * @return The index of the key in the array, or -1 if the key is not found.
  */
 
-#include "fossil/generic/tofu.h"
+#include "fossil/generic/arrayof.h"
 
 #ifdef __cplusplus
 extern "C"
@@ -68,7 +68,7 @@ extern "C"
  * @param key The key to search for within the array.
  * @return The index of the first occurrence of the key in the array, or -1 if the key is not found.
  */
-int fossil_search_linear(fossil_tofu_t* array, fossil_tofu_t* key);
+int fossil_search_linear(fossil_tofu_arrayof_t array, fossil_tofu_t* key);
 
 /**
  * @brief Performs binary search on a sorted "tofu" array to find the specified key.
@@ -81,7 +81,7 @@ int fossil_search_linear(fossil_tofu_t* array, fossil_tofu_t* key);
  * @param key The key to search for within the array.
  * @return The index of the key in the array, or -1 if the key is not found.
  */
-int fossil_search_binary(fossil_tofu_t* array, fossil_tofu_t* key);
+int fossil_search_binary(fossil_tofu_arrayof_t array, fossil_tofu_t* key);
 
 /**
  * @brief Performs interpolation search on a sorted "tofu" array to find the specified key.
@@ -94,7 +94,7 @@ int fossil_search_binary(fossil_tofu_t* array, fossil_tofu_t* key);
  * @param key The key to search for within the array.
  * @return The index of the key in the array, or -1 if the key is not found.
  */
-int fossil_search_interpolation(fossil_tofu_t* array, fossil_tofu_t* key);
+int fossil_search_interpolation(fossil_tofu_arrayof_t array, fossil_tofu_t* key);
 
 #ifdef __cplusplus
 }

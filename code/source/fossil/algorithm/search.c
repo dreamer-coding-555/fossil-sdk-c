@@ -11,79 +11,70 @@ Description:
 ==============================================================================
 */
 #include "fossil/algorithm/search.h"
-#include "fossil/common/common.h"
 
-int fossil_search_linear(fossil_tofu_t* array, fossil_tofu_t* key) {
-    if (array == cnullptr || key == cnullptr) {
-        return -1;
+int fossil_search_linear(fossil_tofu_arrayof_t array, fossil_tofu_t* key) {
+    if (array.array == NULL || key == NULL || array.size == 0) {
+        return -1; // Return -1 if array is empty or key is NULL
     }
 
-    for (size_t i = 0; i < array->data.array_type.size; ++i) {
-        if (fossil_tofu_compare(&array->data.array_type.elements[i], key) == FOSSIL_TOFU_ERROR_OK) {
-            return (int)i; // Key found, return index
+    for (size_t i = 0; i < array.size; ++i) {
+        if (fossil_tofu_equals(array.array[i], *key)) {
+            return i; // Return the index if key is found
         }
     }
 
-    return -1; // Key not found
+    return -1; // Return -1 if key is not found
 }
 
-static int binary_search_recursive(fossil_tofu_t* array, fossil_tofu_t* key, int left, int right) {
-    if (left <= right) {
-        int mid = left + (right - left) / 2;
+int fossil_search_binary(fossil_tofu_arrayof_t array, fossil_tofu_t* key) {
+    if (array.array == NULL || key == NULL || array.size == 0) {
+        return -1; // Return -1 if array is empty or key is NULL
+    }
 
-        int cmp_result = fossil_tofu_compare(&array->data.array_type.elements[mid], key);
-        if (cmp_result == FOSSIL_TOFU_ERROR_OK) {
-            return mid; // Key found, return index
-        } else if (cmp_result < 0) {
-            return binary_search_recursive(array, key, mid + 1, right);
+    size_t low = 0;
+    size_t high = array.size - 1;
+
+    while (low <= high) {
+        size_t mid = low + (high - low) / 2;
+
+        if (fossil_tofu_equals(array.array[mid], *key)) {
+            return mid; // Return the index if key is found
+        } else if (fossil_tofu_equals(array.array[mid], *key) < 0) {
+            low = mid + 1; // Search the right half
         } else {
-            return binary_search_recursive(array, key, left, mid - 1);
+            high = mid - 1; // Search the left half
         }
     }
 
-    return -1; // Key not found
+    return -1; // Return -1 if key is not found
 }
 
-int fossil_search_binary(fossil_tofu_t* array, fossil_tofu_t* key) {
-    if (array == cnullptr || key == cnullptr) {
-        return -1;
+int fossil_search_interpolation(fossil_tofu_arrayof_t array, fossil_tofu_t* key) {
+    if (array.array == NULL || key == NULL || array.size == 0) {
+        return -1; // Return -1 if array is empty or key is NULL
     }
 
-    return binary_search_recursive(array, key, 0, (int)array->data.array_type.size - 1);
-}
+    size_t low = 0;
+    size_t high = array.size - 1;
 
-int fossil_search_interpolation(fossil_tofu_t* array, fossil_tofu_t* key) {
-    if (array == cnullptr || key == cnullptr) {
-        return -1;
-    }
-
-    int left = 0;
-    int right = (int)array->data.array_type.size - 1;
-
-    while (left <= right && fossil_tofu_compare(&array->data.array_type.elements[left], key) <= 0 &&
-           fossil_tofu_compare(&array->data.array_type.elements[right], key) >= 0) {
-        if (left == right) {
-            if (fossil_tofu_compare(&array->data.array_type.elements[left], key) == FOSSIL_TOFU_ERROR_OK) {
-                return left;
-            } else {
-                return -1;
+    while (low <= high && fossil_tofu_compare(&array.array[low], key) <= 0 && fossil_tofu_compare(&array.array[high], key) >= 0) {
+        if (low == high) {
+            if (fossil_tofu_equals(array.array[low], *key)) {
+                return low; // Return the index if key is found
             }
+            return -1; // Return -1 if key is not found
         }
+    
+        size_t pos = low + ((double)(high - low) / (fossil_tofu_compare(&array.array[high], &array.array[low]))) * (fossil_tofu_compare(key, &array.array[high]));
 
-        int pos = left + (((double)(right - left) /
-                          (fossil_tofu_compare(&array->data.array_type.elements[right], &array->data.array_type.elements[left]))) *
-                          (fossil_tofu_compare(key, &array->data.array_type.elements[left])));
-
-        int cmp_result = fossil_tofu_compare(&array->data.array_type.elements[pos], key);
-
-        if (cmp_result == FOSSIL_TOFU_ERROR_OK) {
-            return pos; // Key found, return index
-        } else if (cmp_result < 0) {
-            left = pos + 1;
+        if (fossil_tofu_equals(array.array[pos], *key)) {
+            return pos; // Return the index if key is found
+        } else if (fossil_tofu_compare(&array.array[pos], key) < 0) {
+            low = pos + 1; // Search the right side
         } else {
-            right = pos - 1;
+            high = pos - 1; // Search the left side
         }
     }
 
-    return -1; // Key not found
+    return -1; // Return -1 if key is not found
 }

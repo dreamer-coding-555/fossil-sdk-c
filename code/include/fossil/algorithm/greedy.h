@@ -57,7 +57,7 @@ Description:
  * @return The maximum number of non-overlapping tasks that can be scheduled.
  */
 
-#include "fossil/generic/tofu.h"
+#include "fossil/generic/arrayof.h"
 
 #ifdef __cplusplus
 extern "C"
@@ -76,7 +76,7 @@ extern "C"
  * @param amount The target amount for which coins need to be selected.
  * @return The minimum number of coins required to make up the given amount.
  */
-int fossil_greedy_coin_change(fossil_tofu_t* coins, int amount);
+int fossil_greedy_coin_change(fossil_tofu_arrayof_t coins, int amount);
 
 /**
  * @brief Solves the Fractional Knapsack Problem using a greedy algorithm.
@@ -91,7 +91,7 @@ int fossil_greedy_coin_change(fossil_tofu_t* coins, int amount);
  * @param capacity The capacity of the knapsack.
  * @return The maximum value that can be obtained from the knapsack.
  */
-double fossil_greedy_fractional_knapsack(fossil_tofu_t* weights, fossil_tofu_t* values, int capacity);
+double fossil_greedy_fractional_knapsack(fossil_tofu_arrayof_t weights, fossil_tofu_arrayof_t values, int capacity);
 
 /**
  * @brief Solves the Interval Scheduling Problem using a greedy algorithm.
@@ -104,7 +104,7 @@ double fossil_greedy_fractional_knapsack(fossil_tofu_t* weights, fossil_tofu_t* 
  * @param endTimes An array containing the end times of tasks.
  * @return The maximum number of non-overlapping tasks that can be scheduled.
  */
-int fossil_greedy_interval_scheduling(fossil_tofu_t* startTimes, fossil_tofu_t* endTimes);
+int fossil_greedy_interval_scheduling(fossil_tofu_arrayof_t startTimes, fossil_tofu_arrayof_t endTimes);
 
 #ifdef __cplusplus
 }
