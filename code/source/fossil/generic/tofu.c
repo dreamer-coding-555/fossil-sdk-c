@@ -950,17 +950,19 @@ bool fossil_tofu_its_cnullptr(const fossil_tofu_t* value) {
 // =======================
 // ITERATOR FUNCTIONS
 // =======================
+
 fossil_tofu_iterator fossil_tofu_iterator_at(fossil_tofu_t* array, size_t num, size_t at) {
     fossil_tofu_iterator iterator;
 
-    if (array == NULL || num == 0 || at >= num) {
-        iterator.current_value = NULL;
-        iterator.index = num;
-        return iterator;
-    }
+    // Initialize the iterator to a default invalid state
+    iterator.current_value = NULL;
+    iterator.index = num;
 
-    iterator.current_value = &array[at];
-    iterator.index = at;
+    // Check for valid input
+    if (array != NULL && num > 0 && at < num) {
+        iterator.current_value = &array[at];
+        iterator.index = at;
+    }
 
     return iterator;
 }
@@ -970,5 +972,5 @@ fossil_tofu_iterator fossil_tofu_iterator_start(fossil_tofu_t* array, size_t num
 }
 
 fossil_tofu_iterator fossil_tofu_iterator_end(fossil_tofu_t* array, size_t num) {
-    return fossil_tofu_iterator_at(array, num, num);
+    return fossil_tofu_iterator_at(array, num, num); // End iterator points just past the last element
 }

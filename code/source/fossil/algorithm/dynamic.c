@@ -15,21 +15,23 @@ Description:
 
 fossil_tofu_t* fossil_dynamic_concat_arrays(fossil_tofu_t* array1, fossil_tofu_t* array2) {
     // Check if either array is NULL
-    if (!array1 || !array2) {
-        return cnullptr;
+    if (array1 == NULL || array2 == NULL) {
+        return NULL;
     }
 
     // Check if both arrays are of the same type
     if (fossil_tofu_type_getter(array1) != fossil_tofu_type_getter(array2)) {
-        return cnullptr;
+        return NULL;
     }
 
-    // Create a new dynamic array to store the concatenated result
+    // Retrieve sizes of the arrays
     size_t size1 = fossil_tofu_value_getter(array1).array_type.size;
     size_t size2 = fossil_tofu_value_getter(array2).array_type.size;
+
+    // Create a new array to store the concatenated result
     fossil_tofu_t* concatenated = fossil_tofu_create_array(fossil_tofu_type_getter(array1), size1 + size2);
-    if (!concatenated) {
-        return cnullptr;
+    if (concatenated == NULL) {
+        return NULL;
     }
 
     // Copy elements from the first array
