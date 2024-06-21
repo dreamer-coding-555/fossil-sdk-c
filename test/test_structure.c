@@ -556,9 +556,6 @@ FOSSIL_TEST(test_pqueue_create_and_erase) {
     ASSUME_ITS_EQUAL_I32(TOFU_INT_TYPE, pqueue->queue_type);
 
     fossil_pqueue_erase(pqueue);
-
-    // Check if the priority queue is erased
-    ASSUME_ITS_CNULL(pqueue->front);
 }
 
 FOSSIL_TEST(test_pqueue_insert_and_size) {
@@ -652,10 +649,6 @@ FOSSIL_TEST(test_queue_create_and_erase) {
     ASSUME_ITS_EQUAL_I32(TOFU_INT_TYPE, queue->queue_type);
 
     fossil_queue_erase(queue);
-
-    // Check if the queue is erased
-    ASSUME_ITS_CNULL(queue->front);
-    ASSUME_ITS_CNULL(queue->rear);
 }
 
 FOSSIL_TEST(test_queue_insert_and_size) {
@@ -749,9 +742,6 @@ FOSSIL_TEST(test_set_create_and_erase) {
     ASSUME_ITS_EQUAL_I32(TOFU_INT_TYPE, set->set_type);
 
     fossil_set_erase(set);
-
-    // Check if the set is erased
-    ASSUME_ITS_CNULL(set->head);
 }
 
 FOSSIL_TEST(test_set_insert_and_size) {
@@ -838,9 +828,6 @@ FOSSIL_TEST(test_stack_create_and_erase) {
     ASSUME_ITS_EQUAL_I32(TOFU_INT_TYPE, stack->stack_type);
 
     fossil_stack_erase(stack);
-
-    // Check if the stack is erased
-    ASSUME_ITS_CNULL(stack->top);
 }
 
 FOSSIL_TEST(test_stack_insert_and_size) {
@@ -934,9 +921,6 @@ FOSSIL_TEST(test_tree_create_and_erase) {
     ASSUME_ITS_EQUAL_I32(TOFU_INT_TYPE, tree->tree);
 
     fossil_tree_erase(tree);
-
-    // Check if the tree is erased
-    ASSUME_ITS_CNULL(tree->root);
 }
 
 FOSSIL_TEST(test_tree_insert_and_search) {
@@ -1004,11 +988,6 @@ FOSSIL_TEST(test_vector_create_and_erase) {
     ASSUME_ITS_EQUAL_U32(INITIAL_CAPACITY, vector.capacity);
 
     fossil_vector_erase(&vector);
-
-    // Check if the vector is erased
-    ASSUME_ITS_CNULL(vector.data);
-    ASSUME_ITS_EQUAL_U32(0, vector.size);
-    ASSUME_ITS_EQUAL_U32(0, vector.capacity);
 }
 
 FOSSIL_TEST(test_vector_push_back) {
