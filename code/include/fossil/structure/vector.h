@@ -27,6 +27,8 @@ Description:
  */
 
 #include "fossil/generic/tofu.h"
+#include "fossil/generic/iterator.h"
+#include "fossil/generic/actionof.h"
 
 #define INITIAL_CAPACITY 10
 
@@ -34,7 +36,7 @@ typedef struct {
     fossil_tofu_t* data;
     size_t size;
     size_t capacity;
-    fossil_tofu_type expected_type;
+    char* type;
 } fossil_vector_t;
 
 #ifdef __cplusplus
@@ -42,17 +44,13 @@ extern "C"
 {
 #endif
 
-// =======================
-// CREATE and DELETE
-// =======================
-
 /**
  * Create a new vector with the specified expected type.
  *
  * @param expected_type The expected type of elements in the vector.
  * @return              The created vector.
  */
-fossil_vector_t fossil_vector_create(fossil_tofu_type expected_type);
+fossil_vector_t* fossil_vector_create(char* type);
 
 /**
  * Erase the contents of the vector and free allocated memory.
@@ -61,9 +59,6 @@ fossil_vector_t fossil_vector_create(fossil_tofu_type expected_type);
  */
 void fossil_vector_erase(fossil_vector_t* vector);
 
-// =======================
-// ALGORITHM FUNCTIONS
-// =======================
 /**
  * Add an element to the end of the vector.
  *
@@ -88,9 +83,6 @@ int fossil_vector_search(const fossil_vector_t* vector, fossil_tofu_t target);
  */
 void fossil_vector_reverse(fossil_vector_t* vector);
 
-// =======================
-// UTILITY FUNCTIONS
-// =======================
 /**
  * Check if the vector is a null pointer.
  *
@@ -139,7 +131,7 @@ void fossil_vector_setter(fossil_vector_t* vector, size_t index, fossil_tofu_t e
  * @param index  The index from which to get the element.
  * @return       The element at the specified index.
  */
-fossil_tofu_t fossil_vector_getter(const fossil_vector_t* vector, size_t index);
+fossil_tofu_t* fossil_vector_getter(const fossil_vector_t* vector, size_t index);
 
 /**
  * Get the size of the vector.

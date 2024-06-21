@@ -27,6 +27,7 @@ Description:
  */
 
 #include "fossil/generic/tofu.h"
+#include "fossil/generic/actionof.h"
 
 // Node structure for the double-ended queue
 typedef struct fossil_dqueue_node_t {
@@ -39,7 +40,7 @@ typedef struct fossil_dqueue_node_t {
 typedef struct fossil_dqueue_t {
     fossil_dqueue_node_t* front;
     fossil_dqueue_node_t* rear;
-    fossil_tofu_type list_type;  // Type of the deque
+    char *type;
 } fossil_dqueue_t;
 
 #ifdef __cplusplus
@@ -47,16 +48,13 @@ extern "C"
 {
 #endif
 
-// =======================
-// CREATE and DELETE
-// =======================
 /**
  * Create a new dynamic queue with the specified data type.
  *
  * @param list_type The type of data the dynamic queue will store.
  * @return          The created dynamic queue.
  */
-fossil_dqueue_t* fossil_dqueue_create(fossil_tofu_type list_type);
+fossil_dqueue_t* fossil_dqueue_create(char* type);
 
 /**
  * Erase the contents of the dynamic queue and free allocated memory.
@@ -65,9 +63,6 @@ fossil_dqueue_t* fossil_dqueue_create(fossil_tofu_type list_type);
  */
 void fossil_dqueue_erase(fossil_dqueue_t* dqueue);
 
-// =======================
-// ALGORITHM FUNCTIONS
-// =======================
 /**
  * Insert data into the dynamic queue.
  *
@@ -75,7 +70,7 @@ void fossil_dqueue_erase(fossil_dqueue_t* dqueue);
  * @param data   The data to insert.
  * @return       The error code indicating the success or failure of the operation.
  */
-fossil_tofu_error_t fossil_dqueue_insert(fossil_dqueue_t* dqueue, fossil_tofu_t data);
+int32_t fossil_dqueue_insert(fossil_dqueue_t* dqueue, fossil_tofu_t data);
 
 /**
  * Remove data from the dynamic queue.
@@ -84,7 +79,7 @@ fossil_tofu_error_t fossil_dqueue_insert(fossil_dqueue_t* dqueue, fossil_tofu_t 
  * @param data   A pointer to store the removed data.
  * @return       The error code indicating the success or failure of the operation.
  */
-fossil_tofu_error_t fossil_dqueue_remove(fossil_dqueue_t* dqueue, fossil_tofu_t* data);
+int32_t fossil_dqueue_remove(fossil_dqueue_t* dqueue, fossil_tofu_t* data);
 
 /**
  * Search for data in the dynamic queue.
@@ -93,11 +88,8 @@ fossil_tofu_error_t fossil_dqueue_remove(fossil_dqueue_t* dqueue, fossil_tofu_t*
  * @param data   The data to search for.
  * @return       The error code indicating the success or failure of the operation.
  */
-fossil_tofu_error_t fossil_dqueue_search(const fossil_dqueue_t* dqueue, fossil_tofu_t data);
+int32_t fossil_dqueue_search(const fossil_dqueue_t* dqueue, fossil_tofu_t data);
 
-// =======================
-// UTILITY FUNCTIONS
-// =======================
 /**
  * Get the size of the dynamic queue.
  *
@@ -122,7 +114,7 @@ fossil_tofu_t* fossil_dqueue_getter(fossil_dqueue_t* dqueue, fossil_tofu_t data)
  * @param data   The data to set.
  * @return       The error code indicating the success or failure of the operation.
  */
-fossil_tofu_error_t fossil_dqueue_setter(fossil_dqueue_t* dqueue, fossil_tofu_t data);
+int32_t fossil_dqueue_setter(fossil_dqueue_t* dqueue, fossil_tofu_t data);
 
 /**
  * Check if the dynamic queue is not empty.

@@ -29,6 +29,7 @@ Description:
  */
 
 #include "fossil/generic/tofu.h"
+#include "fossil/generic/actionof.h"
 
 // Node structure for the linked list
 typedef struct fossil_flist_node_t {
@@ -39,7 +40,7 @@ typedef struct fossil_flist_node_t {
 // Linked list structure
 typedef struct fossil_flist_t {
     fossil_flist_node_t* head;
-    fossil_tofu_type list_type;  // Type of the linked list
+    char* type;
 } fossil_flist_t;
 
 #ifdef __cplusplus
@@ -47,17 +48,13 @@ extern "C"
 {
 #endif
 
-// =======================
-// CREATE and DELETE
-// =======================
-
 /**
  * Create a new forward list with the specified data type.
  *
  * @param list_type The type of data the forward list will store.
  * @return          The created forward list.
  */
-fossil_flist_t* fossil_flist_create(fossil_tofu_type list_type);
+fossil_flist_t* fossil_flist_create(char* type);
 
 /**
  * Erase the contents of the forward list and free allocated memory.
@@ -66,9 +63,6 @@ fossil_flist_t* fossil_flist_create(fossil_tofu_type list_type);
  */
 void fossil_flist_erase(fossil_flist_t* flist);
 
-// =======================
-// ALGORITHM FUNCTIONS
-// =======================
 /**
  * Insert data into the forward list.
  *
@@ -76,7 +70,7 @@ void fossil_flist_erase(fossil_flist_t* flist);
  * @param data  The data to insert.
  * @return      The error code indicating the success or failure of the operation.
  */
-fossil_tofu_error_t fossil_flist_insert(fossil_flist_t* flist, fossil_tofu_t data);
+int32_t fossil_flist_insert(fossil_flist_t* flist, fossil_tofu_t data);
 
 /**
  * Remove data from the forward list.
@@ -85,7 +79,7 @@ fossil_tofu_error_t fossil_flist_insert(fossil_flist_t* flist, fossil_tofu_t dat
  * @param data  A pointer to store the removed data.
  * @return      The error code indicating the success or failure of the operation.
  */
-fossil_tofu_error_t fossil_flist_remove(fossil_flist_t* flist, fossil_tofu_t* data);
+int32_t fossil_flist_remove(fossil_flist_t* flist, fossil_tofu_t* data);
 
 /**
  * Search for data in the forward list.
@@ -94,7 +88,7 @@ fossil_tofu_error_t fossil_flist_remove(fossil_flist_t* flist, fossil_tofu_t* da
  * @param data  The data to search for.
  * @return      The error code indicating the success or failure of the operation.
  */
-fossil_tofu_error_t fossil_flist_search(const fossil_flist_t* flist, fossil_tofu_t data);
+int32_t fossil_flist_search(const fossil_flist_t* flist, fossil_tofu_t data);
 
 /**
  * Reverse the forward list in the forward direction.
@@ -110,9 +104,6 @@ void fossil_flist_reverse_forward(fossil_flist_t* flist);
  */
 void fossil_flist_reverse_backward(fossil_flist_t* flist);
 
-// =======================
-// UTILITY FUNCTIONS
-// =======================
 /**
  * Get the size of the forward list.
  *
@@ -137,7 +128,7 @@ fossil_tofu_t* fossil_flist_getter(fossil_flist_t* flist, fossil_tofu_t data);
  * @param data  The data to set.
  * @return      The error code indicating the success or failure of the operation.
  */
-fossil_tofu_error_t fossil_flist_setter(fossil_flist_t* flist, fossil_tofu_t data);
+int32_t fossil_flist_setter(fossil_flist_t* flist, fossil_tofu_t data);
 
 /**
  * Check if the forward list is not empty.

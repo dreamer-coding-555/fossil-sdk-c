@@ -21,7 +21,7 @@ Description:
  * numerical data in a custom format, and the functions here are designed to operate specifically
  * on these arrays.
  *
- * @see fossil_tofu_t, fossil_tofu_error_t
+ * @see fossil_tofu_t, int32_t
  *
  * @brief Sorts a "tofu" array using the Bubble Sort algorithm.
  *

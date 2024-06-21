@@ -16,172 +16,122 @@ Description:
 #include <stdlib.h>
 #include <string.h>
 
-// =======================
-// CREATE and DELETE
-// =======================
-fossil_dqueue_t* fossil_dqueue_create(fossil_tofu_type list_type) {
-    fossil_dqueue_t* new_dqueue = (fossil_dqueue_t*)malloc(sizeof(fossil_dqueue_t));
-    if (new_dqueue == cnullptr) {
-        // Handle memory allocation failure
-        return cnullptr;
+fossil_dqueue_t* fossil_dqueue_create(char* type) {
+    fossil_dqueue_t* dqueue = (fossil_dqueue_t*)malloc(sizeof(fossil_dqueue_t));
+    if (dqueue) {
+        dqueue->front = cnullptr;
+        dqueue->rear = cnullptr;
+        dqueue->type = type;  // Assuming type is a static string or managed separately
     }
-
-    new_dqueue->list_type = list_type;
-    new_dqueue->front = cnullptr;
-    new_dqueue->rear = cnullptr;
-
-    return new_dqueue;
+    return dqueue;
 }
 
 void fossil_dqueue_erase(fossil_dqueue_t* dqueue) {
-    if (dqueue == cnullptr) {
-        return;
-    }
+    if (!dqueue) return;
 
-    while (dqueue->front != cnullptr) {
-        fossil_tofu_t data;
-        fossil_dqueue_remove(dqueue, &data);
+    fossil_dqueue_node_t* current = dqueue->front;
+    while (current) {
+        fossil_dqueue_node_t* next = current->next;
+        free(current);
+        current = next;
     }
-
+    dqueue->front = cnullptr;
+    dqueue->rear = cnullptr;
     free(dqueue);
 }
 
-// =======================
-// ALGORITHM FUNCTIONS
-// =======================
-
-fossil_tofu_error_t fossil_dqueue_insert(fossil_dqueue_t* dqueue, fossil_tofu_t data) {
-    if (dqueue == cnullptr) {
-        return fossil_tofu_error(FOSSIL_TOFU_ERROR_NULL_POINTER);
-    }
-
+int32_t fossil_dqueue_insert(fossil_dqueue_t* dqueue, fossil_tofu_t data) {
     fossil_dqueue_node_t* new_node = (fossil_dqueue_node_t*)malloc(sizeof(fossil_dqueue_node_t));
-    if (new_node == cnullptr) {
-        // Handle memory allocation failure
-        return fossil_tofu_error(FOSSIL_TOFU_ERROR_MEMORY_CORRUPTION);
+    if (!new_node) {
+        return -1;  // Allocation failed
     }
 
     new_node->data = data;
     new_node->prev = cnullptr;
     new_node->next = cnullptr;
 
-    if (dqueue->front == cnullptr) {
-        // Queue is empty
+    if (dqueue->rear == cnullptr) {
+        // Empty queue case
         dqueue->front = new_node;
         dqueue->rear = new_node;
     } else {
-        new_node->next = dqueue->front;
-        dqueue->front->prev = new_node;
-        dqueue->front = new_node;
+        // Non-empty queue case
+        new_node->prev = dqueue->rear;
+        dqueue->rear->next = new_node;
+        dqueue->rear = new_node;
     }
 
-    return fossil_tofu_error(FOSSIL_TOFU_ERROR_OK);
+    return 0;  // Success
 }
 
-fossil_tofu_error_t fossil_dqueue_remove(fossil_dqueue_t* dqueue, fossil_tofu_t* data) {
-    if (dqueue == cnullptr || data == cnullptr) {
-        return fossil_tofu_error(FOSSIL_TOFU_ERROR_NULL_POINTER);
+int32_t fossil_dqueue_remove(fossil_dqueue_t* dqueue, fossil_tofu_t* data) {
+    if (fossil_dqueue_is_empty(dqueue)) {
+        return -1;  // Empty queue
     }
 
-    if (dqueue->front == cnullptr) {
-        return fossil_tofu_error(FOSSIL_TOFU_ERROR_INDEX_OUT_OF_BOUNDS); // Queue is empty
-    }
+    fossil_dqueue_node_t* node_to_remove = dqueue->front;
 
-    fossil_dqueue_node_t* temp = dqueue->front;
-    *data = temp->data;
-
-    if (dqueue->front == dqueue->rear) {
-        // Only one element in the queue
-        free(temp);
+    if (node_to_remove == dqueue->rear) {
+        // Only one node in the queue
         dqueue->front = cnullptr;
         dqueue->rear = cnullptr;
     } else {
-        dqueue->front = dqueue->front->next;
+        dqueue->front = node_to_remove->next;
         dqueue->front->prev = cnullptr;
-        free(temp);
     }
 
-    return fossil_tofu_error(FOSSIL_TOFU_ERROR_OK);
+    *data = node_to_remove->data;
+    free(node_to_remove);
+
+    return 0;  // Success
 }
 
-fossil_tofu_error_t fossil_dqueue_search(const fossil_dqueue_t* dqueue, fossil_tofu_t data) {
-    if (dqueue == cnullptr) {
-        return fossil_tofu_error(FOSSIL_TOFU_ERROR_NULL_POINTER);
-    }
-
+int32_t fossil_dqueue_search(const fossil_dqueue_t* dqueue, fossil_tofu_t data) {
     fossil_dqueue_node_t* current = dqueue->front;
-
-    while (current != cnullptr) {
-        if (fossil_tofu_compare(&current->data, &data) == 0) {
-            return fossil_tofu_error(FOSSIL_TOFU_ERROR_OK); // Found
+    while (current) {
+        if (fossil_tofu_equals(current->data, data)) {
+            return 0;  // Found
         }
-
         current = current->next;
     }
-
-    return fossil_tofu_error(FOSSIL_TOFU_ERROR_INDEX_OUT_OF_BOUNDS); // Not found
+    return -1;  // Not found
 }
-
-// =======================
-// UTILITY FUNCTIONS
-// =======================
 
 size_t fossil_dqueue_size(const fossil_dqueue_t* dqueue) {
-    if (dqueue == cnullptr) {
-        return 0;
-    }
-
-    size_t size = 0;
+    size_t count = 0;
     fossil_dqueue_node_t* current = dqueue->front;
-
-    while (current != cnullptr) {
-        ++size;
+    while (current) {
+        count++;
         current = current->next;
     }
-
-    return size;
+    return count;
 }
 
 fossil_tofu_t* fossil_dqueue_getter(fossil_dqueue_t* dqueue, fossil_tofu_t data) {
-    if (dqueue == cnullptr) {
-        return cnullptr;
-    }
-
     fossil_dqueue_node_t* current = dqueue->front;
-
-    while (current != cnullptr) {
-        if (fossil_tofu_compare(&current->data, &data) == 0) {
-            return &current->data; // Found
+    while (current) {
+        if (fossil_tofu_equals(current->data, data)) {
+            return &(current->data);  // Return pointer to found data
         }
-
         current = current->next;
     }
-
-    return cnullptr; // Not found
+    return cnullptr;  // Not found
 }
 
-fossil_tofu_error_t fossil_dqueue_setter(fossil_dqueue_t* dqueue, fossil_tofu_t data) {
-    if (dqueue == cnullptr) {
-        return fossil_tofu_error(FOSSIL_TOFU_ERROR_NULL_POINTER);
-    }
-
+int32_t fossil_dqueue_setter(fossil_dqueue_t* dqueue, fossil_tofu_t data) {
     fossil_dqueue_node_t* current = dqueue->front;
-
-    while (current != cnullptr) {
-        if (fossil_tofu_compare(&current->data, &data) == 0) {
-            // Found, update the data
-            current->data = data;
-            return fossil_tofu_error(FOSSIL_TOFU_ERROR_OK);
+    while (current) {
+        if (fossil_tofu_equals(current->data, data)) {
+            current->data = data;  // Update data
+            return 0;  // Success
         }
-
         current = current->next;
     }
-
-    return fossil_tofu_error(FOSSIL_TOFU_ERROR_INDEX_OUT_OF_BOUNDS); // Not found
+    return -1;  // Not found
 }
 
 bool fossil_dqueue_not_empty(const fossil_dqueue_t* dqueue) {
-    return dqueue != cnullptr && dqueue->front != cnullptr;
+    return dqueue->front != cnullptr;
 }
 
 bool fossil_dqueue_not_cnullptr(const fossil_dqueue_t* dqueue) {
@@ -189,7 +139,7 @@ bool fossil_dqueue_not_cnullptr(const fossil_dqueue_t* dqueue) {
 }
 
 bool fossil_dqueue_is_empty(const fossil_dqueue_t* dqueue) {
-    return dqueue == cnullptr || dqueue->front == cnullptr;
+    return dqueue->front == cnullptr;
 }
 
 bool fossil_dqueue_is_cnullptr(const fossil_dqueue_t* dqueue) {

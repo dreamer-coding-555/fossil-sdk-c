@@ -27,6 +27,7 @@ Description:
  */
 
 #include "fossil/generic/tofu.h"
+#include "fossil/generic/actionof.h"
 
 // Stack structure
 typedef struct fossil_stack_node_t {
@@ -35,7 +36,7 @@ typedef struct fossil_stack_node_t {
 } fossil_stack_node_t;
 
 typedef struct fossil_stack_t {
-    fossil_tofu_type stack_type; // Type of the stack
+    char* type; // Type of the stack
     fossil_stack_node_t* top; // Pointer to the top node of the stack
 } fossil_stack_t;
 
@@ -44,16 +45,13 @@ extern "C"
 {
 #endif
 
-// =======================
-// CREATE and DELETE
-// =======================
 /**
  * Create a new stack with the specified data type.
  *
  * @param list_type The type of data the stack will store.
  * @return          The created stack.
  */
-fossil_stack_t* fossil_stack_create(fossil_tofu_type list_type);
+fossil_stack_t* fossil_stack_create(char* type);
 
 /**
  * Erase the contents of the stack and free allocated memory.
@@ -62,9 +60,6 @@ fossil_stack_t* fossil_stack_create(fossil_tofu_type list_type);
  */
 void fossil_stack_erase(fossil_stack_t* stack);
 
-// =======================
-// ALGORITHM FUNCTIONS
-// =======================
 /**
  * Insert data into the stack.
  *
@@ -72,7 +67,7 @@ void fossil_stack_erase(fossil_stack_t* stack);
  * @param data  The data to insert.
  * @return      The error code indicating the success or failure of the operation.
  */
-fossil_tofu_error_t fossil_stack_insert(fossil_stack_t* stack, fossil_tofu_t data);
+int32_t fossil_stack_insert(fossil_stack_t* stack, fossil_tofu_t data);
 
 /**
  * Remove data from the stack.
@@ -81,7 +76,7 @@ fossil_tofu_error_t fossil_stack_insert(fossil_stack_t* stack, fossil_tofu_t dat
  * @param[out] data   A pointer to store the removed data.
  * @return            The error code indicating the success or failure of the operation.
  */
-fossil_tofu_error_t fossil_stack_remove(fossil_stack_t* stack, fossil_tofu_t* data);
+int32_t fossil_stack_remove(fossil_stack_t* stack, fossil_tofu_t* data);
 
 /**
  * Search for data in the stack.
@@ -90,11 +85,8 @@ fossil_tofu_error_t fossil_stack_remove(fossil_stack_t* stack, fossil_tofu_t* da
  * @param data  The data to search for.
  * @return      The error code indicating the success or failure of the operation.
  */
-fossil_tofu_error_t fossil_stack_search(const fossil_stack_t* stack, fossil_tofu_t data);
+int32_t fossil_stack_search(const fossil_stack_t* stack, fossil_tofu_t data);
 
-// =======================
-// UTILITY FUNCTIONS
-// =======================
 /**
  * Get the size of the stack.
  *
@@ -119,7 +111,7 @@ fossil_tofu_t* fossil_stack_getter(fossil_stack_t* stack, fossil_tofu_t data);
  * @param data  The data to set.
  * @return      The error code indicating the success or failure of the operation.
  */
-fossil_tofu_error_t fossil_stack_setter(fossil_stack_t* stack, fossil_tofu_t data);
+int32_t fossil_stack_setter(fossil_stack_t* stack, fossil_tofu_t data);
 
 /**
  * Check if the stack is not empty.

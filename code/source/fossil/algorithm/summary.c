@@ -11,108 +11,77 @@ Description:
 ==============================================================================
 */
 #include "fossil/algorithm/summary.h"
-#include "fossil/common/common.h"
+#include "fossil/generic/actionof.h"
 #include <stdlib.h>
 
-fossil_tofu_error_t fossil_summary_sum(const fossil_tofu_t* array, fossil_tofu_t* sum) {
-    if (array == cnullptr || sum == cnullptr) {
-        return fossil_tofu_error(FOSSIL_TOFU_ERROR_NULL_POINTER);
+int fossil_summary_sum(const fossil_tofu_arrayof_t array, fossil_tofu_arrayof_t sum) {
+    // Check if input array is NULL or empty
+    if (array.array == NULL || array.size == 0) {
+        return -1;  // Error code for empty array
     }
 
-    fossil_tofu_error_t error = FOSSIL_TOFU_ERROR_OK;
-    fossil_tofu_t temp_sum = *array;
+    // Initialize sum to zero
+    fossil_tofu_t total_sum = {.type = FOSSIL_TOFU_TYPE_INT, .value.int_val = 0};
 
-    for (size_t i = 1; i < array->data.array_type.size; i++) {
-        error = fossil_tofu_accumulate(&temp_sum);
-        if (error != FOSSIL_TOFU_ERROR_OK) {
-            return error;
-        }
-
-        error = fossil_tofu_accumulate(&array->data.array_type.elements[i]);
-        if (error != FOSSIL_TOFU_ERROR_OK) {
-            return error;
-        }
-
-        error = fossil_tofu_accumulate(&temp_sum);
-        if (error != FOSSIL_TOFU_ERROR_OK) {
-            return error;
-        }
+    // Accumulate sum of elements in the array
+    for (size_t i = 0; i < array.size; ++i) {
+        total_sum.value.int_val += array.array[i].value.int_val;
     }
 
-    sum->type = array->type;
-    sum->data = fossil_tofu_value_getter(&temp_sum);
+    // Copy the computed sum to the output parameter
+    sum.array = &total_sum;
+    sum.size = 1;
+    sum.capacity = 1;
 
-    return fossil_tofu_error(FOSSIL_TOFU_ERROR_OK);
+    return 0;  // Success
 }
 
-fossil_tofu_error_t fossil_summary_mean(const fossil_tofu_t* array, fossil_tofu_t* mean) {
-    if (array == cnullptr || mean == cnullptr) {
-        return fossil_tofu_error(FOSSIL_TOFU_ERROR_NULL_POINTER);
+int fossil_summary_mean(const fossil_tofu_arrayof_t array, fossil_tofu_arrayof_t mean) {
+    // Check if input array is NULL or empty
+    if (array.array == NULL || array.size == 0) {
+        return -1;  // Error code for empty array
     }
 
-    fossil_tofu_error_t error = fossil_summary_sum(array, mean);
-    if (error != FOSSIL_TOFU_ERROR_OK) {
-        return error;
+    // Calculate sum of elements
+    fossil_tofu_arrayof_t sum;
+    int result = fossil_summary_sum(array, sum);
+    if (result != 0) {
+        return result;  // Return error if sum calculation fails
     }
 
-    mean->data.int_type /= array->data.array_type.size;
+    // Calculate mean (average)
+    fossil_tofu_t average = {.type = FOSSIL_TOFU_TYPE_DOUBLE};
+    average.value.double_val = (double)sum.array[0].value.int_val / array.size;
 
-    return fossil_tofu_error(FOSSIL_TOFU_ERROR_OK);
+    // Copy the computed mean to the output parameter
+    mean.array = &average;
+    mean.size = 1;
+    mean.capacity = 1;
+
+    return 0;  // Success
 }
 
-static int _compare(const void* a, const void* b) {
-    const fossil_tofu_data* a_data = (const fossil_tofu_data*)a;
-    const fossil_tofu_data* b_data = (const fossil_tofu_data*)b;
-
-    if (a_data->int_type < b_data->int_type) {
-        return -1;
-    } else if (a_data->int_type > b_data->int_type) {
-        return 1;
-    } else {
-        return 0;
-    }
+static int _compare_wrapper(const void *a, const void *b) {
+    return fossil_tofu_actionof_compare(*(fossil_tofu_t*)a, *(fossil_tofu_t*)b);
 }
 
-fossil_tofu_error_t fossil_summary_median(const fossil_tofu_t* array, fossil_tofu_t* median) {
-    if (array == cnullptr || median == cnullptr) {
-        return fossil_tofu_error(FOSSIL_TOFU_ERROR_NULL_POINTER);
+int fossil_summary_median(const fossil_tofu_arrayof_t array, fossil_tofu_arrayof_t median) {
+    // Check if input array is NULL or empty
+    if (array.array == NULL || array.size == 0) {
+        return -1;  // Error code for empty array
     }
 
-    if (array->data.array_type.size == 0) {
-        return fossil_tofu_error(FOSSIL_TOFU_ERROR_INVALID_OPERATION);
-    }
+    // Sort the array (you may use any sorting algorithm here)
+    fossil_tofu_arrayof_t sorted_array = array;
+    fossil_tofu_actionof_sort(sorted_array.array, sorted_array.size, _compare_wrapper);
 
-    // Create a temporary array to hold sorted elements
-    fossil_tofu_t* temp_array = (fossil_tofu_t*)malloc(array->data.array_type.size * sizeof(fossil_tofu_t));
-    if (temp_array == cnullptr) {
-        return fossil_tofu_error(FOSSIL_TOFU_ERROR_INVALID_OPERATION);
-    }
+    // Calculate median index
+    size_t median_index = sorted_array.size / 2;
 
-    // Copy elements from the input array to the temporary array
-    for (size_t i = 0; i < array->data.array_type.size; i++) {
-        temp_array[i] = array->data.array_type.elements[i];
-    }
+    // Copy the median element to the output parameter
+    median.array = &sorted_array.array[median_index];
+    median.size = 1;
+    median.capacity = 1;
 
-    // Sort the temporary array
-    qsort(temp_array, array->data.array_type.size, sizeof(fossil_tofu_t), _compare);
-
-    // Calculate median based on array size
-    size_t middle = array->data.array_type.size / 2;
-    if (array->data.array_type.size % 2 == 0) {
-        // If array size is even, median is the average of two middle elements
-        fossil_tofu_t median_sum;
-        fossil_tofu_value_setter(&temp_array[middle - 1], &median_sum);
-        fossil_tofu_accumulate(&median_sum);
-        fossil_tofu_value_setter(&temp_array[middle], &median_sum);
-        fossil_tofu_accumulate(&median_sum);
-        median->type = array->type;
-        median->data = fossil_tofu_value_getter(&median_sum);
-    } else {
-        // If array size is odd, median is the middle element
-        median->type = array->type;
-        median->data = fossil_tofu_value_getter(&temp_array[middle]);
-    }
-
-    free(temp_array);
-    return fossil_tofu_error(FOSSIL_TOFU_ERROR_OK);
+    return 0;  // Success
 }

@@ -27,6 +27,7 @@ Description:
  */
 
 #include "fossil/generic/tofu.h"
+#include "fossil/generic/actionof.h"
 
 // Node structure for the queue
 typedef struct fossil_queue_node_t {
@@ -38,7 +39,7 @@ typedef struct fossil_queue_node_t {
 typedef struct fossil_queue_t {
     fossil_queue_node_t* front;
     fossil_queue_node_t* rear;
-    fossil_tofu_type queue_type;  // Type of the queue
+    char* type;
 } fossil_queue_t;
 
 #ifdef __cplusplus
@@ -46,16 +47,13 @@ extern "C"
 {
 #endif
 
-// =======================
-// CREATE and DELETE
-// =======================
 /**
  * Create a new queue with the specified data type.
  *
  * @param list_type The type of data the queue will store.
  * @return          The created queue.
  */
-fossil_queue_t* fossil_queue_create(fossil_tofu_type list_type);
+fossil_queue_t* fossil_queue_create(char* type);
 
 /**
  * Erase the contents of the queue and free allocated memory.
@@ -64,9 +62,6 @@ fossil_queue_t* fossil_queue_create(fossil_tofu_type list_type);
  */
 void fossil_queue_erase(fossil_queue_t* queue);
 
-// =======================
-// ALGORITHM FUNCTIONS
-// =======================
 /**
  * Insert data into the queue.
  *
@@ -74,7 +69,7 @@ void fossil_queue_erase(fossil_queue_t* queue);
  * @param data  The data to insert.
  * @return      The error code indicating the success or failure of the operation.
  */
-fossil_tofu_error_t fossil_queue_insert(fossil_queue_t* queue, fossil_tofu_t data);
+int32_t fossil_queue_insert(fossil_queue_t* queue, fossil_tofu_t data);
 
 /**
  * Remove data from the queue.
@@ -83,7 +78,7 @@ fossil_tofu_error_t fossil_queue_insert(fossil_queue_t* queue, fossil_tofu_t dat
  * @param data  The data to remove.
  * @return      The error code indicating the success or failure of the operation.
  */
-fossil_tofu_error_t fossil_queue_remove(fossil_queue_t* queue, fossil_tofu_t* data);
+int32_t fossil_queue_remove(fossil_queue_t* queue, fossil_tofu_t* data);
 
 /**
  * Search for data in the queue.
@@ -92,11 +87,8 @@ fossil_tofu_error_t fossil_queue_remove(fossil_queue_t* queue, fossil_tofu_t* da
  * @param data  The data to search for.
  * @return      The error code indicating the success or failure of the operation.
  */
-fossil_tofu_error_t fossil_queue_search(const fossil_queue_t* queue, fossil_tofu_t data);
+int32_t fossil_queue_search(const fossil_queue_t* queue, fossil_tofu_t data);
 
-// =======================
-// UTILITY FUNCTIONS
-// =======================
 /**
  * Get the size of the queue.
  *
@@ -121,7 +113,7 @@ fossil_tofu_t* fossil_queue_getter(fossil_queue_t* queue, fossil_tofu_t data);
  * @param data  The data to set.
  * @return      The error code indicating the success or failure of the operation.
  */
-fossil_tofu_error_t fossil_queue_setter(fossil_queue_t* queue, fossil_tofu_t data);
+int32_t fossil_queue_setter(fossil_queue_t* queue, fossil_tofu_t data);
 
 /**
  * Check if the queue is not empty.

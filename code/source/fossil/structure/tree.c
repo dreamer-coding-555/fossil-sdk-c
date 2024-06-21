@@ -68,12 +68,12 @@ fossil_tree_node_t* fossil_tree_find_min(fossil_tree_node_t* node) {
 }
 
 // Helper function to recursively remove a node
-fossil_tofu_error_t fossil_tree_remove_recursive(fossil_tree_node_t** root, fossil_tofu_t data) {
+int32_t fossil_tree_remove_recursive(fossil_tree_node_t** root, fossil_tofu_t data) {
     if (*root == cnullptr) {
         return fossil_tofu_error(FOSSIL_TOFU_ERROR_INDEX_OUT_OF_BOUNDS); // Element not found
     }
 
-    fossil_tofu_error_t comparison_error = fossil_tofu_compare(&data, &(*root)->data);
+    int32_t comparison_error = fossil_tofu_compare(&data, &(*root)->data);
     if (comparison_error != FOSSIL_TOFU_ERROR_OK) {
         return comparison_error;
     }
@@ -106,7 +106,7 @@ fossil_tofu_error_t fossil_tree_remove_recursive(fossil_tree_node_t** root, foss
 }
 
 // Helper function to recursively insert a node
-fossil_tofu_error_t fossil_tree_insert_recursive(fossil_tree_node_t** root, fossil_tofu_t* data) {
+int32_t fossil_tree_insert_recursive(fossil_tree_node_t** root, fossil_tofu_t* data) {
     if (root == cnullptr || data == cnullptr) {
         return fossil_tofu_error(FOSSIL_TOFU_ERROR_NULL_POINTER);
     }
@@ -124,7 +124,7 @@ fossil_tofu_error_t fossil_tree_insert_recursive(fossil_tree_node_t** root, foss
         return fossil_tofu_error(FOSSIL_TOFU_ERROR_OK);
     }
 
-    fossil_tofu_error_t comparison_error = fossil_tofu_compare(data, &(*root)->data);
+    int32_t comparison_error = fossil_tofu_compare(data, &(*root)->data);
     if (comparison_error != FOSSIL_TOFU_ERROR_OK) {
         return comparison_error;
     }
@@ -138,7 +138,7 @@ fossil_tofu_error_t fossil_tree_insert_recursive(fossil_tree_node_t** root, foss
     }
 }
 
-fossil_tofu_error_t fossil_tree_insert(fossil_tree_t* tree, fossil_tofu_t data) {
+int32_t fossil_tree_insert(fossil_tree_t* tree, fossil_tofu_t data) {
     if (tree == cnullptr) {
         return fossil_tofu_error(FOSSIL_TOFU_ERROR_NULL_POINTER);
     }
@@ -146,7 +146,7 @@ fossil_tofu_error_t fossil_tree_insert(fossil_tree_t* tree, fossil_tofu_t data) 
     return fossil_tree_insert_recursive(&tree->root, &data);
 }
 
-fossil_tofu_error_t fossil_tree_remove(fossil_tree_t* tree, fossil_tofu_t data) {
+int32_t fossil_tree_remove(fossil_tree_t* tree, fossil_tofu_t data) {
     if (tree == cnullptr) {
         return fossil_tofu_error(FOSSIL_TOFU_ERROR_NULL_POINTER);
     }
@@ -155,7 +155,7 @@ fossil_tofu_error_t fossil_tree_remove(fossil_tree_t* tree, fossil_tofu_t data) 
 }
 
 // Helper function to recursively search for a node
-fossil_tofu_error_t fossil_tree_search_recursive(fossil_tree_node_t* root, fossil_tofu_t data) {
+int32_t fossil_tree_search_recursive(fossil_tree_node_t* root, fossil_tofu_t data) {
     if (root == cnullptr) {
         return fossil_tofu_error(FOSSIL_TOFU_ERROR_INDEX_OUT_OF_BOUNDS); // Element not found
     }
@@ -171,7 +171,7 @@ fossil_tofu_error_t fossil_tree_search_recursive(fossil_tree_node_t* root, fossi
     }
 }
 
-fossil_tofu_error_t fossil_tree_search(const fossil_tree_t* tree, fossil_tofu_t data) {
+int32_t fossil_tree_search(const fossil_tree_t* tree, fossil_tofu_t data) {
     if (tree == cnullptr) {
         return fossil_tofu_error(FOSSIL_TOFU_ERROR_NULL_POINTER);
     }
@@ -225,7 +225,7 @@ fossil_tofu_t* fossil_tree_getter(const fossil_tree_t* tree, fossil_tofu_t data)
 }
 
 // Helper function to recursively set the data of a node
-fossil_tofu_error_t fossil_tree_setter_recursive(fossil_tree_node_t* root, fossil_tofu_t data) {
+int32_t fossil_tree_setter_recursive(fossil_tree_node_t* root, fossil_tofu_t data) {
     if (root == cnullptr) {
         return fossil_tofu_error(FOSSIL_TOFU_ERROR_INDEX_OUT_OF_BOUNDS); // Element not found
     }
@@ -242,7 +242,7 @@ fossil_tofu_error_t fossil_tree_setter_recursive(fossil_tree_node_t* root, fossi
     }
 }
 
-fossil_tofu_error_t fossil_tree_setter(fossil_tree_t* tree, fossil_tofu_t data) {
+int32_t fossil_tree_setter(fossil_tree_t* tree, fossil_tofu_t data) {
     if (tree == cnullptr) {
         return fossil_tofu_error(FOSSIL_TOFU_ERROR_NULL_POINTER);
     }

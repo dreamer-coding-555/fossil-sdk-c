@@ -27,6 +27,8 @@ Description:
  */
 
 #include "fossil/generic/tofu.h"
+#include "fossil/generic/iterator.h"
+#include "fossil/generic/actionof.h"
 
 // Node structure for the set
 typedef struct fossil_set_node_t {
@@ -37,7 +39,7 @@ typedef struct fossil_set_node_t {
 // Set structure
 typedef struct fossil_set_t {
     fossil_set_node_t* head;
-    fossil_tofu_type set_type;  // Type of the set
+    char* type;
 } fossil_set_t;
 
 #ifdef __cplusplus
@@ -45,16 +47,13 @@ extern "C"
 {
 #endif
 
-// =======================
-// CREATE and DELETE
-// =======================
 /**
  * Create a new set with the specified data type.
  *
  * @param list_type The type of data the set will store.
  * @return          The created set.
  */
-fossil_set_t* fossil_set_create(fossil_tofu_type list_type);
+fossil_set_t* fossil_set_create(char* type);
 
 /**
  * Erase the contents of the set and free allocated memory.
@@ -63,9 +62,6 @@ fossil_set_t* fossil_set_create(fossil_tofu_type list_type);
  */
 void fossil_set_erase(fossil_set_t* set);
 
-// =======================
-// ALGORITHM FUNCTIONS
-// =======================
 /**
  * Insert data into the set.
  *
@@ -73,7 +69,7 @@ void fossil_set_erase(fossil_set_t* set);
  * @param data The data to insert.
  * @return     The error code indicating the success or failure of the operation.
  */
-fossil_tofu_error_t fossil_set_insert(fossil_set_t* set, fossil_tofu_t data);
+int32_t fossil_set_insert(fossil_set_t* set, fossil_tofu_t data);
 
 /**
  * Remove data from the set.
@@ -82,7 +78,7 @@ fossil_tofu_error_t fossil_set_insert(fossil_set_t* set, fossil_tofu_t data);
  * @param data The data to remove.
  * @return     The error code indicating the success or failure of the operation.
  */
-fossil_tofu_error_t fossil_set_remove(fossil_set_t* set, fossil_tofu_t data);
+int32_t fossil_set_remove(fossil_set_t* set, fossil_tofu_t data);
 
 /**
  * Search for data in the set.
@@ -91,11 +87,8 @@ fossil_tofu_error_t fossil_set_remove(fossil_set_t* set, fossil_tofu_t data);
  * @param data The data to search for.
  * @return     The error code indicating the success or failure of the operation.
  */
-fossil_tofu_error_t fossil_set_search(const fossil_set_t* set, fossil_tofu_t data);
+int32_t fossil_set_search(const fossil_set_t* set, fossil_tofu_t data);
 
-// =======================
-// UTILITY FUNCTIONS
-// =======================
 /**
  * Get the size of the set.
  *
@@ -120,7 +113,7 @@ fossil_tofu_t* fossil_set_getter(fossil_set_t* set, fossil_tofu_t data);
  * @param data The data to set.
  * @return     The error code indicating the success or failure of the operation.
  */
-fossil_tofu_error_t fossil_set_setter(fossil_set_t* set, fossil_tofu_t data);
+int32_t fossil_set_setter(fossil_set_t* set, fossil_tofu_t data);
 
 /**
  * Check if the set is not empty.
@@ -161,41 +154,7 @@ bool fossil_set_is_cnullptr(const fossil_set_t* set);
  * @param data The data to search for.
  * @return     True if the set contains the element, false otherwise.
  */
-bool fossil_set_contains(const fossil_set_t* set, fossil_tofu_t data);
-
-// =======================
-// ITERATOR FUNCTIONS
-// =======================
-/**
- * Get the iterator pointing to the start of the set.
- *
- * @param set The set for which to get the iterator.
- * @return    The iterator pointing to the start of the set.
- */
-fossil_tofu_iterator fossil_set_iterator_start(fossil_set_t* set);
-
-/**
- * Get the iterator pointing to the end of the set.
- *
- * @return The iterator pointing to the end of the set.
- */
-fossil_tofu_iterator fossil_set_iterator_end(void);
-
-/**
- * Move the iterator to the next element in the set.
- *
- * @param iterator The current iterator position.
- * @return         The updated iterator position after moving to the next element.
- */
-fossil_tofu_iterator fossil_set_iterator_next(fossil_tofu_iterator iterator);
-
-/**
- * Check if there is a next element in the set.
- *
- * @param iterator The current iterator position.
- * @return         True if there is a next element, false otherwise.
- */
-bool fossil_set_iterator_has_next(fossil_tofu_iterator iterator);
+int32_t fossil_set_contains(const fossil_set_t* set, fossil_tofu_t data);
 
 #ifdef __cplusplus
 }

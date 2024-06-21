@@ -28,6 +28,7 @@ Description:
  */
 
 #include "fossil/generic/tofu.h"
+#include "fossil/generic/actionof.h"
 
 // Node structure for the binary search tree
 typedef struct fossil_tree_node_t {
@@ -39,7 +40,7 @@ typedef struct fossil_tree_node_t {
 // Tree structure
 typedef struct {
     fossil_tree_node_t* root;
-    fossil_tofu_type tree; // Type of the tree
+    char* type; // Type of the tree
 } fossil_tree_t;
 
 #ifdef __cplusplus
@@ -47,16 +48,13 @@ extern "C"
 {
 #endif
 
-// =======================
-// CREATE and DELETE
-// =======================
 /**
  * Create a new tree with the specified data type.
  *
  * @param tree The type of data the tree will store.
  * @return     The created tree.
  */
-fossil_tree_t* fossil_tree_create(fossil_tofu_type tree);
+fossil_tree_t* fossil_tree_create(char* type);
 
 /**
  * Erase the contents of the tree and free allocated memory.
@@ -65,9 +63,6 @@ fossil_tree_t* fossil_tree_create(fossil_tofu_type tree);
  */
 void fossil_tree_erase(fossil_tree_t* tree);
 
-// =======================
-// ALGORITHM FUNCTIONS
-// =======================
 /**
  * Insert data into the tree.
  *
@@ -75,7 +70,7 @@ void fossil_tree_erase(fossil_tree_t* tree);
  * @param data The data to insert.
  * @return     The error code indicating the success or failure of the operation.
  */
-fossil_tofu_error_t fossil_tree_insert(fossil_tree_t* tree, fossil_tofu_t data);
+int32_t fossil_tree_insert(fossil_tree_t* tree, fossil_tofu_t data);
 
 /**
  * Remove data from the tree.
@@ -84,7 +79,7 @@ fossil_tofu_error_t fossil_tree_insert(fossil_tree_t* tree, fossil_tofu_t data);
  * @param data The data to remove.
  * @return     The error code indicating the success or failure of the operation.
  */
-fossil_tofu_error_t fossil_tree_remove(fossil_tree_t* tree, fossil_tofu_t data);
+int32_t fossil_tree_remove(fossil_tree_t* tree, fossil_tofu_t data);
 
 /**
  * Search for data in the tree.
@@ -93,11 +88,8 @@ fossil_tofu_error_t fossil_tree_remove(fossil_tree_t* tree, fossil_tofu_t data);
  * @param data The data to search for.
  * @return     The error code indicating the success or failure of the operation.
  */
-fossil_tofu_error_t fossil_tree_search(const fossil_tree_t* tree, fossil_tofu_t data);
+int32_t fossil_tree_search(const fossil_tree_t* tree, fossil_tofu_t data);
 
-// =======================
-// UTILITY FUNCTIONS
-// =======================
 /**
  * Get the size of the tree.
  *
@@ -122,7 +114,7 @@ fossil_tofu_t* fossil_tree_getter(const fossil_tree_t* tree, fossil_tofu_t data)
  * @param data The data to set.
  * @return     The error code indicating the success or failure of the operation.
  */
-fossil_tofu_error_t fossil_tree_setter(fossil_tree_t* tree, fossil_tofu_t data);
+int32_t fossil_tree_setter(fossil_tree_t* tree, fossil_tofu_t data);
 
 /**
  * Check if the tree is not empty.

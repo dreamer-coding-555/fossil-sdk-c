@@ -26,6 +26,7 @@ Description:
  */
 
 #include "fossil/generic/tofu.h"
+#include "fossil/generic/actionof.h"
 
 // Node structure for the doubly linked list
 typedef struct fossil_dlist_node_t {
@@ -38,7 +39,7 @@ typedef struct fossil_dlist_node_t {
 typedef struct fossil_dlist_t {
     fossil_dlist_node_t* head;
     fossil_dlist_node_t* tail;
-    fossil_tofu_type list_type;  // Type of the linked list
+    char* type;
 } fossil_dlist_t;
 
 #ifdef __cplusplus
@@ -46,17 +47,13 @@ extern "C"
 {
 #endif
 
-// =======================
-// CREATE and DELETE
-// =======================
-
 /**
  * Create a new doubly linked list with the specified data type.
  *
  * @param list_type The type of data the doubly linked list will store.
  * @return          The created doubly linked list.
  */
-fossil_dlist_t* fossil_dlist_create(fossil_tofu_type list_type);
+fossil_dlist_t* fossil_dlist_create(char* type);
 
 /**
  * Erase the contents of the doubly linked list and free allocated memory.
@@ -65,10 +62,6 @@ fossil_dlist_t* fossil_dlist_create(fossil_tofu_type list_type);
  */
 void fossil_dlist_erase(fossil_dlist_t* dlist);
 
-// =======================
-// ALGORITHM FUNCTIONS
-// =======================
-
 /**
  * Insert data into the doubly linked list.
  *
@@ -76,7 +69,7 @@ void fossil_dlist_erase(fossil_dlist_t* dlist);
  * @param data  The data to insert.
  * @return      The error code indicating the success or failure of the operation.
  */
-fossil_tofu_error_t fossil_dlist_insert(fossil_dlist_t* dlist, fossil_tofu_t data);
+int32_t fossil_dlist_insert(fossil_dlist_t* dlist, fossil_tofu_t data);
 
 /**
  * Remove data from the doubly linked list.
@@ -85,7 +78,7 @@ fossil_tofu_error_t fossil_dlist_insert(fossil_dlist_t* dlist, fossil_tofu_t dat
  * @param data  A pointer to store the removed data.
  * @return      The error code indicating the success or failure of the operation.
  */
-fossil_tofu_error_t fossil_dlist_remove(fossil_dlist_t* dlist, fossil_tofu_t* data);
+int32_t fossil_dlist_remove(fossil_dlist_t* dlist, fossil_tofu_t* data);
 
 /**
  * Search for data in the doubly linked list.
@@ -94,7 +87,7 @@ fossil_tofu_error_t fossil_dlist_remove(fossil_dlist_t* dlist, fossil_tofu_t* da
  * @param data  The data to search for.
  * @return      The error code indicating the success or failure of the operation.
  */
-fossil_tofu_error_t fossil_dlist_search(const fossil_dlist_t* dlist, fossil_tofu_t data);
+int32_t fossil_dlist_search(const fossil_dlist_t* dlist, fossil_tofu_t data);
 
 /**
  * Reverse the doubly linked list in the forward direction.
@@ -110,9 +103,6 @@ void fossil_dlist_reverse_forward(fossil_dlist_t* dlist);
  */
 void fossil_dlist_reverse_backward(fossil_dlist_t* dlist);
 
-// =======================
-// UTILITY FUNCTIONS
-// =======================
 /**
  * Get the size of the doubly linked list.
  *
@@ -137,7 +127,7 @@ fossil_tofu_t* fossil_dlist_getter(fossil_dlist_t* dlist, fossil_tofu_t data);
  * @param data  The data to set.
  * @return      The error code indicating the success or failure of the operation.
  */
-fossil_tofu_error_t fossil_dlist_setter(fossil_dlist_t* dlist, fossil_tofu_t data);
+int32_t fossil_dlist_setter(fossil_dlist_t* dlist, fossil_tofu_t data);
 
 /**
  * Check if the doubly linked list is not empty.

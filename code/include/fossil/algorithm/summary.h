@@ -20,7 +20,7 @@ Description:
  * for "tofu" arrays. The "tofu" arrays are structures representing numerical data in a custom format,
  * and the functions here are designed to operate specifically on these arrays.
  *
- * @see fossil_tofu_t, fossil_tofu_error_t
+ * @see fossil_tofu_t, int32_t
  *
  * @brief Computes the sum of elements in a "tofu" array.
  * 
@@ -47,7 +47,7 @@ Description:
  * @return Error code indicating the success or failure of the operation.
  */
 
-#include "fossil/generic/tofu.h"
+#include "fossil/generic/arrayof.h"
 
 #ifdef __cplusplus
 extern "C"
@@ -63,7 +63,7 @@ extern "C"
  * @param sum Pointer to a "tofu" structure where the result will be stored.
  * @return Error code indicating the success or failure of the operation.
  */
-fossil_tofu_error_t fossil_summary_sum(const fossil_tofu_t* array, fossil_tofu_t* sum);
+int fossil_summary_sum(const fossil_tofu_arrayof_t array, fossil_tofu_arrayof_t sum);
 
 /**
  * @brief Computes the mean (average) of elements in a "tofu" array.
@@ -74,7 +74,7 @@ fossil_tofu_error_t fossil_summary_sum(const fossil_tofu_t* array, fossil_tofu_t
  * @param mean Pointer to a "tofu" structure where the result will be stored.
  * @return Error code indicating the success or failure of the operation.
  */
-fossil_tofu_error_t fossil_summary_mean(const fossil_tofu_t* array, fossil_tofu_t* mean);
+int fossil_summary_mean(const fossil_tofu_arrayof_t array, fossil_tofu_arrayof_t mean);
 
 /**
  * @brief Computes the median of elements in a "tofu" array.
@@ -85,7 +85,7 @@ fossil_tofu_error_t fossil_summary_mean(const fossil_tofu_t* array, fossil_tofu_
  * @param median Pointer to a "tofu" structure where the result will be stored.
  * @return Error code indicating the success or failure of the operation.
  */
-fossil_tofu_error_t fossil_summary_median(const fossil_tofu_t* array, fossil_tofu_t* median);
+int fossil_summary_median(const fossil_tofu_arrayof_t array, fossil_tofu_arrayof_t median);
 
 #ifdef __cplusplus
 }
