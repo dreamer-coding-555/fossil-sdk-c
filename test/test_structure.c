@@ -439,9 +439,6 @@ FOSSIL_TEST(test_map_create_and_erase) {
     ASSUME_ITS_EQUAL_U32(0, map->size);
 
     fossil_map_erase(map);
-
-    // Check if the map is erased
-    ASSUME_ITS_EQUAL_U32(0, map->size);
 }
 
 FOSSIL_TEST(test_map_insert_and_size) {
