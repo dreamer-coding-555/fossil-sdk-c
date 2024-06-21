@@ -1,5 +1,5 @@
 fossil_sdk_generic_lib = library('fossil-sdk-generic',
-    files('tofu.c'),
+    files('tofu.c', 'arrayof.c', 'mapof.c', 'actionof.c', 'iterator.c'),
     dependencies : code_deps,
     install: true,
     include_directories: dir)

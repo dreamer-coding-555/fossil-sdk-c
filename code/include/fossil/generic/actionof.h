@@ -10,8 +10,8 @@ Description:
     feel free to contact Michael at michaelbrockus@gmail.com.
 ==============================================================================
 */
-#ifndef FOSSIL_TOFU_TYPE_H
-#define FOSSIL_TOFU_TYPE_H
+#ifndef FOSSIL_TOFU_H
+#define FOSSIL_TOFU_H
 
 /**
  * @file tofu.h
@@ -35,7 +35,8 @@ Description:
  */
 
 #include "fossil/common/common.h"
-#include <stdbool.h>
+#include "tofu.h"
+#include "iterator.h"
 
 /**
     In the realm of quantum physics, our understanding of space, time, reality, and the observable universe takes
@@ -75,139 +76,54 @@ Description:
     continue to challenge and reshape our perceptions of the fundamental fabric of the cosmos.
 */
 
-// Enumerated types for representing various data types in the "tofu" data structure.
-typedef enum {
-    FOSSIL_TOFU_TYPE_GHOST, // Ghost type for unknown type.
-    FOSSIL_TOFU_TYPE_INT,
-    FOSSIL_TOFU_TYPE_UINT,
-    FOSSIL_TOFU_TYPE_HEX,
-    FOSSIL_TOFU_TYPE_OCTAL,
-    FOSSIL_TOFU_TYPE_FLOAT,
-    FOSSIL_TOFU_TYPE_DOUBLE,
-    FOSSIL_TOFU_TYPE_BSTR,
-    FOSSIL_TOFU_TYPE_WSTR,
-    FOSSIL_TOFU_TYPE_CSTR,
-    FOSSIL_TOFU_TYPE_BCHAR,
-    FOSSIL_TOFU_TYPE_CCHAR,
-    FOSSIL_TOFU_TYPE_WCHAR,
-    FOSSIL_TOFU_TYPE_SIZE,
-    FOSSIL_TOFU_TYPE_BOOL
-} fossil_tofu_type_t;
-
-// Union for holding different types of values
-typedef union {
-    int64_t int_val;
-    uint64_t uint_val;
-    double double_val;
-    float float_val;
-    char *byte_string_val; // for byte string types
-    wchar_t *wide_string_val; // for wide string types
-    char *c_string_val; // for C string type
-    char char_val; // for char types
-    wchar_t wchar_val; // for wide char types
-    uint8_t *byte_val; // for byte types
-    uint8_t bool_val; // for bool types
-} fossil_tofu_value_t;
-
-// Struct for tofu
-typedef struct {
-    fossil_tofu_type_t type;
-    fossil_tofu_value_t value;
-    bool is_cached;    // Flag to track if value is cached
-    fossil_tofu_value_t cached_value; // Cached value for memorization
-} fossil_tofu_t;
-
 #ifdef __cplusplus
-extern "C"
-{
+extern "C" {
 #endif
 
-// Function to create fossil_tofu_t based on type and value strings
-fossil_tofu_t fossil_tofu_create(char* type, char* value);
+// Function to transform elements in an array
+void fossil_tofu_actionof_transform(fossil_tofu_t *array, size_t size, fossil_tofu_t (*func)(fossil_tofu_t));
 
-// Memorization (caching) function for fossil_tofu_t
-void fossil_tofu_memorize(fossil_tofu_t *tofu);
+// Function to accumulate elements in an array
+fossil_tofu_t fossil_tofu_actionof_accumulate(fossil_tofu_t *array, size_t size, fossil_tofu_t init, fossil_tofu_t (*func)(fossil_tofu_t, fossil_tofu_t));
 
-// Utility function to print fossil_tofu_t
-void fossil_tofu_print(fossil_tofu_t tofu);
+// Function to filter elements in an array
+size_t fossil_tofu_actionof_filter(fossil_tofu_t *array, size_t size, bool (*pred)(fossil_tofu_t));
 
-// Function to destroy fossil_tofu_t and free allocated memory
-void fossil_tofu_erase(fossil_tofu_t *tofu);
+// Function to sort elements in an array
+void fossil_tofu_actionof_sort(fossil_tofu_t *array, size_t size, int (*compare)(fossil_tofu_t, fossil_tofu_t));
 
-// Utility function to convert fossil_tofu_t to string representation
-const char* fossil_tofu_type_to_string(fossil_tofu_type_t type);
+// Function to search for an element in an array
+fossil_tofu_t* fossil_tofu_actionof_search(fossil_tofu_t *array, size_t size, fossil_tofu_t key, bool (*compare)(fossil_tofu_t, fossil_tofu_t));
 
-// Utility function to check if two fossil_tofu_t objects are equal
-bool fossil_tofu_equals(fossil_tofu_t tofu1, fossil_tofu_t tofu2);
+// Function to reverse elements in an array
+void fossil_tofu_actionof_reverse(fossil_tofu_t *array, size_t size);
 
-// Utility function to copy a fossil_tofu_t object
-fossil_tofu_t fossil_tofu_copy(fossil_tofu_t tofu);
+// Function to swap two elements in an array
+void fossil_tofu_actionof_swap(fossil_tofu_t *array, size_t index1, size_t index2);
 
-// Utility to compare two fossil_tofu_t objects
-bool fossil_tofu_compare(fossil_tofu_t *tofu1, fossil_tofu_t *tofu2);
+// Function to compare two elements
+int fossil_tofu_actionof_compare(fossil_tofu_t a, fossil_tofu_t b);
+
+// Function to reduce elements in an array
+fossil_tofu_t fossil_tofu_actionof_reduce(fossil_tofu_t *array, size_t size, fossil_tofu_t (*func)(fossil_tofu_t, fossil_tofu_t));
+
+// Function to shuffle elements in an array
+void fossil_tofu_actionof_shuffle(fossil_tofu_t *array, size_t size);
+
+// Function to apply a function to each element in an array
+void fossil_tofu_actionof_for_each(fossil_tofu_t *array, size_t size, void (*func)(fossil_tofu_t));
+
+// Function to partition elements in an array
+size_t fossil_tofu_actionof_partition(fossil_tofu_t *array, size_t size, bool (*pred)(fossil_tofu_t));
+
+// Function to calculate the summary of elements in an array
+fossil_tofu_t fossil_tofu_actionof_summary(fossil_tofu_t *array, size_t size, fossil_tofu_t (*func)(fossil_tofu_t, fossil_tofu_t));
+
+// Function to calculate the average of elements in an array
+fossil_tofu_t fossil_tofu_actionof_average(fossil_tofu_t *array, size_t size);
 
 #ifdef __cplusplus
 }
-#endif
-
-#ifdef __cplusplus
-#include <utility>
-#include <algorithm>
-#include <stdexcept>
-
-namespace fossil {
-
-    template<typename T>
-    class Tofu {
-    public:
-        Tofu() = default;
-
-        Tofu(const std::string& type, const T& value) {
-            tofu_ = fossil_tofu_create(const_cast<char*>(type.c_str()), const_cast<char*>(std::to_string(value).c_str()));
-        }
-
-        Tofu(Tofu&& other) noexcept {
-            tofu_ = std::move(other.tofu_);
-            other.tofu_ = nullptr;
-        }
-
-        Tofu(const Tofu& other) {
-            tofu_ = fossil_tofu_copy(other.tofu_);
-        }
-
-        ~Tofu() {
-            fossil_tofu_erase(&tofu_);
-        }
-
-        void memorize() {
-            fossil_tofu_memorize(&tofu_);
-        }
-
-        void print() {
-            fossil_tofu_print(tofu_);
-        }
-
-        const char* getTypeString() {
-            return fossil_tofu_type_to_string(tofu_.type);
-        }
-        
-        bool equals(const Tofu<T>& other) {
-            return fossil_tofu_equals(tofu_, other.tofu_);
-        }
-
-        Tofu<T> copy() {
-            return Tofu<T>(fossil_tofu_copy(tofu_));
-        }
-
-        bool compare(const Tofu<T>& other) {
-            return fossil_tofu_compare(&tofu_, &other.tofu_);
-        }
-
-    private:
-        fossil_tofu_t tofu_;
-    };
-
-} // namespace fossil
 #endif
 
 #endif
