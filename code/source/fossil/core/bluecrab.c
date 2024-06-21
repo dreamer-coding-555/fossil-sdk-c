@@ -65,7 +65,7 @@ fossil_crabdb_error_t fossil_crabdb_create_namespace(fossil_crabdb_t *db, const 
     fossil_crabdb_namespace_t *new_namespace = (fossil_crabdb_namespace_t*) malloc(sizeof(fossil_crabdb_namespace_t));
     if (!new_namespace) return CRABDB_ERR_MEM;
 
-    new_namespace->name = strdup(namespace_name);
+    new_namespace->name = _custom_fossil_strdup(namespace_name);
     new_namespace->sub_namespaces = cnullptr;
     new_namespace->sub_namespace_count = 0;
     new_namespace->next = db->namespaces;
@@ -90,7 +90,7 @@ fossil_crabdb_error_t fossil_crabdb_create_sub_namespace(fossil_crabdb_t *db, co
             current->sub_namespaces = (fossil_crabdb_namespace_t*) realloc(current->sub_namespaces, sizeof(fossil_crabdb_namespace_t) * (current->sub_namespace_count + 1));
             if (!current->sub_namespaces) return CRABDB_ERR_MEM;
 
-            current->sub_namespaces[current->sub_namespace_count].name = strdup(sub_namespace_name);
+            current->sub_namespaces[current->sub_namespace_count].name = _custom_fossil_strdup(sub_namespace_name);
             current->sub_namespaces[current->sub_namespace_count].sub_namespaces = cnullptr;
             current->sub_namespaces[current->sub_namespace_count].sub_namespace_count = 0;
             current->sub_namespaces[current->sub_namespace_count].next = cnullptr;
@@ -189,8 +189,8 @@ fossil_crabdb_error_t fossil_crabdb_insert(fossil_crabdb_t *db, const char *name
             fossil_crabdb_keyvalue_t *new_kv = (fossil_crabdb_keyvalue_t*) malloc(sizeof(fossil_crabdb_keyvalue_t));
             if (!new_kv) return CRABDB_ERR_MEM;
 
-            new_kv->key = strdup(key);
-            new_kv->value = strdup(value);
+            new_kv->key = _custom_fossil_strdup(key);
+            new_kv->value = _custom_fossil_strdup(value);
             new_kv->next = current->data;
             current->data = new_kv;
 
@@ -211,7 +211,7 @@ fossil_crabdb_error_t fossil_crabdb_get(fossil_crabdb_t *db, const char *namespa
             fossil_crabdb_keyvalue_t *kv = current->data;
             while (kv) {
                 if (strcmp(kv->key, key) == 0) {
-                    *value = strdup(kv->value);
+                    *value = _custom_fossil_strdup(kv->value);
                     return CRABDB_OK;
                 }
                 kv = kv->next;
@@ -234,7 +234,7 @@ fossil_crabdb_error_t fossil_crabdb_update(fossil_crabdb_t *db, const char *name
             while (kv) {
                 if (strcmp(kv->key, key) == 0) {
                     free(kv->value);
-                    kv->value = strdup(value);
+                    kv->value = _custom_fossil_strdup(value);
                     return CRABDB_OK;
                 }
                 kv = kv->next;
@@ -324,7 +324,7 @@ static fossil_crabdb_error_t parse_and_execute(fossil_crabdb_t *db, char *comman
 fossil_crabdb_error_t fossil_crabdb_execute_query(fossil_crabdb_t *db, const char *query) {
     if (!db || !query) return CRABDB_ERR_INVALID_QUERY;
 
-    char *query_copy = strdup(query);
+    char *query_copy = _custom_fossil_strdup(query);
     if (!query_copy) return CRABDB_ERR_MEM;
 
     char *command = strtok(query_copy, "(");

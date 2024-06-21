@@ -478,7 +478,7 @@ FOSSIL_TEST(test_delete_value) {
     fossil_crabdb_error_t result = fossil_crabdb_delete(db, "namespace1", "key1");
     ASSUME_ITS_EQUAL_I32(CRABDB_OK, result);
 
-    char *value = NULL;
+    char *value = xnull;
     result = fossil_crabdb_get(db, "namespace1", "key1", &value);
     ASSUME_ITS_EQUAL_I32(CRABDB_ERR_KEY_NOT_FOUND, result);
 }
