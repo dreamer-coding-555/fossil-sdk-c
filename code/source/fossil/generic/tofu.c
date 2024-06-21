@@ -908,9 +908,7 @@ fossil_tofu_data fossil_tofu_value_getter(fossil_tofu_t* current) {
 
         case TOFU_ARRAY_TYPE:
             // Handle array type
-            printf("Unsupported type (array) for value getter\n");
-            // You might want to set a default value or handle this case differently
-            result.int_type = 0;
+            result.array_type = current->data.array_type;
             break;
 
         case TOFU_MAP_TYPE:
