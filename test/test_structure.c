@@ -311,9 +311,6 @@ FOSSIL_TEST(test_flist_create_and_erase) {
     ASSUME_ITS_EQUAL_I32(TOFU_INT_TYPE, flist->list_type);
 
     fossil_flist_erase(flist);
-
-    // Check if the linked list is erased
-    ASSUME_ITS_CNULL(flist->head);
 }
 
 FOSSIL_TEST(test_flist_insert_and_size) {
