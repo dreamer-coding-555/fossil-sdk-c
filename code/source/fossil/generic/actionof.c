@@ -48,7 +48,8 @@ int compare_fossil_tofu_wrapper(const void *a, const void *b) {
 }
 
 // Function to sort elements in an array
-void fossil_tofu_actionof_sort(fossil_tofu_t *array, size_t size, int (*compare)(fossil_tofu_t, fossil_tofu_t)) {
+void fossil_tofu_actionof_sort(fossil_tofu_t *array, size_t size) {
+    // in a later release smart algorithms will select an algorithm based on dataset
     qsort(array, size, sizeof(fossil_tofu_t), compare_fossil_tofu_wrapper);
 }
 

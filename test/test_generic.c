@@ -42,14 +42,6 @@ bool tofu_mock_is_even(fossil_tofu_t tofu) {
     return false;  // For other types, consider them as not matching the predicate
 }
 
-// Define a comparison function for sorting
-int tofu_mock_compare_int(fossil_tofu_t a, fossil_tofu_t b) {
-    if (a.type == FOSSIL_TOFU_TYPE_INT && b.type == FOSSIL_TOFU_TYPE_INT) {
-        return a.value.int_val - b.value.int_val;
-    }
-    return 0;  // Consider other types as equal for simplicity
-}
-
 // Define a reduction function
 fossil_tofu_t sum_function(fossil_tofu_t a, fossil_tofu_t b) {
     if (a.type == FOSSIL_TOFU_TYPE_INT && b.type == FOSSIL_TOFU_TYPE_INT) {
@@ -394,7 +386,7 @@ FOSSIL_TEST(test_sort) {
     };
     size_t size = sizeof(array) / sizeof(array[0]);
 
-    fossil_tofu_actionof_sort(array, size, tofu_mock_compare_int);
+    fossil_tofu_actionof_sort(array, size);
 
     // Assertions using Fossil Test
     ASSUME_ITS_EQUAL_I32(10, array[0].value.int_val);
