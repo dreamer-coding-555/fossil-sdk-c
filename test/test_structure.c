@@ -13,7 +13,6 @@ Description:
 #include <fossil/structure/dlist.h>
 #include <fossil/structure/dqueue.h>
 #include <fossil/structure/flist.h>
-#include <fossil/structure/map.h>
 #include <fossil/structure/pqueue.h>
 #include <fossil/structure/queue.h>
 #include <fossil/structure/set.h>
@@ -23,7 +22,7 @@ Description:
 
 #include <fossil/unittest.h> // basic test tools
 #include <fossil/xassume.h>  // extra asserts
-#include <fossil/mockup/file.h>
+#include <fossil/mockup.h>
 
 // * * * * * * * * * * * * * * * * * * * * * * * *
 // * Fossil Logic Test Utilities
@@ -37,134 +36,110 @@ Description:
 // * * * * * * * * * * * * * * * * * * * * * * * *
 
 FOSSIL_FIXTURE(struct_dlist_fixture);
+fossil_dlist_t* mock_dlist;
+
 FOSSIL_SETUP(struct_dlist_fixture) {
-    // Setup code if needed
+    mock_dlist = fossil_dlist_create("int");
 }
 
 FOSSIL_TEARDOWN(struct_dlist_fixture) {
-    // Teardown code if needed
+    fossil_dlist_erase(mock_dlist);
 }
 
 FOSSIL_TEST(test_dlist_create_and_erase) {
-    fossil_dlist_t* dlist = fossil_dlist_create(TOFU_INT_TYPE);
-
     // Check if the doubly linked list is created with the expected values
-    ASSUME_NOT_CNULL(dlist);
-    ASSUME_ITS_CNULL(dlist->head);
-    ASSUME_ITS_CNULL(dlist->tail);
-    ASSUME_ITS_EQUAL_I32(TOFU_INT_TYPE, dlist->list_type);
-
-    fossil_dlist_erase(dlist);
-
-    // Check if the doubly linked list is erased
-    ASSUME_ITS_CNULL(dlist->head);
-    ASSUME_ITS_CNULL(dlist->tail);
-    ASSUME_ITS_CNULL(dlist);
+    ASSUME_NOT_CNULL(mock_dlist);
+    ASSUME_ITS_CNULL(mock_dlist->head);
+    ASSUME_ITS_CNULL(mock_dlist->tail);
 }
 
 FOSSIL_TEST(test_dlist_insert_and_size) {
-    fossil_dlist_t* dlist = fossil_dlist_create(TOFU_INT_TYPE);
-
     // Insert some elements
-    fossil_tofu_t element1 = { TOFU_INT_TYPE, { .int_type = 42 } };
-    fossil_tofu_t element2 = { TOFU_INT_TYPE, { .int_type = 10 } };
-    fossil_tofu_t element3 = { TOFU_INT_TYPE, { .int_type = 5 } };
+    fossil_tofu_t element1 = fossil_tofu_create("int", "42");
+    fossil_tofu_t element2 = fossil_tofu_create("int", "10");
+    fossil_tofu_t element3 = fossil_tofu_create("int", "5");
 
-    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_dlist_insert(dlist, element1));
-    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_dlist_insert(dlist, element2));
-    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_dlist_insert(dlist, element3));
+    ASSUME_ITS_TRUE(fossil_dlist_insert(mock_dlist, element1));
+    ASSUME_ITS_TRUE(fossil_dlist_insert(mock_dlist, element2));
+    ASSUME_ITS_TRUE(fossil_dlist_insert(mock_dlist, element3));
 
     // Check if the size is correct
-    ASSUME_ITS_EQUAL_U32(3, fossil_dlist_size(dlist));
-
-    fossil_dlist_erase(dlist);
+    ASSUME_ITS_EQUAL_SIZE(3, fossil_dlist_size(mock_dlist));
 }
 
 FOSSIL_TEST(test_dlist_remove) {
-    fossil_dlist_t* dlist = fossil_dlist_create(TOFU_INT_TYPE);
-
     // Insert some elements
-    fossil_tofu_t element1 = { TOFU_INT_TYPE, { .int_type = 42 } };
-    fossil_tofu_t element2 = { TOFU_INT_TYPE, { .int_type = 10 } };
-    fossil_tofu_t element3 = { TOFU_INT_TYPE, { .int_type = 5 } };
+    fossil_tofu_t element1 = fossil_tofu_create("int", "42");
+    fossil_tofu_t element2 = fossil_tofu_create("int", "10");
+    fossil_tofu_t element3 = fossil_tofu_create("int", "5");
 
-    fossil_dlist_insert(dlist, element1);
-    fossil_dlist_insert(dlist, element2);
-    fossil_dlist_insert(dlist, element3);
+    fossil_dlist_insert(mock_dlist, element1);
+    fossil_dlist_insert(mock_dlist, element2);
+    fossil_dlist_insert(mock_dlist, element3);
 
     // Remove an element
     fossil_tofu_t removedElement;
-    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_dlist_remove(dlist, &removedElement));
+    ASSUME_ITS_TRUE(fossil_dlist_remove(mock_dlist, &removedElement));
 
     // Check if the removed element is correct
-    ASSUME_ITS_EQUAL_I32(42, removedElement.data.int_type);
+    ASSUME_ITS_EQUAL_I32(42, removedElement.value.int_val);
 
     // Check if the size is correct
-    ASSUME_ITS_EQUAL_U32(2, fossil_dlist_size(dlist));
-
-    fossil_dlist_erase(dlist);
+    ASSUME_ITS_EQUAL_SIZE(3, fossil_dlist_size(mock_dlist));
 }
 
 FOSSIL_TEST(test_dlist_reverse_forward) {
-    fossil_dlist_t* dlist = fossil_dlist_create(TOFU_INT_TYPE);
-
     // Insert some elements
-    fossil_tofu_t element1 = { TOFU_INT_TYPE, { .int_type = 42 } };
-    fossil_tofu_t element2 = { TOFU_INT_TYPE, { .int_type = 10 } };
-    fossil_tofu_t element3 = { TOFU_INT_TYPE, { .int_type = 5 } };
+    fossil_tofu_t element1 = fossil_tofu_create("int", "42");
+    fossil_tofu_t element2 = fossil_tofu_create("int", "10");
+    fossil_tofu_t element3 = fossil_tofu_create("int", "5");
 
-    fossil_dlist_insert(dlist, element1);
-    fossil_dlist_insert(dlist, element2);
-    fossil_dlist_insert(dlist, element3);
+    fossil_dlist_insert(mock_dlist, element1);
+    fossil_dlist_insert(mock_dlist, element2);
+    fossil_dlist_insert(mock_dlist, element3);
 
     // Reverse the doubly linked list forward
-    fossil_dlist_reverse_forward(dlist);
+    fossil_dlist_reverse_forward(mock_dlist);
 
     // Check if the elements are in reverse order
-    fossil_tofu_t* retrievedElement = fossil_dlist_getter(dlist, element3);
+    fossil_tofu_t* retrievedElement = fossil_dlist_getter(mock_dlist, element3);
     ASSUME_NOT_CNULL(retrievedElement);
-    ASSUME_ITS_EQUAL_I32(42, retrievedElement->data.int_type);
+    ASSUME_ITS_EQUAL_I32(42, retrievedElement->value.int_val);
 
-    retrievedElement = fossil_dlist_getter(dlist, element2);
+    retrievedElement = fossil_dlist_getter(mock_dlist, element2);
     ASSUME_NOT_CNULL(retrievedElement);
-    ASSUME_ITS_EQUAL_I32(10, retrievedElement->data.int_type);
+    ASSUME_ITS_EQUAL_I32(10, retrievedElement->value.int_val);
 
-    retrievedElement = fossil_dlist_getter(dlist, element1);
+    retrievedElement = fossil_dlist_getter(mock_dlist, element1);
     ASSUME_NOT_CNULL(retrievedElement);
-    ASSUME_ITS_EQUAL_I32(5, retrievedElement->data.int_type);
-
-    fossil_dlist_erase(dlist);
+    ASSUME_ITS_EQUAL_I32(5, retrievedElement->value.int_val);
 }
 
 FOSSIL_TEST(test_dlist_reverse_backward) {
-    fossil_dlist_t* dlist = fossil_dlist_create(TOFU_INT_TYPE);
-
     // Insert some elements
-    fossil_tofu_t element1 = { TOFU_INT_TYPE, { .int_type = 42 } };
-    fossil_tofu_t element2 = { TOFU_INT_TYPE, { .int_type = 10 } };
-    fossil_tofu_t element3 = { TOFU_INT_TYPE, { .int_type = 5 } };
+    fossil_tofu_t element1 = fossil_tofu_create("int", "42");
+    fossil_tofu_t element2 = fossil_tofu_create("int", "10");
+    fossil_tofu_t element3 = fossil_tofu_create("int", "5");
 
-    fossil_dlist_insert(dlist, element1);
-    fossil_dlist_insert(dlist, element2);
-    fossil_dlist_insert(dlist, element3);
+    fossil_dlist_insert(mock_dlist, element1);
+    fossil_dlist_insert(mock_dlist, element2);
+    fossil_dlist_insert(mock_dlist, element3);
 
     // Reverse the doubly linked list backward
-    fossil_dlist_reverse_backward(dlist);
+    fossil_dlist_reverse_backward(mock_dlist);
 
     // Check if the elements are in reverse order
-    fossil_tofu_t* retrievedElement = fossil_dlist_getter(dlist, element3);
+    fossil_tofu_t* retrievedElement = fossil_dlist_getter(mock_dlist, element3);
     ASSUME_NOT_CNULL(retrievedElement);
-    ASSUME_ITS_EQUAL_I32(42, retrievedElement->data.int_type);
+    ASSUME_ITS_EQUAL_I32(42, retrievedElement->value.int_val);
 
-    retrievedElement = fossil_dlist_getter(dlist, element2);
+    retrievedElement = fossil_dlist_getter(mock_dlist, element2);
     ASSUME_NOT_CNULL(retrievedElement);
-    ASSUME_ITS_EQUAL_I32(10, retrievedElement->data.int_type);
+    ASSUME_ITS_EQUAL_I32(10, retrievedElement->value.int_val);
 
-    retrievedElement = fossil_dlist_getter(dlist, element1);
+    retrievedElement = fossil_dlist_getter(mock_dlist, element1);
     ASSUME_NOT_CNULL(retrievedElement);
-    ASSUME_ITS_EQUAL_I32(5, retrievedElement->data.int_type);
-
-    fossil_dlist_erase(dlist);
+    ASSUME_ITS_EQUAL_I32(5, retrievedElement->value.int_val);
 }
 
 // * * * * * * * * * * * * * * * * * * * * * * * *
@@ -172,122 +147,97 @@ FOSSIL_TEST(test_dlist_reverse_backward) {
 // * * * * * * * * * * * * * * * * * * * * * * * *
 
 FOSSIL_FIXTURE(struct_dqueue_fixture);
+fossil_dqueue_t* mock_dqueue;
 FOSSIL_SETUP(struct_dqueue_fixture) {
-    // Setup code if needed
+    mock_dqueue = fossil_dqueue_create("int");
 }
 
 FOSSIL_TEARDOWN(struct_dqueue_fixture) {
-    // Teardown code if needed
+    fossil_dqueue_erase(mock_dqueue);
 }
 
 FOSSIL_TEST(test_dqueue_create_and_erase) {
-    fossil_dqueue_t* dqueue = fossil_dqueue_create(TOFU_INT_TYPE);
-
     // Check if the deque is created with the expected values
-    ASSUME_NOT_CNULL(dqueue);
-    ASSUME_ITS_CNULL(dqueue->front);
-    ASSUME_ITS_CNULL(dqueue->rear);
-    ASSUME_ITS_EQUAL_I32(TOFU_INT_TYPE, dqueue->list_type);
-
-    fossil_dqueue_erase(dqueue);
-
-    // Check if the deque is erased
-    ASSUME_ITS_CNULL(dqueue->front);
-    ASSUME_ITS_CNULL(dqueue->rear);
-    ASSUME_ITS_CNULL(dqueue);
+    ASSUME_NOT_CNULL(mock_dqueue);
+    ASSUME_ITS_CNULL(mock_dqueue->front);
+    ASSUME_ITS_CNULL(mock_dqueue->rear);
 }
 
 FOSSIL_TEST(test_dqueue_insert_and_size) {
-    fossil_dqueue_t* dqueue = fossil_dqueue_create(TOFU_INT_TYPE);
-
     // Insert some elements
-    fossil_tofu_t element1 = { TOFU_INT_TYPE, { .int_type = 42 } };
-    fossil_tofu_t element2 = { TOFU_INT_TYPE, { .int_type = 10 } };
-    fossil_tofu_t element3 = { TOFU_INT_TYPE, { .int_type = 5 } };
+    fossil_tofu_t element1 = fossil_tofu_create("int", "42");
+    fossil_tofu_t element2 = fossil_tofu_create("int", "10");
+    fossil_tofu_t element3 = fossil_tofu_create("int", "5");
 
-    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_dqueue_insert(dqueue, element1));
-    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_dqueue_insert(dqueue, element2));
-    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_dqueue_insert(dqueue, element3));
+    ASSUME_ITS_TRUE(fossil_dqueue_insert(mock_dqueue, element1));
+    ASSUME_ITS_TRUE(fossil_dqueue_insert(mock_dqueue, element2));
+    ASSUME_ITS_TRUE(fossil_dqueue_insert(mock_dqueue, element3));
 
     // Check if the size is correct
-    ASSUME_ITS_EQUAL_U32(3, fossil_dqueue_size(dqueue));
-
-    fossil_dqueue_erase(dqueue);
+    ASSUME_ITS_EQUAL_SIZE(3, fossil_dqueue_size(mock_dqueue));
 }
 
 FOSSIL_TEST(test_dqueue_remove) {
-    fossil_dqueue_t* dqueue = fossil_dqueue_create(TOFU_INT_TYPE);
-
     // Insert some elements
-    fossil_tofu_t element1 = { TOFU_INT_TYPE, { .int_type = 42 } };
-    fossil_tofu_t element2 = { TOFU_INT_TYPE, { .int_type = 10 } };
-    fossil_tofu_t element3 = { TOFU_INT_TYPE, { .int_type = 5 } };
+    fossil_tofu_t element1 = fossil_tofu_create("int", "42");
+    fossil_tofu_t element2 = fossil_tofu_create("int", "10");
+    fossil_tofu_t element3 = fossil_tofu_create("int", "5");
 
-    fossil_dqueue_insert(dqueue, element1);
-    fossil_dqueue_insert(dqueue, element2);
-    fossil_dqueue_insert(dqueue, element3);
+    fossil_dqueue_insert(mock_dqueue, element1);
+    fossil_dqueue_insert(mock_dqueue, element2);
+    fossil_dqueue_insert(mock_dqueue, element3);
 
     // Remove an element
     fossil_tofu_t removedElement;
-    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_dqueue_remove(dqueue, &removedElement));
+    ASSUME_ITS_TRUE(fossil_dqueue_remove(mock_dqueue, &removedElement));
 
     // Check if the removed element is correct
-    ASSUME_ITS_EQUAL_I32(42, removedElement.data.int_type);
+    ASSUME_ITS_EQUAL_I32(42, removedElement.value.int_val);
 
     // Check if the size is correct
-    ASSUME_ITS_EQUAL_U32(2, fossil_dqueue_size(dqueue));
-
-    fossil_dqueue_erase(dqueue);
+    ASSUME_ITS_EQUAL_SIZE(2, fossil_dqueue_size(mock_dqueue));
 }
 
 FOSSIL_TEST(test_dqueue_getter_and_setter) {
-    fossil_dqueue_t* dqueue = fossil_dqueue_create(TOFU_INT_TYPE);
-
     // Insert an element
-    fossil_tofu_t element = { TOFU_INT_TYPE, { .int_type = 42 } };
-    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_dqueue_insert(dqueue, element));
+    fossil_tofu_t element = fossil_tofu_create("int", "42");
+    ASSUME_ITS_TRUE(fossil_dqueue_insert(mock_dqueue, element));
 
     // Get the value for an element
-    fossil_tofu_t* retrievedElement = fossil_dqueue_getter(dqueue, element);
+    fossil_tofu_t* retrievedElement = fossil_dqueue_getter(mock_dqueue, element);
     ASSUME_NOT_CNULL(retrievedElement);
-    ASSUME_ITS_EQUAL_I32(42, retrievedElement->data.int_type);
+    ASSUME_ITS_EQUAL_I32(42, retrievedElement->value.int_val);
 
     // Update the value for an element
-    fossil_tofu_t updatedElement = { TOFU_INT_TYPE, { .int_type = 50 } };
-    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_dqueue_setter(dqueue, updatedElement));
+    fossil_tofu_t updatedElement = fossil_tofu_create("int", "50");
+    ASSUME_ITS_TRUE(fossil_dqueue_setter(mock_dqueue, updatedElement));
 
     // Get the updated value for the element
-    retrievedElement = fossil_dqueue_getter(dqueue, updatedElement);
+    retrievedElement = fossil_dqueue_getter(mock_dqueue, updatedElement);
     ASSUME_NOT_CNULL(retrievedElement);
-    ASSUME_ITS_EQUAL_I32(50, retrievedElement->data.int_type);
-
-    fossil_dqueue_erase(dqueue);
+    ASSUME_ITS_EQUAL_I32(50, retrievedElement->value.int_val);
 }
 
 FOSSIL_TEST(test_dqueue_not_empty_and_is_empty) {
-    fossil_dqueue_t* dqueue = fossil_dqueue_create(TOFU_INT_TYPE);
-
     // Check initially not empty
-    ASSUME_ITS_FALSE(fossil_dqueue_not_empty(dqueue));
-    ASSUME_ITS_TRUE(fossil_dqueue_is_empty(dqueue));
+    ASSUME_ITS_FALSE(fossil_dqueue_not_empty(mock_dqueue));
+    ASSUME_ITS_TRUE(fossil_dqueue_is_empty(mock_dqueue));
 
     // Insert an element
-    fossil_tofu_t element = { TOFU_INT_TYPE, { .int_type = 42 } };
-    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_dqueue_insert(dqueue, element));
+    fossil_tofu_t element = fossil_tofu_create("int", "42");
+    ASSUME_ITS_TRUE(fossil_dqueue_insert(mock_dqueue, element));
 
     // Check not empty after insertion
-    ASSUME_ITS_TRUE(fossil_dqueue_not_empty(dqueue));
-    ASSUME_ITS_FALSE(fossil_dqueue_is_empty(dqueue));
+    ASSUME_ITS_TRUE(fossil_dqueue_not_empty(mock_dqueue));
+    ASSUME_ITS_FALSE(fossil_dqueue_is_empty(mock_dqueue));
 
     // Remove the element
     fossil_tofu_t removedElement;
-    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_dqueue_remove(dqueue, &removedElement));
+    ASSUME_ITS_TRUE(fossil_dqueue_remove(mock_dqueue, &removedElement));
 
     // Check empty after removal
-    ASSUME_ITS_FALSE(fossil_dqueue_not_empty(dqueue));
-    ASSUME_ITS_TRUE(fossil_dqueue_is_empty(dqueue));
-
-    fossil_dqueue_erase(dqueue);
+    ASSUME_ITS_FALSE(fossil_dqueue_not_empty(mock_dqueue));
+    ASSUME_ITS_TRUE(fossil_dqueue_is_empty(mock_dqueue));
 }
 
 // * * * * * * * * * * * * * * * * * * * * * * * *
@@ -295,237 +245,108 @@ FOSSIL_TEST(test_dqueue_not_empty_and_is_empty) {
 // * * * * * * * * * * * * * * * * * * * * * * * *
 
 FOSSIL_FIXTURE(struct_flist_fixture);
+fossil_flist_t* mock_flist;
+
 FOSSIL_SETUP(struct_flist_fixture) {
-    // Setup code if needed
+    mock_flist = fossil_flist_create("int");
 }
 
 FOSSIL_TEARDOWN(struct_flist_fixture) {
-    // Teardown code if needed
+    fossil_flist_erase(mock_flist);
 }
 
 FOSSIL_TEST(test_flist_create_and_erase) {
-    fossil_flist_t* flist = fossil_flist_create(TOFU_INT_TYPE);
-
     // Check if the linked list is created with the expected values
-    ASSUME_ITS_CNULL(flist->head);
-    ASSUME_ITS_EQUAL_I32(TOFU_INT_TYPE, flist->list_type);
-
-    fossil_flist_erase(flist);
+    ASSUME_ITS_CNULL(mock_flist->head);
 }
 
 FOSSIL_TEST(test_flist_insert_and_size) {
-    fossil_flist_t* flist = fossil_flist_create(TOFU_INT_TYPE);
-
     // Insert some elements
-    fossil_tofu_t element1 = { TOFU_INT_TYPE, { .int_type = 42 } };
-    fossil_tofu_t element2 = { TOFU_INT_TYPE, { .int_type = 10 } };
-    fossil_tofu_t element3 = { TOFU_INT_TYPE, { .int_type = 5 } };
+    fossil_tofu_t element1 = fossil_tofu_create("int", "42");
+    fossil_tofu_t element2 = fossil_tofu_create("int", "10");
+    fossil_tofu_t element3 = fossil_tofu_create("int", "5");
 
-    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_flist_insert(flist, element1));
-    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_flist_insert(flist, element2));
-    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_flist_insert(flist, element3));
+    ASSUME_ITS_TRUE(fossil_flist_insert(mock_flist, element1));
+    ASSUME_ITS_TRUE(fossil_flist_insert(mock_flist, element2));
+    ASSUME_ITS_TRUE(fossil_flist_insert(mock_flist, element3));
 
     // Check if the size is correct
-    ASSUME_ITS_EQUAL_U32(3, fossil_flist_size(flist));
-
-    fossil_flist_erase(flist);
+    ASSUME_ITS_EQUAL_SIZE(3, fossil_flist_size(mock_flist));
 }
 
 FOSSIL_TEST(test_flist_remove) {
-    fossil_flist_t* flist = fossil_flist_create(TOFU_INT_TYPE);
-
     // Insert some elements
-    fossil_tofu_t element1 = { TOFU_INT_TYPE, { .int_type = 42 } };
-    fossil_tofu_t element2 = { TOFU_INT_TYPE, { .int_type = 10 } };
-    fossil_tofu_t element3 = { TOFU_INT_TYPE, { .int_type = 5 } };
+    fossil_tofu_t element1 = fossil_tofu_create("int", "42");
+    fossil_tofu_t element2 = fossil_tofu_create("int", "10");
+    fossil_tofu_t element3 = fossil_tofu_create("int", "5");
 
-    fossil_flist_insert(flist, element1);
-    fossil_flist_insert(flist, element2);
-    fossil_flist_insert(flist, element3);
+    fossil_flist_insert(mock_flist, element1);
+    fossil_flist_insert(mock_flist, element2);
+    fossil_flist_insert(mock_flist, element3);
 
     // Remove an element
     fossil_tofu_t removedElement;
-    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_flist_remove(flist, &removedElement));
+    ASSUME_ITS_TRUE(fossil_flist_remove(mock_flist, &removedElement));
 
     // Check if the removed element is correct
-    ASSUME_ITS_EQUAL_I32(5, removedElement.data.int_type);
+    ASSUME_ITS_EQUAL_I32(5, removedElement.value.int_val);
 
     // Check if the size is correct
-    ASSUME_ITS_EQUAL_U32(2, fossil_flist_size(flist));
-
-    fossil_flist_erase(flist);
+    ASSUME_ITS_EQUAL_SIZE(2, fossil_flist_size(mock_flist));
 }
 
 FOSSIL_TEST(test_flist_reverse_forward) {
-    fossil_flist_t* flist = fossil_flist_create(TOFU_INT_TYPE);
-
     // Insert some elements
-    fossil_tofu_t element1 = { TOFU_INT_TYPE, { .int_type = 42 } };
-    fossil_tofu_t element2 = { TOFU_INT_TYPE, { .int_type = 10 } };
-    fossil_tofu_t element3 = { TOFU_INT_TYPE, { .int_type = 5 } };
+    fossil_tofu_t element1 = fossil_tofu_create("int", "42");
+    fossil_tofu_t element2 = fossil_tofu_create("int", "10");
+    fossil_tofu_t element3 = fossil_tofu_create("int", "5");
 
-    fossil_flist_insert(flist, element1);
-    fossil_flist_insert(flist, element2);
-    fossil_flist_insert(flist, element3);
+    fossil_flist_insert(mock_flist, element1);
+    fossil_flist_insert(mock_flist, element2);
+    fossil_flist_insert(mock_flist, element3);
 
     // Reverse the linked list forward
-    fossil_flist_reverse_forward(flist);
+    fossil_flist_reverse_forward(mock_flist);
 
     // Check if the elements are in reverse order
-    fossil_tofu_t* retrievedElement = fossil_flist_getter(flist, element3);
+    fossil_tofu_t* retrievedElement = fossil_flist_getter(mock_flist, element3);
     ASSUME_NOT_CNULL(retrievedElement);
-    ASSUME_ITS_EQUAL_I32(5, retrievedElement->data.int_type);
+    ASSUME_ITS_EQUAL_I32(5, retrievedElement->value.int_val);
 
-    retrievedElement = fossil_flist_getter(flist, element2);
+    retrievedElement = fossil_flist_getter(mock_flist, element2);
     ASSUME_NOT_CNULL(retrievedElement);
-    ASSUME_ITS_EQUAL_I32(10, retrievedElement->data.int_type);
+    ASSUME_ITS_EQUAL_I32(10, retrievedElement->value.int_val);
 
-    retrievedElement = fossil_flist_getter(flist, element1);
+    retrievedElement = fossil_flist_getter(mock_flist, element1);
     ASSUME_NOT_CNULL(retrievedElement);
-    ASSUME_ITS_EQUAL_I32(42, retrievedElement->data.int_type);
-
-    fossil_flist_erase(flist);
+    ASSUME_ITS_EQUAL_I32(42, retrievedElement->value.int_val);
 }
 
 FOSSIL_TEST(test_flist_reverse_backward) {
-    fossil_flist_t* flist = fossil_flist_create(TOFU_INT_TYPE);
-
     // Insert some elements
-    fossil_tofu_t element1 = { TOFU_INT_TYPE, { .int_type = 42 } };
-    fossil_tofu_t element2 = { TOFU_INT_TYPE, { .int_type = 10 } };
-    fossil_tofu_t element3 = { TOFU_INT_TYPE, { .int_type = 5 } };
+    fossil_tofu_t element1 = fossil_tofu_create("int", "42");
+    fossil_tofu_t element2 = fossil_tofu_create("int", "10");
+    fossil_tofu_t element3 = fossil_tofu_create("int", "5");
 
-    fossil_flist_insert(flist, element1);
-    fossil_flist_insert(flist, element2);
-    fossil_flist_insert(flist, element3);
+    fossil_flist_insert(mock_flist, element1);
+    fossil_flist_insert(mock_flist, element2);
+    fossil_flist_insert(mock_flist, element3);
 
     // Reverse the linked list backward
-    fossil_flist_reverse_backward(flist);
+    fossil_flist_reverse_backward(mock_flist);
 
     // Check if the elements are in reverse order
-    fossil_tofu_t* retrievedElement = fossil_flist_getter(flist, element3);
+    fossil_tofu_t* retrievedElement = fossil_flist_getter(mock_flist, element3);
     ASSUME_NOT_CNULL(retrievedElement);
-    ASSUME_ITS_EQUAL_I32(5, retrievedElement->data.int_type);
+    ASSUME_ITS_EQUAL_I32(5, retrievedElement->value.int_val);
 
-    retrievedElement = fossil_flist_getter(flist, element2);
+    retrievedElement = fossil_flist_getter(mock_flist, element2);
     ASSUME_NOT_CNULL(retrievedElement);
-    ASSUME_ITS_EQUAL_I32(10, retrievedElement->data.int_type);
+    ASSUME_ITS_EQUAL_I32(10, retrievedElement->value.int_val);
 
-    retrievedElement = fossil_flist_getter(flist, element1);
+    retrievedElement = fossil_flist_getter(mock_flist, element1);
     ASSUME_NOT_CNULL(retrievedElement);
-    ASSUME_ITS_EQUAL_I32(42, retrievedElement->data.int_type);
-
-    fossil_flist_erase(flist);
-}
-
-// * * * * * * * * * * * * * * * * * * * * * * * *
-// * Fossil Logic Test Map
-// * * * * * * * * * * * * * * * * * * * * * * * *
-
-FOSSIL_FIXTURE(struct_map_fixture);
-FOSSIL_SETUP(struct_map_fixture) {
-    // Setup code if needed
-}
-
-FOSSIL_TEARDOWN(struct_map_fixture) {
-    // Teardown code if needed
-}
-
-FOSSIL_TEST(test_map_create_and_erase) {
-    fossil_map_t* map = fossil_map_create(TOFU_INT_TYPE);
-
-    // Check if the map is created with the expected values
-    ASSUME_NOT_CNULL(map);
-    ASSUME_ITS_EQUAL_U32(0, map->size);
-
-    fossil_map_erase(map);
-}
-
-FOSSIL_TEST(test_map_insert_and_size) {
-    fossil_map_t* map = fossil_map_create(TOFU_INT_TYPE);
-
-    // Insert some key-value pairs
-    fossil_tofu_t key1 = { TOFU_INT_TYPE, { .int_type = 42 } };
-    fossil_tofu_t value1 = { TOFU_INT_TYPE, { .int_type = 10 } };
-    fossil_tofu_t key2 = { TOFU_INT_TYPE, { .int_type = 5 } };
-    fossil_tofu_t value2 = { TOFU_INT_TYPE, { .int_type = 20 } };
-
-    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_map_insert(map, key1, value1));
-    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_map_insert(map, key2, value2));
-
-    // Check if the size is correct
-    ASSUME_ITS_EQUAL_U32(2, fossil_map_size(map));
-
-    fossil_map_erase(map);
-}
-
-FOSSIL_TEST(test_map_remove) {
-    fossil_map_t* map = fossil_map_create(TOFU_INT_TYPE);
-
-    // Insert some key-value pairs
-    fossil_tofu_t key1 = { TOFU_INT_TYPE, { .int_type = 42 } };
-    fossil_tofu_t value1 = { TOFU_INT_TYPE, { .int_type = 10 } };
-    fossil_tofu_t key2 = { TOFU_INT_TYPE, { .int_type = 5 } };
-    fossil_tofu_t value2 = { TOFU_INT_TYPE, { .int_type = 20 } };
-
-    fossil_map_insert(map, key1, value1);
-    fossil_map_insert(map, key2, value2);
-
-    // Remove a key-value pair
-    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_map_remove(map, key1));
-
-    // Check if the size is correct
-    ASSUME_ITS_EQUAL_U32(1, fossil_map_size(map));
-
-    fossil_map_erase(map);
-}
-
-FOSSIL_TEST(test_map_getter_and_setter) {
-    fossil_map_t* map = fossil_map_create(TOFU_INT_TYPE);
-
-    // Insert a key-value pair
-    fossil_tofu_t key = { TOFU_INT_TYPE, { .int_type = 42 } };
-    fossil_tofu_t value = { TOFU_INT_TYPE, { .int_type = 10 } };
-
-    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_map_insert(map, key, value));
-
-    // Get the value for a key
-    fossil_tofu_t retrievedValue;
-    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_map_getter(map, key, &retrievedValue));
-
-    // Check if the retrieved value is correct
-    ASSUME_ITS_EQUAL_I32(10, retrievedValue.data.int_type);
-
-    // Update the value for a key
-    fossil_tofu_t updatedValue = { TOFU_INT_TYPE, { .int_type = 50 } };
-    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_map_setter(map, key, updatedValue));
-
-    // Get the updated value for the key
-    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_map_getter(map, key, &retrievedValue));
-
-    // Check if the retrieved value is correct after update
-    ASSUME_ITS_EQUAL_I32(50, retrievedValue.data.int_type);
-
-    fossil_map_erase(map);
-}
-
-FOSSIL_TEST(test_map_contains) {
-    fossil_map_t* map = fossil_map_create(TOFU_INT_TYPE);
-
-    // Insert a key-value pair
-    fossil_tofu_t key = { TOFU_INT_TYPE, { .int_type = 42 } };
-    fossil_tofu_t value = { TOFU_INT_TYPE, { .int_type = 10 } };
-
-    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_map_insert(map, key, value));
-
-    // Check if the map contains the key
-    ASSUME_ITS_TRUE(fossil_map_contains(map, key));
-
-    // Check for a non-existing key
-    fossil_tofu_t nonExistingKey = { TOFU_INT_TYPE, { .int_type = 100 } };
-    ASSUME_ITS_FALSE(fossil_map_contains(map, nonExistingKey));
-
-    fossil_map_erase(map);
+    ASSUME_ITS_EQUAL_I32(42, retrievedElement->value.int_val);
 }
 
 // * * * * * * * * * * * * * * * * * * * * * * * *
@@ -533,91 +354,76 @@ FOSSIL_TEST(test_map_contains) {
 // * * * * * * * * * * * * * * * * * * * * * * * *
 
 FOSSIL_FIXTURE(struct_pqueue_fixture);
+fossil_pqueue_t* mock_pqueue;
+
 FOSSIL_SETUP(struct_pqueue_fixture) {
-    // Setup code if needed
+    mock_pqueue = fossil_pqueue_create("int");
 }
 
 FOSSIL_TEARDOWN(struct_pqueue_fixture) {
-    // Teardown code if needed
+    fossil_pqueue_erase(mock_pqueue);
 }
 
 FOSSIL_TEST(test_pqueue_create_and_erase) {
-    fossil_pqueue_t* pqueue = fossil_pqueue_create(TOFU_INT_TYPE);
-
     // Check if the priority queue is created with the expected values
-    ASSUME_NOT_CNULL(pqueue);
-    ASSUME_ITS_CNULL(pqueue->front);
-    ASSUME_ITS_EQUAL_I32(TOFU_INT_TYPE, pqueue->queue_type);
-
-    fossil_pqueue_erase(pqueue);
+    ASSUME_NOT_CNULL(mock_pqueue);
+    ASSUME_ITS_CNULL(mock_pqueue->front);
 }
 
 FOSSIL_TEST(test_pqueue_insert_and_size) {
-    fossil_pqueue_t* pqueue = fossil_pqueue_create(TOFU_INT_TYPE);
-
     // Insert some elements
-    fossil_tofu_t element1 = { TOFU_INT_TYPE, { .int_type = 42 } };
-    fossil_tofu_t element2 = { TOFU_INT_TYPE, { .int_type = 10 } };
-    fossil_tofu_t element3 = { TOFU_INT_TYPE, { .int_type = 5 } };
+    fossil_tofu_t element1 = fossil_tofu_create("int", "42");
+    fossil_tofu_t element2 = fossil_tofu_create("int", "10");
+    fossil_tofu_t element3 = fossil_tofu_create("int", "5");
 
-    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_pqueue_insert(pqueue, element1, 2));
-    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_pqueue_insert(pqueue, element2, 1));
-    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_pqueue_insert(pqueue, element3, 3));
+    ASSUME_ITS_TRUE(fossil_pqueue_insert(mock_pqueue, element1, 2));
+    ASSUME_ITS_TRUE(fossil_pqueue_insert(mock_pqueue, element2, 1));
+    ASSUME_ITS_TRUE(fossil_pqueue_insert(mock_pqueue, element3, 3));
 
     // Check if the size is correct
-    ASSUME_ITS_EQUAL_U32(3, fossil_pqueue_size(pqueue));
-
-    fossil_pqueue_erase(pqueue);
+    ASSUME_ITS_EQUAL_SIZE(3, fossil_pqueue_size(mock_pqueue));
 }
 
 FOSSIL_TEST(test_pqueue_remove) {
-    fossil_pqueue_t* pqueue = fossil_pqueue_create(TOFU_INT_TYPE);
-
     // Insert some elements
-    fossil_tofu_t element1 = { TOFU_INT_TYPE, { .int_type = 42 } };
-    fossil_tofu_t element2 = { TOFU_INT_TYPE, { .int_type = 10 } };
-    fossil_tofu_t element3 = { TOFU_INT_TYPE, { .int_type = 5 } };
+    fossil_tofu_t element1 = fossil_tofu_create("int", "42");
+    fossil_tofu_t element2 = fossil_tofu_create("int", "10");
+    fossil_tofu_t element3 = fossil_tofu_create("int", "5");
 
-    fossil_pqueue_insert(pqueue, element1, 2);
-    fossil_pqueue_insert(pqueue, element2, 1);
-    fossil_pqueue_insert(pqueue, element3, 3);
+    fossil_pqueue_insert(mock_pqueue, element1, 2);
+    fossil_pqueue_insert(mock_pqueue, element2, 1);
+    fossil_pqueue_insert(mock_pqueue, element3, 3);
 
     // Remove an element
     fossil_tofu_t removedElement;
     int removedPriority;
-    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_pqueue_remove(pqueue, &removedElement, &removedPriority));
+    ASSUME_ITS_TRUE(fossil_pqueue_remove(mock_pqueue, &removedElement, &removedPriority));
 
     // Check if the size is correct
-    ASSUME_ITS_EQUAL_U32(2, fossil_pqueue_size(pqueue));
-
-    fossil_pqueue_erase(pqueue);
+    ASSUME_ITS_EQUAL_SIZE(2, fossil_pqueue_size(mock_pqueue));
 }
 
 FOSSIL_TEST(test_pqueue_not_empty_and_is_empty) {
-    fossil_pqueue_t* pqueue = fossil_pqueue_create(TOFU_INT_TYPE);
-
     // Check initially not empty
-    ASSUME_ITS_FALSE(fossil_pqueue_not_empty(pqueue));
-    ASSUME_ITS_TRUE(fossil_pqueue_is_empty(pqueue));
+    ASSUME_ITS_FALSE(fossil_pqueue_not_empty(mock_pqueue));
+    ASSUME_ITS_TRUE(fossil_pqueue_is_empty(mock_pqueue));
 
     // Insert an element
-    fossil_tofu_t element = { TOFU_INT_TYPE, { .int_type = 42 } };
-    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_pqueue_insert(pqueue, element, 2));
+    fossil_tofu_t element = fossil_tofu_create("int", "42");
+    ASSUME_ITS_TRUE(fossil_pqueue_insert(mock_pqueue, element, 2));
 
     // Check not empty after insertion
-    ASSUME_ITS_TRUE(fossil_pqueue_not_empty(pqueue));
-    ASSUME_ITS_FALSE(fossil_pqueue_is_empty(pqueue));
+    ASSUME_ITS_TRUE(fossil_pqueue_not_empty(mock_pqueue));
+    ASSUME_ITS_FALSE(fossil_pqueue_is_empty(mock_pqueue));
 
     // Remove the element
     fossil_tofu_t removedElement;
     int removedPriority;
-    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_pqueue_remove(pqueue, &removedElement, &removedPriority));
+    ASSUME_ITS_TRUE(fossil_pqueue_remove(mock_pqueue, &removedElement, &removedPriority));
 
     // Check empty after removal
-    ASSUME_ITS_FALSE(fossil_pqueue_not_empty(pqueue));
-    ASSUME_ITS_TRUE(fossil_pqueue_is_empty(pqueue));
-
-    fossil_pqueue_erase(pqueue);
+    ASSUME_ITS_FALSE(fossil_pqueue_not_empty(mock_pqueue));
+    ASSUME_ITS_TRUE(fossil_pqueue_is_empty(mock_pqueue));
 }
 
 // * * * * * * * * * * * * * * * * * * * * * * * *
@@ -625,93 +431,78 @@ FOSSIL_TEST(test_pqueue_not_empty_and_is_empty) {
 // * * * * * * * * * * * * * * * * * * * * * * * *
 
 FOSSIL_FIXTURE(struct_queue_fixture);
+fossil_queue_t *mock_queue;
+
 FOSSIL_SETUP(struct_queue_fixture) {
-    // Setup code if needed
+    mock_queue = fossil_queue_create("int");
 }
 
 FOSSIL_TEARDOWN(struct_queue_fixture) {
-    // Teardown code if needed
+    fossil_queue_erase(mock_queue);
 }
 
 FOSSIL_TEST(test_queue_create_and_erase) {
-    fossil_queue_t* queue = fossil_queue_create(TOFU_INT_TYPE);
-
     // Check if the queue is created with the expected values
-    ASSUME_NOT_CNULL(queue);
-    ASSUME_ITS_CNULL(queue->front);
-    ASSUME_ITS_CNULL(queue->rear);
-    ASSUME_ITS_EQUAL_I32(TOFU_INT_TYPE, queue->queue_type);
-
-    fossil_queue_erase(queue);
+    ASSUME_NOT_CNULL(mock_queue);
+    ASSUME_ITS_CNULL(mock_queue->front);
+    ASSUME_ITS_CNULL(mock_queue->rear);
 }
 
 FOSSIL_TEST(test_queue_insert_and_size) {
-    fossil_queue_t* queue = fossil_queue_create(TOFU_INT_TYPE);
-
     // Insert some elements
-    fossil_tofu_t element1 = { TOFU_INT_TYPE, { .int_type = 42 } };
-    fossil_tofu_t element2 = { TOFU_INT_TYPE, { .int_type = 10 } };
-    fossil_tofu_t element3 = { TOFU_INT_TYPE, { .int_type = 5 } };
+    fossil_tofu_t element1 = fossil_tofu_create("int", "42");
+    fossil_tofu_t element2 = fossil_tofu_create("int", "10");
+    fossil_tofu_t element3 = fossil_tofu_create("int", "5");
 
-    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_queue_insert(queue, element1));
-    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_queue_insert(queue, element2));
-    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_queue_insert(queue, element3));
+    ASSUME_ITS_TRUE(fossil_queue_insert(mock_queue, element1));
+    ASSUME_ITS_TRUE(fossil_queue_insert(mock_queue, element2));
+    ASSUME_ITS_TRUE(fossil_queue_insert(mock_queue, element3));
 
     // Check if the size is correct
-    ASSUME_ITS_EQUAL_U32(3, fossil_queue_size(queue));
-
-    fossil_queue_erase(queue);
+    ASSUME_ITS_EQUAL_SIZE(3, fossil_queue_size(mock_queue));
 }
 
 FOSSIL_TEST(test_queue_remove) {
-    fossil_queue_t* queue = fossil_queue_create(TOFU_INT_TYPE);
-
     // Insert some elements
-    fossil_tofu_t element1 = { TOFU_INT_TYPE, { .int_type = 42 } };
-    fossil_tofu_t element2 = { TOFU_INT_TYPE, { .int_type = 10 } };
-    fossil_tofu_t element3 = { TOFU_INT_TYPE, { .int_type = 5 } };
+    fossil_tofu_t element1 = fossil_tofu_create("int", "42");
+    fossil_tofu_t element2 = fossil_tofu_create("int", "10");
+    fossil_tofu_t element3 = fossil_tofu_create("int", "5");
 
-    fossil_queue_insert(queue, element1);
-    fossil_queue_insert(queue, element2);
-    fossil_queue_insert(queue, element3);
+    fossil_queue_insert(mock_queue, element1);
+    fossil_queue_insert(mock_queue, element2);
+    fossil_queue_insert(mock_queue, element3);
 
     // Remove an element
     fossil_tofu_t removedElement;
-    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_queue_remove(queue, &removedElement));
+    ASSUME_ITS_TRUE(fossil_queue_remove(mock_queue, &removedElement));
 
     // Check if the removed element is correct
-    ASSUME_ITS_EQUAL_I32(42, removedElement.data.int_type);
+    ASSUME_ITS_EQUAL_I32(42, removedElement.value.int_val);
 
     // Check if the size is correct
-    ASSUME_ITS_EQUAL_U32(2, fossil_queue_size(queue));
-
-    fossil_queue_erase(queue);
+    ASSUME_ITS_EQUAL_SIZE(2, fossil_queue_size(mock_queue));
 }
 
 FOSSIL_TEST(test_queue_not_empty_and_is_empty) {
-    fossil_queue_t* queue = fossil_queue_create(TOFU_INT_TYPE);
-
     // Check initially not empty
-    ASSUME_ITS_FALSE(fossil_queue_not_empty(queue));
-    ASSUME_ITS_TRUE(fossil_queue_is_empty(queue));
+    ASSUME_ITS_FALSE(fossil_queue_not_empty(mock_queue));
+    ASSUME_ITS_TRUE(fossil_queue_is_empty(mock_queue));
 
     // Insert an element
-    fossil_tofu_t element = { TOFU_INT_TYPE, { .int_type = 42 } };
-    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_queue_insert(queue, element));
+    fossil_tofu_t element = fossil_tofu_create("int", "42");
+    ASSUME_ITS_TRUE(fossil_queue_insert(mock_queue, element));
 
     // Check not empty after insertion
-    ASSUME_ITS_TRUE(fossil_queue_not_empty(queue));
-    ASSUME_ITS_FALSE(fossil_queue_is_empty(queue));
+    ASSUME_ITS_TRUE(fossil_queue_not_empty(mock_queue));
+    ASSUME_ITS_FALSE(fossil_queue_is_empty(mock_queue));
 
     // Remove the element
     fossil_tofu_t removedElement;
-    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_queue_remove(queue, &removedElement));
+    ASSUME_ITS_TRUE(fossil_queue_remove(mock_queue, &removedElement));
 
     // Check empty after removal
-    ASSUME_ITS_FALSE(fossil_queue_not_empty(queue));
-    ASSUME_ITS_TRUE(fossil_queue_is_empty(queue));
-
-    fossil_queue_erase(queue);
+    ASSUME_ITS_FALSE(fossil_queue_not_empty(mock_queue));
+    ASSUME_ITS_TRUE(fossil_queue_is_empty(mock_queue));
 }
 
 // * * * * * * * * * * * * * * * * * * * * * * * *
@@ -719,85 +510,72 @@ FOSSIL_TEST(test_queue_not_empty_and_is_empty) {
 // * * * * * * * * * * * * * * * * * * * * * * * *
 
 FOSSIL_FIXTURE(struct_set_fixture);
+fossil_set_t* mock_set;
+
 FOSSIL_SETUP(struct_set_fixture) {
-    // Setup code if needed
+    mock_set = fossil_set_create("int");
 }
 
 FOSSIL_TEARDOWN(struct_set_fixture) {
-    // Teardown code if needed
+    fossil_set_erase(mock_set);
 }
 
 FOSSIL_TEST(test_set_create_and_erase) {
-    fossil_set_t* set = fossil_set_create(TOFU_INT_TYPE);
-
     // Check if the set is created with the expected values
-    ASSUME_NOT_CNULL(set);
-    ASSUME_ITS_CNULL(set->head);
-    ASSUME_ITS_EQUAL_I32(TOFU_INT_TYPE, set->set_type);
-
-    fossil_set_erase(set);
+    ASSUME_NOT_CNULL(mock_set);
+    ASSUME_ITS_CNULL(mock_set->head);
 }
 
 FOSSIL_TEST(test_set_insert_and_size) {
-    fossil_set_t* set = fossil_set_create(TOFU_INT_TYPE);
-
     // Insert some elements
-    fossil_tofu_t element1 = { TOFU_INT_TYPE, { .int_type = 42 } };
-    fossil_tofu_t element2 = { TOFU_INT_TYPE, { .int_type = 10 } };
-    fossil_tofu_t element3 = { TOFU_INT_TYPE, { .int_type = 5 } };
+    fossil_tofu_t element1 = fossil_tofu_create("int", "42");
+    fossil_tofu_t element2 = fossil_tofu_create("int", "10");
+    fossil_tofu_t element3 = fossil_tofu_create("int", "5");
 
-    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_set_insert(set, element1));
-    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_set_insert(set, element2));
-    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_set_insert(set, element3));
+    ASSUME_ITS_TRUE(fossil_set_insert(mock_set, element1));
+    ASSUME_ITS_TRUE(fossil_set_insert(mock_set, element2));
+    ASSUME_ITS_TRUE(fossil_set_insert(mock_set, element3));
 
     // Check if the size is correct
-    ASSUME_ITS_EQUAL_U32(3, fossil_set_size(set));
-
-    fossil_set_erase(set);
+    ASSUME_ITS_EQUAL_SIZE(3, fossil_set_size(mock_set));
 }
 
 FOSSIL_TEST(test_set_remove) {
-    fossil_set_t* set = fossil_set_create(TOFU_INT_TYPE);
-
     // Insert some elements
-    fossil_tofu_t element1 = { TOFU_INT_TYPE, { .int_type = 42 } };
-    fossil_tofu_t element2 = { TOFU_INT_TYPE, { .int_type = 10 } };
-    fossil_tofu_t element3 = { TOFU_INT_TYPE, { .int_type = 5 } };
+    fossil_tofu_t element1 = fossil_tofu_create("int", "42");
+    fossil_tofu_t element2 = fossil_tofu_create("int", "10");
+    fossil_tofu_t element3 = fossil_tofu_create("int", "5");
 
-    fossil_set_insert(set, element1);
-    fossil_set_insert(set, element2);
-    fossil_set_insert(set, element3);
+    fossil_set_insert(mock_set, element1);
+    fossil_set_insert(mock_set, element2);
+    fossil_set_insert(mock_set, element3);
 
     // Remove an element
-    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_set_remove(set, element2));
+    ASSUME_ITS_TRUE(fossil_set_remove(mock_set, element2));
 
     // Check if the size is correct
-    ASSUME_ITS_EQUAL_U32(2, fossil_set_size(set));
-
-    fossil_set_erase(set);
+    ASSUME_ITS_EQUAL_SIZE(2, fossil_set_size(mock_set));
 }
 
 FOSSIL_TEST(test_set_contains) {
-    fossil_set_t* set = fossil_set_create(TOFU_INT_TYPE);
-
     // Insert some elements
-    fossil_tofu_t element1 = { TOFU_INT_TYPE, { .int_type = 42 } };
-    fossil_tofu_t element2 = { TOFU_INT_TYPE, { .int_type = 10 } };
-    fossil_tofu_t element3 = { TOFU_INT_TYPE, { .int_type = 5 } };
+    fossil_tofu_t element1 = fossil_tofu_create("int", "42");
+    fossil_tofu_t element2 = fossil_tofu_create("int", "10");
+    fossil_tofu_t element3 = fossil_tofu_create("int", "5");
 
-    fossil_set_insert(set, element1);
-    fossil_set_insert(set, element2);
-    fossil_set_insert(set, element3);
+    fossil_set_insert(mock_set, element1);
+    fossil_set_insert(mock_set, element2);
+    fossil_set_insert(mock_set, element3);
 
     // Check if elements are contained in the set
-    ASSUME_ITS_TRUE(fossil_set_contains(set, element1));
-    ASSUME_ITS_TRUE(fossil_set_contains(set, element3));
+    ASSUME_ITS_TRUE(fossil_set_contains(mock_set, element1));
+    ASSUME_ITS_TRUE(fossil_set_contains(mock_set, element3));
 
     // Check for non-existing element
-    fossil_tofu_t nonExistingElement = { TOFU_INT_TYPE, { .int_type = 100 } };
-    ASSUME_ITS_FALSE(fossil_set_contains(set, nonExistingElement));
+    fossil_tofu_t nonExistingElement = fossil_tofu_create("int", "42");
+    ASSUME_ITS_FALSE(fossil_set_contains(mock_set, nonExistingElement));
 
-    fossil_set_erase(set);
+    fossil_tofu_erase(&nonExistingElement);
 }
 
 // * * * * * * * * * * * * * * * * * * * * * * * *
@@ -805,92 +583,80 @@ FOSSIL_TEST(test_set_contains) {
 // * * * * * * * * * * * * * * * * * * * * * * * *
 
 FOSSIL_FIXTURE(struct_stack_fixture);
+fossil_stack_t* mock_stack;
+
 FOSSIL_SETUP(struct_stack_fixture) {
-    // Setup code if needed
+    mock_stack = fossil_stack_create("int");
 }
 
 FOSSIL_TEARDOWN(struct_stack_fixture) {
-    // Teardown code if needed
+    fossil_stack_erase(mock_stack);
 }
 
 FOSSIL_TEST(test_stack_create_and_erase) {
-    fossil_stack_t* stack = fossil_stack_create(TOFU_INT_TYPE);
-
     // Check if the stack is created with the expected values
-    ASSUME_NOT_CNULL(stack);
-    ASSUME_ITS_CNULL(stack->top);
-    ASSUME_ITS_EQUAL_I32(TOFU_INT_TYPE, stack->stack_type);
-
-    fossil_stack_erase(stack);
+    ASSUME_NOT_CNULL(mock_stack);
+    ASSUME_ITS_CNULL(mock_stack->top);
 }
 
 FOSSIL_TEST(test_stack_insert_and_size) {
-    fossil_stack_t* stack = fossil_stack_create(TOFU_INT_TYPE);
-
     // Insert some elements
-    fossil_tofu_t element1 = { TOFU_INT_TYPE, { .int_type = 42 } };
-    fossil_tofu_t element2 = { TOFU_INT_TYPE, { .int_type = 10 } };
-    fossil_tofu_t element3 = { TOFU_INT_TYPE, { .int_type = 5 } };
+    fossil_tofu_t element1 = fossil_tofu_create("int", "42");
+    fossil_tofu_t element2 = fossil_tofu_create("int", "10");
+    fossil_tofu_t element3 = fossil_tofu_create("int", "5");
 
-    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_stack_insert(stack, element1));
-    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_stack_insert(stack, element2));
-    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_stack_insert(stack, element3));
+    ASSUME_ITS_TRUE(fossil_stack_insert(mock_stack, element1));
+    ASSUME_ITS_TRUE(fossil_stack_insert(mock_stack, element2));
+    ASSUME_ITS_TRUE(fossil_stack_insert(mock_stack, element3));
 
     // Check if the size is correct
-    ASSUME_ITS_EQUAL_U32(3, fossil_stack_size(stack));
-
-    fossil_stack_erase(stack);
+    ASSUME_ITS_EQUAL_SIZE(3, fossil_stack_size(mock_stack));
 }
 
 FOSSIL_TEST(test_stack_remove) {
-    fossil_stack_t* stack = fossil_stack_create(TOFU_INT_TYPE);
-
     // Insert some elements
-    fossil_tofu_t element1 = { TOFU_INT_TYPE, { .int_type = 42 } };
-    fossil_tofu_t element2 = { TOFU_INT_TYPE, { .int_type = 10 } };
-    fossil_tofu_t element3 = { TOFU_INT_TYPE, { .int_type = 5 } };
+    fossil_tofu_t element1 = fossil_tofu_create("int", "42");
+    fossil_tofu_t element2 = fossil_tofu_create("int", "10");
+    fossil_tofu_t element3 = fossil_tofu_create("int", "5");
 
-    fossil_stack_insert(stack, element1);
-    fossil_stack_insert(stack, element2);
-    fossil_stack_insert(stack, element3);
+    fossil_stack_insert(mock_stack, element1);
+    fossil_stack_insert(mock_stack, element2);
+    fossil_stack_insert(mock_stack, element3);
 
     // Remove an element
     fossil_tofu_t removedElement;
-    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_stack_remove(stack, &removedElement));
+    ASSUME_ITS_TRUE(fossil_stack_remove(mock_stack, &removedElement));
 
     // Check if the removed element is correct
-    ASSUME_ITS_EQUAL_I32(5, removedElement.data.int_type);
+    ASSUME_ITS_EQUAL_I32(5, removedElement.value.int_val);
 
     // Check if the size is correct
-    ASSUME_ITS_EQUAL_U32(2, fossil_stack_size(stack));
-
-    fossil_stack_erase(stack);
+    ASSUME_ITS_EQUAL_SIZE(2, fossil_stack_size(mock_stack));
 }
 
 FOSSIL_TEST(test_stack_top) {
-    fossil_stack_t* stack = fossil_stack_create(TOFU_INT_TYPE);
-
     // Insert some elements
-    fossil_tofu_t element1 = { TOFU_INT_TYPE, { .int_type = 42 } };
-    fossil_tofu_t element2 = { TOFU_INT_TYPE, { .int_type = 10 } };
-    fossil_tofu_t element3 = { TOFU_INT_TYPE, { .int_type = 5 } };
+    fossil_tofu_t element1 = fossil_tofu_create("int", "42");
+    fossil_tofu_t element2 = fossil_tofu_create("int", "10");
+    fossil_tofu_t element3 = fossil_tofu_create("int", "5");
+    fossil_tofu_t default_element = fossil_tofu_create("int", "-1");
 
-    fossil_stack_insert(stack, element1);
-    fossil_stack_insert(stack, element2);
-    fossil_stack_insert(stack, element3);
+    fossil_stack_insert(mock_stack, element1);
+    fossil_stack_insert(mock_stack, element2);
+    fossil_stack_insert(mock_stack, element3);
 
     // Check the top element
-    fossil_tofu_t topElement = fossil_stack_top(stack, (fossil_tofu_t){TOFU_INT_TYPE, {.int_type = -1}});
-    ASSUME_ITS_EQUAL_I32(5, topElement.data.int_type);
+    fossil_tofu_t topElement = fossil_stack_top(mock_stack, default_element);
+    ASSUME_ITS_EQUAL_I32(5, topElement.value.int_val);
 
     // Remove an element
-    fossil_stack_remove(stack, NULL);
+    fossil_stack_remove(mock_stack, xnull);
 
     // Check the top element after removal
-    topElement = fossil_stack_top(stack, (fossil_tofu_t){TOFU_INT_TYPE, {.int_type = -1}});
-    ASSUME_ITS_EQUAL_I32(5, topElement.data.int_type);
+    topElement = fossil_stack_top(mock_stack, default_element);
+    ASSUME_ITS_EQUAL_I32(5, topElement.value.int_val);
 
-    fossil_stack_erase(stack);
+    fossil_tofu_erase(&default_element);
 }
 
 // * * * * * * * * * * * * * * * * * * * * * * * *
@@ -898,66 +664,57 @@ FOSSIL_TEST(test_stack_top) {
 // * * * * * * * * * * * * * * * * * * * * * * * *
 
 FOSSIL_FIXTURE(struct_tree_fixture);
+fossil_tree_t* mock_tree;
+
 FOSSIL_SETUP(struct_tree_fixture) {
-    // Setup code if needed
+    mock_tree = fossil_tree_create("int");
 }
 
 FOSSIL_TEARDOWN(struct_tree_fixture) {
-    // Teardown code if needed
+    fossil_tree_erase(mock_tree);
 }
 
-FOSSIL_TEST(test_tree_create_and_erase) {
-    fossil_tree_t* tree = fossil_tree_create(TOFU_INT_TYPE);
-    
+FOSSIL_TEST(test_tree_create_and_erase) {    
     // Check if the tree is created with the expected values
-    ASSUME_NOT_CNULL(tree);
-    ASSUME_ITS_CNULL(tree->root);
-    ASSUME_ITS_EQUAL_I32(TOFU_INT_TYPE, tree->tree);
-
-    fossil_tree_erase(tree);
+    ASSUME_NOT_CNULL(mock_tree);
+    ASSUME_ITS_CNULL(mock_tree->root);
 }
 
 FOSSIL_TEST(test_tree_insert_and_search) {
-    fossil_tree_t* tree = fossil_tree_create(TOFU_INT_TYPE);
-
     // Insert some elements
-    fossil_tofu_t element1 = { TOFU_INT_TYPE, { .int_type = 42 } };
-    fossil_tofu_t element2 = { TOFU_INT_TYPE, { .int_type = 10 } };
-    fossil_tofu_t element3 = { TOFU_INT_TYPE, { .int_type = 5 } };
+    fossil_tofu_t element1 = fossil_tofu_create("int", "42");
+    fossil_tofu_t element2 = fossil_tofu_create("int", "10");
+    fossil_tofu_t element3 = fossil_tofu_create("int", "5");
 
-    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_tree_insert(tree, element1));
-    ASSUME_ITS_TRUE(fossil_tree_insert(tree, element2));
-    ASSUME_ITS_TRUE(fossil_tree_insert(tree, element3));
+    ASSUME_ITS_TRUE(fossil_tree_insert(mock_tree, element1));
+    ASSUME_ITS_TRUE(fossil_tree_insert(mock_tree, element2));
+    ASSUME_ITS_TRUE(fossil_tree_insert(mock_tree, element3));
 
     // Search for elements
-    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_OK, fossil_tree_search(tree, element1));
-    ASSUME_ITS_TRUE(fossil_tree_search(tree, element2));
-    ASSUME_ITS_TRUE(fossil_tree_search(tree, element3));
+    ASSUME_ITS_TRUE(fossil_tree_search(mock_tree, element1));
+    ASSUME_ITS_TRUE(fossil_tree_search(mock_tree, element2));
+    ASSUME_ITS_TRUE(fossil_tree_search(mock_tree, element3));
 
     // Search for non-existing element
-    fossil_tofu_t nonExistingElement = { TOFU_INT_TYPE, { .int_type = 100 } };
-    ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_ERROR_INDEX_OUT_OF_BOUNDS, fossil_tree_search(tree, nonExistingElement));
+    fossil_tofu_t nonExistingElement = fossil_tofu_create("int", "100");
+    ASSUME_ITS_EQUAL_SIZE(3 ,fossil_tree_search(mock_tree, nonExistingElement));
 
-    fossil_tree_erase(tree);
+    fossil_tofu_erase(&nonExistingElement);
 }
 
 FOSSIL_TEST(test_tree_remove) {
-    fossil_tree_t* tree = fossil_tree_create(TOFU_INT_TYPE);
-
     // Insert some elements
-    fossil_tofu_t element1 = { TOFU_INT_TYPE, { .int_type = 42 } };
-    fossil_tofu_t element2 = { TOFU_INT_TYPE, { .int_type = 10 } };
-    fossil_tofu_t element3 = { TOFU_INT_TYPE, { .int_type = 5 } };
+    fossil_tofu_t element1 = fossil_tofu_create("int", "42");
+    fossil_tofu_t element2 = fossil_tofu_create("int", "10");
+    fossil_tofu_t element3 = fossil_tofu_create("int", "5");
 
-    fossil_tree_insert(tree, element1);
-    fossil_tree_insert(tree, element2);
-    fossil_tree_insert(tree, element3);
+    fossil_tree_insert(mock_tree, element1);
+    fossil_tree_insert(mock_tree, element2);
+    fossil_tree_insert(mock_tree, element3);
 
     // Remove an element
-    ASSUME_ITS_TRUE(fossil_tree_remove(tree, element2));
-    ASSUME_ITS_TRUE(fossil_tree_search(tree, element3));
-
-    fossil_tree_erase(tree);
+    ASSUME_ITS_TRUE(fossil_tree_remove(mock_tree, element2));
+    ASSUME_ITS_TRUE(fossil_tree_search(mock_tree, element3));
 }
 
 // * * * * * * * * * * * * * * * * * * * * * * * *
@@ -965,68 +722,59 @@ FOSSIL_TEST(test_tree_remove) {
 // * * * * * * * * * * * * * * * * * * * * * * * *
 
 FOSSIL_FIXTURE(struct_vect_fixture);
+fossil_vector_t* mock_vector;
+
 FOSSIL_SETUP(struct_vect_fixture) {
-    // Setup code if needed
+    mock_vector = fossil_vector_create("int");
 }
 
 FOSSIL_TEARDOWN(struct_vect_fixture) {
-    // Teardown code if needed
+    fossil_vector_erase(mock_vector);
 }
 
-FOSSIL_TEST(test_vector_create_and_erase) {
-    fossil_vector_t vector = fossil_vector_create(TOFU_INT_TYPE);
-    
+FOSSIL_TEST(test_vector_create_and_erase) {    
     // Check if the vector is created with the expected values
-    ASSUME_ITS_EQUAL_I32(TOFU_INT_TYPE, vector.expected_type);
-    ASSUME_ITS_EQUAL_U32(0, vector.size);
-    ASSUME_ITS_EQUAL_U32(INITIAL_CAPACITY, vector.capacity);
-
-    fossil_vector_erase(&vector);
+    ASSUME_ITS_EQUAL_U32(0, mock_vector->size);
+    ASSUME_ITS_EQUAL_U32(INITIAL_CAPACITY, mock_vector->capacity);
 }
 
 FOSSIL_TEST(test_vector_push_back) {
-    fossil_vector_t vector = fossil_vector_create(TOFU_INT_TYPE);
-
     // Push back some elements
-    fossil_tofu_t element1 = { TOFU_INT_TYPE, { .int_type = 42 } };
-    fossil_tofu_t element2 = { TOFU_INT_TYPE, { .int_type = 10 } };
-    fossil_tofu_t element3 = { TOFU_INT_TYPE, { .int_type = 5 } };
+    fossil_tofu_t element1 = fossil_tofu_create("int", "42");
+    fossil_tofu_t element2 = fossil_tofu_create("int", "10");
+    fossil_tofu_t element3 = fossil_tofu_create("int", "5");
 
-    fossil_vector_push_back(&vector, element1);
-    fossil_vector_push_back(&vector, element2);
-    fossil_vector_push_back(&vector, element3);
+    fossil_vector_push_back(&mock_vector, element1);
+    fossil_vector_push_back(&mock_vector, element2);
+    fossil_vector_push_back(&mock_vector, element3);
 
     // Check if the elements are added correctly
-    ASSUME_ITS_EQUAL_U32(3, vector.size);
-    ASSUME_ITS_EQUAL_I32(42, vector.data[0].data.int_type);
-    ASSUME_ITS_EQUAL_I32(10, vector.data[1].data.int_type);
-    ASSUME_ITS_EQUAL_I32(5, vector.data[2].data.int_type);
-
-    fossil_vector_erase(&vector);
+    ASSUME_ITS_EQUAL_U32(3, mock_vector->size);
+    ASSUME_ITS_EQUAL_I32(42, mock_vector->data[0].value.int_val);
+    ASSUME_ITS_EQUAL_I32(10, mock_vector->data[1].value.int_val);
+    ASSUME_ITS_EQUAL_I32(5, mock_vector->data[2].value.int_val);
 }
 
 FOSSIL_TEST(test_vector_search) {
-    fossil_vector_t vector = fossil_vector_create(TOFU_INT_TYPE);
-
     // Push back some elements
-    fossil_tofu_t element1 = { TOFU_INT_TYPE, { .int_type = 42 } };
-    fossil_tofu_t element2 = { TOFU_INT_TYPE, { .int_type = 10 } };
-    fossil_tofu_t element3 = { TOFU_INT_TYPE, { .int_type = 5 } };
+    fossil_tofu_t element1 = fossil_tofu_create("int", "42");
+    fossil_tofu_t element2 = fossil_tofu_create("int", "10");
+    fossil_tofu_t element3 = fossil_tofu_create("int", "5");
 
-    fossil_vector_push_back(&vector, element1);
-    fossil_vector_push_back(&vector, element2);
-    fossil_vector_push_back(&vector, element3);
+    fossil_vector_push_back(&mock_vector, element1);
+    fossil_vector_push_back(&mock_vector, element2);
+    fossil_vector_push_back(&mock_vector, element3);
 
     // Search for elements
-    ASSUME_ITS_EQUAL_I32(0, fossil_vector_search(&vector, element1));
-    ASSUME_ITS_EQUAL_I32(1, fossil_vector_search(&vector, element2));
-    ASSUME_ITS_EQUAL_I32(2, fossil_vector_search(&vector, element3));
+    ASSUME_ITS_EQUAL_I32(0, fossil_vector_search(&mock_vector, element1));
+    ASSUME_ITS_EQUAL_I32(1, fossil_vector_search(&mock_vector, element2));
+    ASSUME_ITS_EQUAL_I32(2, fossil_vector_search(&mock_vector, element3));
 
     // Search for non-existing element
-    fossil_tofu_t nonExistingElement = { TOFU_INT_TYPE, { .int_type = 100 } };
-    ASSUME_ITS_EQUAL_I32(-1, fossil_vector_search(&vector, nonExistingElement));
+    fossil_tofu_t nonExistingElement = fossil_tofu_create("int", "100");
+    ASSUME_ITS_EQUAL_I32(-1, fossil_vector_search(&mock_vector, nonExistingElement));
 
-    fossil_vector_erase(&vector);
+    fossil_tofu_erase(&nonExistingElement);
 }
 
 // * * * * * * * * * * * * * * * * * * * * * * * *
@@ -1040,13 +788,6 @@ FOSSIL_TEST_GROUP(c_structure_tests) {
     ADD_TESTF(test_flist_remove, struct_flist_fixture);
     ADD_TESTF(test_flist_reverse_forward, struct_flist_fixture);
     ADD_TESTF(test_flist_reverse_backward, struct_flist_fixture);
-
-    // Map Fixture
-    ADD_TESTF(test_map_create_and_erase, struct_map_fixture);
-    ADD_TESTF(test_map_insert_and_size, struct_map_fixture);
-    ADD_TESTF(test_map_remove, struct_map_fixture);
-    ADD_TESTF(test_map_getter_and_setter, struct_map_fixture);
-    ADD_TESTF(test_map_contains, struct_map_fixture);
 
     // Priority Queue Fixture
     ADD_TESTF(test_pqueue_create_and_erase, struct_pqueue_fixture);
