@@ -111,7 +111,7 @@ enum {
  * @return A constant string representing the library's version number.
  */
 inline const char* fossil_version(void) {
-    return "1.0.1";
+    return "1.0.2";
 }
 
 /**

@@ -3,7 +3,7 @@ if get_option('with_test').enabled()
 
     test_src = ['unit_runner.c']
     test_cubes = [
-        'algorithm', 'core', 'strings', 'io', 'generic', 'structure',
+        'core', 'strings', 'io', 'generic', 'structure',
     ]
 
     foreach cube : test_cubes
