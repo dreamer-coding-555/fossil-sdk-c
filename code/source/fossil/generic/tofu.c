@@ -133,7 +133,7 @@ void fossil_tofu_memorize(fossil_tofu_t *tofu) {
 void fossil_tofu_print(fossil_tofu_t tofu) {
     switch (tofu.type) {
         case FOSSIL_TOFU_TYPE_INT:
-            printf("int: %lld\n", tofu.value.int_val);
+            printf("int: %ld\n", (long int)tofu.value.int_val);
             break;
         case FOSSIL_TOFU_TYPE_UINT:
             printf("uint: %llu\n", (unsigned long long)tofu.value.uint_val);
