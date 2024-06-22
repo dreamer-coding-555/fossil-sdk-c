@@ -40,9 +40,21 @@ size_t fossil_tofu_actionof_filter(fossil_tofu_t *array, size_t size, bool (*pre
     return j;
 }
 
+// Original comparison function signature
+int compare_fossil_tofu(fossil_tofu_t a, fossil_tofu_t b) {
+    fossil_tofu_compare(&a, &b);
+}
+
+// Wrapper function to match qsort's required signature
+int compare_fossil_tofu_wrapper(const void *a, const void *b) {
+    fossil_tofu_t *arg1 = (fossil_tofu_t *)a;
+    fossil_tofu_t *arg2 = (fossil_tofu_t *)b;
+    return compare_fossil_tofu(*arg1, *arg2);
+}
+
 // Function to sort elements in an array
 void fossil_tofu_actionof_sort(fossil_tofu_t *array, size_t size, int (*compare)(fossil_tofu_t, fossil_tofu_t)) {
-    qsort(array, size, sizeof(fossil_tofu_t), (int (*)(const void*, const void*))compare);
+    qsort(array, size, sizeof(fossil_tofu_t), compare_fossil_tofu_wrapper);
 }
 
 // Function to search for an element in an array
