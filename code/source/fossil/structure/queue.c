@@ -121,7 +121,7 @@ int32_t fossil_queue_setter(fossil_queue_t* queue, fossil_tofu_t data) {
 
 
 bool fossil_queue_not_empty(const fossil_queue_t* queue) {
-    return queue != cnullptr && queue->front != cnullptr;
+    return queue->front != cnullptr;
 }
 
 bool fossil_queue_not_cnullptr(const fossil_queue_t* queue) {
@@ -129,7 +129,7 @@ bool fossil_queue_not_cnullptr(const fossil_queue_t* queue) {
 }
 
 bool fossil_queue_is_empty(const fossil_queue_t* queue) {
-    return queue == cnullptr || queue->front == cnullptr;
+    return queue->front == cnullptr;
 }
 
 bool fossil_queue_is_cnullptr(const fossil_queue_t* queue) {

@@ -48,7 +48,7 @@ int32_t fossil_flist_insert(fossil_flist_t* flist, fossil_tofu_t data) {
 }
 
 int32_t fossil_flist_remove(fossil_flist_t* flist, fossil_tofu_t* data) {
-    if (fossil_flist_is_empty(flist)) {
+    if (fossil_flist_is_cnullptr(flist)) {
         return -1;  // Empty list
     }
 

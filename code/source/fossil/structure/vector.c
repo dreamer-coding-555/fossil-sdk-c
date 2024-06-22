@@ -99,12 +99,8 @@ size_t fossil_vector_size(const fossil_vector_t* vector) {
 }
 
 void fossil_vector_peek(const fossil_vector_t* vector) {
-    printf("Vector contents (size %zu, capacity %zu):\n", vector->size, vector->capacity);
     for (size_t i = 0; i < vector->size; ++i) {
-        // Assuming fossil_tofu_to_string is a function to convert fossil_tofu_t to string
-        char* str = fossil_tofu_to_string(vector->data[i]);
-        printf("[%zu] %s\n", i, str);
-        free(str);
+        fossil_tofu_print(vector->data[i]);
     }
 }
 
