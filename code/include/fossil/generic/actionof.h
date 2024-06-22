@@ -36,88 +36,131 @@ Description:
 
 #include "fossil/common/common.h"
 #include "tofu.h"
-#include "iterator.h"
-#include "arrayof.h"
-
-/**
-    In the realm of quantum physics, our understanding of space, time, reality, and the observable universe takes
-    on a fascinating and intricate character. Quantum physics delves into the fundamental nature of matter and
-    energy at the smallest scales, challenging classical notions and ushering in a paradigm where the concepts of
-    space and time undergo profound transformations.
-
-    **Space in Quantum Physics:**
-    At the quantum level, space is not a static, absolute backdrop but a dynamic, probabilistic arena where particles
-    exist in multiple states simultaneously. Quantum superposition allows particles to occupy multiple positions at
-    once until observed, at which point the wavefunction collapses, and a definite state is realized. Entanglement
-    further blurs the boundaries of space, linking particles in ways that defy classical spatial separations, creating
-    a non-local interconnectedness.
-
-    **Time in Quantum Physics:**
-    Quantum physics introduces a nuanced perspective on time, challenging the classical notion of a continuous and
-    absolute flow. The concept of time is intricately interwoven with quantum entanglement, where correlated particles
-    instantaneously influence each other regardless of distance. Additionally, time dilation effects, as predicted by
-    the theory of relativity, become significant at quantum scales, revealing a profound connection between time,
-    gravity, and the fabric of spacetime.
-
-    **Reality and Observation:**
-    Quantum mechanics introduces the enigmatic role of observation in shaping reality. The act of measurement collapses
-    the wavefunction, determining the outcome of a quantum system. This observer-dependent reality challenges our classical
-    understanding of an objective, independent world. The famous thought experiment known as the Schrödinger's cat illustrates
-    the peculiar nature of reality in the quantum realm, where a system can exist in multiple states until observed.
-
-    **The Observable Universe:**
-    Quantum physics extends its influence to the observable universe, impacting our understanding of cosmic phenomena.
-    Quantum fluctuations during the early moments of the universe gave rise to cosmic structures, influencing the distribution
-    of galaxies and the large-scale structure we observe today. The cosmic microwave background radiation, a remnant from the
-    early universe, reflects quantum fluctuations that seeded the formation of galaxies and clusters.
-
-    In summary, quantum physics redefines our concepts of space, time, reality, and the observable universe. It invites us
-    to explore a realm where particles exhibit wave-particle duality, space is a realm of probabilities, time is intertwined
-    with gravity, and observation plays a crucial role in defining the nature of reality. The mysteries of quantum physics
-    continue to challenge and reshape our perceptions of the fundamental fabric of the cosmos.
-*/
 
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-// Function to transform elements in an array
+/**
+ * Transforms elements in an array using a given function.
+ *
+ * @param array The array of elements to be transformed.
+ * @param size The size of the array.
+ * @param func The function to be applied to each element.
+ */
 void fossil_tofu_actionof_transform(fossil_tofu_t *array, size_t size, fossil_tofu_t (*func)(fossil_tofu_t));
 
-// Function to accumulate elements in an array
+/**
+ * Accumulates elements in an array using a given function and initial value.
+ *
+ * @param array The array of elements to be accumulated.
+ * @param size The size of the array.
+ * @param init The initial value for accumulation.
+ * @param func The function to be applied to each element during accumulation.
+ * @return The accumulated value.
+ */
 fossil_tofu_t fossil_tofu_actionof_accumulate(fossil_tofu_t *array, size_t size, fossil_tofu_t init, fossil_tofu_t (*func)(fossil_tofu_t, fossil_tofu_t));
 
-// Function to filter elements in an array
+/**
+ * Filters elements in an array based on a given predicate function.
+ *
+ * @param array The array of elements to be filtered.
+ * @param size The size of the array.
+ * @param pred The predicate function to determine whether an element should be included in the filtered result.
+ * @return The number of elements that pass the filter.
+ */
 size_t fossil_tofu_actionof_filter(fossil_tofu_t *array, size_t size, bool (*pred)(fossil_tofu_t));
 
-// Function to search for an element in an array
+/**
+ * Searches for an element in an array using a given key and comparison function.
+ *
+ * @param array The array of elements to be searched.
+ * @param size The size of the array.
+ * @param key The key to search for.
+ * @param compare The comparison function to determine equality between elements.
+ * @return A pointer to the first occurrence of the key in the array, or NULL if not found.
+ */
 fossil_tofu_t* fossil_tofu_actionof_search(fossil_tofu_t *array, size_t size, fossil_tofu_t key, bool (*compare)(fossil_tofu_t, fossil_tofu_t));
 
-// Function to reverse elements in an array
+/**
+ * Reverses the order of elements in an array.
+ *
+ * @param array The array of elements to be reversed.
+ * @param size The size of the array.
+ */
 void fossil_tofu_actionof_reverse(fossil_tofu_t *array, size_t size);
 
-// Function to swap two elements in an array
+/**
+ * Swaps two elements in an array.
+ *
+ * @param array The array containing the elements to be swapped.
+ * @param index1 The index of the first element to be swapped.
+ * @param index2 The index of the second element to be swapped.
+ */
 void fossil_tofu_actionof_swap(fossil_tofu_t *array, size_t index1, size_t index2);
 
-// Function to compare two elements
+/**
+ * Compares two elements.
+ *
+ * @param a The first element to be compared.
+ * @param b The second element to be compared.
+ * @return A negative value if a is less than b, a positive value if a is greater than b, or zero if they are equal.
+ */
 int fossil_tofu_actionof_compare(fossil_tofu_t a, fossil_tofu_t b);
 
-// Function to reduce elements in an array
+/**
+ * Reduces elements in an array using a given function.
+ *
+ * @param array The array of elements to be reduced.
+ * @param size The size of the array.
+ * @param func The function to be applied to each pair of elements during reduction.
+ * @return The reduced value.
+ */
 fossil_tofu_t fossil_tofu_actionof_reduce(fossil_tofu_t *array, size_t size, fossil_tofu_t (*func)(fossil_tofu_t, fossil_tofu_t));
 
-// Function to shuffle elements in an array
+/**
+ * Shuffles elements in an array randomly.
+ *
+ * @param array The array of elements to be shuffled.
+ * @param size The size of the array.
+ */
 void fossil_tofu_actionof_shuffle(fossil_tofu_t *array, size_t size);
 
-// Function to apply a function to each element in an array
+/**
+ * Applies a function to each element in an array.
+ *
+ * @param array The array of elements to apply the function to.
+ * @param size The size of the array.
+ * @param func The function to be applied to each element.
+ */
 void fossil_tofu_actionof_for_each(fossil_tofu_t *array, size_t size, void (*func)(fossil_tofu_t));
 
-// Function to partition elements in an array
+/**
+ * Partitions elements in an array based on a given predicate function.
+ *
+ * @param array The array of elements to be partitioned.
+ * @param size The size of the array.
+ * @param pred The predicate function to determine the partitioning condition.
+ * @return The index of the first element in the second partition.
+ */
 size_t fossil_tofu_actionof_partition(fossil_tofu_t *array, size_t size, bool (*pred)(fossil_tofu_t));
 
-// Function to calculate the summary of elements in an array
+/**
+ * Calculates the summary of elements in an array using a given function.
+ *
+ * @param array The array of elements to calculate the summary for.
+ * @param size The size of the array.
+ * @param func The function to be applied to each pair of elements during calculation.
+ * @return The calculated summary.
+ */
 fossil_tofu_t fossil_tofu_actionof_summary(fossil_tofu_t *array, size_t size, fossil_tofu_t (*func)(fossil_tofu_t, fossil_tofu_t));
 
-// Function to calculate the average of elements in an array
+/**
+ * Calculates the average of elements in an array.
+ *
+ * @param array The array of elements to calculate the average for.
+ * @param size The size of the array.
+ * @return The calculated average.
+ */
 fossil_tofu_t fossil_tofu_actionof_average(fossil_tofu_t *array, size_t size);
 
 #ifdef __cplusplus

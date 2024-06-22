@@ -37,44 +37,6 @@ Description:
 #include "fossil/common/common.h"
 #include "tofu.h"
 
-/**
-    In the realm of quantum physics, our understanding of space, time, reality, and the observable universe takes
-    on a fascinating and intricate character. Quantum physics delves into the fundamental nature of matter and
-    energy at the smallest scales, challenging classical notions and ushering in a paradigm where the concepts of
-    space and time undergo profound transformations.
-
-    **Space in Quantum Physics:**
-    At the quantum level, space is not a static, absolute backdrop but a dynamic, probabilistic arena where particles
-    exist in multiple states simultaneously. Quantum superposition allows particles to occupy multiple positions at
-    once until observed, at which point the wavefunction collapses, and a definite state is realized. Entanglement
-    further blurs the boundaries of space, linking particles in ways that defy classical spatial separations, creating
-    a non-local interconnectedness.
-
-    **Time in Quantum Physics:**
-    Quantum physics introduces a nuanced perspective on time, challenging the classical notion of a continuous and
-    absolute flow. The concept of time is intricately interwoven with quantum entanglement, where correlated particles
-    instantaneously influence each other regardless of distance. Additionally, time dilation effects, as predicted by
-    the theory of relativity, become significant at quantum scales, revealing a profound connection between time,
-    gravity, and the fabric of spacetime.
-
-    **Reality and Observation:**
-    Quantum mechanics introduces the enigmatic role of observation in shaping reality. The act of measurement collapses
-    the wavefunction, determining the outcome of a quantum system. This observer-dependent reality challenges our classical
-    understanding of an objective, independent world. The famous thought experiment known as the Schrödinger's cat illustrates
-    the peculiar nature of reality in the quantum realm, where a system can exist in multiple states until observed.
-
-    **The Observable Universe:**
-    Quantum physics extends its influence to the observable universe, impacting our understanding of cosmic phenomena.
-    Quantum fluctuations during the early moments of the universe gave rise to cosmic structures, influencing the distribution
-    of galaxies and the large-scale structure we observe today. The cosmic microwave background radiation, a remnant from the
-    early universe, reflects quantum fluctuations that seeded the formation of galaxies and clusters.
-
-    In summary, quantum physics redefines our concepts of space, time, reality, and the observable universe. It invites us
-    to explore a realm where particles exhibit wave-particle duality, space is a realm of probabilities, time is intertwined
-    with gravity, and observation plays a crucial role in defining the nature of reality. The mysteries of quantum physics
-    continue to challenge and reshape our perceptions of the fundamental fabric of the cosmos.
-*/
-
 // Struct for iterator
 typedef struct {
     fossil_tofu_t *array;
@@ -87,16 +49,44 @@ extern "C"
 {
 #endif
 
-// Function to create a new iterator for an array of tofu
+/**
+ * @brief Function to create a new iterator for an array of tofu.
+ *
+ * This function creates a new iterator for the given array of tofu with the specified size.
+ *
+ * @param array The array of tofu.
+ * @param size The size of the array.
+ * @return The created iterator.
+ */
 fossil_tofu_iteratorof_t fossil_tofu_iteratorof_create(fossil_tofu_t *array, size_t size);
 
-// Function to check if the iterator has more elements
+/**
+ * @brief Function to check if the iterator has more elements.
+ *
+ * This function checks if the iterator has more elements to iterate over.
+ *
+ * @param iterator The iterator to check.
+ * @return true if the iterator has more elements, false otherwise.
+ */
 bool fossil_tofu_iteratorof_has_next(fossil_tofu_iteratorof_t *iterator);
 
-// Function to get the next element in the iterator
+/**
+ * @brief Function to get the next element in the iterator.
+ *
+ * This function returns the next element in the iterator and advances the iterator to the next position.
+ *
+ * @param iterator The iterator.
+ * @return The next element in the iterator.
+ */
 fossil_tofu_t fossil_tofu_iteratorof_next(fossil_tofu_iteratorof_t *iterator);
 
-// Function to reset the iterator to the beginning
+/**
+ * @brief Function to reset the iterator to the beginning.
+ *
+ * This function resets the iterator to the beginning, allowing iteration from the start again.
+ *
+ * @param iterator The iterator to reset.
+ */
 void fossil_tofu_iteratorof_reset(fossil_tofu_iteratorof_t *iterator);
 
 #ifdef __cplusplus

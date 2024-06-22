@@ -122,28 +122,68 @@ extern "C"
 {
 #endif
 
-// Function to create fossil_tofu_t based on type and value strings
+/**
+ * Function to create a `fossil_tofu_t` object based on type and value strings.
+ *
+ * @param type The type string.
+ * @param value The value string.
+ * @return The created `fossil_tofu_t` object.
+ */
 fossil_tofu_t fossil_tofu_create(char* type, char* value);
 
-// Memorization (caching) function for fossil_tofu_t
+/**
+ * Memorization (caching) function for a `fossil_tofu_t` object.
+ *
+ * @param tofu The `fossil_tofu_t` object to be memorized.
+ */
 void fossil_tofu_memorize(fossil_tofu_t *tofu);
 
-// Utility function to print fossil_tofu_t
+/**
+ * Utility function to print a `fossil_tofu_t` object.
+ *
+ * @param tofu The `fossil_tofu_t` object to be printed.
+ */
 void fossil_tofu_print(fossil_tofu_t tofu);
 
-// Function to destroy fossil_tofu_t and free allocated memory
+/**
+ * Function to destroy a `fossil_tofu_t` object and free the allocated memory.
+ *
+ * @param tofu The `fossil_tofu_t` object to be destroyed.
+ */
 void fossil_tofu_erase(fossil_tofu_t *tofu);
 
-// Utility function to convert fossil_tofu_t to string representation
+/**
+ * Utility function to convert a `fossil_tofu_t` object's type to a string representation.
+ *
+ * @param type The `fossil_tofu_t` object's type.
+ * @return The string representation of the type.
+ */
 const char* fossil_tofu_type_to_string(fossil_tofu_type_t type);
 
-// Utility function to check if two fossil_tofu_t objects are equal
+/**
+ * Utility function to check if two `fossil_tofu_t` objects are equal.
+ *
+ * @param tofu1 The first `fossil_tofu_t` object.
+ * @param tofu2 The second `fossil_tofu_t` object.
+ * @return `true` if the objects are equal, `false` otherwise.
+ */
 bool fossil_tofu_equals(fossil_tofu_t tofu1, fossil_tofu_t tofu2);
 
-// Utility function to copy a fossil_tofu_t object
+/**
+ * Utility function to copy a `fossil_tofu_t` object.
+ *
+ * @param tofu The `fossil_tofu_t` object to be copied.
+ * @return The copied `fossil_tofu_t` object.
+ */
 fossil_tofu_t fossil_tofu_copy(fossil_tofu_t tofu);
 
-// Utility to compare two fossil_tofu_t objects
+/**
+ * Utility function to compare two `fossil_tofu_t` objects.
+ *
+ * @param tofu1 The first `fossil_tofu_t` object.
+ * @param tofu2 The second `fossil_tofu_t` object.
+ * @return `true` if the objects are equal, `false` otherwise.
+ */
 bool fossil_tofu_compare(fossil_tofu_t *tofu1, fossil_tofu_t *tofu2);
 
 #ifdef __cplusplus
