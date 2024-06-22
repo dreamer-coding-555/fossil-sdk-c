@@ -95,7 +95,7 @@ FOSSIL_TEST(test_fossil_tofu_create) {
 
     fossil_tofu_t tofu_float = fossil_tofu_create("float", "3.14");
     ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_TYPE_FLOAT, tofu_float.type);
-    ASSUME_ITS_EQUAL_F32(3.14, tofu_float.value.float_val, FOSSIL_TEST_FLOAT_EPSILON);
+    ASSUME_ITS_EQUAL_F32(3.14f, tofu_float.value.float_val, FOSSIL_TEST_FLOAT_EPSILON);
 
     fossil_tofu_t tofu_bstr = fossil_tofu_create("bstr", "Hello");
     ASSUME_ITS_EQUAL_I32(FOSSIL_TOFU_TYPE_BSTR, tofu_bstr.type);
