@@ -146,7 +146,7 @@ typedef struct {
  * 
  * @return Pointer to the newly created fossil_crabdb_t database.
  */
-fossil_crabdb_t* fossil_crabdb_create();
+fossil_crabdb_t* fossil_crabdb_create(void);
 
 /**
  * @brief Erase the fossil_crabdb_t database.
