@@ -37,6 +37,7 @@ Description:
 #include "fossil/common/common.h"
 #include "tofu.h"
 #include "iterator.h"
+#include "arrayof.h"
 
 /**
     In the realm of quantum physics, our understanding of space, time, reality, and the observable universe takes
@@ -88,9 +89,6 @@ fossil_tofu_t fossil_tofu_actionof_accumulate(fossil_tofu_t *array, size_t size,
 
 // Function to filter elements in an array
 size_t fossil_tofu_actionof_filter(fossil_tofu_t *array, size_t size, bool (*pred)(fossil_tofu_t));
-
-// Function to sort elements in an array
-void fossil_tofu_actionof_sort(fossil_tofu_t *array, size_t size);
 
 // Function to search for an element in an array
 fossil_tofu_t* fossil_tofu_actionof_search(fossil_tofu_t *array, size_t size, fossil_tofu_t key, bool (*compare)(fossil_tofu_t, fossil_tofu_t));

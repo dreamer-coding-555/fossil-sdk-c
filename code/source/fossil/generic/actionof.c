@@ -40,19 +40,6 @@ size_t fossil_tofu_actionof_filter(fossil_tofu_t *array, size_t size, bool (*pre
     return j;
 }
 
-// Wrapper function to match qsort's required signature
-int compare_fossil_tofu_wrapper(const void *a, const void *b) {
-    fossil_tofu_t *arg1 = (fossil_tofu_t *)a;
-    fossil_tofu_t *arg2 = (fossil_tofu_t *)b;
-    return fossil_tofu_compare(arg1, arg2);
-}
-
-// Function to sort elements in an array
-void fossil_tofu_actionof_sort(fossil_tofu_t *array, size_t size) {
-    // in a later release smart algorithms will select an algorithm based on dataset
-    qsort(array, size, sizeof(fossil_tofu_t), compare_fossil_tofu_wrapper);
-}
-
 // Function to search for an element in an array
 fossil_tofu_t* fossil_tofu_actionof_search(fossil_tofu_t *array, size_t size, fossil_tofu_t key, bool (*compare)(fossil_tofu_t, fossil_tofu_t)) {
     for (size_t i = 0; i < size; i++) {
@@ -60,7 +47,7 @@ fossil_tofu_t* fossil_tofu_actionof_search(fossil_tofu_t *array, size_t size, fo
             return &array[i];
         }
     }
-    return NULL;
+    return cnullptr;
 }
 
 // Function to reverse elements in an array

@@ -377,23 +377,6 @@ FOSSIL_TEST(test_filter) {
     ASSUME_ITS_EQUAL_I32(20, array[1].value.int_val);
 }
 
-// Test for sort function
-FOSSIL_TEST(test_sort) {
-    fossil_tofu_t array[] = {
-        fossil_tofu_create("int", "30"),
-        fossil_tofu_create("int", "10"),
-        fossil_tofu_create("int", "20")
-    };
-    size_t size = sizeof(array) / sizeof(array[0]);
-
-    fossil_tofu_actionof_sort(array, size);
-
-    // Assertions using Fossil Test
-    ASSUME_ITS_EQUAL_I32(10, array[0].value.int_val);
-    ASSUME_ITS_EQUAL_I32(20, array[1].value.int_val);
-    ASSUME_ITS_EQUAL_I32(30, array[2].value.int_val);
-}
-
 // Test for reverse function
 FOSSIL_TEST(test_reverse) {
     fossil_tofu_t array[] = {
@@ -478,7 +461,6 @@ FOSSIL_TEST_GROUP(c_generic_tests) {
     ADD_TESTF(test_transform, c_tofu_actof_fixture);
     ADD_TESTF(test_accumulate, c_tofu_actof_fixture);
     ADD_TESTF(test_filter, c_tofu_actof_fixture);
-    ADD_TESTF(test_sort, c_tofu_actof_fixture);
     ADD_TESTF(test_reverse, c_tofu_actof_fixture);
     ADD_TESTF(test_swap, c_tofu_actof_fixture);
     ADD_TESTF(test_reduce, c_tofu_actof_fixture);
