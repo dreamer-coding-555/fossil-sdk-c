@@ -204,7 +204,7 @@ fossil_bool_t fossil_hostsys_get(fossil_hostsystem_t *info) {
     #ifdef _WIN32
         result = fossil_hostsys_get_windows(info);
     #elif __linux__ || __APPLE__
-        result = fossil_hostsys_get_posix(info);
+        result = fossil_hostsys_get_linux(info);
     #else
         fprintf(stderr, "Unsupported platform\n");
     #endif
