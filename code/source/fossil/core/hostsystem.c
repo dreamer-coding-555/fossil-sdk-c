@@ -76,8 +76,8 @@ static fossil_bool_t fossil_hostsys_get_windows(fossil_hostsystem_t *info) {
     return FOSSIL_TRUE;
 }
 
-#elif __linux__
-static fossil_bool_t fossil_hostsys_get_posix(fossil_hostsystem_t *info) {
+#elif defined(__linux__)
+static fossil_bool_t fossil_hostsys_get_linux(fossil_hostsystem_t *info) {
     struct utsname unameData;
     FILE *cpuinfo;
     char line[256];
@@ -126,11 +126,9 @@ static fossil_bool_t fossil_hostsys_get_posix(fossil_hostsystem_t *info) {
     return FOSSIL_TRUE;
 }
 
-#elif __APPLE__
-static fossil_bool_t fossil_hostsys_get_posix(fossil_hostsystem_t *info) {
+#elif defined(__APPLE__)
+static fossil_bool_t fossil_hostsys_get_macos(fossil_hostsystem_t *info) {
     struct utsname unameData;
-    FILE *cpuinfo;
-    char line[256];
 
     memset(info, 0, sizeof(fossil_hostsystem_t));
 
@@ -142,41 +140,50 @@ static fossil_bool_t fossil_hostsys_get_posix(fossil_hostsystem_t *info) {
     strncpy(info->os_name, unameData.sysname, sizeof(info->os_name));
     strncpy(info->os_version, unameData.release, sizeof(info->os_version));
 
-    cpuinfo = fopen("/proc/cpuinfo", "r");
-    if (cpuinfo) {
-        while (fgets(line, sizeof(line), cpuinfo)) {
-            if (strstr(line, "model name")) {
-                char *pos = strchr(line, ':');
-                if (pos) {
-                    strncpy(info->cpu_model, pos + 2, sizeof(info->cpu_model));
-                    break;
-                }
-            }
-        }
-        fclose(cpuinfo);
-    } else {
-        fprintf(stderr, "Error opening /proc/cpuinfo\n");
-        return FOSSIL_FALSE;
-    }
-
-    info->cpu_cores = sysconf(_SC_NPROCESSORS_ONLN);
-
-    long pages = sysconf(_SC_PHYS_PAGES);
-    long page_size = sysconf(_SC_PAGE_SIZE);
-    info->total_memory = pages * page_size / (1024 * 1024);  // in MB
-
-    // macOS does not have sysinfo.h, so we use the sysctl function to get memory information
     int mib[2];
-    size_t len = sizeof(info->total_memory);
-    
+    size_t len;
+    char cpu_model[256];
+
+    // Get the CPU model
     mib[0] = CTL_HW;
-    mib[1] = HW_MEMSIZE;
-    
-    if (sysctl(mib, 2, &info->total_memory, &len, NULL, 0) == -1) {
-        fprintf(stderr, "Error getting memory information using sysctl\n");
+    mib[1] = HW_MODEL;
+    len = sizeof(cpu_model);
+    if (sysctl(mib, 2, &cpu_model, &len, NULL, 0) == 0) {
+        strncpy(info->cpu_model, cpu_model, sizeof(info->cpu_model));
+    } else {
+        fprintf(stderr, "Error getting CPU model information using sysctl\n");
         return FOSSIL_FALSE;
     }
-    
+
+    // Get the number of CPU cores
+    mib[1] = HW_NCPU;
+    len = sizeof(info->cpu_cores);
+    if (sysctl(mib, 2, &info->cpu_cores, &len, NULL, 0) != 0) {
+        fprintf(stderr, "Error getting CPU cores information using sysctl\n");
+        return FOSSIL_FALSE;
+    }
+
+    // Get the total memory
+    mib[1] = HW_MEMSIZE;
+    len = sizeof(info->total_memory);
+    if (sysctl(mib, 2, &info->total_memory, &len, NULL, 0) != 0) {
+        fprintf(stderr, "Error getting total memory information using sysctl\n");
+        return FOSSIL_FALSE;
+    }
+    info->total_memory /= (1024 * 1024); // Convert to MB
+
+    // Get the free memory
+    int64_t free_memory;
+    len = sizeof(free_memory);
+    mib[0] = CTL_VM;
+    mib[1] = VM_STATISTICS;
+    if (sysctl(mib, 2, &free_memory, &len, NULL, 0) == 0) {
+        info->free_memory = free_memory / (1024 * 1024); // Convert to MB
+    } else {
+        fprintf(stderr, "Error getting free memory information using sysctl\n");
+        return FOSSIL_FALSE;
+    }
+
     return FOSSIL_TRUE;
 }
 #endif
