@@ -1,6 +1,6 @@
-# ***Fossil SDK Software Development Kit created by Fossil Logic*** `C/C++`
+# ***Fossil SDK Software Development Kit created by Fossil Logic*** `C, C++`
 
-The Fossil SDK is a robust, platform-independent suite of components written in C/C++ designed to streamline the development of high-performance, cross-platform applications. Built using the Meson build system, the Fossil SDK leverages Meson's speed, flexibility, and simplicity to facilitate seamless compilation across various operating systems and architectures.
+The Fossil SDK is a robust, platform-independent suite of components written in C and C++ designed to streamline the development of high-performance, cross-platform applications. Built using the Meson build system, the Fossil SDK leverages Meson's speed, flexibility, and simplicity to facilitate seamless compilation across various operating systems and architectures.
 
 Key features of the Fossil SDK include:
 
