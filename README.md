@@ -7,7 +7,7 @@ Key features of the Fossil SDK include:
 1. **Cross-Platform Compatibility**: Ensures consistent performance and functionality on Windows, macOS, Linux, and other platforms.
 2. **Modular Design**: Offers a collection of modular components that can be easily integrated and customized to meet specific project requirements.
 3. **Efficient Build System**: Utilizes Meson, a modern build system known for its fast build times and user-friendly syntax, which simplifies the configuration and maintenance of build environments.
-4. **High Performance**: Written in C/C++ to provide optimal performance and resource efficiency, making it suitable for both desktop and embedded applications.
+4. **High Performance**: Written in C, C++ to provide optimal performance and resource efficiency, making it suitable for both desktop and embedded applications.
 5. **Extensive Documentation and Examples**: Comes with comprehensive documentation and sample code to aid developers in getting started quickly and effectively.
 
 The Fossil SDK is ideal for developers seeking a reliable and flexible foundation for creating high-quality software that needs to run efficiently across multiple platforms.
