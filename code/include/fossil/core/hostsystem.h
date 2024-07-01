@@ -69,10 +69,6 @@ extern "C"
 {
 #endif
 
-// =================================================================
-// Avalable functions
-// =================================================================
-
 /**
  * @brief Retrieves the system information and stores it in the provided fossil_hostsystem_t structure.
  * 
