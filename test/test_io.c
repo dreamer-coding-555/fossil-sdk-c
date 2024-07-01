@@ -59,15 +59,15 @@ FOSSIL_TEST(stream_let_write_and_read_file) {
     io.mock_file = fossil_mockup_file_create(filename, "");
 
     // Write data to the file
-    ASSUME_ITS_EQUAL_I32(0, fossil_fstream_open(&io.mock_file, filename, "w"));
-    fossil_fstream_write(&io.mock_file, content, strlen(content), 1);
-    fossil_fstream_close(&io.mock_file);
+    ASSUME_ITS_EQUAL_I32(0, fossil_fstream_open(io.mock_file, filename, "w"));
+    fossil_fstream_write(io.mock_file, content, strlen(content), 1);
+    fossil_fstream_close(io.mock_file);
 
     // Read data from the file
     char buffer[1024];
     ASSUME_ITS_EQUAL_I32(0, fossil_fstream_open(&io.mock_file, filename, "r"));
-    fossil_fstream_read(&io.mock_file, buffer, sizeof(buffer), 1);
-    fossil_fstream_close(&io.mock_file);
+    fossil_fstream_read(io.mock_file, buffer, sizeof(buffer), 1);
+    fossil_fstream_close(io.mock_file);
     ASSUME_ITS_EQUAL_CSTR(content, buffer);
 
     fossil_mockup_file_erase(io.mock_file);
