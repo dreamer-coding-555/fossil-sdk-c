@@ -127,9 +127,10 @@ static fossil_bool_t fossil_hostsys_get_linux(fossil_hostsystem_t *info) {
 }
 
 #elif defined(__APPLE__)
+#include <mach/mach.h>
+
 static fossil_bool_t fossil_hostsys_get_macos(fossil_hostsystem_t *info) {
     struct utsname unameData;
-
     memset(info, 0, sizeof(fossil_hostsystem_t));
 
     if (uname(&unameData) != 0) {
@@ -140,22 +141,15 @@ static fossil_bool_t fossil_hostsys_get_macos(fossil_hostsystem_t *info) {
     strncpy(info->os_name, unameData.sysname, sizeof(info->os_name));
     strncpy(info->os_version, unameData.release, sizeof(info->os_version));
 
-    int mib[2];
-    size_t len;
-    char cpu_model[256];
-
-    // Get the CPU model
-    mib[0] = CTL_HW;
-    mib[1] = HW_MODEL;
-    len = sizeof(cpu_model);
-    if (sysctl(mib, 2, &cpu_model, &len, NULL, 0) == 0) {
-        strncpy(info->cpu_model, cpu_model, sizeof(info->cpu_model));
-    } else {
+    // Get CPU model
+    int mib[2] = {CTL_HW, HW_MODEL};
+    size_t len = sizeof(info->cpu_model);
+    if (sysctl(mib, 2, info->cpu_model, &len, NULL, 0) != 0) {
         fprintf(stderr, "Error getting CPU model information using sysctl\n");
         return FOSSIL_FALSE;
     }
 
-    // Get the number of CPU cores
+    // Get number of CPU cores
     mib[1] = HW_NCPU;
     len = sizeof(info->cpu_cores);
     if (sysctl(mib, 2, &info->cpu_cores, &len, NULL, 0) != 0) {
@@ -163,7 +157,7 @@ static fossil_bool_t fossil_hostsys_get_macos(fossil_hostsystem_t *info) {
         return FOSSIL_FALSE;
     }
 
-    // Get the total memory
+    // Get total memory
     mib[1] = HW_MEMSIZE;
     len = sizeof(info->total_memory);
     if (sysctl(mib, 2, &info->total_memory, &len, NULL, 0) != 0) {
@@ -172,17 +166,16 @@ static fossil_bool_t fossil_hostsys_get_macos(fossil_hostsystem_t *info) {
     }
     info->total_memory /= (1024 * 1024); // Convert to MB
 
-    // Get the free memory
-    int64_t free_memory;
-    len = sizeof(free_memory);
-    mib[0] = CTL_VM;
-    mib[1] = VM_STATISTICS;
-    if (sysctl(mib, 2, &free_memory, &len, NULL, 0) == 0) {
-        info->free_memory = free_memory / (1024 * 1024); // Convert to MB
-    } else {
-        fprintf(stderr, "Error getting free memory information using sysctl\n");
+    // Get free memory using mach API
+    mach_port_t host_port = mach_host_self();
+    mach_msg_type_number_t count = HOST_VM_INFO_COUNT;
+    vm_statistics_data_t vm_stats;
+
+    if (host_statistics(host_port, HOST_VM_INFO, (host_info_t)&vm_stats, &count) != KERN_SUCCESS) {
+        fprintf(stderr, "Error getting free memory information using mach API\n");
         return FOSSIL_FALSE;
     }
+    info->free_memory = (vm_stats.free_count * vm_page_size) / (1024 * 1024); // Convert to MB
 
     return FOSSIL_TRUE;
 }
@@ -203,8 +196,10 @@ fossil_bool_t fossil_hostsys_get(fossil_hostsystem_t *info) {
 
     #ifdef _WIN32
         result = fossil_hostsys_get_windows(info);
-    #elif __linux__ || __APPLE__
+    #elif __linux__
         result = fossil_hostsys_get_linux(info);
+    #elif __APPLE__
+        result = fossil_hostsys_get_macos(info);
     #else
         fprintf(stderr, "Unsupported platform\n");
     #endif
